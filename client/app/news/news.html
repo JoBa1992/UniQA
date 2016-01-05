@@ -1,41 +1,6 @@
 <!-- client/app/main/main.html -->
 
-<div ng-include="'components/navbar/navbar-splash.html'"></div>
-
-
-<div id="hCarousel" class="fwidthCont" ng-controller="HomeCtrl">
-    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-        <!-- Indicators -->
-        <!--<ol class="carousel-indicators" ng-repeat="slide in slides">
-        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-        </ol>-->
-
-        <!-- Wrapper for slides -->
-        <div class="carousel-inner" role="listbox" ng-repeat="slide in slides">
-            <div class="item active">
-                <!--<img ng-src="{{slide.image}}" style="margin:auto;">-->
-              <div class="carousel-caption">
-                <!--<h1>{{slide.head}}</h1>-->
-                <h1>THIS IS <span>#UniQA</span></h1>
-                <!--<p>{{slide.desc}}</p>-->
-                <p>Time to update the lecture.</p>
-                <p><a class="btn btn-lg btn-primary" autoscroll="true" href="#learnMore" style="border:3px solid;">LEARN MORE</a>
-              </div>
-            </div>
-        </div>
-
-        <!-- Controls -->
-        <!--
-        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-        </a>
-        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-        </a>-->
-    </div>
-</div>
+<div ng-include="'components/navbar/navbar.html'"></div>
 
 <!-- Marketing messaging and featurettes
 ================================================== -->
@@ -68,7 +33,7 @@
 
   <!-- START THE FEATURETTES -->
 
-  <hr class="featurette-divider" id="learnMore">
+  <hr class="featurette-divider">
 
   <div class="featurette">
     <img class="featurette-image img-circle pull-right" src="http://placehold.it/512">
@@ -100,7 +65,7 @@
   <!-- FOOTER -->
   <footer>
     <p class="pull-right"><a href="#">Back to top</a></p>
-    <p>Website created and administrated by Joshua Bates. <a href="https://github.com/JoBa1992/UniQA" target="_Blank">Check out the git.</a></p>
+    <p>This Bootstrap layout is compliments of Bootply. · <a href="http://www.bootply.com/62603">Edit on Bootply.com</a></p>
   </footer>
 
 </div><!-- /.container -->

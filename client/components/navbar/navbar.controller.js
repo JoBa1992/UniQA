@@ -3,11 +3,11 @@
 angular.module('uniQaApp')
   .controller('NavbarCtrl', function ($scope, $location, Auth) {
     $scope.menu = [{
-      'title': 'Home',
+      'title': 'About',
       'link': '/'
     },{
-      'title': 'About',
-      'link': '/about'
+      'title': 'News',
+      'link': '/news'
     },{
       'title': 'Contact',
       'link': '/contact'
@@ -19,7 +19,6 @@ angular.module('uniQaApp')
       'link': '/test'
     }
     */
-
     $scope.isCollapsed = true;
     $scope.isLoggedIn = Auth.isLoggedIn;
     $scope.isAdmin = Auth.isAdmin;

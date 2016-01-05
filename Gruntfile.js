@@ -64,7 +64,7 @@ module.exports = function (grunt) {
       },
       injectCss: {
         files: [
-          '<%= yeoman.client %>/{app,components}/**/*.css'
+          '<%= yeoman.client %>/{app,components}/**/*.css',
         ],
         tasks: ['injector:css']
       },
@@ -86,7 +86,10 @@ module.exports = function (grunt) {
       },
       less: {
         files: [
-          '<%= yeoman.client %>/{app,components}/**/*.less'],
+          '<%= yeoman.client %>/{app,components}/**/*.less',
+          '<%= yeoman.client %>/bower_components/bootstrap/less/*.less'
+          ],
+          
         tasks: ['less', 'autoprefixer']
       },
       babel: {
@@ -101,6 +104,7 @@ module.exports = function (grunt) {
       },
       livereload: {
         files: [
+          '<%= yeoman.client %>/bower_components/bootstrap/less/*.less',
           '{.tmp,<%= yeoman.client %>}/{app,components}/**/*.css',
           '{.tmp,<%= yeoman.client %>}/{app,components}/**/*.html',
           
