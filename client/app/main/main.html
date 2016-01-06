@@ -2,39 +2,44 @@
 
 <div ng-include="'components/navbar/navbar-splash.html'"></div>
 
-
 <div id="hCarousel" class="fwidthCont" ng-controller="HomeCtrl">
-    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-        <!-- Indicators -->
-        <!--<ol class="carousel-indicators" ng-repeat="slide in slides">
-        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-        </ol>-->
+  <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <!--<ol class="carousel-indicators" ng-repeat="slide in slides">
+<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+</ol>-->
 
-        <!-- Wrapper for slides -->
-        <div class="carousel-inner" role="listbox" ng-repeat="slide in slides">
-            <div class="item active">
-                <!--<img ng-src="{{slide.image}}" style="margin:auto;">-->
-              <div class="carousel-caption">
-                <!--<h1>{{slide.head}}</h1>-->
-                <h1>THIS IS <span>#UniQA</span></h1>
-                <!--<p>{{slide.desc}}</p>-->
-                <p>Time to update the lecture.</p>
-                <p><a class="btn btn-lg btn-primary" autoscroll="true" href="#learnMore" style="border:3px solid;">LEARN MORE</a>
-              </div>
-            </div>
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox" ng-repeat="slide in slides">
+      <div class="item active" style="position:relative;">
+        <!-- <img ng-src="{{slide.image}}" style="margin:auto;"> -->
+        <img src="assets/images/home-banner/banner1-gscale.png" style="margin:auto;"/>
+        <div class="carousel-caption">
+          <!--<h1>{{slide.head}}</h1>-->
+          <h1>THIS IS
+            <span>#UniQA</span>
+          </h1>
+          <!--<p>{{slide.desc}}</p>-->
+          <p>time to update the lecture</p>
+          <p>
+            <a class="btn btn-lg btn-primary" autoscroll="true" href="#learnMore" style="border:3px solid #82AECC;color:white;">Get Started</a>
+          </p>
         </div>
-
-        <!-- Controls -->
-        <!--
-        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-        </a>
-        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-        </a>-->
+		<a a="#" class="carousel-down-arrow">&#8964;</a>
+      </div>
     </div>
+
+    <!-- Controls -->
+
+	<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+		<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+		<span class="sr-only">Previous</span>
+	</a>
+	<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+		<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+		<span class="sr-only">Next</span>
+	</a>
+  </div>
 </div>
 
 <!-- Marketing messaging and featurettes
@@ -47,24 +52,34 @@
   <div class="row">
     <div class="col-md-4 text-center">
       <img class="img-circle" src="http://placehold.it/140x140">
-      <h2>Mobile-first</h2>
-      <p>Tablets, phones, laptops. The new 3 promises to be mobile friendly from the start.</p>
-      <p><a class="btn btn-default" href="#">View details »</a></p>
+      <h2>One-for-all</h2>
+      <p>Catering for staff & students alike, UniQA's extended features should make it a little easier for you during the busy academic periods.</p>
+      <p>
+        <a class="btn btn-default" href="#">Learn more »</a>
+      </p>
     </div>
     <div class="col-md-4 text-center">
       <img class="img-circle" src="http://placehold.it/140x140">
-      <h2>One Fluid Grid</h2>
-      <p>There is now just one percentage-based grid for Bootstrap 3. Customize for fixed widths.</p>
-      <p><a class="btn btn-default" href="#">View details »</a></p>
+      <h2>No smartphone? ☹
+      </h2>
+      <p>Thats been thought about already. Nexus, iPhone, Chromebook, Windows '95 laptop... you name it - UniQA is supported on all devices.
+      </p>
+      <p>
+        <a class="btn btn-default" href="#">Try it »</a>
+      </p>
     </div>
     <div class="col-md-4 text-center">
       <img class="img-circle" src="http://placehold.it/140x140">
-      <h2>LESS is More</h2>
-      <p>Improved support for mixins make the new Bootstrap 3 easier to customize.</p>
-      <p><a class="btn btn-default" href="#">View details »</a></p>
+      <h2>Efficiency</h2>
+      <p>UniQA's been developed with
+        <b>YOU</b>
+        in mind. We know you're busy, and you just don't have time - so we made the application easy to use. What're you waiting for?</p>
+      <p>
+        <a class="btn btn-default" href="#">Start now »</a>
+      </p>
     </div>
-  </div><!-- /.row -->
-
+  </div>
+  <!-- /.row -->
 
   <!-- START THE FEATURETTES -->
 
@@ -72,7 +87,10 @@
 
   <div class="featurette">
     <img class="featurette-image img-circle pull-right" src="http://placehold.it/512">
-    <h2 class="featurette-heading">Responsive Design. <br><span class="text-muted">It'll blow your mind.</span></h2>
+    <h2 class="featurette-heading">Responsive Design.
+      <br>
+      <span class="text-muted">It'll blow your mind.</span>
+    </h2>
     <p class="lead">In simple terms, a responsive web design figures out what resolution of device it's being served on. Flexible grids then size correctly to fit the screen.</p>
   </div>
 
@@ -80,27 +98,31 @@
 
   <div class="featurette">
     <img class="featurette-image img-circle pull-left" src="http://placehold.it/512">
-    <h2 class="featurette-heading">Smaller Footprint. <br><span class="text-muted">Lightweight.</span></h2>
+    <h2 class="featurette-heading">Smaller Footprint.
+      <br>
+      <span class="text-muted">Lightweight.</span>
+    </h2>
     <p class="lead">The new Bootstrap 3 promises to be a smaller build. The separate Bootstrap base and responsive.css files have now been merged into one. There is no more fixed grid, only fluid.</p>
   </div>
 
   <hr class="featurette-divider">
 
   <div class="featurette">
+
     <img class="featurette-image img-circle pull-right" src="http://placehold.it/512">
-    <h2 class="featurette-heading">And lastly, this one. <br><span class="text-muted">Flatness.</span></h2>
+    <h2 class="featurette-heading">And lastly, this one.
+      <br>
+      <span class="text-muted">Flatness.</span>
+    </h2>
     <p class="lead">A big design trend for 2013 is "flat" design. Gone are the days of excessive gradients and shadows. Designers are producing cleaner flat designs, and Bootstrap 3 takes advantage of this minimalist trend.</p>
   </div>
 
   <hr class="featurette-divider">
 
   <!-- /END THE FEATURETTES -->
-
-
   <!-- FOOTER -->
-  <footer>
-    <p class="pull-right"><a href="#">Back to top</a></p>
-    <p>Website created and administrated by Joshua Bates. <a href="https://github.com/JoBa1992/UniQA" target="_Blank">Check out the git.</a></p>
-  </footer>
+  <div ng-include="'components/footer/footer-splash.html'"></div>
+  <!-- /FOOTER -->
 
-</div><!-- /.container -->
+</div>
+<!-- /.container -->

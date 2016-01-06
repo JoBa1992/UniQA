@@ -2,7 +2,7 @@
 
 angular.module('uniQaApp')
 	.controller('MainCtrl', function ($scope) {
-		$scope.message = 'Hello';
+		//$scope.message = 'Hello';
 	})
 	.controller('HomeCtrl', function ($scope) {
 		var slideCnt = 1; // amount of slides
@@ -17,7 +17,7 @@ angular.module('uniQaApp')
 			$scope.addSlide();
 		}
 		$scope.scrollTo = function(){
-			
+
 			// console.info("hit");
 			// if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
 			// 	var target = $(this.hash);
@@ -34,6 +34,6 @@ angular.module('uniQaApp')
 
 angular.module('ui.bootstrap.carousel', ['ui.bootstrap.transition'])
 .controller('CarouselController', ['$scope', '$timeout', '$transition', '$q', function ($scope, $timeout, $transition, $q) {
-}]).directive('carousel', [function() { 
+}]).directive('carousel', [function() {
     return { }
 }]);
