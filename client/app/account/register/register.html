@@ -1,0 +1,111 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <h1>Registration</h1>
+	  <!--
+      <p>Accounts are reset on server restart from <code>server/config/seed.js</code>. Default account is <code>test@test.com</code> / <code>test</code></p>
+      <p>Admin account is <code>admin@admin.com</code> / <code>admin</code></p>-->
+	  <p>Please provide your name and academic email address (e.g. <code>b2000000@my.shu.ac.uk</code>), followed by the passcode supplied by your tutor (8 random characters). On authentication success you will be required to create a password for your account.<br><br>Not sure if your university is supported? Check here: <a href="/supported-establishments" target="_blank">Supported Establishments</a></p>
+    </div>
+    <div class="col-xs-12 col-sm-10 col-md-4">
+      <form class="form" name="form" ng-submit="register(form)" novalidate>
+
+        <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,
+'has-error': form.name.$invalid && submitted }">
+          <label>Name</label>
+
+          <input type="text" name="name" class="form-control" ng-model="user.name" required/>
+          <p class="help-block" ng-show="form.name.$error.required && submitted">
+            A name is required
+          </p>
+        </div>
+
+		<div class="form-group" ng-class="{ 'has-success': form.userType.$valid && submitted,
+'has-error': form.userType.$invalid && submitted }">
+          <label>Account Type</label>
+
+          <!-- <input type="userType" name="userType" class="form-control" ng-model="user.userType" required mongoose-error/> -->
+			<div class="dropdown reg-dropdown">
+			    <button class="btn btn-inverse dropdown-toggle" type="button" data-toggle="dropdown">{{uTypeSelect}}
+			    <span class="caret"></span></button>
+			    <ul class="dropdown-menu">
+                    <li><a ng-repeat="userType in userTypes" ng-click="userTypeDropdownSel(userType)">{{userType}}</a></li>
+			    </ul>
+			  </div>
+          <p class="help-block" ng-show="form.userType.$error.required && submitted">
+            What userType are you a member of?
+          </p>
+          <p class="help-block" ng-show="form.userType.$error.mongoose">
+            {{ errors.userType }}
+          </p>
+        </div>
+
+		<div class="form-group" ng-class="{ 'has-success': form.university.$valid && submitted,
+'has-error': form.university.$invalid && submitted }">
+          <label>University</label>
+
+          <!-- <input type="university" name="university" class="form-control" ng-model="user.university" required mongoose-error/> -->
+			<div class="dropdown reg-dropdown">
+			    <button class="btn btn-inverse dropdown-toggle" type="button" data-toggle="dropdown">{{uniSelect}}
+			    <span class="caret"></span></button>
+			    <ul class="dropdown-menu">
+                    <li><a ng-repeat="university in universities" ng-click="uniDropdownSel(university)">{{university}}</a></li>
+			    </ul>
+			  </div>
+          <p class="help-block" ng-show="form.university.$error.required && submitted">
+            What university are you a member of?
+          </p>
+          <p class="help-block" ng-show="form.university.$error.mongoose">
+            {{ errors.university }}
+          </p>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-success': form.email.$valid && submitted,
+'has-error': form.email.$invalid && submitted }">
+          <label>Email</label>
+
+          <input type="email" name="email" class="form-control" ng-model="user.email" required mongoose-error/>
+          <p class="help-block" ng-show="form.email.$error.email && submitted">
+            Doesn't look like a valid email.
+          </p>
+          <p class="help-block" ng-show="form.email.$error.required && submitted">
+            What's your email address?
+          </p>
+          <p class="help-block" ng-show="form.email.$error.mongoose">
+            {{ errors.email }}
+          </p>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-success': form.password.$valid && submitted,
+												'has-error': form.password.$invalid && submitted }">
+          <label>Passcode</label>
+
+          <input type="passcode" name="passcode" class="form-control" ng-model="user.passcode" ng-minlength="8" required mongoose-error/>
+          <p class="help-block" ng-show="(form.passcode.$error.minlength || form.passcode.$error.required) && submitted">
+            Password must be at least 8 characters.
+          </p>
+          <p class="help-block" ng-show="form.passcode.$error.mongoose">
+            {{ errors.passcode }}
+          </p>
+        </div>
+
+        <div>
+          <button class="btn btn-default btn-lg btn-login" type="submit">
+            Register
+          </button>
+        </div>
+      </form>
+    </div>
+	<div class="hidden-xs hidden-sm col-md-8 reg-info text-center">
+      <h2 class="reg-heading text-muted">Register with UniQA</h2>
+	  <p class="lead text-center">Placeholder for a picture of a macbook, iphone & tablet showcasing uniqa</p>
+	  <img class="reg-image img-circle pull-right" src="http://placehold.it/480">
+    </div>
+  </div>
+  <hr>
+  <!-- FOOTER -->
+  <div ng-include="'components/footer/footer-splash.html'"></div>
+  <!-- /FOOTER -->
+</div>

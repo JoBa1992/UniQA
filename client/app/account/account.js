@@ -8,10 +8,10 @@ angular.module('uniQaApp')
         templateUrl: 'app/account/login/login.html',
         controller: 'LoginCtrl'
       })
-      .state('signup', {
-        url: '/signup',
-        templateUrl: 'app/account/signup/signup.html',
-        controller: 'SignupCtrl'
+      .state('register', {
+        url: '/register',
+        templateUrl: 'app/account/register/register.html',
+        controller: 'RegisterCtrl'
       })
       .state('settings', {
         url: '/settings',

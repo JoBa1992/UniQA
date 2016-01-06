@@ -1,9 +1,23 @@
 'use strict';
 
 angular.module('uniQaApp')
-  .controller('SignupCtrl', function ($scope, Auth, $location) {
+  .controller('RegisterCtrl', function ($scope, Auth, $location) {
     $scope.user = {};
     $scope.errors = {};
+	// pull these from db value
+	$scope.userTypes = [ "I'm a...","Student","Teacher" ]
+	$scope.uTypeSelect = $scope.userTypes[0];
+	$scope.universities = [ "I go to...","Aberdeen","Sheffield Hallam","Sheffield University" ]
+	$scope.uniSelect = $scope.universities[0];
+
+
+	$scope.userTypeDropdownSel = function(target) {
+		$scope.uTypeSelect = target;
+	};
+	$scope.uniDropdownSel = function(target) {
+		$scope.uniSelect = target;
+	};
+
 
     $scope.register = function(form) {
       $scope.submitted = true;
@@ -12,7 +26,6 @@ angular.module('uniQaApp')
         Auth.createUser({
           name: $scope.user.name,
           email: $scope.user.email,
-          password: $scope.user.password
         })
         .then( function() {
           // Account created, redirect to home

@@ -1,3 +1,7 @@
+/* hover fix */
+.navbar-toggle:hover{
+	background-color:transparent !important;
+}
 /* client/app/main/main.less */
 .fwidthCont {
   width: 100%;
@@ -73,11 +77,9 @@
 	position: absolute;
 	cursor: pointer;
 	text-align: center;
-	width:4%;
 	bottom:16px;
-	left:48%;
-	right:48%;
-	color:#8CB7D3;
+	left:98%/2;
+	color:#FFA700;
 	font-size:4em;
 	font-weight: 900;
 	text-decoration: none;
@@ -92,6 +94,13 @@
 .carousel-down-arrow:hover {
 	text-decoration: none;
 	color:white;
+}
+
+@media (max-width: 768px) {
+  /* Remve the edge padding needed for mobile */
+  .carousel-down-arrow {
+  	left:90%/2;
+  }
 }
 /* MARKETING CONTENT
 -------------------------------------------------- */
