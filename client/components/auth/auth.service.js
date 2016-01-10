@@ -3,7 +3,7 @@
 angular.module('uniQaApp')
   .factory('Auth', function Auth($location, $rootScope, $http, User, $cookieStore, $q) {
     var currentUser = {};
-    if($cookieStore.get('token')) {
+    if ($cookieStore.get('token')) {
       currentUser = User.get();
     }
 
@@ -23,14 +23,12 @@ angular.module('uniQaApp')
         $http.post('/auth/local', {
           email: user.email,
           password: user.password
-        }).
-        success(function(data) {
+        }).success(function(data) {
           $cookieStore.put('token', data.token);
           currentUser = User.get();
           deferred.resolve(data);
           return cb();
-        }).
-        error(function(err) {
+        }).error(function(err) {
           this.logout();
           deferred.reject(err);
           return cb(err);
@@ -47,6 +45,23 @@ angular.module('uniQaApp')
       logout: function() {
         $cookieStore.remove('token');
         currentUser = {};
+      },
+
+      register: function(user, callback) {
+        var cb = callback || angular.noop;
+        var deferred = $q.defer();
+
+        $http.post('/api/users/reg', user).success(function(data) {
+          $cookieStore.put('token', data.token);
+          currentUser = User.get();
+          deferred.resolve(data);
+          return cb();
+        }).error(function(err) {
+          this.logout();
+          deferred.reject(err);
+          return cb(err);
+        }.bind(this));
+        return deferred.promise;
       },
 
       /**
@@ -82,7 +97,9 @@ angular.module('uniQaApp')
       changePassword: function(oldPassword, newPassword, callback) {
         var cb = callback || angular.noop;
 
-        return User.changePassword({ id: currentUser._id }, {
+        return User.changePassword({
+          id: currentUser._id
+        }, {
           oldPassword: oldPassword,
           newPassword: newPassword
         }, function(user) {
@@ -114,13 +131,13 @@ angular.module('uniQaApp')
        * Waits for currentUser to resolve before checking if user is logged in
        */
       isLoggedInAsync: function(cb) {
-        if(currentUser.hasOwnProperty('$promise')) {
+        if (currentUser.hasOwnProperty('$promise')) {
           currentUser.$promise.then(function() {
             cb(true);
           }).catch(function() {
             cb(false);
           });
-        } else if(currentUser.hasOwnProperty('role')) {
+        } else if (currentUser.hasOwnProperty('role')) {
           cb(true);
         } else {
           cb(false);
@@ -128,12 +145,18 @@ angular.module('uniQaApp')
       },
 
       /**
-       * Check if a user is an admin
+       * Check user type
        *
        * @return {Boolean}
        */
       isAdmin: function() {
         return currentUser.role === 'admin';
+      },
+      isTutor: function() {
+        return currentUser.role === 'teacher';
+      },
+      isStudent: function() {
+        return currentUser.role === 'student';
       },
 
       /**

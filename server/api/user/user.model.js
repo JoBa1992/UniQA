@@ -6,14 +6,25 @@ var crypto = require('crypto');
 
 var UserSchema = new Schema({
   name: String,
-  email: { type: String, lowercase: true },
   role: {
     type: String,
-    default: 'user'
+    lowercase: true,
+    default: 'student'
   },
+  university: {
+    type: String,
+    lowercase: true,
+    default: null
+  },
+  email: {
+    type: String,
+    lowercase: true
+  },
+  passcode: String,
   hashedPassword: String,
-  provider: String,
-  salt: String
+  salt: String,
+  lastLoggedIn: Date,
+  lastUpdated: Date
 });
 
 /**
@@ -61,6 +72,13 @@ UserSchema
     return email.length;
   }, 'Email cannot be blank');
 
+// Validate empty email
+UserSchema
+  .path('email')
+  .validate(function(email) {
+    return email.length;
+  }, 'Email cannot be blank');
+
 // Validate empty password
 UserSchema
   .path('hashedPassword')
@@ -73,15 +91,18 @@ UserSchema
   .path('email')
   .validate(function(value, respond) {
     var self = this;
-    this.constructor.findOne({email: value}, function(err, user) {
-      if(err) throw err;
-      if(user) {
-        if(self.id === user.id) return respond(true);
+    this.constructor.findOne({
+      email: value
+    }, function(err, user) {
+      if (err)
+        throw err;
+      if (user) {
+        if (self.id === user.id) return respond(true);
         return respond(false);
       }
       respond(true);
     });
-}, 'The specified email address is already in use.');
+  }, 'The specified email address is already in use.');
 
 var validatePresenceOf = function(value) {
   return value && value.length;
