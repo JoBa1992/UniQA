@@ -25,16 +25,48 @@
 	margin:.3em .3em;
 }
 
+.nav-notification{
+	position: relative;
+}
+
+.nav-notification-badge{
+	padding-left:6px;
+	font-size:.6em;
+	background:red;
+    position:absolute;
+	width:2em;
+	height:1.8em;
+	line-height:1.2;
+    top: 6px;
+    right: 6px;
+	border-radius:100%;
+	overflow:hidden;
+}
+
 .navbar-footer {
-	cursor: default;
+cursor: default;
   background-color: #82AECC;
 }
 
 .navbar-footer-content {
-  padding: .6em .6em;
+  padding: .6em;
 }
 
 .dropdown-menu {
   padding: 0px;
   overflow: hidden;
+}
+
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus,
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+    box-shadow: inset 0px 2px 0px #82AECC; /* switch to a lighter color for active element */
+		-webkit-transition: all .1s linear;
+		-o-transition: all .1s linear;
+		-moz-transition: all .1s linear;
+		-ms-transition: all .1s linear;
+		-kthtml-transition: all .1s linear;
+		transition: all .1s linear;
 }

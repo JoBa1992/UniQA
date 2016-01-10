@@ -1,7 +1,44 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
+<div class="page-sub-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4 col-med-4 col-lg-2 ">
+        <h1>User Administration</h1>
+      </div>
+      <div class="col-sm-3 col-med-3 col-lg-3 ">
+        <form id="search-form" class="form-inline" role="form" method="post">
+          <div class="input-group">
+            <input type="text" class="form-control search-form" placeholder="Search">
+            <span class="input-group-btn">
+              <button type="submit" class="btn btn-primary search-btn" data-target="#search-form" name="q">
+                <span style="" class="glyphicon glyphicon-search"></span>
+              </button>
+            </span>
+          </div>
+        </form>
+      </div>
+	  <div class="col-sm-4 col-med-4 col-lg-4 pull-right text-center">
+		  <div class="col-sm-4 col-med-4 col-lg-4 pull-right">
+	        <button type="button" class="btn btn-success dropdown-toggle page-sub-header-btn">Create</button>
+	      </div>
+		  <div class="sub-menu-divider-vertical pull-right"></div>
+		  <div class="col-sm-4 col-med-4 col-lg-6 pull-right">
+	        <h2><span>{{users.length}}</span><br> System User(s) </h2>
+	      </div>
+	  </div>
+    </div>
+  </div>
+</div>
 <div class="container">
-  <p>The delete user and user index api routes are restricted to users with the 'admin' role.</p>
+	<div class="row">
+		<div class="user-filters">
+			<h1 class="text-center">Filters</h1>
+		</div>
+	</div>
+</div>
+<div class="container">
+  <p> </p>
   <ul class="list-group">
     <li class="list-group-item" ng-repeat="user in users">
       <strong>{{user.name}}</strong><br>
@@ -12,3 +49,6 @@
     </li>
   </ul>
 </div>
+<!-- FOOTER -->
+<div ng-include="'components/footer/footer.html'"></div>
+<!-- /FOOTER -->

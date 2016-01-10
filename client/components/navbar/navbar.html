@@ -1,4 +1,4 @@
-<div class="navbar navbar-default navbar-static-top " ng-controller="NavbarCtrl">
+<div class="navbar navbar-static-top" ng-class="isRoot()" ng-controller="NavbarCtrl">
   <div class="container">
     <div class="navbar-header">
       <button class="navbar-toggle" type="button" ng-click="isCollapsed = !isCollapsed">
@@ -7,40 +7,37 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a ng-href="{{menu.root}}" class="navbar-brand">#UniQA</a>
+      <a ng-href="{{leftMenu.root}}" class="navbar-brand">#UniQA</a>
     </div>
     <div collapse="isCollapsed" class="navbar-collapse collapse" id="navbar-main">
       <ul class="nav navbar-nav">
-        <li ng-repeat="item in menu" ng-class="{active: isActive(item.link)}">
-          <a ng-hide="isAdmin()" ng-href="{{item.link}}" class="disable-animations">{{item.title}}</a>
-        </li>
-        <li ng-show="isAdmin()" ng-class="{active: isActive('/users')}">
-          <a href="/users">Users</a>
-        </li>
-        <li ng-show="isAdmin()" ng-class="{active: isActive('/unis')}">
-          <a href="/unis">Universities</a>
-        </li>
-        <li ng-show="isAdmin()" ng-class="{active: isActive('/stats')}">
-          <a href="/stats">Stats</a>
+        <li ng-repeat="item in leftMenu" ng-class="{active: isActive(item.link)}">
+          <a ng-hide="({{!item.login}} && isLoggedIn()) ||
+		  				({{item.login}} && !isLoggedIn()) ||
+		  				(isTeacher() && {{item.admin}}) ||
+						(isStudent() && ({{item.admin}} || {{item.teacher}})) "
+			ng-href="{{item.link}}" class="disable-animations">{{item.title}}</a>
         </li>
       </ul>
-
       <ul class="nav navbar-nav navbar-right ">
-        <li ng-hide="isLoggedIn()" ng-show="" ng-class="{active: isActive('/register')}">
-          <a href="/register">Register</a>
-        </li>
-        <li ng-hide="isLoggedIn()" ng-show="" ng-class="{active: isActive('/login')}">
-          <a href="/login">Sign in</a>
-        </li>
-		<li ng-show="isLoggedIn()" ng-class="{active: isActive('/notifications')}"> <!-- NOTIFICATIONS -->
+		  <li ng-repeat="item in rightMenu" ng-class="{active: isActive(item.link)}">
+            <a ng-hide="({{!item.login}} && isLoggedIn()) ||
+  		  				({{item.login}} && !isLoggedIn()) ||
+  		  				(isTeacher() && {{item.admin}}) ||
+  						(isStudent() && ({{item.admin}} || {{item.teacher}})) "
+  			ng-href="{{item.link}}" class="disable-animations">{{item.title}}</a>
+          </li>
+		<li ng-show="isLoggedIn()" ng-class="{active: isActive('/notifications')}" class="nav-notification"> <!-- NOTIFICATIONS -->
           <a href="">
             <span class="glyphicon glyphicon-bell"></span>
+			<span class="badge badge-notify nav-notification-badge">1</span>
           </a>
         </li>
-        <!--<li ng-show="isLoggedIn()"><p class="navbar-text">Logged in: {{ getCurrentUser().name }}</p> </li>-->
+		<li ng-show="isLoggedIn()" class="divider-vertical"></li>
         <li class="dropdown" ng-class="{active: (isActive('/profile') || isActive('/profile/settings'))}">
-          <a href="" ng-show="isLoggedIn()" class="dropdown-toggle" data-toggle="dropdown">
-        	<span class="glyphicon glyphicon-user"></span>
+          <a href="" ng-show="isLoggedIn()" class="dropdown-toggle small" data-toggle="dropdown">
+			{{ getCurrentUser().email }}
+             <span class="caret" style="color:#82AECC;"></span>
           </a>
 
           <ul class="dropdown-menu" ng-click="$event.stopPropagation()">
@@ -70,9 +67,6 @@
               <div class="navbar-footer">
                 <div class="navbar-footer-content">
                   <div class="row">
-                    <!-- <div class="col-md-6">
-                      <a href="#" class="btn btn-default btn-sm">Change Password</a>
-                    </div> -->
                     <div class="text-center col-sm-12 col-md-12 col-lg-12">
                       <a href="" class="btn btn-default btn-group btn-danger btn-md pull-right" style="width:40%;" ng-click="logout()">Logout</a>
                     </div>
@@ -82,14 +76,6 @@
             </li>
           </ul>
         </li>
-        <!-- <li ng-show="isLoggedIn()" ng-class="{active: isActive('/profile')}">
-          <a href="/profile">
-            <span class="glyphicon glyphicon-user"></span>
-          </a>
-        </li> -->
-        <!-- <li ng-show="isLoggedIn()" ng-class="{active: isActive('/logout')}">
-          <a href="" ng-click="logout()">Logout</a>
-        </li> -->
       </ul>
     </div>
   </div>
