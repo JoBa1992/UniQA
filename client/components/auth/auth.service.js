@@ -64,6 +64,22 @@ angular.module('uniQaApp')
         return deferred.promise;
       },
 
+      adminRegister: function(user, callback) {
+        var cb = callback || angular.noop;
+        var deferred = $q.defer();
+
+        $http.post('/api/users/reg', user).success(function(data) {
+          deferred.resolve(data);
+          return cb();
+        }).error(function(err) {
+          console.info(err);
+          //this.logout();
+          deferred.reject(err);
+          return cb(err);
+        }.bind(this));
+        return deferred.promise;
+      },
+
       /**
        * Create a new user
        *

@@ -58,8 +58,8 @@
               <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
-              <li>
-                <a ng-repeat="university in universities" ng-click="uniDropdownSel(university)">{{university}}</a>
+              <li ng-repeat="university in universities">
+                <a ng-click="uniDropdownSel(university)">{{university}}</a>
               </li>
             </ul>
           </div>
@@ -101,7 +101,7 @@
         </div>
 
         <div>
-          <button class="btn btn-default btn-lg btn-login pull-right" type="submit">
+          <button class="btn btn-primary btn-lg btn-login pull-right" type="submit">
             Register
           </button>
         </div>

@@ -1,4 +1,5 @@
 .trash {
+  cursor:pointer;
   color: rgb(209, 91, 71);
 }
 
@@ -27,7 +28,6 @@
 }
 
 .page-sub-header-btn{
-	width:100%;
 	margin:.8em 0;
 }
 /*SEARCH FORM*/
@@ -63,9 +63,29 @@ input.search-form::-webkit-input-placeholder {
 	box-shadow: none;
 }
 
-.user-filters{
-	width:100%;
-	margin: 0;
-    padding: 100px 0;
-	border:4px solid #000;
+.panel-heading{
+	background-color: lighten(#343D48,50%) !important;
+}
+
+.user-filter{
+	border-right:2px dotted #8CB7D3;
+}
+.user-filter:last-of-type{
+	border-right:0;
+}
+
+.btn.active {
+    background-color: #8CB7D3;
+}
+
+.modal-backdrop {
+    background: #b4b4b4;
+    }
+
+.blur{
+    -webkit-filter: blur(7px);
+    -moz-filter: blur(15px);
+    -o-filter: blur(15px);
+    -ms-filter: blur(15px);
+    filter: blur(15px);
 }

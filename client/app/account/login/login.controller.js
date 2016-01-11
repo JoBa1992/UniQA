@@ -10,7 +10,6 @@ angular.module('uniQaApp')
     $scope.login = function(form) {
       $scope.submitted = true;
 
-
       if (form.$valid) {
         Auth.login({
           email: $scope.user.email,
@@ -21,6 +20,7 @@ angular.module('uniQaApp')
             $location.path('/profile');
           })
           .catch(function(err) {
+            console.info(err);
             $scope.errors.other = err.message;
           });
       }

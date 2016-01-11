@@ -18,37 +18,138 @@
           </div>
         </form>
       </div>
-	  <div class="col-sm-4 col-med-4 col-lg-4 pull-right text-center">
-		  <div class="col-sm-4 col-med-4 col-lg-4 pull-right">
-	        <button type="button" class="btn btn-success dropdown-toggle page-sub-header-btn">Create</button>
-	      </div>
-		  <div class="sub-menu-divider-vertical pull-right"></div>
-		  <div class="col-sm-4 col-med-4 col-lg-6 pull-right">
-	        <h2><span>{{users.length}}</span><br> System User(s) </h2>
-	      </div>
-	  </div>
+      <div class="col-sm-4 col-med-4 col-lg-4 pull-right text-center">
+        <div class="col-sm-4 col-med-4 col-lg-4 pull-right">
+          <button type="button" class="btn btn-success dropdown-toggle page-sub-header-btn" ng-click="openCreateUserModal()">Create User</button>
+        </div>
+        <div class="sub-menu-divider-vertical pull-right"></div>
+        <div class="col-sm-4 col-med-4 col-lg-4 pull-right">
+          <h2>
+            <span>{{users.length}}</span><br>
+            System User(s)
+          </h2>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 <div class="container">
-	<div class="row">
-		<div class="user-filters">
-			<h1 class="text-center">Filters</h1>
-		</div>
-	</div>
+  <div class="row" style="margin-top:1em;padding-bottom:1.4em;border-bottom:2px dotted #8CB7D3;">
+    <div class="col-sm-4 col-med-4 col-lg-4 user-filter text-center">
+      <h5 class="text-left">User Role</h5>
+      <div class="btn-group " role="group" aria-label="...">
+        <button ng-repeat="(key,value) in userTypes" type="button" style="text-transform: capitalize;" class="btn btn-default" ng-class="{active: value}" ng-click="userTypeFilterToggle(key)">{{key}}</button>
+      </div>
+    </div>
+    <div class="col-sm-4 col-med-4 col-lg-4 user-filter text-center">
+      <h5 class="text-left">Creation Date</h5>
+      <div class="sliderExample">
+        <p style="margin-bottom:-10px;">
+          <strong>Slider placeholder</strong>
+        </p><br>
+      </div>
+    </div>
+    <div class="col-sm-4 col-med-4 col-lg-4 user-filter">
+      <h5 class="text-left">Member of...</h5>
+      <div class="dropdown reg-dropdown">
+        <button class="btn btn-inverse dropdown-toggle form-control" name="university" type="button" data-toggle="dropdown">{{university}}
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li ng-repeat="university in universities">
+            <a ng-click="uniDropdownSel(university)">{{university}}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="warnings">
+      <!-- <div class="alert alert-warning" role="alert">
+        <a href="#" class="alert-link">You have entered an incorrect attribute</a>
+      </div> -->
+      <div class="alert alert-danger" role="alert">
+        <a href="#" class="alert-link">Query returned no users</a>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <p></p>
+    <div class="panel panel-default">
+      <!-- Default panel contents -->
+      <div class="panel-heading clearfix">
+        <button class="btn btn-primary pull-right">
+          <span class="glyphicon glyphicon-refresh"></span>
+          Refresh</button>
+      </div>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>University</th>
+			<th>Validated</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="user in users">
+            <td>
+              <a href="#" class="text-muted">{{user._id}}</a>
+            </td>
+            <td>{{user.name}}</td>
+            <td>{{user.email}}</td>
+            <td style="text-transform: capitalize;">{{user.role}}</td>
+			<td ng-if="user.university">{{user.university}}</td>
+            <td ng-if="!user.university">N/A</td>
+			<td>Y</td>
+			<!-- <td ng-if="user.password">Yes</td> // FOR WHEN Authentication of users is in
+			<td ng-if="!user.password">No</td> -->
+            <td>
+              <a ng-click="deleteUser(user)" class="trash">
+                <span class="glyphicon glyphicon-trash pull-right"></span>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-sm-12 col-med-12 col-lg-12">
+      <ul class="pagination pull-right">
+        <li class="disabled">
+          <a href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li class="active">
+          <a href="#">1</a>
+        </li>
+        <li class="disabled">
+          <a href="#">2</a>
+        </li>
+        <li class="disabled">
+          <a href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
-<div class="container">
-  <p> </p>
-  <ul class="list-group">
-    <li class="list-group-item" ng-repeat="user in users">
-      <strong>{{user.name}}</strong><br>
-      <span class="text-muted">{{user.email}}</span>
-      <a ng-click="delete(user)" class="trash">
-        <span class="glyphicon glyphicon-trash pull-right"></span>
-      </a>
-    </li>
-  </ul>
+<!--
+<div class="col-sm-4 col-med-4 col-lg-4">
+  Results per page: &nbsp;
+  <div class="btn-group" role="group" aria-label="">
+	<button type="button" class="btn btn-default active">10</button>
+	<button type="button" class="btn btn-default">20</button>
+	<button type="button" class="btn btn-default">50</button>
+	<button type="button" class="btn btn-default">100</button>
+  </div>
 </div>
+-->
 <!-- FOOTER -->
 <div ng-include="'components/footer/footer.html'"></div>
 <!-- /FOOTER -->
