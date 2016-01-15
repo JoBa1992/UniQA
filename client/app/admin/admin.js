@@ -9,10 +9,10 @@ angular.module('uniQaApp')
         controller: 'StatsCtrl',
         authenticate: true
       })
-      .state('unis', {
-        url: '/unis',
-        templateUrl: 'app/admin/universities/universities.html',
-        controller: 'UniCtrl',
+      .state('departments', {
+        url: '/departments',
+        templateUrl: 'app/admin/departments/departments.html',
+        controller: 'DepCtrl',
         authenticate: true
       })
       .state('users', {

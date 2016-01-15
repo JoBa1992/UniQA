@@ -1,24 +1,24 @@
 'use strict';
 
 angular.module('uniQaApp')
-  .factory('Modal', function($rootScope, $modal, Auth) {
+  .factory('Modal', function($rootScope, $modal, Auth, Thing) {
 
     // Use the User $resource to fetch all users
     $rootScope.user = {};
-    $rootScope.universities = ["Select University", "Sheffield Hallam", "Sheffield University"]
-    $rootScope.user.university = $rootScope.universities[0];
-    $rootScope.userRoles = ["Select Role", "student", "teacher"]
-    $rootScope.user.role = $rootScope.userRoles[0];
+    $rootScope.errors = {};
+    $rootScope.form = {};
 
-    $rootScope.uniDropdownSel = function(target) {
-      $rootScope.user.university = target;
+    $rootScope.depDropdownSel = function(target) {
+      $rootScope.user.department = target;
     };
-    $rootScope.userTypeDropdownSel = function(target) {
+    $rootScope.userRoleDropdownSel = function(target) {
       $rootScope.user.role = target;
     };
 
-    // global constant access-code length
-    var AC_LENGTH = 8;
+    Thing.getByName("accessCodeLen").then(function(val) {
+      // only returns one element
+      $rootScope.accessCodeLen = val.content[0];
+    });
 
     //
     function genAccessCode(length) {
@@ -53,16 +53,13 @@ angular.module('uniQaApp')
       //     }
       // });
       callback(true);
-      return true;
     }
     //
     function createUniqueAccessCode(callback) {
-      var accessCode = genAccessCode(AC_LENGTH);
+      var accessCode = genAccessCode($rootScope.accessCodeLen);
       isAccessCodeUnique(accessCode, function(unique) {
         if (unique) {
           $rootScope.user.passcode = accessCode;
-          console.info(accessCode);
-        //return accessCode
         } else {
           createUniqueAccessCode();
         }
@@ -124,15 +121,38 @@ angular.module('uniQaApp')
         user: function(cb) {
           cb = cb || angular.noop;
           return function() {
-            var args = Array.prototype.slice.call(arguments),
-              createModal;
+            var args = Array.prototype.slice.call(arguments), createModal, createdUser;
+            // refresh validation on new modal open - remove details
+            $rootScope.user = {
+              name: "",
+              email: ""
+            };
+            $rootScope.roles = {};
+            $rootScope.departments = {};
+            // use the Thing service to return back some constants
+            Thing.getByName("userRoles").then(function(val) {
+              $rootScope.roles = val.content;
+              $rootScope.user.role = 'Select Role';
+            });
+            Thing.getByName("uniDepartments").then(function(val) {
+              // add Any to start of array
+              $rootScope.departments = val.content[0];
+              $rootScope.user.department = 'Select Department';
+            });
+
+            Thing.getByName("uniEmail").then(function(val) {
+              // add Any to start of array
+              $rootScope.uniEmail = val.content[0];
+            });
+
+            // creates a unique access code everytime the modal is opened.
             createUniqueAccessCode();
             createModal = openModal({
               modal: {
+                name: "createrUserForm",
                 dismissable: true,
                 title: 'Create User',
-                html: '<form class="form" name="form" ng-submit="register(form)" novalidate>' +
-                  '<div class="form-group" ng-class="{ \'has-success\': form.name.$valid && submitted,\'has-error\': form.name.$invalid && submitted }">' +
+                form: '<div class="form-group" ng-class="{ \'has-success\': form.name.$valid && submitted,\'has-error\': form.name.$invalid && submitted }">' +
                   '<label>Name</label>' +
                   '<input type="text" name="name" class="form-control" ng-model="user.name" required/>' +
                   '<p class="help-block" ng-show="form.name.$error.required && submitted">A name is required</p>' +
@@ -140,45 +160,48 @@ angular.module('uniQaApp')
                   '<div class="form-group" ng-class="{ \'has-success\': user.role!=\'Select Role\' && submitted,\'has-error\': user.role==\'Select Role\' && submitted }">' +
                   '<label>Account Type</label>' +
                   '<div class="dropdown reg-dropdown">' +
-                  '<button class="btn btn-inverse dropdown-toggle form-control" name="type" ng-model="userRoles" type="button" data-toggle="dropdown">{{user.role}}' +
+                  '<button class="btn btn-inverse dropdown-toggle form-control" style="text-transform: capitalize;" name="type" ng-model="roles" type="button" data-toggle="dropdown">{{user.role}}' +
                   '<span class="caret"></span>' +
                   '</button>' +
                   '<ul class="dropdown-menu"> ' +
                   '<li>' +
-                  '<a ng-repeat="roles in userRoles" ng-click="userTypeDropdownSel(roles)" style="text-transform: capitalize;">{{roles}}</a>' +
+                  '<a ng-repeat="roles in roles" ng-click="userRoleDropdownSel(roles)" style="text-transform: capitalize;">{{roles}}</a>' +
                   '</li>' +
                   '</ul>' +
                   '</div>' +
                   '<p class="help-block" ng-show="user.role==\'Select Role\' && submitted">Please select a user type</p>' +
                   '<p class="help-block" ng-show="form.roles.$error.mongoose">{{ errors.roles }}</p>' +
                   '</div>' +
-                  '<div class="form-group" ng-class="{ \'has-success\': user.university!=\'Select University\' && submitted,\'has-error\': user.university==\'Select University\' && submitted }">' +
-                  '<label>University</label>' +
+                  '<div class="form-group" ng-class="{ \'has-success\': user.department!=\'Select Department\' && submitted,\'has-error\': user.department==\'Select Department\' && submitted }">' +
+                  '<label>Department</label>' +
                   '<div class="dropdown reg-dropdown">' +
-                  '<button class="btn btn-inverse dropdown-toggle form-control" name="university" type="button" data-toggle="dropdown">{{user.university}}<span class="caret"></span></button>' +
-                  '<ul class="dropdown-menu">' +
-                  '<li ng-repeat="university in universities">' +
-                  '<a ng-click="uniDropdownSel(university)">{{university}}</a>' +
+                  '<button class="btn btn-inverse dropdown-toggle form-control" name="department" type="button" data-toggle="dropdown">{{user.department}}<span class="caret"></span></button>' +
+                  '<ul class="dropdown-menu scrollable-menu" role="menu">' +
+                  '<li ng-repeat="(key,val) in departments">' +
+                  '<a class="dropdown-header disabled dropdown-header-custom" ng-click="$event.preventDefault()">{{key}}</a>' +
+                  '<a ng-repeat="subVals in departments[key]" ng-click="depDropdownSel(subVals)">{{departments[key][$index]}}</a>' +
                   '</li>' +
                   '</ul>' +
                   '</div>' +
-                  '<p class="help-block" ng-show="user.university==\'Select University\' && submitted">Please select a university</p>' +
-                  '<p class="help-block" ng-show="form.user.university.$error.mongoose">{{ errors.user.university }}</p>' +
+                  '<p class="help-block" ng-show="user.department==\'Select Department\' && submitted">Please select a department</p>' +
+                  '<p class="help-block" ng-show="form.user.department.$error.mongoose">{{ errors.user.department }}</p>' +
                   '</div>' +
                   '<div class="form-group" ng-class="{ \'has-success\': form.email.$valid && submitted,\'has-error\': form.email.$invalid && submitted }">' +
                   '<label>Email</label>' +
-                  '<input type="email" name="email" class="form-control" ng-model="user.email" required mongoose-error/>' +
-                  '<p class="help-block" ng-show="form.email.$error.email && submitted">Email address provided does not match the university format</p>' +
+                  '<div class="input-group">' +
+                  '<input type="text" name="email" class="form-control" aria-describedby="basic-addon2" ng-model="user.email" required mongoose-error>' +
+                  '<span class="input-group-addon" id="basic-addon2">{{uniEmail}}</span>' +
+                  '</div>' +
+                  '<p class="help-block" ng-show="form.email.$error.email && submitted">Email address provided does not match the department format</p>' +
                   '<p class="help-block" ng-show="form.email.$error.required && submitted">Please enter your email address</p>' +
-                  '<p class="help-block" ng-show="form.email.$error.mongoose">{{ errors.email }}</p>' +
+                  '<p class="help-block" name="emailVal" ng-show="form.email.$error.mongoose">{{ errors.email }}</p>' +
                   '</div>' +
                   '<div class="form-group" ng-class="{ \'has-success\': form.passcode.$valid && submitted,\'has-error\': form.passcode.$invalid && submitted }">' +
                   '<label>Access Code</label>' +
-                  '<input type="passcode" name="passcode" class="form-control" ng-model="user.passcode" value="{{user.passcode}}" maxlength=8 required readonly mongoose-error/>' +
-                  '<p class="help-block" ng-show="(form.passcode.$error.minlength || form.passcode.$error.required) && submitted">Passcodes are 8 characters long.</p>' +
+                  '<input type="passcode" name="passcode" class="form-control" ng-model="user.passcode" value="{{user.passcode}}" maxlength=10 required readonly mongoose-error/>' +
+                  '<p class="help-block" ng-show="(form.passcode.$error.minlength || form.passcode.$error.required) && submitted">Passcodes are 10 characters long.</p>' +
                   '<p class="help-block" ng-show="form.passcode.$error.mongoose">{{ errors.passcode }}</p>' +
-                  '</div>' +
-                  '</form>',
+                  '</div>',
                 buttons: [{
                   classes: 'btn-default',
                   text: 'Cancel',
@@ -188,28 +211,29 @@ angular.module('uniQaApp')
                 }, {
                   classes: 'btn-success',
                   text: 'Create',
-                  click: function(e) {
-                    console.info($rootScope);
+                  click: function(e, form) {
                     $rootScope.submitted = true;
+                    // form.$setPristine();
+                    // form.$setValidity();
+                    // form.$setUntouched();
                     if ($rootScope.user.role != "Select Role"
-                      && $rootScope.user.university != "Select University"
-                      && $rootScope.user.name
-                      && $rootScope.user.email
-                      && $rootScope.user.passcode) {
+                      && $rootScope.user.department != "Select Department"
+                      && $rootScope.user.name && $rootScope.user.email && $rootScope.user.passcode) {
 
-                      Auth.adminRegister({
+                      Auth.createUser({
                         user: $rootScope.user
                       })
-                        .then(function() {
+                        .then(function(res) {
+                          createdUser = res.user;
                           // user created, close the modal
                           createModal.close(e);
                         })
                         .catch(function(err) {
-                          err = err.data;
                           $rootScope.errors = {};
 
                           // Update validity of form fields that match the mongoose errors
                           angular.forEach(err.errors, function(error, field) {
+                            //console.info(form[field]);
                             form[field].$setValidity('mongoose', false);
                             $rootScope.errors[field] = error.message;
                           });
@@ -221,20 +245,147 @@ angular.module('uniQaApp')
             }, 'modal-success');
 
             createModal.result.then(function(event) {
-              cb();
+              cb(createdUser);
+            });
+          };
+        }
+      },
+      update: {
+        user: function(cb) {
+          cb = cb || angular.noop;
+          return function() {
+            var args = Array.prototype.slice.call(arguments), updateModal, createdUser;
+            var user = args.shift();
+            // refresh validation on new modal open - remove details
+            $rootScope.roles = {};
+            $rootScope.departments = {};
+            $rootScope.user = user;
+
+            // use the Thing service to return back some constants
+            Thing.getByName("userRoles").then(function(val) {
+              $rootScope.roles = val.content;
+            });
+            Thing.getByName("uniDepartments").then(function(val) {
+              // add Any to start of array
+              $rootScope.departments = val.content[0];
+            });
+
+            Thing.getByName("uniEmail").then(function(val) {
+              // add Any to start of array
+              $rootScope.uniEmail = val.content[0];
+              // remove uniEmail standard from users Email
+              $rootScope.userTempEmail = $rootScope.user.email.split(val.content[0])[0];
+            });
+
+
+            updateModal = openModal({
+              modal: {
+                name: "updateUserForm",
+                dismissable: true,
+                title: 'Update User',
+                form: '<div class="form-group" ng-class="{ \'has-success\': form.name.$valid && submitted,\'has-error\': form.name.$invalid && submitted }">' +
+                  '<label>Name</label>' +
+                  '<input type="text" name="name" class="form-control" ng-model="user.name" required/>' +
+                  '<p class="help-block" ng-show="form.name.$error.required && submitted">A name is required</p>' +
+                  '</div>' +
+                  '<div class="form-group" ng-class="{ \'has-success\': user.role!=\'Select Role\' && submitted,\'has-error\': user.role==\'Select Role\' && submitted }">' +
+                  '<label>Account Type</label>' +
+                  '<div class="dropdown reg-dropdown">' +
+                  '<button class="btn btn-inverse dropdown-toggle form-control" style="text-transform: capitalize;" name="type" ng-model="roles" type="button" data-toggle="dropdown">{{user.role}}' +
+                  '<span class="caret"></span>' +
+                  '</button>' +
+                  '<ul class="dropdown-menu"> ' +
+                  '<li>' +
+                  '<a ng-repeat="roles in roles" ng-click="userRoleDropdownSel(roles)" style="text-transform: capitalize;">{{roles}}</a>' +
+                  '</li>' +
+                  '</ul>' +
+                  '</div>' +
+                  '<p class="help-block" ng-show="user.role==\'Select Role\' && submitted">Please select a user type</p>' +
+                  '<p class="help-block" ng-show="form.roles.$error.mongoose">{{ errors.roles }}</p>' +
+                  '</div>' +
+                  '<div class="form-group" ng-class="{ \'has-success\': user.department!=\'Select Department\' && submitted,\'has-error\': user.department==\'Select Department\' && submitted }">' +
+                  '<label>Department</label>' +
+                  '<div class="dropdown reg-dropdown">' +
+                  '<button class="btn btn-inverse dropdown-toggle form-control" name="department" type="button" data-toggle="dropdown">{{user.department}}<span class="caret"></span></button>' +
+                  '<ul class="dropdown-menu scrollable-menu" role="menu">' +
+                  '<li ng-repeat="(key,val) in departments">' +
+                  '<a class="dropdown-header disabled dropdown-header-custom" ng-click="$event.preventDefault()">{{key}}</a>' +
+                  '<a ng-repeat="subVals in departments[key]" ng-click="depDropdownSel(subVals)">{{departments[key][$index]}}</a>' +
+                  '</li>' +
+                  '</ul>' +
+                  '</div>' +
+                  '<p class="help-block" ng-show="user.department==\'Select Department\' && submitted">Please select a department</p>' +
+                  '<p class="help-block" ng-show="form.user.department.$error.mongoose">{{ errors.user.department }}</p>' +
+                  '</div>' +
+                  '<div class="form-group" ng-class="{ \'has-success\': form.email.$valid && submitted,\'has-error\': form.email.$invalid && submitted }">' +
+                  '<label>Email</label>' +
+                  '<div class="input-group">' +
+                  '<input type="text" name="email" class="form-control" aria-describedby="basic-addon2" ng-model="userTempEmail" required mongoose-error disabled>' +
+                  '<span class="input-group-addon" id="basic-addon2">{{uniEmail}}</span>' +
+                  '</div>' +
+                  '<p class="help-block" ng-show="form.email.$error.email && submitted">Email address provided does not match the department format</p>' +
+                  '<p class="help-block" ng-show="form.email.$error.required && submitted">Please enter your email address</p>' +
+                  '<p class="help-block" name="emailVal" ng-show="form.email.$error.mongoose">{{ errors.email }}</p>' +
+                  '</div>' +
+                  '<div class="btn-toolbar">' +
+                  '<button class="btn btn-danger pull-left" ng-click="requestReset(user)">' +
+                  '<span class="glyphicon glyphicon-share-alt"></span>  Request Password Reset</button>' +
+                  '</div>' +
+                  '</div>',
+                buttons: [{
+                  classes: 'btn-default',
+                  text: 'Cancel',
+                  click: function(e) {
+                    updateModal.dismiss(e);
+                  }
+                }, {
+                  classes: 'btn-warning',
+                  text: 'Update',
+                  click: function(e, form) {
+                    $rootScope.submitted = true;
+                    if ($rootScope.user.role != "Select Role"
+                      && $rootScope.user.department != "Select Department"
+                      && $rootScope.user.name && $rootScope.user.email && $rootScope.user.passcode) {
+
+                      Auth.createUser({
+                        user: $rootScope.user
+                      })
+                        .then(function(res) {
+                          createdUser = res.user;
+                          // user created, close the modal
+                          updateModal.close(e);
+                        })
+                        .catch(function(err) {
+                          $rootScope.errors = {};
+
+                          // Update validity of form fields that match the mongoose errors
+                          angular.forEach(err.errors, function(error, field) {
+                            //console.info(form[field]);
+                            form[field].$setValidity('mongoose', false);
+                            $rootScope.errors[field] = error.message;
+                          });
+                        });
+                    }
+                  }
+                }]
+              }
+            }, 'modal-warning');
+
+            updateModal.result.then(function(event) {
+              cb(createdUser);
             });
           };
         }
       },
       /* Confirmation modals */
-      confirm: {
+      delete: {
 
         /**
          * Create a function to open a delete confirmation modal (ex. ng-click='myModalFn(name, arg1, arg2...)')
          * @param  {Function} del - callback, ran when delete is confirmed
          * @return {Function}     - the function to open the modal (ex. myModalFn)
          */
-        delete: function(cb) {
+        user: function(cb) {
           cb = cb || angular.noop;
           /**
            * Open a delete confirmation modal
@@ -248,9 +399,10 @@ angular.module('uniQaApp')
             if (user._id == Auth.getCurrentUser()._id) {
               deleteModal = openModal({
                 modal: {
+                  name: "deleteUserForm",
                   dismissable: true,
                   title: 'Warning',
-                  html: '<p>You cannot delete your own user</p>',
+                  form: '<p>You cannot delete your own user through this method. <br><br>You can find options like this by accessing the following link: <a ng-click="deleteModal.close(e)" href="/profile/settings">Profile Settings</a></p>',
                   buttons: [{
                     classes: 'btn-warning',
                     text: 'OK',
@@ -267,9 +419,10 @@ angular.module('uniQaApp')
             } else {
               deleteModal = openModal({
                 modal: {
+                  name: "deleteConf",
                   dismissable: true,
                   title: 'Confirm Delete',
-                  html: '<p>Are you sure you want to delete <strong>' + user.name + '</strong> ?</p>',
+                  form: '<p>Are you sure you want to delete <strong>' + user.name + '</strong> ?</p>',
                   buttons: [{
                     classes: 'btn-default',
                     text: 'Cancel',
@@ -294,4 +447,5 @@ angular.module('uniQaApp')
         }
       }
     };
-  });
+  })
+;

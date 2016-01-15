@@ -1,28 +1,44 @@
 'use strict';
 
 angular.module('uniQaApp')
-  .controller('RegisterCtrl', function($scope, Auth, $location) {
+  .controller('RegisterCtrl', function($scope, Auth, Thing, $location) {
     $scope.user = {};
+    $scope.roles = {};
+    $scope.departments = {};
+    $scope.subDepartments = {};
     $scope.errors = {};
     // pull these from db value
-    $scope.userRoles = ["I am a...", "Student", "Teacher"]
-    $scope.user.role = $scope.userRoles[0];
-    $scope.universities = ["I go to...", "Sheffield Hallam", "Sheffield University"]
-    $scope.user.university = $scope.universities[0];
 
+    Thing.getByName('userRoles').then(function(val) {
+      $scope.roles = val.content;
+      $scope.user.role = 'Select Role';
+    });
+    Thing.getByName('uniDepartments').then(function(val) {
+      $scope.departments = val.content[0];
+      $scope.user.department = 'Select Department';
+    });
+    Thing.getByName('uniName').then(function(val) {
+      // only returns one element
+      $scope.uniName = val.content[0];
+    });
+    Thing.getByName('uniEmail').then(function(val) {
+      // only returns one element
+      $scope.uniEmail = val.content[0];
+    });
 
-    $scope.userTypeDropdownSel = function(target) {
+    $scope.userRoleDropdownSel = function(target) {
       $scope.user.role = target;
     };
-    $scope.uniDropdownSel = function(target) {
-      $scope.user.university = target;
+    $scope.depDropdownSel = function(target) {
+      $scope.user.department = target;
     };
 
 
     $scope.register = function(form) {
       $scope.submitted = true;
-      if (form.$valid && $scope.user.role != "I'm a..."
-        && $scope.user.university != "I go to...") {
+      console.info($scope.user.department != 'Select Department');
+      if (form.$valid && $scope.user.role != 'Select Role'
+        && $scope.user.department != 'Select Department') {
 
         Auth.register({
           user: $scope.user

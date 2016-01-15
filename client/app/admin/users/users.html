@@ -4,12 +4,12 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-4 col-med-4 col-lg-2 ">
-        <h1>User Administration</h1>
+        <h1>User Management</h1>
       </div>
       <div class="col-sm-3 col-med-3 col-lg-3 ">
         <form id="search-form" class="form-inline" role="form" method="post">
           <div class="input-group">
-            <input type="text" class="form-control search-form" placeholder="Search">
+            <input type="text" class="form-control search-form" placeholder="Search" ng-keyup="searchStrFilter(filter.search)" ng-model="filter.searchStr">
             <span class="input-group-btn">
               <button type="submit" class="btn btn-primary search-btn" data-target="#search-form" name="q">
                 <span style="" class="glyphicon glyphicon-search"></span>
@@ -38,7 +38,7 @@
     <div class="col-sm-4 col-med-4 col-lg-4 user-filter text-center">
       <h5 class="text-left">User Role</h5>
       <div class="btn-group " role="group" aria-label="...">
-        <button ng-repeat="(key,value) in userTypes" type="button" style="text-transform: capitalize;" class="btn btn-default" ng-class="{active: value}" ng-click="userTypeFilterToggle(key)">{{key}}</button>
+        <button ng-repeat="(key,value) in filter.role" type="button" style="text-transform: capitalize;" class="btn btn-default" ng-class="{active: value}" ng-click="userRoleFilterToggle(key)">{{key}}</button>
       </div>
     </div>
     <div class="col-sm-4 col-med-4 col-lg-4 user-filter text-center">
@@ -52,12 +52,14 @@
     <div class="col-sm-4 col-med-4 col-lg-4 user-filter">
       <h5 class="text-left">Member of...</h5>
       <div class="dropdown reg-dropdown">
-        <button class="btn btn-inverse dropdown-toggle form-control" name="university" type="button" data-toggle="dropdown">{{university}}
+        <button class="btn btn-inverse dropdown-toggle form-control" name="department" type="button" data-toggle="dropdown" style="position:relative;">{{filter.department}}
+          <a ng-click="clearDepFilter($event)" ng-class="{ 'disable-custom-filter': clearedFilter.dropdown, 'custom-filter': !clearedFilter.dropdown }" class="glyphicon glyphicon-remove pull-right"></a>
           <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu">
-          <li ng-repeat="university in universities">
-            <a ng-click="uniDropdownSel(university)">{{university}}</a>
+        <ul class="dropdown-menu scrollable-menu" role="menu">
+          <li ng-repeat="(key,val) in departments">
+            <a class="dropdown-header disabled dropdown-header-custom" ng-click="$event.preventDefault()">{{key}}</a>
+            <a ng-repeat="subVals in departments[key]" ng-click="depDropdownSel(subVals)">{{departments[key][$index]}}</a>
           </li>
         </ul>
       </div>
@@ -69,8 +71,8 @@
       <!-- <div class="alert alert-warning" role="alert">
         <a href="#" class="alert-link">You have entered an incorrect attribute</a>
       </div> -->
-      <div class="alert alert-danger" role="alert">
-        <a href="#" class="alert-link">Query returned no users</a>
+      <div class="alert alert-danger" role="alert" ng-if="noFiltQueryReturn">
+        <p href="" class="alert-link">Query returned no users</p>
       </div>
     </div>
   </div>
@@ -79,7 +81,7 @@
     <div class="panel panel-default">
       <!-- Default panel contents -->
       <div class="panel-heading clearfix">
-        <button class="btn btn-primary pull-right">
+        <button class="btn btn-primary pull-right" ng-click="refreshUserList(filter)">
           <span class="glyphicon glyphicon-refresh"></span>
           Refresh</button>
       </div>
@@ -90,26 +92,48 @@
             <th>Name</th>
             <th>Email</th>
             <th>Role</th>
-            <th>University</th>
-			<th>Validated</th>
+            <th>Department</th>
+            <th>Validated</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="user in users">
+          <!-- IF filters are active -->
+          <tr ng-if="isEmpty(fUsers)" ng-repeat="user in users">
             <td>
-              <a href="#" class="text-muted">{{user._id}}</a>
+              <a href="#" class="text-muted" ng-click="openUpdateUserModal(user)">{{user._id}}</a>
             </td>
             <td>{{user.name}}</td>
             <td>{{user.email}}</td>
             <td style="text-transform: capitalize;">{{user.role}}</td>
-			<td ng-if="user.university">{{user.university}}</td>
-            <td ng-if="!user.university">N/A</td>
-			<td>Y</td>
-			<!-- <td ng-if="user.password">Yes</td> // FOR WHEN Authentication of users is in
+            <td ng-if="user.department">{{user.department}}</td>
+            <td ng-if="!user.department">N/A</td>
+            <td ng-if="!user.passcode">Y</td>
+            <td ng-if="user.passcode">N</td>
+            <!-- <td ng-if="user.password">Yes</td> // FOR WHEN Authentication of users is in
+  			<td ng-if="!user.password">No</td> -->
+            <td>
+              <a ng-click="openDeleteUserModal(user)" class="trash">
+                <span class="glyphicon glyphicon-trash pull-right"></span>
+              </a>
+            </td>
+          </tr>
+          <!-- IF filters are NOT active -->
+          <tr ng-if="!isEmpty(fUsers)" ng-repeat="user in fUsers">
+            <td>
+              <a href="#" class="text-muted" ng-click="openUpdateUserModal(user)">{{user._id}}</a>
+            </td>
+            <td>{{user.name}}</td>
+            <td>{{user.email}}</td>
+            <td style="text-transform: capitalize;">{{user.role}}</td>
+            <td ng-if="user.department">{{user.department}}</td>
+            <td ng-if="!user.department">N/A</td>
+            <td ng-if="!user.passcode">Y</td>
+            <td ng-if="user.passcode">N</td>
+            <!-- <td ng-if="user.password">Yes</td> // FOR WHEN Authentication of users is in
 			<td ng-if="!user.password">No</td> -->
             <td>
-              <a ng-click="deleteUser(user)" class="trash">
+              <a ng-click="openDeleteUserModal(user)" class="trash">
                 <span class="glyphicon glyphicon-trash pull-right"></span>
               </a>
             </td>

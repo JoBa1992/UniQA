@@ -14,7 +14,7 @@
         <li ng-repeat="item in leftMenu" ng-class="{active: isActive(item.link)}">
           <a ng-hide="({{!item.login}} && isLoggedIn()) ||
 		  				({{item.login}} && !isLoggedIn()) ||
-		  				(isTeacher() && {{item.admin}}) ||
+		  				(isTutor() && {{item.admin}}) ||
 						(isStudent() && ({{item.admin}} || {{item.teacher}})) "
 			ng-href="{{item.link}}" class="disable-animations">{{item.title}}</a>
         </li>
@@ -23,7 +23,7 @@
 		  <li ng-repeat="item in rightMenu" ng-class="{active: isActive(item.link)}">
             <a ng-hide="({{!item.login}} && isLoggedIn()) ||
   		  				({{item.login}} && !isLoggedIn()) ||
-  		  				(isTeacher() && {{item.admin}}) ||
+  		  				(isTutor() && {{item.admin}}) ||
   						(isStudent() && ({{item.admin}} || {{item.teacher}})) "
   			ng-href="{{item.link}}" class="disable-animations">{{item.title}}</a>
           </li>

@@ -10,23 +10,26 @@ var User = require('../api/user/user.model');
 
 Thing.find({}).remove(function() {
   Thing.create({
-    name: 'Development Tools',
-    info: 'Integration with popular tools such as Bower, Grunt, Karma, Mocha, JSHint, Node Inspector, Livereload, Protractor, Jade, Stylus, Sass, CoffeeScript, and Less.'
+    name: 'uniName',
+    content: 'Sheffield Hallam'
   }, {
-    name: 'Server and Client integration',
-    info: 'Built with a powerful and fun stack: MongoDB, Express, AngularJS, and Node.'
+    name: 'uniEmail',
+    content: '@shu.ac.uk'
   }, {
-    name: 'Smart Build System',
-    info: 'Build system ignores `spec` files, allowing you to keep tests alongside code. Automatic injection of scripts and styles into your index.html'
+    name: 'uniDepartments',
+    content: {
+      'Admin': ['Admin'],
+      'Development and Society': ['Natural and Built Environment', 'SIOE', 'Psychology, Sociology and Politics', 'Humanities', 'Law and Criminology', 'TESOL Centre'],
+      'ACES': ['Computing', 'Engineering and Mathematics', 'SIA', 'Media Arts and Communication'],
+      'Health and Wellbeing': ['Allied Health Professions', 'Biosciences', 'Nursing and Midwifery', 'Sport and Physical Activity Academy', 'Social Work and Social Care'],
+      'Business': ['Finance, Accounting and Business Systems', 'Management', 'Service Sector Management'],
+    }
   }, {
-    name: 'Modular Structure',
-    info: 'Best practice client and server structures allow for more code reusability and maximum scalability'
+    name: 'userRoles',
+    content: ['admin', 'tutor', 'student']
   }, {
-    name: 'Optimized Build',
-    info: 'Build process packs up your templates as a single JavaScript payload, minifies your scripts/css/images, and rewrites asset names for caching.'
-  }, {
-    name: 'Deployment Ready',
-    info: 'Easily deploy your app to Heroku or Openshift with the heroku and openshift subgenerators'
+    name: 'accessCodeLen',
+    content: 10
   });
 });
 
@@ -35,17 +38,38 @@ User.find({}).remove(function() {
     role: 'admin',
     name: 'JoBa',
     email: 'JoBa@uniqa.co.uk',
-    password: 'Josh1992'
+    password: 'Josh1992',
+    department: 'Admin'
   }, {
-    role: 'teacher',
+    role: 'tutor',
     name: 'Test Teacher',
     email: 'teacher@shu.ac.uk',
-    password: 'teacher'
+    password: 'tutor',
+    department: 'Computing'
   }, {
     name: 'Test Student',
     role: 'student',
     email: 'student@shu.ac.uk',
-    password: 'student'
+    password: 'student',
+    department: 'Humanities'
+  }, {
+    name: 'JD',
+    role: 'student',
+    email: 'jd@shu.ac.uk',
+    password: 'jd',
+    department: 'SIA'
+  }, {
+    name: 'Jack McGlone',
+    role: 'student',
+    email: 'jack.mcblown@shu.ac.uk',
+    password: 'mcblown',
+    department: 'Media Arts and Communication'
+  }, {
+    name: 'Chode Skimpson',
+    role: 'student',
+    email: 'chad.simpson@shu.ac.uk',
+    password: 'Chode',
+    department: 'Nursing and Midwifery'
   }, function() {
     console.log('finished populating users');
   }

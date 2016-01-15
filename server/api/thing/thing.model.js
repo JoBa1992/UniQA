@@ -1,11 +1,18 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+  Schema = mongoose.Schema;
 
 var ThingSchema = new Schema({
-  name: String,
-  info: String,
+  name: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  content: {
+    type: Array,
+    "default": []
+  },
   active: Boolean
 });
 

@@ -29,4 +29,15 @@ angular.module('uniQaApp')
         }
       );
     };
-  }]);
+  }])
+// .run(function($rootScope, $modalStack) {
+//   $rootScope.$on('$routeChangeSuccess', function(newVal, oldVal) {
+//     if (oldVal !== newVal) {
+//       $modalStack.dismissAll();
+//     }
+//   });
+// })
+// .run(function($rootScope, $modalStack) {
+//   $modalStack.dismissAll();
+// })
+;

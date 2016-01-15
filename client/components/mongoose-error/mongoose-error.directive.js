@@ -4,7 +4,7 @@
  * Removes server error when user updates input
  */
 angular.module('uniQaApp')
-  .directive('mongooseError', function () {
+  .directive('mongooseError', function() {
     return {
       restrict: 'A',
       require: 'ngModel',

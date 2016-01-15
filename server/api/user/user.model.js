@@ -11,16 +11,18 @@ var UserSchema = new Schema({
     lowercase: true,
     default: 'student'
   },
-  university: {
+  department: {
     type: String,
-    lowercase: true,
     default: null
   },
   email: {
     type: String,
     lowercase: true
   },
-  passcode: String,
+  passcode: {
+    type: String,
+    max: 10
+  },
   hashedPassword: String,
   salt: String,
   lastLoggedIn: Date,
@@ -80,11 +82,11 @@ UserSchema
   }, 'Email cannot be blank');
 
 // Validate empty password
-UserSchema
-  .path('hashedPassword')
-  .validate(function(hashedPassword) {
-    return hashedPassword.length;
-  }, 'Password cannot be blank');
+  // UserSchema
+  //   .path('hashedPassword')
+  //   .validate(function(hashedPassword) {
+  //     return hashedPassword.length;
+  //   }, 'Password cannot be blank');
 
 // Validate email is not taken
 UserSchema
@@ -111,15 +113,15 @@ var validatePresenceOf = function(value) {
 /**
  * Pre-save hook
  */
-UserSchema
-  .pre('save', function(next) {
-    if (!this.isNew) return next();
-
-    if (!validatePresenceOf(this.hashedPassword))
-      next(new Error('Invalid password'));
-    else
-      next();
-  });
+// UserSchema
+//   .pre('save', function(next) {
+//     if (!this.isNew) return next();
+//
+//     if (!validatePresenceOf(this.hashedPassword))
+//       next(new Error('Invalid password'));
+//     else
+//       next();
+//   });
 
 /**
  * Methods

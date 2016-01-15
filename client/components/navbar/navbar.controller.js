@@ -38,8 +38,8 @@ angular.module('uniQaApp')
       'teacher': false,
       'student': false
     }, {
-      'title': 'Universities',
-      'link': '/unis',
+      'title': 'Departments',
+      'link': '/departments',
       'login': true,
       'admin': true,
       'teacher': false,

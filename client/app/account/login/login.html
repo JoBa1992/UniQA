@@ -7,7 +7,7 @@
 	  <!--
       <p>Accounts are reset on server restart from <code>server/config/seed.js</code>. Default account is <code>test@test.com</code> / <code>test</code></p>
       <p>Admin account is <code>admin@admin.com</code> / <code>admin</code></p>-->
-	  <p>Please log in with your academic address (e.g. <code>example.student@shu.ac.uk</code>). If you haven't done so already, make sure you <a href="/register">register</a>. <br><br>Not sure if your university is supported? Check here: <a href="/supported-establishments" target="_blank">Supported Establishments</a></p>
+	  <p>Please log in with your academic address (e.g. <code>example.student@shu.ac.uk</code>). If you haven't done so already, make sure you <a href="/register">register</a>. <br><br>Not from <span class="text-muted">{{uniName}}?</span> Check out what other universities we are supported in: <a href="/supported-establishments" target="_blank">Supported Universities</a></p>
     </div>
     <div class="col-xs-10 col-sm-8 col-md-4 col-xs-offset-1 col-sm-offset-2 col-md-offset-4 loginCont">
       <form class="form" name="form" ng-submit="login(form)" novalidate>

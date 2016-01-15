@@ -47,33 +47,15 @@ angular.module('uniQaApp')
         currentUser = {};
       },
 
-      register: function(user, callback) {
+      userAuthenticate: function(user, callback) {
         var cb = callback || angular.noop;
         var deferred = $q.defer();
 
-        $http.post('/api/users/reg', user).success(function(data) {
-          $cookieStore.put('token', data.token);
-          currentUser = User.get();
+        $http.post('/api/users', user).success(function(data) {
           deferred.resolve(data);
           return cb();
         }).error(function(err) {
           this.logout();
-          deferred.reject(err);
-          return cb(err);
-        }.bind(this));
-        return deferred.promise;
-      },
-
-      adminRegister: function(user, callback) {
-        var cb = callback || angular.noop;
-        var deferred = $q.defer();
-
-        $http.post('/api/users/reg', user).success(function(data) {
-          deferred.resolve(data);
-          return cb();
-        }).error(function(err) {
-          console.info(err);
-          //this.logout();
           deferred.reject(err);
           return cb(err);
         }.bind(this));
@@ -87,19 +69,19 @@ angular.module('uniQaApp')
        * @param  {Function} callback - optional
        * @return {Promise}
        */
-      createUser: function(user, callback) {
+      createUser: function(obj, callback) {
         var cb = callback || angular.noop;
+        var deferred = $q.defer();
+        var user = obj.user;
 
-        return User.save(user,
-          function(data) {
-            $cookieStore.put('token', data.token);
-            currentUser = User.get();
-            return cb(user);
-          },
-          function(err) {
-            this.logout();
-            return cb(err);
-          }.bind(this)).$promise;
+        $http.post('/api/users', user).success(function(data) {
+          deferred.resolve(data);
+          return cb();
+        }).error(function(err) {
+          deferred.reject(err);
+          return cb(err);
+        }.bind(this));
+        return deferred.promise;
       },
 
       /**
@@ -110,7 +92,7 @@ angular.module('uniQaApp')
        * @param  {Function} callback    - optional
        * @return {Promise}
        */
-      changePassword: function(oldPassword, newPassword, callback) {
+      changePassword: function(oldPass, newPass, callback) {
         var cb = callback || angular.noop;
 
         return User.changePassword({
@@ -168,11 +150,14 @@ angular.module('uniQaApp')
       isAdmin: function() {
         return currentUser.role === 'admin';
       },
-      isTeacher: function() {
+      isTutor: function() {
         return currentUser.role === 'teacher';
       },
       isStudent: function() {
         return currentUser.role === 'student';
+      },
+      isNewUser: function() {
+        return (!currentUser.passcode);
       },
 
       /**
