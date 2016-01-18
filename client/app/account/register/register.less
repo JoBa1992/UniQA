@@ -14,35 +14,29 @@
   border-radius: 4px;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   text-align: left;
-  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 }
-
 .reg-dropdown button:hover {
   color: #000 !important;
 }
-
 .caret {
   position: absolute;
   right: 3%;
   top: 45%;
 }
-
 .dropdown-menu {
   cursor: pointer;
 }
-
 .reg-info {
-  padding-top: 0em;
+  padding-top: 0;
   /* Vertically center images part 1: add padding above and below text. */
   overflow: hidden;
   /* Vertically center images part 2: clear their floats. */
 }
-
 .reg-image {
   margin-top: -30px;
   /* Vertically center images part 3: negative margin up the image the same amount of the padding to center it. */
 }
-
 /* Give some space on the sides of the floated elements so text doesn't run right into it. */
 .reg-image.pull-left {
   margin-right: 40px;
@@ -56,4 +50,23 @@
   font-weight: 300;
   line-height: 1;
   letter-spacing: -1px;
+}
+.progress {
+  margin: 0.6em 0 0;
+}
+.pass-reveal-btn {
+  cursor: pointer;
+}
+.pass-reveal-btn a {
+  color: #8CB7D3;
+}
+.pass-reveal-btn:hover a {
+  color: #FFA700;
+  text-decoration: none !important;
+}
+.regLogMsg {
+  display: block;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  color: #626262;
 }

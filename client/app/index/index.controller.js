@@ -10,6 +10,7 @@ angular.module('uniQaApp')
         text: [''][slides.length % slideCnt] + ' ' + [''][slides.length % slideCnt]
       });
     };
+
     for (var i = 0; i < slideCnt; i++) {
       $scope.addSlide();
     }
@@ -31,5 +32,5 @@ angular.module('uniQaApp')
 
 angular.module('ui.bootstrap.carousel', ['ui.bootstrap.transition'])
   .controller('CarouselController', ['$scope', '$timeout', '$transition', '$q', function($scope, $timeout, $transition, $q) {}]).directive('carousel', [function() {
-  return { }
-}]);
+    return {}
+  }]);

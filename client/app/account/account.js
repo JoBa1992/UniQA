@@ -13,10 +13,22 @@ angular.module('uniQaApp')
         templateUrl: 'app/account/register/register.html',
         controller: 'RegisterCtrl'
       })
+      .state('notifications', {
+        url: '/profile/notifications',
+        templateUrl: 'app/account/profile/notifications/notifications.html',
+        controller: 'NotificationCtrl',
+        authenticate: true
+      })
       .state('profile', {
         url: '/profile',
         templateUrl: 'app/account/profile/profile.html',
         controller: 'ProfileCtrl',
+        authenticate: true
+      })
+      .state('messages', {
+        url: '/profile/messages',
+        templateUrl: 'app/account/profile/messages/messages.html',
+        controller: 'MsgCtrl',
         authenticate: true
       })
       .state('settings', {

@@ -62,9 +62,9 @@ function signToken(id) {
   return jwt.sign({
     _id: id
   }, config.secrets.session, {
-    expiresIn: '300m'
+    expiresIn: 60 * 60 * 5
   });
-// return jwt.sign({ _id: id }, config.secrets.session, { expiresInMinutes: 60*5 });
+  // return jwt.sign({ _id: id }, config.secrets.session, { expiresInMinutes: 60*5 });
 }
 
 /**
@@ -72,8 +72,8 @@ function signToken(id) {
  */
 function setTokenCookie(req, res) {
   if (!req.user) return res.status(404).json({
-      message: 'Something went wrong, please try again.'
-    });
+    message: 'Something went wrong, please try again.'
+  });
   var token = signToken(req.user._id, req.user.role);
   res.cookie('token', JSON.stringify(token));
   res.redirect('/');

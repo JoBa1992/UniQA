@@ -36,7 +36,6 @@ angular.module('uniQaApp')
       $scope.refreshUserList();
     };
 
-
     $scope.userRoleFilterToggle = function(target) {
       if ($scope.filter.role[target])
         $scope.filter.role[target] = false;
@@ -46,8 +45,6 @@ angular.module('uniQaApp')
     }
 
     $scope.searchStrFilter = function(str) {
-      //$scope.filter.searchStr = str;
-      //console.info($scope.filter);
       $scope.refreshUserList();
     };
 
@@ -110,7 +107,6 @@ angular.module('uniQaApp')
       $scope.refreshUserList();
     });
     $scope.openUpdateUserModal = Modal.update.user(function(user) { // callback when modal is confirmed
-      //   $scope.users.push(user);
       $scope.refreshUserList();
     });
     $scope.openDeleteUserModal = Modal.delete.user(function(user) {

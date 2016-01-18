@@ -31,22 +31,36 @@ angular.module('uniQaApp')
       'teacher': true,
       'student': true
     }, {
+      'title': 'General',
+      'link': '/admin/general',
+      'login': true,
+      'admin': true,
+      'teacher': false,
+      'student': false
+    }, {
       'title': 'Users',
-      'link': '/users',
+      'link': '/admin/users',
       'login': true,
       'admin': true,
       'teacher': false,
       'student': false
     }, {
       'title': 'Departments',
-      'link': '/departments',
+      'link': '/admin/departments',
       'login': true,
       'admin': true,
       'teacher': false,
       'student': false
     }, {
-      'title': 'Stats',
-      'link': '/stats',
+      'title': 'Lectures',
+      'link': '/admin/lectures',
+      'login': true,
+      'admin': true,
+      'teacher': false,
+      'student': false
+    }, {
+      'title': 'Statistics',
+      'link': '/admin/stats',
       'login': true,
       'admin': true,
       'teacher': false,

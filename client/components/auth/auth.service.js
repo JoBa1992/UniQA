@@ -47,11 +47,14 @@ angular.module('uniQaApp')
         currentUser = {};
       },
 
-      userAuthenticate: function(user, callback) {
+      // need to be pre-registered
+      registerUser: function(user, callback) {
         var cb = callback || angular.noop;
         var deferred = $q.defer();
 
-        $http.post('/api/users', user).success(function(data) {
+        $http.post('/api/users/authenticate', user).success(function(data) {
+          $cookieStore.put('token', data.token);
+          currentUser = User.get();
           deferred.resolve(data);
           return cb();
         }).error(function(err) {
@@ -75,6 +78,21 @@ angular.module('uniQaApp')
         var user = obj.user;
 
         $http.post('/api/users', user).success(function(data) {
+          deferred.resolve(data);
+          return cb();
+        }).error(function(err) {
+          deferred.reject(err);
+          return cb(err);
+        }.bind(this));
+        return deferred.promise;
+      },
+
+      updateUser: function(obj, callback) {
+        var cb = callback || angular.noop;
+        var deferred = $q.defer();
+        var user = obj.user;
+
+        $http.put('/api/users', user).success(function(data) {
           deferred.resolve(data);
           return cb();
         }).error(function(err) {

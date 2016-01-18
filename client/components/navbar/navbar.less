@@ -1,72 +1,65 @@
-.navbar-content{
-	cursor: default;
-	background-color: lighten(#343D48,6%);
-    width:320px;
-    padding: 1em;
-    padding-bottom: 0;
+.navbar-content {
+  cursor: default;
+  background-color: lighten(#343D48,6%);
+  width: 320px;
+  padding: 1em 1em 0;
 }
-.navbar-content:before, .navbar-content:after{
-    display: table;
-    content: "";
-    line-height: 0;
+.navbar-content:before,
+.navbar-content:after {
+  display: table;
+  content: "";
+  line-height: 0;
 }
-
-.navbar-change-picture{
-	margin:.5em 0 !important;
+.navbar-change-picture {
+  margin: 0.5em 0 !important;
 }
-
-.navbar-prof-submenu{
-	width:100%;
-	margin:1em 0;
+.navbar-prof-submenu {
+  width: 100%;
+  margin: 1em 0;
 }
-.navbar-prof-submenu a{
-	border:2px solid #82AECC;
-	font-size:1.1em;
-	margin:.3em .3em;
+.navbar-prof-submenu a {
+  border: 2px solid #82AECC;
+  font-size: 1.1em;
+  margin: 0.3em 0.34em;
 }
-
-.nav-notification{
-	position: relative;
+.nav-notification {
+  position: relative;
 }
-
-.nav-notification-badge{
-	padding-left:6px;
-	font-size:.6em;
-	background:red;
-    position:absolute;
-	width:2em;
-	height:1.8em;
-	line-height:1.2;
-    top: 6px;
-    right: 6px;
-	border-radius:100%;
-	overflow:hidden;
-}
-
-.navbar-footer {
-cursor: default;
-  background-color: #82AECC;
-}
-
-.navbar-footer-content {
-  padding: .6em;
-}
-
-.dropdown-menu {
-  padding: 0px;
+.nav-notification-badge {
+  padding-left: 6px;
+  font-size: 0.6em;
+  background: red;
+  position: absolute;
+  width: 2em;
+  height: 1.8em;
+  line-height: 1.2;
+  top: 6px;
+  right: 6px;
+  border-radius: 100%;
   overflow: hidden;
 }
-
+.navbar-footer {
+  cursor: default;
+  background-color: #82AECC;
+}
+.navbar-footer-content {
+  padding: 0.6em;
+}
+.dropdown-menu {
+  padding: 0;
+  overflow: hidden;
+}
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus,
 .navbar-default .navbar-nav > .active > a,
 .navbar-default .navbar-nav > .active > a:hover,
 .navbar-default .navbar-nav > .active > a:focus {
-    box-shadow: inset 0px 2px 0px #82AECC; /* switch to a lighter color for active element */
-		-webkit-transition: all .1s linear;
-		-o-transition: all .1s linear;
-		-moz-transition: all .1s linear;
-		-ms-transition: all .1s linear;
-		-kthtml-transition: all .1s linear;
-		transition: all .1s linear;
+  box-shadow: inset 0 2px 0 #82AECC;
+  /* switch to a lighter color for active element */
+  -webkit-transition: all 0.1s linear;
+  -o-transition: all 0.1s linear;
+  -moz-transition: all 0.1s linear;
+  -ms-transition: all 0.1s linear;
+  -kthtml-transition: all 0.1s linear;
+  transition: all 0.1s linear;
 }

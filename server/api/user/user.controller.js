@@ -4,6 +4,7 @@ var User = require('./user.model');
 var passport = require('passport');
 var config = require('../../config/environment');
 var jwt = require('jsonwebtoken');
+var Thing = require('../thing/thing.model');
 
 var validationError = function(res, err) {
   return res.status(422).json(err);
@@ -17,6 +18,7 @@ exports.index = function(req, res) {
   if (isEmpty(req.query)) {
     User.find({}, '-salt -hashedPassword', function(err, users) {
       if (err) return res.status(500).send(err);
+      //users.cDate = convertISOTime(users._id.getTimestamp(), "datetime");
       res.status(200).json(users);
     });
   } else {
@@ -43,17 +45,45 @@ exports.index = function(req, res) {
       department: req.query.department,
     }, '-salt -hashedPassword', function(err, users) {
       if (err) return res.status(500).send(err);
+      //users.cDate = convertISOTime(users._id.getTimestamp(), "datetime");
       res.status(200).json(users);
     });
   }
 };
 
+function convertISOTime(timeStamp, convertType) {
+  // function takes a timestamp and converts to the requested type
+  // datetime is the default return
+  var day = timeStamp.getDate().toString().length <= 1 ?
+    '0' + timeStamp.getDate().toString() : timeStamp.getDate(),
+    // month is stored as a zero-indexed array, so needs 1 adding
+    month = (timeStamp.getMonth() + 1).toString().length <= 1 ?
+    '0' + (timeStamp.getMonth() + 1).toString() : (timeStamp.getMonth() + 1),
+    year = timeStamp.getFullYear(),
+    second = timeStamp.getSeconds().toString().length <= 1 ?
+    '0' + timeStamp.getSeconds().toString() : timeStamp.getSeconds(),
+    minute = timeStamp.getMinutes().toString().length <= 1 ?
+    '0' + timeStamp.getMinutes().toString() : timeStamp.getMinutes(),
+    hour = timeStamp.getHours().toString().length <= 1 ?
+    '0' + timeStamp.getHours().toString() : timeStamp.getHours();
+  switch (convertType) {
+    case "date":
+      return day + '/' + month + '/' + year;
+    case "time":
+      return hour + ':' + minute + ':' + second;
+    case "dateISO":
+      return year + '-' + month + '-' + day;
+    case "datetime":
+    default: //datetime
+      return day + '/' + month + '/' + year + ' ' + hour + ':' + minute + ':' + second;
+  }
+}
+
 function isEmpty(obj) {
   for (var i in obj)
     if (obj.hasOwnProperty(i)) return false;
   return true;
-}
-;
+};
 /**
  * Creates a new user
  *  This function is to create a user with a access code, for users using the "register page" to "register" please refer to userRegistration.
@@ -73,20 +103,48 @@ exports.create = function(req, res, next) {
 
 
 /**
- *  Registers an already created user for access to this system. Using a pre-defined access code, the user can get into the system and create a password.
+ *  Registers an already created user for access to this system.
+ *  Using a pre-defined access code, the user can get into the system and create a password.
  */
-exports.userRegistration = function(req, res, next) {
-  //var newUser = new User(req.body);
-  User.find(function(err, user) {
+exports.registerUser = function(req, res, next) {
+  var reqUser = req.body.user;
+  reqUser.email = reqUser.email.toLowerCase() + "@shu.ac.uk";
+  User.findOne({
+    email: reqUser.email,
+    passcode: reqUser.passcode
+  }, function(err, user) {
     if (err) return validationError(res, err);
-    var token = jwt.sign({
-      _id: user._id
-    }, config.secrets.session, {
-      expiresInMinutes: 60 * 5
-    });
-    res.json({
-      token: token
-    });
+    if (user) {
+      user.name = reqUser.name;
+      user.password = String(reqUser.password);
+      user.passcode = undefined;
+      user.save(function(err) {
+        if (err) return validationError(res, err);
+        var token = jwt.sign({
+          _id: user._id
+        }, config.secrets.session, {
+          expiresIn: 60 * 60 * 5
+        });
+        res.json({
+          token: token
+        });
+      });
+    } else {
+      // bit of a bodge
+      err = {
+        name: "ValidationError",
+        message: "Validation failed",
+        errors: {
+          email: {
+            message: "Email address doesn't match with passcode provided"
+          },
+          passcode: {
+            message: "Is this passcode correct?"
+          }
+        }
+      }
+      return validationError(res, err);
+    }
   });
 };
 
@@ -114,6 +172,28 @@ exports.destroy = function(req, res) {
   });
 };
 
+/**
+ * Update user details
+ */
+exports.update = function(req, res, next) {
+  var uID = req.body._id;
+  var uName = req.body.name;
+  var uEmail = req.body.email;
+  var uDep = req.body.department;
+  var uRole = req.body.role;
+
+  User.findById(uID, function(err, user) {
+    user.name = uName;
+    user.email = uEmail;
+    user.department = uDep;
+    user.role = uRole;
+    user.save(function(err) {
+      if (err)
+        return validationError(res, err);
+      res.status(200).send('OK');
+    });
+  });
+};
 /**
  * Change a users password
  */

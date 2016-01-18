@@ -65,35 +65,6 @@ angular.module('uniQaApp')
         }
       });
     }
-    // create new user entry in collection
-    // module.exports.createAuthUser = function(req, res) {
-    //     var username = req.body.username;
-    //     var password = req.body.password;
-    //     if (username && password) {
-    //         var newApiUser = new ApiUser(req.body);
-    //         createUniqueKey(function(apiKey) {
-    //             newApiUser.key = apiKey;
-    //             newApiUser.save(function(err, authUser) {
-    //                 if (err) {
-    //                     res.json({
-    //                         error: {
-    //                             error: "Problem creating authorized API user",
-    //                             details: err
-    //                         }
-    //                     });
-    //                 } else {
-    //                     //User has been created
-    //                     //console.log('New user created for API usage: ' + authUser.username);
-    //                     res.json(authUser);
-    //                 }
-    //             });
-    //         });
-    //     } else {
-    //         res.json({
-    //             error: "Problem creating authorized API user: No username or password supplied."
-    //         });
-    //     }
-    // };
 
     /**
      * Opens a modal
@@ -254,7 +225,7 @@ angular.module('uniQaApp')
         user: function(cb) {
           cb = cb || angular.noop;
           return function() {
-            var args = Array.prototype.slice.call(arguments), updateModal, createdUser;
+            var args = Array.prototype.slice.call(arguments), updateModal, updatedUser;
             var user = args.shift();
             // refresh validation on new modal open - remove details
             $rootScope.roles = {};
@@ -327,10 +298,11 @@ angular.module('uniQaApp')
                   '<p class="help-block" ng-show="form.email.$error.required && submitted">Please enter your email address</p>' +
                   '<p class="help-block" name="emailVal" ng-show="form.email.$error.mongoose">{{ errors.email }}</p>' +
                   '</div>' +
-                  '<div class="btn-toolbar">' +
-                  '<button class="btn btn-danger pull-left" ng-click="requestReset(user)">' +
+
+                  '<button class="btn btn-danger " ng-click="requestReset(user)" ng-if="!user.passcode" disabled>' +
                   '<span class="glyphicon glyphicon-share-alt"></span>  Request Password Reset</button>' +
-                  '</div>' +
+                  '<button class="btn btn-danger " ng-click="requestPasscode(user)" ng-if="user.passcode" disabled>' +
+                  '<span class="glyphicon glyphicon-share-alt"></span>  Regenerate Passcode</button>' +
                   '</div>',
                 buttons: [{
                   classes: 'btn-default',
@@ -343,15 +315,16 @@ angular.module('uniQaApp')
                   text: 'Update',
                   click: function(e, form) {
                     $rootScope.submitted = true;
+
                     if ($rootScope.user.role != "Select Role"
                       && $rootScope.user.department != "Select Department"
-                      && $rootScope.user.name && $rootScope.user.email && $rootScope.user.passcode) {
+                      && $rootScope.user.name) {
 
-                      Auth.createUser({
+                      Auth.updateUser({
                         user: $rootScope.user
                       })
                         .then(function(res) {
-                          createdUser = res.user;
+                          updatedUser = res.user;
                           // user created, close the modal
                           updateModal.close(e);
                         })
@@ -372,7 +345,7 @@ angular.module('uniQaApp')
             }, 'modal-warning');
 
             updateModal.result.then(function(event) {
-              cb(createdUser);
+              cb(updatedUser);
             });
           };
         }

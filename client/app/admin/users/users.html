@@ -51,14 +51,14 @@
     </div>
     <div class="col-sm-4 col-med-4 col-lg-4 user-filter">
       <h5 class="text-left">Member of...</h5>
-      <div class="dropdown reg-dropdown">
-        <button class="btn btn-inverse dropdown-toggle form-control" name="department" type="button" data-toggle="dropdown" style="position:relative;">{{filter.department}}
-          <a ng-click="clearDepFilter($event)" ng-class="{ 'disable-custom-filter': clearedFilter.dropdown, 'custom-filter': !clearedFilter.dropdown }" class="glyphicon glyphicon-remove pull-right"></a>
+      <div class="dropdown reg-dropdown" style="position:relative;">
+        <button class="btn btn-inverse dropdown-toggle form-control" name="department" type="button" data-toggle="dropdown">{{filter.department}}
           <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu scrollable-menu" role="menu">
+        <a ng-click="clearDepFilter($event)" ng-class="{ 'disable-custom-filter': clearedFilter.dropdown, 'custom-filter': !clearedFilter.dropdown }" class="glyphicon glyphicon-remove pull-right"></a>
+        <ul class="dropdown-menu scrollable-menu" role="menu" style="overflow:hidden;">
           <li ng-repeat="(key,val) in departments">
-            <a class="dropdown-header disabled dropdown-header-custom" ng-click="$event.preventDefault()">{{key}}</a>
+            <a class="dropdown-header disabled dropdown-header-custom" ng-click="$event.stopPropagation()">{{key}}</a>
             <a ng-repeat="subVals in departments[key]" ng-click="depDropdownSel(subVals)">{{departments[key][$index]}}</a>
           </li>
         </ul>
@@ -88,11 +88,12 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th>ID</th>
+            <!-- <th>ID</th> -->
             <th>Name</th>
             <th>Email</th>
             <th>Role</th>
             <th>Department</th>
+            <th>Created On</th>
             <th>Validated</th>
             <th></th>
           </tr>
@@ -100,14 +101,17 @@
         <tbody>
           <!-- IF filters are active -->
           <tr ng-if="isEmpty(fUsers)" ng-repeat="user in users">
-            <td>
+            <!-- <td>
               <a href="#" class="text-muted" ng-click="openUpdateUserModal(user)">{{user._id}}</a>
+            </td> -->
+			<td>
+              <a href="#" class="text-muted" ng-click="openUpdateUserModal(user)">{{user.name}}</a>
             </td>
-            <td>{{user.name}}</td>
             <td>{{user.email}}</td>
             <td style="text-transform: capitalize;">{{user.role}}</td>
             <td ng-if="user.department">{{user.department}}</td>
             <td ng-if="!user.department">N/A</td>
+            <td>{{user.createdOn}}Coming soon</td>
             <td ng-if="!user.passcode">Y</td>
             <td ng-if="user.passcode">N</td>
             <!-- <td ng-if="user.password">Yes</td> // FOR WHEN Authentication of users is in
