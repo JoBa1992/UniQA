@@ -2,43 +2,31 @@
 
 <div ng-include="'components/navbar/navbar.html'"></div>
 
-<div id="hCarousel" class="fwidthCont" ng-controller="HomeCtrl">
-  <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-    <!-- Indicators -->
-    <!--<ol class="carousel-indicators" ng-repeat="slide in slides">
-<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-</ol>-->
-
-    <!-- Wrapper for slides -->
-    <div class="carousel-inner" role="listbox" ng-repeat="slide in slides">
-      <div class="item active" style="position:relative;">
-        <!-- <img ng-src="{{slide.image}}" style="margin:auto;"> -->
-        <img src="assets/images/home-banner/banner1-gscale.png" style="margin:auto;"/>
-        <div class="carousel-caption">
-          <!--<h1>{{slide.head}}</h1>-->
-          <h1>THIS IS
-            <span>#UniQA</span>
-          </h1>
-          <!--<p>{{slide.desc}}</p>-->
-          <p>time to update the lecture</p>
-          <p>
-            <a class="btn btn-lg btn-primary" autoscroll="true" href="#learnMore" style="border:3px solid #82AECC;color:white;">Get Started</a>
-          </p>
+<div class="container-full">
+  <div class="bg-img-container">
+    <div class="container" style="margin-top:4em;">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>Asking questions just got a whole lot easier.</h1>
+          <h4>UniQA can provide the answer to your question. Get involved with your lecture starting with a simple QR scan.</h4>
         </div>
-		<a a="#" class="carousel-down-arrow">&#8964;</a>
+		<div class="col-md-12" style="height:614px;overflow:hidden;">
+    		<img class="container-full-img" src="assets/images/index-bg/banner-screen-placeholder.png"/>
+        </div>
       </div>
     </div>
+    <img class="container-full-bg-img" src="assets/images/index-bg/uniqa-index-bg1-comp.jpg"/>
+	<div class="shadow"></div>
+  </div>
+  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+	  <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+	  <span class="sr-only">Previous</span>
+  </a>
+  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+	  <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+	  <span class="sr-only">Next</span>
+  </a>
 
-    <!-- Controls -->
-
-	<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-		<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-		<span class="sr-only">Previous</span>
-	</a>
-	<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-		<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-		<span class="sr-only">Next</span>
-	</a>
   </div>
 </div>
 
@@ -48,78 +36,77 @@
 
 <div class="container marketing">
 
-  <!-- Three columns of text below the carousel -->
-  <div class="row">
-    <div class="col-md-4 text-center">
-      <img class="img-circle" src="http://placehold.it/140x140">
-      <h2>One-for-all</h2>
-      <p>Catering for staff & students alike, UniQA's extended features should make it a little easier for you during the busy academic periods.</p>
-      <p>
-        <a class="btn btn-primary" href="#">Learn more »</a>
-      </p>
-    </div>
-    <div class="col-md-4 text-center">
-      <img class="img-circle" src="http://placehold.it/140x140">
-      <h2>No smartphone? ☹
-      </h2>
-      <p>Thats been thought about already. Nexus, iPhone, Chromebook, Windows '95 laptop... you name it - UniQA is supported on all devices.
-      </p>
-      <p>
-        <a class="btn btn-primary" href="#">Try it »</a>
-      </p>
-    </div>
-    <div class="col-md-4 text-center">
-      <img class="img-circle" src="http://placehold.it/140x140">
-      <h2>Efficiency</h2>
-      <p>UniQA's been developed with
-        <b>YOU</b>
-        in mind. We know you're busy, and you just don't have time - so we made the application easy to use. What're you waiting for?</p>
-      <p>
-        <a class="btn btn-primary" href="/login">Start now »</a>
-      </p>
-    </div>
+<!-- Three columns of text below the carousel -->
+<div class="row">
+  <div class="col-md-4 text-center">
+    <img class="img-circle" src="assets/images/placeholders/placeholder-140.png">
+    <h2>One-for-all</h2>
+    <p>Catering for staff & students alike, UniQA offers extended features which make it a little easier for you during the busy academic periods.</p>
+    <p>
+      <a class="btn btn-primary" href="#">Learn more »</a>
+    </p>
   </div>
-  <!-- /.row -->
-
-  <!-- START THE FEATURETTES -->
-
-  <hr class="featurette-divider" id="learnMore">
-
-  <div class="featurette">
-    <img class="featurette-image img-circle pull-right" src="http://placehold.it/512">
-    <h2 class="featurette-heading">Responsive Design.
-      <br>
-      <span class="text-muted">It'll blow your mind.</span>
+  <div class="col-md-4 text-center">
+    <img class="img-circle" src="assets/images/placeholders/placeholder-140.png">
+    <h2>No smartphone? ☹
     </h2>
-    <p class="lead">In simple terms, a responsive web design figures out what resolution of device it's being served on. Flexible grids then size correctly to fit the screen.</p>
+    <p>That's been thought about already. Nexus, iPhone, Chromebook, Windows '95 laptop... you name it - UniQA is supported on all devices.
+    </p>
+    <p>
+      <a class="btn btn-primary" href="#">Try it »</a>
+    </p>
   </div>
-
-  <hr class="featurette-divider">
-
-  <div class="featurette">
-    <img class="featurette-image img-circle pull-left" src="http://placehold.it/512">
-    <h2 class="featurette-heading">Smaller Footprint.
-      <br>
-      <span class="text-muted">Lightweight.</span>
-    </h2>
-    <p class="lead">The new Bootstrap 3 promises to be a smaller build. The separate Bootstrap base and responsive.css files have now been merged into one. There is no more fixed grid, only fluid.</p>
+  <div class="col-md-4 text-center">
+    <img class="img-circle" src="assets/images/placeholders/placeholder-140.png">
+    <h2>Efficiency</h2>
+    <p>UniQA is developed with
+      <b>YOU</b>
+      in mind. We know you're busy, and you just don't have time - so we made the application easy to use. What're you waiting for?</p>
+    <p>
+      <a class="btn btn-primary" href="/login">Start now »</a>
+    </p>
   </div>
+</div>
 
-  <hr class="featurette-divider">
+<!-- START THE FEATURETTES -->
 
-  <div class="featurette">
+<hr class="featurette-divider" id="learnMore">
 
-    <img class="featurette-image img-circle pull-right" src="http://placehold.it/512">
-    <h2 class="featurette-heading">And lastly, this one.
-      <br>
-      <span class="text-muted">Flatness.</span>
-    </h2>
-    <p class="lead">A big design trend for 2013 is "flat" design. Gone are the days of excessive gradients and shadows. Designers are producing cleaner flat designs, and Bootstrap 3 takes advantage of this minimalist trend.</p>
-  </div>
+<div class="featurette">
+  <img class="featurette-image img-circle pull-right" src="assets/images/placeholders/placeholder-512.png">
+  <h2 class="featurette-heading">Responsive Design.
+    <br>
+    <span class="text-muted">It'll blow your mind.</span>
+  </h2>
+  <p class="lead">In simple terms, a responsive web design figures out what resolution of device it's being served on. Flexible grids then size correctly to fit the screen.</p>
+</div>
 
-  <hr class="featurette-divider">
+<hr class="featurette-divider">
 
-  <!-- /END THE FEATURETTES -->
+<div class="featurette">
+  <img class="featurette-image img-circle pull-left" src="assets/images/placeholders/placeholder-512.png">
+  <h2 class="featurette-heading">Smaller Footprint.
+    <br>
+    <span class="text-muted">Lightweight.</span>
+  </h2>
+  <p class="lead">The new Bootstrap 3 promises to be a smaller build. The separate Bootstrap base and responsive.css files have now been merged into one. There is no more fixed grid, only fluid.</p>
+</div>
+
+<hr class="featurette-divider">
+
+<div class="featurette">
+
+  <img class="featurette-image img-circle pull-right" src="assets/images/placeholders/placeholder-512.png">
+  <h2 class="featurette-heading">And lastly, this one.
+    <br>
+    <span class="text-muted">Flatness.</span>
+  </h2>
+  <p class="lead">A big design trend for 2013 is "flat" design. Gone are the days of excessive gradients and shadows. Designers are producing cleaner flat designs, and Bootstrap 3 takes advantage of this minimalist trend.</p>
+</div>
+
+<hr class="featurette-divider">
+
+<!-- /END THE FEATURETTES -->
 
 </div>
 <!-- /.container -->

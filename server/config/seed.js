@@ -35,7 +35,7 @@ Thing.find({}).remove(function() {
     content: ['admin', 'tutor', 'student']
   }, {
     name: 'accessCodeLen',
-    content: 10
+    content: 6
   }, {
     name: 'minPassLength',
     content: 8

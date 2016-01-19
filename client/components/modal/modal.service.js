@@ -92,7 +92,8 @@ angular.module('uniQaApp')
         user: function(cb) {
           cb = cb || angular.noop;
           return function() {
-            var args = Array.prototype.slice.call(arguments), createModal, createdUser;
+            var args = Array.prototype.slice.call(arguments),
+              createModal, createdUser;
             // refresh validation on new modal open - remove details
             $rootScope.user = {
               name: "",
@@ -187,13 +188,11 @@ angular.module('uniQaApp')
                     // form.$setPristine();
                     // form.$setValidity();
                     // form.$setUntouched();
-                    if ($rootScope.user.role != "Select Role"
-                      && $rootScope.user.department != "Select Department"
-                      && $rootScope.user.name && $rootScope.user.email && $rootScope.user.passcode) {
+                    if ($rootScope.user.role != "Select Role" && $rootScope.user.department != "Select Department" && $rootScope.user.name && $rootScope.user.email && $rootScope.user.passcode) {
 
                       Auth.createUser({
-                        user: $rootScope.user
-                      })
+                          user: $rootScope.user
+                        })
                         .then(function(res) {
                           createdUser = res.user;
                           // user created, close the modal
@@ -225,7 +224,8 @@ angular.module('uniQaApp')
         user: function(cb) {
           cb = cb || angular.noop;
           return function() {
-            var args = Array.prototype.slice.call(arguments), updateModal, updatedUser;
+            var args = Array.prototype.slice.call(arguments),
+              updateModal, updatedUser;
             var user = args.shift();
             // refresh validation on new modal open - remove details
             $rootScope.roles = {};
@@ -316,13 +316,11 @@ angular.module('uniQaApp')
                   click: function(e, form) {
                     $rootScope.submitted = true;
 
-                    if ($rootScope.user.role != "Select Role"
-                      && $rootScope.user.department != "Select Department"
-                      && $rootScope.user.name) {
+                    if ($rootScope.user.role != "Select Role" && $rootScope.user.department != "Select Department" && $rootScope.user.name) {
 
                       Auth.updateUser({
-                        user: $rootScope.user
-                      })
+                          user: $rootScope.user
+                        })
                         .then(function(res) {
                           updatedUser = res.user;
                           // user created, close the modal
@@ -420,5 +418,4 @@ angular.module('uniQaApp')
         }
       }
     };
-  })
-;
+  });

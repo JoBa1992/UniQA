@@ -9,63 +9,66 @@ angular.module('uniQaApp')
     $scope.isStudent = Auth.isStudent;
     $scope.getCurrentUser = Auth.getCurrentUser;
 
-    $scope.leftMenu = [{
-      'title': 'About',
-      'link': '/',
-      'login': false,
-      'admin': true,
-      'teacher': true,
-      'student': true
-    }, {
-      'title': 'News',
-      'link': '/news',
-      'login': false,
-      'admin': true,
-      'teacher': true,
-      'student': true
-    }, {
-      'title': 'Contact',
-      'link': '/contact',
-      'login': false,
-      'admin': true,
-      'teacher': true,
-      'student': true
-    }, {
-      'title': 'General',
-      'link': '/admin/general',
-      'login': true,
-      'admin': true,
-      'teacher': false,
-      'student': false
-    }, {
-      'title': 'Users',
-      'link': '/admin/users',
-      'login': true,
-      'admin': true,
-      'teacher': false,
-      'student': false
-    }, {
-      'title': 'Departments',
-      'link': '/admin/departments',
-      'login': true,
-      'admin': true,
-      'teacher': false,
-      'student': false
-    }, {
-      'title': 'Lectures',
-      'link': '/admin/lectures',
-      'login': true,
-      'admin': true,
-      'teacher': false,
-      'student': false
-    }, {
-      'title': 'Statistics',
-      'link': '/admin/stats',
-      'login': true,
-      'admin': true,
-      'teacher': false,
-      'student': false
-    }];
+    $scope.leftMenu = [
+      /*{
+          'title': 'About',
+          'link': '/',
+          'login': false,
+          'admin': true,
+          'teacher': true,
+          'student': true
+        }, {
+          'title': 'News',
+          'link': '/news',
+          'login': false,
+          'admin': true,
+          'teacher': true,
+          'student': true
+        }, {
+          'title': 'Contact',
+          'link': '/contact',
+          'login': false,
+          'admin': true,
+          'teacher': true,
+          'student': true
+  }, */
+      {
+        'title': 'General',
+        'link': '/admin/general',
+        'login': true,
+        'admin': true,
+        'teacher': false,
+        'student': false
+      }, {
+        'title': 'Users',
+        'link': '/admin/users',
+        'login': true,
+        'admin': true,
+        'teacher': false,
+        'student': false
+      }, {
+        'title': 'Departments',
+        'link': '/admin/departments',
+        'login': true,
+        'admin': true,
+        'teacher': false,
+        'student': false
+      }, {
+        'title': 'Lectures',
+        'link': '/admin/lectures',
+        'login': true,
+        'admin': true,
+        'teacher': false,
+        'student': false
+      }, {
+        'title': 'Statistics',
+        'link': '/admin/stats',
+        'login': true,
+        'admin': true,
+        'teacher': false,
+        'student': false
+      }
+    ];
     $scope.rightMenu = [{
       'title': 'Register',
       'link': '/register',
@@ -74,7 +77,7 @@ angular.module('uniQaApp')
       'teacher': false,
       'student': false
     }, {
-      'title': 'Sign In',
+      'title': 'Sign in',
       'link': '/login',
       'login': false,
       'admin': false,
@@ -94,6 +97,7 @@ angular.module('uniQaApp')
     };
 
     $scope.isActive = function(route) {
+      //   console.info(route);
       return route === $location.path();
     };
 

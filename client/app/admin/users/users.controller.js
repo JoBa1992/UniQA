@@ -2,7 +2,7 @@
 
 angular.module('uniQaApp')
   .controller('UserCtrl', function($scope, $http, Auth, User, Modal, Thing) {
-
+    $scope.title = "User Management";
     // filtered users, different from original object.
     $scope.filter = {};
     $scope.filter.role = {};

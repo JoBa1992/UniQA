@@ -1,4 +1,4 @@
-<div ng-include="'components/wip/wip.html'"></div>
+<!-- <div ng-include="'components/wip/wip.html'"></div> -->
 <div class="navbar navbar-static-top" ng-class="isRoot()" ng-controller="NavbarCtrl">
   <div class="container">
     <div class="navbar-header">
@@ -8,8 +8,8 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a ng-href="{{leftMenu.root}}" ng-if="!isAdmin()" class="navbar-brand">#UniQA</a>
-	  <a ng-href="{{leftMenu.root}}" ng-if="isAdmin()" class="navbar-brand">#UniQA-Mgr</a>
+		  <a ng-href="{{leftMenu.root}}" ng-class="{active: isActive('/')}" ng-if="!isAdmin()" class="navbar-brand  uniqa-logo">#UniQA</a>
+		  <a ng-href="{{leftMenu.root}}" ng-if="isAdmin()" class="navbar-brand uniqa-logo">#UniQA-Mgr</a>
     </div>
     <div collapse="isCollapsed" class="navbar-collapse collapse" id="navbar-main">
       <ul class="nav navbar-nav">
@@ -37,7 +37,7 @@
         </li>
 		<li ng-show="isLoggedIn()" class="divider-vertical"></li>
         <li class="dropdown" ng-class="{active: (isActive('/profile') || isActive('/profile/settings'))}">
-          <a href="" ng-show="isLoggedIn()" class="dropdown-toggle small" data-toggle="dropdown">
+          <a href="" ng-show="isLoggedIn()" class="dropdown-toggle small" data-toggle="dropdown" style="color:#FFA700;">
 			{{ getCurrentUser().email }}
              <span class="caret" style="color:#82AECC;"></span>
           </a>
@@ -47,7 +47,8 @@
               <div class="navbar-content">
                 <div class="row">
                   <div class="col-md-5">
-                    <img src="http://placehold.it/120x120" alt="Alternate Text" class="img-responsive"/>
+                    <!-- <img src="http://placehold.it/120x120" alt="Alternate Text" class="img-responsive img-circle"/> -->
+                    <img src="assets/images/placeholders/placeholder-120.png" alt="Alternate Text" class="img-responsive img-circle"/>
                     <p class="text-center small navbar-change-picture">
                       <a href="">Change Photo</a>
                     </p>

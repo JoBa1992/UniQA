@@ -3,33 +3,79 @@
   background-color: transparent !important;
 }
 /* client/app/main/main.less */
-.fwidthCont {
+.container-full {
   width: 100%;
-  margin: -1.4em 0 0;
+  margin: 0 auto;
+  overflow: hidden;
 }
-
+.bg-img-container {
+  margin-top: -5.2em;
+  width: 100%;
+  min-width: 100%;
+  height: 820px;
+  max-height: 820px;
+  overflow: hidden;
+}
+.bg-img-container h1 {
+  text-align: center;
+  font-size: 2.5em;
+  margin: 1em 0 0;
+  color: #8CB7D3;
+}
+.bg-img-container h2,
+.bg-img-container h3,
+.bg-img-container h4,
+.bg-img-container h5 {
+  text-align: center;
+  margin: 0.6em 0;
+  color: #FFF;
+}
+.container-full-bg-img {
+  left: 0;
+  top: 0;
+  position: absolute;
+  overflow: hidden;
+  z-index: -1;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* cover works perfectly on Safari */
+}
+.container-full-img {
+  overflow: hidden;
+  width: 100%;
+}
+.shadow {
+  background: url(../assets/images/index-bg/shadow.png) no-repeat center center;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  z-index: 9;
+}
 .comment-form {
   .clearfix();
   .btn-primary {
     margin-top: 7px;
-  float: right;
+    float: right;
+  }
 }
-}
-
 .comment-list {
   padding: 0;
   list-style: none;
   header {
     font-size: 16px;
-  font-weight: bold;
-}
-
-li {
-  .clearfix();
+    font-weight: bold;
+  }
+  li {
+    .clearfix();
     margin: 7px 0;
-  padding: 5px;
-  border: 1px solid #ddd;
-}
+    padding: 5px;
+    border: 1px solid #ddd;
+  }
 }
 /* NEEDS CHECKING */
 /* CUSTOMIZE THE NAVBAR
@@ -50,25 +96,11 @@ li {
   margin-bottom: 60px;
   cursor: default;
 }
-/* Since positioning the image, we need to help out the caption */
-.carousel-caption {
-  z-index: 1;
-  margin-bottom: 200px;
-}
-
-.carousel-caption h1 {
-  font-size: 4em;
-}
-
-.carousel-caption h1 span {
-  color: @body-custom-orange;
-}
 /* Declare heights because of positioning of img element */
 .carousel .item {
   height: 800px;
   background-color: @gray;
 }
-
 .carousel img {
   position: absolute;
   top: 0;
@@ -78,37 +110,28 @@ li {
   object-fit: cover;
   min-width: 100%;
 }
-
-.carousel-down-arrow {
-  position: absolute;
-  cursor: pointer;
-  text-align: center;
-  bottom: 16px;
-  left: 98%/2;
-  color: #FFA700;
-  font-size: 4em;
-  font-weight: 900;
-  text-decoration: none;
-}
-
 .left.carousel-control:hover {
-  background: linear-gradient(to right, rgba(140, 183, 211, .2), transparent 80%) !important;
+  background: linear-gradient(to right, rgba(140, 183, 211, .4), transparent 80%) !important;
+  -webkit-backface-visibility: hidden;
 }
-
 .right.carousel-control:hover {
-  background: linear-gradient(to left, rgba(140, 183, 211, .2), transparent 80%) !important;
+  background: linear-gradient(to left, rgba(140, 183, 211, .4), transparent 80%) !important;
+  -webkit-backface-visibility: hidden;
 }
-/*style="background : linear-gradient(to left, #8CB7D3 0%, transparent 100%);"*/
-.carousel-down-arrow:hover {
-  text-decoration: none;
-  color: white;
+.left.carousel-control:hover span {
+  left: 80px;
+  -webkit-backface-visibility: hidden;
+  color: #FFA700;
 }
-
-@media (max-width: 768px) {
-  /* Remve the edge padding needed for mobile */
-  .carousel-down-arrow {
-    left: 90%/2;
-  }
+.right.carousel-control:hover span {
+  right: 80px;
+  -webkit-backface-visibility: hidden;
+  color: #FFA700;
+}
+.carousel-control,
+.carousel-control span,
+.carousel-control {
+  transition: 0.6s;
 }
 /* MARKETING CONTENT
 -------------------------------------------------- */
@@ -122,11 +145,9 @@ li {
   text-align: center;
   margin-bottom: 20px;
 }
-
 .marketing h2 {
   font-weight: normal;
 }
-
 .marketing .col-lg-4 p {
   margin-left: 10px;
   margin-right: 10px;
@@ -138,14 +159,12 @@ li {
   /* Space out the Bootstrap <hr> more */
   border-color: #343D48;
 }
-
 .featurette {
   padding-top: 120px;
   /* Vertically center images part 1: add padding above and below text. */
   overflow: hidden;
   /* Vertically center images part 2: clear their floats. */
 }
-
 .featurette-image {
   margin-top: -120px;
   /* Vertically center images part 3: negative margin up the image the same amount of the padding to center it. */
@@ -189,69 +208,60 @@ li {
     line-height: 1.4;
   }
 }
-
-.rotate{
--webkit-transition-duration: 0.5s;
--moz-transition-duration: 0.5s;
--o-transition-duration: 0.5s;
-transition-duration: 0.5s;
-
--webkit-transition-property: -webkit-transform;
--moz-transition-property: -moz-transform;
--o-transition-property: -o-transform;
-transition-property: transform;
-
-overflow:hidden;
-
+.rotate {
+  -webkit-transition-duration: 0.5s;
+  -moz-transition-duration: 0.5s;
+  -o-transition-duration: 0.5s;
+  transition-duration: 0.5s;
+  -webkit-transition-property: -webkit-transform;
+  -moz-transition-property: -moz-transform;
+  -o-transition-property: -o-transform;
+  transition-property: transform;
+  overflow: hidden;
 }
-
-.rotate:hover{
--webkit-transform:rotate(360deg);
--moz-transform:rotate(360deg);
--o-transform:rotate(360deg);
+.rotate:hover {
+  -webkit-transform: rotate(360deg);
+  -moz-transform: rotate(360deg);
+  -o-transform: rotate(360deg);
 }
-
-
 /* CUSTOM DROPDOWN FOR DEPARTMENTS */
-.dropdown-header-custom{
-	padding-top:.6em !important;
-	padding-bottom:.6em !important;
-	font-weight: 600 !important;
-	background-color:#8CB7D3 !important;
-	cursor: default !important;
+.dropdown-header-custom {
+  padding-top: 0.6em !important;
+  padding-bottom: 0.6em;
+  font-weight: 600 !important;
+  background-color: #8CB7D3 !important;
+  cursor: default !important;
 }
-.dropdown-header-custom:hover{
-	background-color:#8CB7D3 !important;
-	cursor: default !important;
+.dropdown-header-custom:hover {
+  background-color: #8CB7D3 !important;
+  cursor: default !important;
 }
-.dropdown-seperator-custom{
-	margin:0 !important;
+.dropdown-seperator-custom {
+  margin: 0 !important;
 }
-
-.custom-filter{
-	color:red;
-	text-decoration: none;
-	right:1.8em;top:.65em;
-	position: absolute;
-   cursor: pointer !important;
+.custom-filter {
+  color: red;
+  text-decoration: none;
+  right: 1.8em;
+  top: 0.65em;
+  position: absolute;
+  cursor: pointer !important;
 }
-.custom-filter:hover{
-	color:#8CB7D3;
-	text-decoration: none;
+.custom-filter:hover {
+  color: #8CB7D3;
+  text-decoration: none;
 }
-
-.disable-custom-filter{
-	display:none;
-	text-decoration: none;
+.disable-custom-filter {
+  display: none;
+  text-decoration: none;
 }
-.disable-custom-filter:hover{
-	text-decoration: none;
-	color:inherit;
+.disable-custom-filter:hover {
+  text-decoration: none;
+  color: inherit;
 }
-
 .scrollable-menu {
-    height: auto !important;
-    max-height: 400px !important;
-	overflow: auto !important;
-    overflow-x: hidden !important;
+  height: auto !important;
+  max-height: 400px !important;
+  overflow: auto !important;
+  overflow-x: hidden !important;
 }
