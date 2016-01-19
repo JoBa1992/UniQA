@@ -8,114 +8,116 @@
         <code>example.student{{uniEmail}}</code>), followed by the passcode supplied by your tutor ({{accCodeLen}}
         random characters). On authentication success you will be required to create a password for your account.
       </p>
-    </p>Not from
-    <span class="text-muted">{{uniName}}?</span>
-    Check out what other universities we are supported in:
-    <a href="/supported-establishments" target="_blank">Supported Universities</a>
-  </p>
-</div>
-<div class="col-xs-12 col-sm-12 col-md-4">
-  <form class="form" name="form" ng-submit="register(form)" novalidate>
+      <p>Not from
+        <span class="text-muted">{{uniName}}?</span>
+        Check out what other universities we are supported in:
+        <a href="/supported-establishments" target="_blank">Supported Universities</a>
+      </p>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-4">
+      <form class="form" name="form" ng-submit="register(form)" novalidate>
 
-    <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,
+        <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,
 												'has-error': form.name.$invalid && submitted }">
-      <label>Name</label>
+          <label>Name</label>
 
-      <input type="text" name="name" class="form-control" ng-model="user.name" required/>
-      <p class="help-block" ng-show="form.name.$error.required && submitted">
-        A name is required
-      </p>
-    </div>
+          <input type="text" name="name" class="form-control" ng-model="user.name" required/>
+          <p class="help-block" ng-show="form.name.$error.required && submitted">
+            A name is required
+          </p>
+        </div>
 
-    <div class="form-group" ng-class="{ 'has-success': form.email.$valid && submitted,
+        <div class="form-group" ng-class="{ 'has-success': form.email.$valid && submitted,
 											'has-error': form.email.$invalid && submitted }">
-      <label>Email</label>
+          <label>Email</label>
 
-      <div class="input-group">
-        <input type="text" name="email" class="form-control" aria-describedby="basic-addon2" ng-model="user.email" required mongoose-error>
-        <span class="input-group-addon" id="basic-addon2">{{uniEmail}}</span>
-      </div>
-      <!-- <input type="email" name="email" class="form-control" ng-model="user.email" required mongoose-error/> -->
-      <p class="help-block" ng-show="form.email.$error.email && submitted">
-        Email address provided does not match the university format
-      </p>
-      <p class="help-block" ng-show="form.email.$error.required && submitted">
-        Please enter your email address
-      </p>
-      <p class="help-block" ng-show="form.email.$error.mongoose">
-        {{ errors.email }}
-      </p>
-    </div>
+          <div class="input-group">
+            <input type="text" name="email" class="form-control" aria-describedby="basic-addon2" ng-model="user.email" required mongoose-error>
+            <span class="input-group-addon" id="basic-addon2">{{uniEmail}}</span>
+          </div>
+          <!-- <input type="email" name="email" class="form-control" ng-model="user.email" required mongoose-error/> -->
+          <p class="help-block" ng-show="form.email.$error.email && submitted">
+            Email address provided does not match the university format
+          </p>
+          <p class="help-block" ng-show="form.email.$error.required && submitted">
+            Please enter your email address
+          </p>
+          <p class="help-block" ng-show="form.email.$error.mongoose">
+            {{ errors.email }}
+          </p>
+        </div>
 
-    <div class="form-group" ng-class="{ 'has-success': form.passcode.$valid && submitted,
+        <div class="form-group" ng-class="{ 'has-success': form.passcode.$valid && submitted,
 												'has-error': form.passcode.$invalid && submitted }">
-      <label>Access Code</label>
+          <label>Access Code</label>
 
-      <input type="passcode" name="passcode" class="form-control" ng-model="user.passcode" minlength={{accCodeLen}} maxlength={{accCodeLen}} required mongoose-error/>
-      <p class="regLogMsg">Lost your passcode?
-        <a href="/request-passcode" target="_blank">Request a new one</a>
-      </p>
-      <p class="help-block" ng-show="(form.passcode.$error.minlength || form.passcode.$error.required) && submitted">
-        Passcodes are
-        {{accCodeLen}}
-        characters long.
-      </p>
-      <p class="help-block" ng-show="form.passcode.$error.mongoose">
-        {{ errors.passcode }}
-      </p>
-    </div>
+          <input type="passcode" name="passcode" class="form-control" ng-model="user.passcode" minlength={{accCodeLen}} maxlength={{accCodeLen}} required mongoose-error/>
+          <p class="regLogMsg">Lost your passcode?
+            <a href="/request-passcode" target="_blank">Request a new one</a>
+          </p>
+          <p class="help-block" ng-show="(form.passcode.$error.minlength || form.passcode.$error.required) && submitted">
+            Passcodes are
+            {{accCodeLen}}
+            characters long.
+          </p>
+          <p class="help-block" ng-show="form.passcode.$error.mongoose">
+            {{ errors.passcode }}
+          </p>
+        </div>
 
-    <div class="form-group" ng-class="{ 'has-success': form.password.$valid && submitted,
+        <div class="form-group" ng-class="{ 'has-success': form.password.$valid && submitted,
 															'has-error': form.password.$invalid && submitted }">
-      <label>Set Password</label>
+          <label>Set Password</label>
 
-      <div class="input-group">
-        <input type="{{password.inputType}}" name="password" class="form-control" aria-describedby="basic-addon2" ng-model="user.password" ng-keyup="testPassword()" required mongoose-error>
-        <span class="input-group-addon pass-reveal-btn" id="basic-addon2" ng-click="togglePassInput()">
-          <a class="{{password.icon}}"></a>
-        </span>
-      </div>
+          <div class="input-group">
+            <input type="{{password.inputType}}" name="password" class="form-control" aria-describedby="basic-addon2" ng-model="user.password" ng-keyup="testPassword()" required mongoose-error>
+            <span class="input-group-addon pass-reveal-btn" id="basic-addon2" ng-click="togglePassInput()">
+              <a class="{{password.icon}}"></a>
+            </span>
+          </div>
 
-      <p class="help-block" ng-show="(passStr<2 || form.password.$error.minlength || form.password.$error.required) && submitted">
-        Password not strong enough
-      </p>
-      <div class="progress">
-        <div class="progress-bar progress-bar-default" style="width: 100%" ng-if="passStr==-1">
-          <span>Password Strength Indicator</span>
+          <p class="help-block" ng-show="(passStr<2 || form.password.$error.minlength || form.password.$error.required) && submitted">
+            Password not strong enough
+          </p>
+          <div class="progress">
+            <div class="progress-bar progress-bar-default" style="width: 100%" ng-if="passStr==-1">
+              <span>Password Strength Indicator</span>
+            </div>
+            <div class="progress-bar progress-bar-default" style="width: 100%" ng-if="passStr==0">
+              <span>Need at least
+                {{6-user.password.length}}
+                more characters</span>
+            </div>
+            <div class="progress-bar progress-bar-danger" style="width: 25%" ng-if="passStr==1">
+              <span>Weak Password</span>
+            </div>
+            <div class="progress-bar progress-bar-warning" style="width: 50%" ng-if="passStr==2">
+              <span>Good Password</span>
+            </div>
+            <div class="progress-bar progress-bar-success" style="width: 75%" ng-if="passStr==3">
+              <span>Strong Password</span>
+            </div>
+            <div class="progress-bar progress-bar-success" style="width: 100%" ng-if="passStr==4">
+              <span>Very Strong Password</span>
+            </div>
+          </div>
         </div>
-		<div class="progress-bar progress-bar-default" style="width: 100%" ng-if="passStr==0">
-          <span>Need at least {{6-user.password.length}} more characters</span>
+
+        <div>
+          <button class="btn btn-primary btn-lg btn-login pull-right" type="submit">
+            Register
+          </button>
         </div>
-        <div class="progress-bar progress-bar-danger" style="width: 25%" ng-if="passStr==1">
-          <span>Weak Password</span>
-        </div>
-        <div class="progress-bar progress-bar-warning" style="width: 50%" ng-if="passStr==2">
-          <span>Good Password</span>
-        </div>
-        <div class="progress-bar progress-bar-success" style="width: 75%" ng-if="passStr==3">
-          <span>Strong Password</span>
-        </div>
-        <div class="progress-bar progress-bar-success" style="width: 100%" ng-if="passStr==4">
-          <span>Very Strong Password</span>
-        </div>
-      </div>
+      </form>
     </div>
-
-    <div>
-      <button class="btn btn-primary btn-lg btn-login pull-right" type="submit">
-        Register
-      </button>
+    <div class="hidden-xs hidden-sm col-md-8 reg-info text-center">
+      <h2 class=" text-muted">It only takes a minute...</h2>
+      <p class="text-center" style="margin:0 8em;">Within 60 seconds you could take your lecture experience to a whole new level. Get your most important questions answered right now.</p>
+      <img class="reg-image center-block" src="assets/images/reg-devices.png" style="width:74%;margin-top:.6em;">
     </div>
-  </form>
-</div>
-<div class="hidden-xs hidden-sm col-md-8 reg-info text-center">
-  <h2 class=" text-muted">It only takes a minute...</h2>
-  <p class="text-center" style="margin:0 8em;">Within 60 seconds you could take your lecture experience to a whole new level. Get your most important questions answered right now.</p>
-  <img class="reg-image center-block" src="assets/images/reg-devices.png" style="width:74%;margin-top:.6em;">
-</div>
-</div>
-<hr>
-<!-- FOOTER -->
-<div ng-include="'components/footer/footer.html'"></div>
-<!-- /FOOTER -->
+  </div>
+  <hr>
+  <!-- FOOTER -->
+  <div ng-include="'components/footer/footer.html'"></div>
+  <!-- /FOOTER -->
 </div>

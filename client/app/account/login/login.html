@@ -7,24 +7,27 @@
       <p>Please log in with your academic address (e.g.
         <code>example.student{{uniEmail}}</code>). If you haven't done so already, make sure you
         <a href="/register">register</a>.
-        <br><br>Not from
+      </p>
+      <p>Not from
         <span class="text-muted">{{uniName}}?</span>
         Check out what other universities we are supported in:
         <a href="/supported-establishments" target="_blank">Supported Universities</a>
       </p>
     </div>
-    <div class="col-xs-10 col-sm-8 col-md-4 col-xs-offset-1 col-sm-offset-2 col-md-offset-4 loginCont">
+</div>
+  <div class="row" style="margin-top:3em;margin-bottom:3em;">
+    <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
       <form class="form" name="form" ng-submit="login(form)" novalidate>
         <div class="form-group">
           <label>Email</label>
           <input type="email" name="email" class="form-control" ng-model="user.email" required>
         </div>
-		<div class="form-group input-group">
-		  <input type="{{password.inputType}}" name="password" class="form-control" aria-describedby="basic-addon2" ng-model="user.password" ng-keyup="testPassword()" required mongoose-error>
-		  <span class="input-group-addon pass-reveal-btn" id="basic-addon2" ng-click="togglePassInput()">
-			<a class="{{password.icon}}"></a>
-		  </span>
-		</div>
+        <div class="form-group input-group">
+          <input type="{{password.inputType}}" name="password" class="form-control" aria-describedby="basic-addon2" ng-model="user.password" ng-keyup="testPassword()" required mongoose-error>
+          <span class="input-group-addon pass-reveal-btn" id="basic-addon2" ng-click="togglePassInput()">
+            <a class="{{password.icon}}"></a>
+          </span>
+        </div>
         <div class="form-group has-error">
           <p class="help-block">
             <a href="/request-passcode" target="_blank">Forgot your password?</a>

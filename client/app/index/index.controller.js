@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uniQaApp')
-  .controller('HomeCtrl', function($scope) {
+  .controller('HomeCtrl', function($scope, $window) {
     var slideCnt = 1; // amount of slides
     var slides = $scope.slides = []; // slide array
     $scope.addSlide = function() {
@@ -10,6 +10,10 @@ angular.module('uniQaApp')
         text: [''][slides.length % slideCnt] + ' ' + [''][slides.length % slideCnt]
       });
     };
+
+
+    $scope.banHeight = ($window.innerHeight - 71) + 'px';
+    console.info($scope.winHeight);
 
     for (var i = 0; i < slideCnt; i++) {
       $scope.addSlide();
