@@ -1,17 +1,45 @@
 'use strict';
 
 angular.module('uniQaApp')
-  .controller('UserCtrl', function($scope, $http, Auth, User, Modal, Thing) {
+  .controller('UserCtrl', function($scope, $http, Auth, User, Thing, Department, Modal) {
     $scope.title = "User Management";
     // filtered users, different from original object.
     $scope.filter = {};
+    $scope.departments = {};
     $scope.filter.role = {};
     $scope.filter.department = {};
     $scope.clearedFilter = {
       dropdown: true,
     };
 
+    $scope.userCount = 0;
+    $scope.resultsPerPage = 10;
+    $scope.currentPage = 1;
+    $scope.totalPages = 0;
+
     $scope.fUsers = {};
+    // initial call to get initial system user state.
+    $scope.users = User.query({
+      paginate: $scope.resultsPerPage,
+      page: 0 // always init to 0 as a base point
+    });
+
+    $scope.changePaginationPage = function(page) {
+      if (page != $scope.currentPage) {
+        console.info(page);
+        $scope.currentPage = page;
+        $scope.refreshUserList(true);
+      }
+    };
+
+    // initial call to get system users length.
+    var refreshUserStats = function() {
+      User.getTotal().$promise.then(function(res) {
+        $scope.userCount = res.count
+        $scope.totalPages = Math.ceil(res.count / $scope.resultsPerPage);
+      });
+    };
+    refreshUserStats();
 
     // use the Thing service to return back some constants
     Thing.getByName("userRoles").then(function(val) {
@@ -19,9 +47,12 @@ angular.module('uniQaApp')
         $scope.filter.role[iterate] = true;
       });
     });
-    Thing.getByName("uniDepartments").then(function(val) {
+    Department.get().then(function(val) {
+      // loop through, and create key pairs to pass on scope variable
+      val.forEach(function(obj) {
+        $scope.departments[obj.name] = obj.subdepartments;
+      });
       // add Any to start of array
-      $scope.departments = val.content[0];
       $scope.filter.department = 'Select Department';
     });
     Thing.getByName("uniEmail").then(function(val) {
@@ -48,7 +79,7 @@ angular.module('uniQaApp')
       $scope.refreshUserList();
     };
 
-    $scope.refreshUserList = function() {
+    $scope.refreshUserList = function(pageRequest) {
       // clean filter for query, roles aren't neccessary, as they're always included within the query
       var qFilter = angular.copy($scope.filter);
       if ($scope.isEmpty($scope.filter.searchStr))
@@ -71,19 +102,34 @@ angular.module('uniQaApp')
       if (qFilter.role.length == 0) {
         qFilter.role.push('No Role');
       }
-
+      //   User.getTotal().$promise.then(function(res) {
+      //     $scope.userCount = res.count
+      //     $scope.totalPages = Math.ceil(res.count / $scope.resultsPerPage);
+      //   });
+      if ($scope.currentPage > 1 && !pageRequest) {
+        console.info(pageRequest);
+        $scope.currentPage = 1;
+      }
       $scope.fUsers = User.filtGet({
         name: qFilter.searchStr,
         role: qFilter.role,
-        department: qFilter.department
+        department: qFilter.department,
+        paginate: $scope.resultsPerPage,
+        page: $scope.currentPage // always init to 0 as a base point
       });
       $scope.fUsers.$promise.then(function(res) {
+        /* BUG WITH PAGINATION HERE... 2nd PAGE IS REMOVED WHEN CLICKED ON */
+        if (res.length > 9) {
+          User.getTotal().$promise.then(function(res) {
+            $scope.totalPages = Math.ceil(res.count / $scope.resultsPerPage);
+          });
+        } else {
+          $scope.totalPages = Math.ceil(res.length / $scope.resultsPerPage);
+        }
+
         $scope.noFiltQueryReturn = res.length == 0 ? true : false;
       });
     };
-
-    // Use the User $resource to fetch all users
-    $scope.users = User.query();
 
     // Error handling for when query returns no users
     $scope.clearDepFilter = function(e) {
@@ -103,7 +149,8 @@ angular.module('uniQaApp')
     };
 
     $scope.openCreateUserModal = Modal.create.user(function(user) { // callback when modal is confirmed
-      $scope.users.push(user);
+      //$scope.users.push(user);
+      refreshUserStats();
       $scope.refreshUserList();
     });
     $scope.openUpdateUserModal = Modal.update.user(function(user) { // callback when modal is confirmed
@@ -123,6 +170,7 @@ angular.module('uniQaApp')
         //     $scope.users.splice(i, 1);
         //   }
         // });
+        refreshUserStats();
         $scope.users = User.query(); // bodge for foreach not working
         $scope.refreshUserList();
       }

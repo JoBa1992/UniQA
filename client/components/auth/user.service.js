@@ -33,27 +33,32 @@ angular.module('uniQaApp')
     // };
 
 
-    return $resource('/api/users/:id/:controller', {
+    return $resource('/api/users/:count/:id/:controller', {
       id: '@_id'
-    },
-      {
-        changePassword: {
-          method: 'PUT',
-          params: {
-            controller: 'password'
-          }
-        },
-        get: {
-          method: 'GET',
-          params: {
-            id: 'me'
-          }
-        },
-        filtGet: {
-          method: 'GET',
-          isArray: true
+    }, {
+      changePassword: {
+        method: 'PUT',
+        params: {
+          controller: 'password'
         }
-      });
+      },
+      get: {
+        method: 'GET',
+        params: {
+          id: 'me'
+        }
+      },
+      filtGet: {
+        method: 'GET',
+        isArray: true
+      },
+      getTotal: {
+        method: 'GET',
+        params: {
+          count: "count"
+        }
+      }
+    });
 
 
 

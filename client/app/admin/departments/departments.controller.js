@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('uniQaApp')
-  .controller('DepCtrl', function($scope, $http, Auth, User) {
+  .controller('DepCtrl', function($scope, $http, Auth, Department) {
 
     // Use the User $resource to fetch all users
-    $scope.users = User.query();
+    $scope.departments = Department.get();
 
 
   });

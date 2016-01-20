@@ -15,10 +15,20 @@ var validationError = function(res, err) {
  * restriction: 'admin'
  */
 exports.index = function(req, res) {
-  if (isEmpty(req.query)) {
-    User.find({}, '-salt -hashedPassword', function(err, users) {
+  if (isEmpty(req.query) || req.query.page == 0) {
+    // console.info(req.query.page);
+    /*
+    MySchema.find({}).sort('mykey', 1).skip((pageNumber-1)*paginate).limit(paginate)
+    .exec(function(err, result) {
+        // Write some stuff here
+    });
+    */
+
+    User.find({}, '-salt -hashedPassword').skip(0).limit(req.query.paginate).lean().exec(function(err, users) {
       if (err) return res.status(500).send(err);
-      //users.cDate = convertISOTime(users._id.getTimestamp(), "datetime");
+      users.forEach(function(user) {
+        user.createdOn = convertISOTime(user._id.getTimestamp(), "datetime");
+      });
       res.status(200).json(users);
     });
   } else {
@@ -38,18 +48,40 @@ exports.index = function(req, res) {
       req.query.department = new RegExp('', "i");
 
     User.find({
-      name: req.query.name,
-      role: {
-        $in: req.query.role
-      },
-      department: req.query.department,
-    }, '-salt -hashedPassword', function(err, users) {
-      if (err) return res.status(500).send(err);
-      //users.cDate = convertISOTime(users._id.getTimestamp(), "datetime");
-      res.status(200).json(users);
-    });
+        name: req.query.name,
+        role: {
+          $in: req.query.role
+        },
+        department: req.query.department,
+      }, '-salt -hashedPassword')
+      .skip((req.query.page - 1) * req.query.paginate)
+      .limit(req.query.paginate)
+      .lean()
+      .exec(function(err, users) {
+        if (err) return res.status(500).send(err);
+
+        users.forEach(function(user) {
+          user.createdOn = convertISOTime(user._id.getTimestamp(), "datetime");
+        });
+        res.status(200).json(users);
+      });
   }
 };
+exports.count = function(req, res) {
+  User.count({}, function(err, count) {
+    res.status(200).json({
+      count: count
+    });
+  });
+  // User.find({}, '-salt -hashedPassword').lean().exec(function(err, users) {
+  //   if (err) return res.status(500).send(err);
+  //   users.forEach(function(user) {
+  //     user.createdOn = convertISOTime(user._id.getTimestamp(), "datetime");
+  //   });
+  //   res.status(200).json(users);
+  // });
+};
+
 
 function convertISOTime(timeStamp, convertType) {
   // function takes a timestamp and converts to the requested type

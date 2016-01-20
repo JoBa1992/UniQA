@@ -1,19 +1,12 @@
 'use strict';
 
 angular.module('uniQaApp')
-  .factory('Modal', function($rootScope, $modal, Auth, Thing) {
+  .factory('Modal', function($rootScope, $modal, Auth, Department, Thing) {
 
     // Use the User $resource to fetch all users
     $rootScope.user = {};
     $rootScope.errors = {};
     $rootScope.form = {};
-
-    $rootScope.depDropdownSel = function(target) {
-      $rootScope.user.department = target;
-    };
-    $rootScope.userRoleDropdownSel = function(target) {
-      $rootScope.user.role = target;
-    };
 
     Thing.getByName("accessCodeLen").then(function(val) {
       // only returns one element
@@ -101,14 +94,25 @@ angular.module('uniQaApp')
             };
             $rootScope.roles = {};
             $rootScope.departments = {};
+
+            $rootScope.depDropdownSel = function(target) {
+              $rootScope.user.department = target;
+            };
+            $rootScope.userRoleDropdownSel = function(target) {
+              $rootScope.user.role = target;
+            };
+
             // use the Thing service to return back some constants
             Thing.getByName("userRoles").then(function(val) {
               $rootScope.roles = val.content;
               $rootScope.user.role = 'Select Role';
             });
-            Thing.getByName("uniDepartments").then(function(val) {
-              // add Any to start of array
-              $rootScope.departments = val.content[0];
+            Department.get().then(function(val) {
+              // loop through, and create key pairs to pass on scope variable
+              val.forEach(function(obj) {
+                $rootScope.departments[obj.name] = obj.subdepartments;
+              });
+              // add to start of array
               $rootScope.user.department = 'Select Department';
             });
 
@@ -230,22 +234,33 @@ angular.module('uniQaApp')
             // refresh validation on new modal open - remove details
             $rootScope.roles = {};
             $rootScope.departments = {};
-            $rootScope.user = user;
+            $rootScope.updatedUser = angular.copy(user);
+
+            $rootScope.depDropdownSel = function(target) {
+              $rootScope.updatedUser.department = target;
+            };
+            $rootScope.userRoleDropdownSel = function(target) {
+              $rootScope.updatedUser.role = target;
+            };
 
             // use the Thing service to return back some constants
             Thing.getByName("userRoles").then(function(val) {
               $rootScope.roles = val.content;
             });
-            Thing.getByName("uniDepartments").then(function(val) {
-              // add Any to start of array
-              $rootScope.departments = val.content[0];
+            Department.get().then(function(val) {
+              // loop through, and create key pairs to pass on scope variable
+              val.forEach(function(obj) {
+                $rootScope.departments[obj.name] = obj.subdepartments;
+              });
+              // add to start of array
+              $rootScope.updatedUser.department = user.department;
             });
 
             Thing.getByName("uniEmail").then(function(val) {
               // add Any to start of array
               $rootScope.uniEmail = val.content[0];
               // remove uniEmail standard from users Email
-              $rootScope.userTempEmail = $rootScope.user.email.split(val.content[0])[0];
+              $rootScope.userTempEmail = $rootScope.updatedUser.email.split(val.content[0])[0];
             });
 
 
@@ -256,13 +271,13 @@ angular.module('uniQaApp')
                 title: 'Update User',
                 form: '<div class="form-group" ng-class="{ \'has-success\': form.name.$valid && submitted,\'has-error\': form.name.$invalid && submitted }">' +
                   '<label>Name</label>' +
-                  '<input type="text" name="name" class="form-control" ng-model="user.name" required/>' +
+                  '<input type="text" name="name" class="form-control" ng-model="updatedUser.name" required/>' +
                   '<p class="help-block" ng-show="form.name.$error.required && submitted">A name is required</p>' +
                   '</div>' +
-                  '<div class="form-group" ng-class="{ \'has-success\': user.role!=\'Select Role\' && submitted,\'has-error\': user.role==\'Select Role\' && submitted }">' +
+                  '<div class="form-group" ng-class="{ \'has-success\': updatedUser.role!=\'Select Role\' && submitted,\'has-error\': updatedUser.role==\'Select Role\' && submitted }">' +
                   '<label>Account Type</label>' +
                   '<div class="dropdown reg-dropdown">' +
-                  '<button class="btn btn-inverse dropdown-toggle form-control" style="text-transform: capitalize;" name="type" ng-model="roles" type="button" data-toggle="dropdown">{{user.role}}' +
+                  '<button class="btn btn-inverse dropdown-toggle form-control" style="text-transform: capitalize;" name="type" ng-model="roles" type="button" data-toggle="dropdown">{{updatedUser.role}}' +
                   '<span class="caret"></span>' +
                   '</button>' +
                   '<ul class="dropdown-menu"> ' +
@@ -271,13 +286,13 @@ angular.module('uniQaApp')
                   '</li>' +
                   '</ul>' +
                   '</div>' +
-                  '<p class="help-block" ng-show="user.role==\'Select Role\' && submitted">Please select a user type</p>' +
+                  '<p class="help-block" ng-show="updatedUser.role==\'Select Role\' && submitted">Please select a user type</p>' +
                   '<p class="help-block" ng-show="form.roles.$error.mongoose">{{ errors.roles }}</p>' +
                   '</div>' +
-                  '<div class="form-group" ng-class="{ \'has-success\': user.department!=\'Select Department\' && submitted,\'has-error\': user.department==\'Select Department\' && submitted }">' +
+                  '<div class="form-group" ng-class="{ \'has-success\': updatedUser.department!=\'Select Department\' && submitted,\'has-error\': updatedUser.department==\'Select Department\' && submitted }">' +
                   '<label>Department</label>' +
                   '<div class="dropdown reg-dropdown">' +
-                  '<button class="btn btn-inverse dropdown-toggle form-control" name="department" type="button" data-toggle="dropdown">{{user.department}}<span class="caret"></span></button>' +
+                  '<button class="btn btn-inverse dropdown-toggle form-control" name="department" type="button" data-toggle="dropdown">{{updatedUser.department}}<span class="caret"></span></button>' +
                   '<ul class="dropdown-menu scrollable-menu" role="menu">' +
                   '<li ng-repeat="(key,val) in departments">' +
                   '<a class="dropdown-header disabled dropdown-header-custom" ng-click="$event.preventDefault()">{{key}}</a>' +
@@ -285,8 +300,8 @@ angular.module('uniQaApp')
                   '</li>' +
                   '</ul>' +
                   '</div>' +
-                  '<p class="help-block" ng-show="user.department==\'Select Department\' && submitted">Please select a department</p>' +
-                  '<p class="help-block" ng-show="form.user.department.$error.mongoose">{{ errors.user.department }}</p>' +
+                  '<p class="help-block" ng-show="updatedUser.department==\'Select Department\' && submitted">Please select a department</p>' +
+                  '<p class="help-block" ng-show="form.updatedUser.department.$error.mongoose">{{ errors.updatedUser.department }}</p>' +
                   '</div>' +
                   '<div class="form-group" ng-class="{ \'has-success\': form.email.$valid && submitted,\'has-error\': form.email.$invalid && submitted }">' +
                   '<label>Email</label>' +
@@ -299,10 +314,10 @@ angular.module('uniQaApp')
                   '<p class="help-block" name="emailVal" ng-show="form.email.$error.mongoose">{{ errors.email }}</p>' +
                   '</div>' +
 
-                  '<button class="btn btn-danger " ng-click="requestReset(user)" ng-if="!user.passcode" disabled>' +
+                  '<button class="btn btn-danger " ng-click="requestReset(updatedUser)" ng-if="!updatedUser.passcode" disabled>' +
                   '<span class="glyphicon glyphicon-share-alt"></span>  Request Password Reset</button>' +
-                  '<button class="btn btn-danger " ng-click="requestPasscode(user)" ng-if="user.passcode" disabled>' +
-                  '<span class="glyphicon glyphicon-share-alt"></span>  Regenerate Passcode</button>' +
+                  '<button class="btn btn-danger " ng-click="requestPasscode(updatedUser)" ng-if="updatedUser.passcode" disabled>' +
+                  '<span class="glyphicon glyphicon-share-alt"></span>  Send new passcode</button>' +
                   '</div>',
                 buttons: [{
                   classes: 'btn-default',
@@ -316,10 +331,10 @@ angular.module('uniQaApp')
                   click: function(e, form) {
                     $rootScope.submitted = true;
 
-                    if ($rootScope.user.role != "Select Role" && $rootScope.user.department != "Select Department" && $rootScope.user.name) {
+                    if ($rootScope.updatedUser.role != "Select Role" && $rootScope.updatedUser.department != "Select Department" && $rootScope.updatedUser.name) {
 
                       Auth.updateUser({
-                          user: $rootScope.user
+                          user: $rootScope.updatedUser
                         })
                         .then(function(res) {
                           updatedUser = res.user;

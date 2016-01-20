@@ -43,6 +43,7 @@ UserSchema
     return this._password;
   });
 
+
 // Public profile information
 UserSchema
   .virtual('profile')
@@ -82,11 +83,11 @@ UserSchema
   }, 'Email cannot be blank');
 
 // Validate empty password
-  // UserSchema
-  //   .path('hashedPassword')
-  //   .validate(function(hashedPassword) {
-  //     return hashedPassword.length;
-  //   }, 'Password cannot be blank');
+// UserSchema
+//   .path('hashedPassword')
+//   .validate(function(hashedPassword) {
+//     return hashedPassword.length;
+//   }, 'Password cannot be blank');
 
 // Validate email is not taken
 UserSchema
