@@ -50,7 +50,7 @@ angular.module('uniQaApp')
       },
       filtGet: {
         method: 'GET',
-        isArray: true
+
       },
       getTotal: {
         method: 'GET',

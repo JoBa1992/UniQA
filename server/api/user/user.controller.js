@@ -52,7 +52,7 @@ exports.index = function(req, res) {
         role: {
           $in: req.query.role
         },
-        department: req.query.department,
+        department: req.query.department
       }, '-salt -hashedPassword')
       .skip((req.query.page - 1) * req.query.paginate)
       .limit(req.query.paginate)
@@ -60,10 +60,21 @@ exports.index = function(req, res) {
       .exec(function(err, users) {
         if (err) return res.status(500).send(err);
 
-        users.forEach(function(user) {
-          user.createdOn = convertISOTime(user._id.getTimestamp(), "datetime");
+        User.count({
+          name: req.query.name,
+          role: {
+            $in: req.query.role
+          },
+          department: req.query.department
+        }, function(err, count) {
+          users.forEach(function(user) {
+            user.createdOn = convertISOTime(user._id.getTimestamp(), "datetime");
+          });
+          res.status(200).json({
+            result: users,
+            count: count
+          });
         });
-        res.status(200).json(users);
       });
   }
 };

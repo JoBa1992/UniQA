@@ -26,7 +26,6 @@ angular.module('uniQaApp')
 
     $scope.changePaginationPage = function(page) {
       if (page != $scope.currentPage) {
-        console.info(page);
         $scope.currentPage = page;
         $scope.refreshUserList(true);
       }
@@ -75,7 +74,7 @@ angular.module('uniQaApp')
       $scope.refreshUserList();
     }
 
-    $scope.searchStrFilter = function(str) {
+    $scope.searchStrFilter = function(e) {
       $scope.refreshUserList();
     };
 
@@ -107,27 +106,20 @@ angular.module('uniQaApp')
       //     $scope.totalPages = Math.ceil(res.count / $scope.resultsPerPage);
       //   });
       if ($scope.currentPage > 1 && !pageRequest) {
-        console.info(pageRequest);
         $scope.currentPage = 1;
       }
-      $scope.fUsers = User.filtGet({
+      User.filtGet({
         name: qFilter.searchStr,
         role: qFilter.role,
         department: qFilter.department,
         paginate: $scope.resultsPerPage,
         page: $scope.currentPage // always init to 0 as a base point
-      });
-      $scope.fUsers.$promise.then(function(res) {
-        /* BUG WITH PAGINATION HERE... 2nd PAGE IS REMOVED WHEN CLICKED ON */
-        if (res.length > 9) {
-          User.getTotal().$promise.then(function(res) {
-            $scope.totalPages = Math.ceil(res.count / $scope.resultsPerPage);
-          });
-        } else {
-          $scope.totalPages = Math.ceil(res.length / $scope.resultsPerPage);
-        }
-
-        $scope.noFiltQueryReturn = res.length == 0 ? true : false;
+      }).$promise.then(function(res) {
+        // reset this once filters are used. Need to look at removing this object altogether
+        $scope.fUsers = res;
+        $scope.users = {};
+        $scope.totalPages = Math.ceil(res.count / $scope.resultsPerPage);
+        $scope.noFiltQueryReturn = res.count == 0 ? true : false;
       });
     };
 
