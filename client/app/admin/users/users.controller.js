@@ -25,7 +25,7 @@ angular.module('uniQaApp')
     });
 
     $scope.changePaginationPage = function(page) {
-      if (page != $scope.currentPage) {
+      if (page != $scope.currentPage && page > 0 && page <= $scope.totalPages) {
         $scope.currentPage = page;
         $scope.refreshUserList(true);
       }
@@ -94,6 +94,7 @@ angular.module('uniQaApp')
           arr.push(key);
         }
       }
+
       // flatten down object into array with just selected values for mongoose
       qFilter.role = arr;
 
@@ -101,13 +102,12 @@ angular.module('uniQaApp')
       if (qFilter.role.length == 0) {
         qFilter.role.push('No Role');
       }
-      //   User.getTotal().$promise.then(function(res) {
-      //     $scope.userCount = res.count
-      //     $scope.totalPages = Math.ceil(res.count / $scope.resultsPerPage);
-      //   });
+
       if ($scope.currentPage > 1 && !pageRequest) {
         $scope.currentPage = 1;
       }
+      if (qFilter.searchStr) // escape dodgy characters, doesn't work for [ weirdly...
+        qFilter.searchStr = qFilter.searchStr.replace(/[\\$'"]/g, "\\$&");
       User.filtGet({
         name: qFilter.searchStr,
         role: qFilter.role,

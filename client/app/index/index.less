@@ -210,7 +210,8 @@
     line-height: 1.4;
   }
 }
-.rotate {
+.rotate,
+.btn-primary.rotate {
   -webkit-transition-duration: 0.5s;
   -moz-transition-duration: 0.5s;
   -o-transition-duration: 0.5s;
@@ -225,6 +226,11 @@
   -webkit-transform: rotate(360deg);
   -moz-transform: rotate(360deg);
   -o-transform: rotate(360deg);
+}
+.btn-primary:hover .rotate {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
 }
 /* CUSTOM DROPDOWN FOR DEPARTMENTS */
 .dropdown-header-custom {
@@ -266,4 +272,7 @@
   max-height: 400px !important;
   overflow: auto !important;
   overflow-x: hidden !important;
+}
+.no-wrap {
+  white-space: nowrap;
 }

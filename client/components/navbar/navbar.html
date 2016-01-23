@@ -8,38 +8,34 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-		  <a ng-href="{{leftMenu.root}}" ng-class="{active: isActive('/')}" ng-if="!isAdmin()" class="navbar-brand  uniqa-logo">#UniQA</a>
-		  <a ng-href="{{leftMenu.root}}" ng-if="isAdmin()" class="navbar-brand uniqa-logo">#UniQA-Mgr</a>
+      <a ng-href="{{leftMenu.root}}" ng-class="{active: isActive('/')}" ng-if="!isAdmin()" class="navbar-brand  uniqa-logo">#UniQA</a>
+      <a ng-href="{{leftMenu.root}}" ng-if="isAdmin()" class="navbar-brand uniqa-logo">#UniQA-Mgr</a>
     </div>
     <div collapse="isCollapsed" class="navbar-collapse collapse" id="navbar-main">
       <ul class="nav navbar-nav">
         <li ng-repeat="item in leftMenu" ng-class="{active: isActive(item.link)}">
-          <a ng-hide="({{!item.login}} && isLoggedIn()) ||
-		  				({{item.login}} && !isLoggedIn()) ||
-		  				(isTutor() && {{item.admin}}) ||
-						(isStudent() && ({{item.admin}} || {{item.teacher}})) "
-			ng-href="{{item.link}}" class="disable-animations">{{item.title}}</a>
+          <a ng-if="isAdmin() && item.admin ||
+		  				isTutor() && item.tutor ||
+						isStudent() && item.student"
+		  ng-href="{{item.link}}" class="disable-animations">{{item.title}}</a>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right ">
-		  <li ng-repeat="item in rightMenu" ng-class="{active: isActive(item.link)}">
-            <a ng-hide="({{!item.login}} && isLoggedIn()) ||
-  		  				({{item.login}} && !isLoggedIn()) ||
-  		  				(isTutor() && {{item.admin}}) ||
-  						(isStudent() && ({{item.admin}} || {{item.teacher}})) "
-  			ng-href="{{item.link}}" class="disable-animations">{{item.title}}</a>
-          </li>
-		<li ng-show="isLoggedIn()" ng-class="{active: isActive('/notifications')}" class="nav-notification"> <!-- NOTIFICATIONS -->
+        <li ng-if="!isLoggedIn()" ng-repeat="item in rightMenu" ng-class="{active: isActive(item.link)}">
+          <a ng-href="{{item.link}}" class="disable-animations">{{item.title}}</a>
+        </li>
+        <li ng-if="isLoggedIn()" ng-class="{active: isActive('/notifications')}" class="nav-notification">
+          <!-- NOTIFICATIONS -->
           <a href="/profile/notifications">
             <span class="glyphicon glyphicon-bell"></span>
-			<span class="badge badge-notify nav-notification-badge">1</span>
+            <span class="badge badge-notify nav-notification-badge">1</span>
           </a>
         </li>
-		<li ng-show="isLoggedIn()" class="divider-vertical"></li>
+        <li ng-show="isLoggedIn()" class="divider-vertical"></li>
         <li class="dropdown" ng-class="{active: (isActive('/profile') || isActive('/profile/settings'))}">
           <a href="" ng-show="isLoggedIn()" class="dropdown-toggle small" data-toggle="dropdown" style="color:#FFA700;">
-			{{ getCurrentUser().email }}
-             <span class="caret" style="color:#82AECC;"></span>
+            {{ getCurrentUser().email }}
+            <span class="caret" style="color:#82AECC;"></span>
           </a>
 
           <ul class="dropdown-menu" ng-click="$event.stopPropagation()">
@@ -54,15 +50,26 @@
                     </p>
                   </div>
                   <div class="col-md-7 text-primary">
-                    <span><strong>{{ getCurrentUser().name }}</strong></span>
+                    <span>
+                      <strong>{{ getCurrentUser().name }}</strong>
+                    </span>
                     <p class="text-muted small">
                       {{ getCurrentUser().email }}</p>
                     <hr>
-					<div class="navbar-prof-submenu">
-						<a ng-href="/profile" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-user"></span></a> <!-- Profile -->
-						<a ng-href="/profile/messages" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-comment"></span></a> <!-- messages -->
-						<a ng-href="profile/settings" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-cog"></span></a> <!-- settings -->
-					</div>
+                    <div class="navbar-prof-submenu">
+                      <a ng-href="/profile" class="btn btn-primary btn-sm">
+                        <span class="glyphicon glyphicon-user"></span>
+                      </a>
+                      <!-- Profile -->
+                      <a ng-href="/profile/messages" class="btn btn-primary btn-sm">
+                        <span class="glyphicon glyphicon-comment"></span>
+                      </a>
+                      <!-- messages -->
+                      <a ng-href="profile/settings" class="btn btn-primary btn-sm">
+                        <span class="glyphicon glyphicon-cog"></span>
+                      </a>
+                      <!-- settings -->
+                    </div>
                   </div>
                 </div>
               </div>

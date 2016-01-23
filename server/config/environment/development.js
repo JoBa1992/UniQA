@@ -8,5 +8,5 @@ module.exports = {
     uri: 'mongodb://localhost/uniqa-dev'
   },
 
-  seedDB: false
+  seedDB: true
 };

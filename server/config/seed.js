@@ -8,6 +8,7 @@
 var Department = require('../api/department/department.model');
 var Thing = require('../api/thing/thing.model');
 var User = require('../api/user/user.model');
+var Lecture = require('../api/lecture/lecture.model');
 
 Department.find({}).remove(function() {
   Department.create({
@@ -45,8 +46,8 @@ Thing.find({}).remove(function() {
   }, {
     name: 'uniTimePeriods',
     content: {
-      '2016-2017': [new Date(2016, 09, 26, 0, 59, 59).toISOString(), new Date(2017, 09, 25, 0, 59, 59).toISOString()],
-      '2015-2016': [new Date(2015, 09, 24, 0, 59, 59).toISOString(), new Date(2016, 09, 23, 0, 59, 59).toISOString()]
+      '2016-2017': [new Date(Date.UTC(2016, 09, 26, 23, 59, 59)).toISOString(), new Date(Date.UTC(2017, 09, 25, 23, 59, 59)).toISOString()],
+      '2015-2016': [new Date(Date.UTC(2015, 09, 24, 23, 59, 59)).toISOString(), new Date(Date.UTC(2016, 09, 23, 23, 59, 59)).toISOString()]
     }
   }, {
     name: 'userRoles',
@@ -108,7 +109,131 @@ User.find({}).remove(function() {
     email: 'alexis.parks@shu.ac.uk',
     passcode: 9493265230,
     department: 'Nursing and Midwifery'
+  }, {
+    _id: '56a35bce4d9999381aa483db',
+    name: 'JoBa',
+    role: 'tutor',
+    email: 'JoBa@shu.ac.uk',
+    password: 'Josh1992',
+    department: 'Computing'
+  }, {
+    name: 'Jeff',
+    role: 'student',
+    email: 'jeff@shu.ac.uk',
+    passcode: 9493265230,
+    department: 'Nursing and Midwifery'
+  }, {
+    name: 'Bill',
+    role: 'student',
+    email: 'Bill@shu.ac.uk',
+    password: 'Bill',
+    department: 'Nursing and Midwifery'
+  }, {
+    name: 'Alex',
+    role: 'tutor',
+    email: 'alexs@shu.ac.uk',
+    passcode: 9493265230,
+    department: 'Nursing and Midwifery'
   }, function() {
     console.log('finished populating users');
+    Lecture.find({}).remove(function() {
+      Lecture.create({
+        createdBy: '56a35bce4d9999381aa483db',
+        name: "MAD No1",
+        desc: "Descriptive element for no1",
+        startTime: new Date(Date.UTC(2016, 0, 23, 12, 20, 0)),
+        endTime: new Date(Date.UTC(2016, 0, 23, 13, 55, 0)),
+        qActiveAllowance: 10
+      }, {
+        createdBy: '56a35bce4d9999381aa483db',
+        name: "MAD No2",
+        desc: "Descriptive element for no2",
+        startTime: new Date(Date.UTC(2016, 0, 22, 16, 0, 0)),
+        endTime: new Date(Date.UTC(2016, 0, 22, 17, 0, 0)),
+        qActiveAllowance: 10
+      }, {
+        createdBy: '56a35bce4d9999381aa483db',
+        name: "MAD No3",
+        desc: "Descriptive element for no3",
+        startTime: new Date(Date.UTC(2016, 7, 20, 12, 0, 0)),
+        endTime: new Date(Date.UTC(2016, 7, 20, 13, 0, 0)),
+        qActiveAllowance: 10
+      }, {
+        createdBy: '56a35bce4d9999381aa483db',
+        name: "MAD No4",
+        desc: "Descriptive element for no4",
+        startTime: new Date(Date.UTC(2016, 7, 20, 12, 0, 0)),
+        endTime: new Date(Date.UTC(2016, 7, 20, 13, 0, 0)),
+        qActiveAllowance: 10
+      }, {
+        createdBy: '56a35bce4d9999381aa483db',
+        name: "MAD No5",
+        desc: "Descriptive element for no5",
+        startTime: new Date(Date.UTC(2016, 7, 20, 12, 0, 0)),
+        endTime: new Date(Date.UTC(2016, 7, 20, 13, 0, 0)),
+        qActiveAllowance: 10
+      }, {
+        createdBy: '56a35bce4d9999381aa483db',
+        name: "MAD No6",
+        desc: "Descriptive element for no6",
+        startTime: new Date(Date.UTC(2016, 7, 20, 12, 0, 0)),
+        endTime: new Date(Date.UTC(2016, 7, 20, 13, 0, 0)),
+        qActiveAllowance: 10
+      }, {
+        createdBy: '56a35bce4d9999381aa483db',
+        name: "MAD No7",
+        desc: "Descriptive element for no7",
+        startTime: new Date(Date.UTC(2016, 7, 20, 12, 0, 0)),
+        endTime: new Date(Date.UTC(2016, 7, 20, 13, 0, 0)),
+        qActiveAllowance: 10
+      }, {
+        createdBy: '56a35bce4d9999381aa483db',
+        name: "MAD No8",
+        desc: "Descriptive element for no8",
+        startTime: new Date(Date.UTC(2016, 7, 20, 12, 0, 0)),
+        endTime: new Date(Date.UTC(2016, 7, 20, 13, 0, 0)),
+        qActiveAllowance: 10
+      }, {
+        createdBy: '56a35bce4d9999381aa483db',
+        name: "MAD No9",
+        desc: "Descriptive element for no9",
+        startTime: new Date(Date.UTC(2016, 7, 20, 12, 0, 0)),
+        endTime: new Date(Date.UTC(2016, 7, 20, 13, 0, 0)),
+        qActiveAllowance: 10
+      }, {
+        createdBy: '56a35bce4d9999381aa483db',
+        name: "MAD No10",
+        desc: "Descriptive element for no10",
+        startTime: new Date(Date.UTC(2016, 7, 20, 12, 0, 0)),
+        endTime: new Date(Date.UTC(2016, 7, 20, 13, 0, 0)),
+        qActiveAllowance: 10
+      }, {
+        createdBy: '56a35bce4d9999381aa483db',
+        name: "MAD No11",
+        desc: "Descriptive element for no11",
+        startTime: new Date(Date.UTC(2016, 7, 20, 12, 0, 0)),
+        endTime: new Date(Date.UTC(2016, 7, 20, 13, 0, 0)),
+        qActiveAllowance: 10
+      }, {
+        createdBy: '56a35bce4d9999381aa483db',
+        name: "MAD No12",
+        desc: "Descriptive element for no12",
+        startTime: new Date(Date.UTC(2016, 7, 20, 12, 0, 0)),
+        endTime: new Date(Date.UTC(2016, 7, 20, 13, 0, 0)),
+        qActiveAllowance: 10
+      }, function(error) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('finished populating Lectures');
+        }
+
+      });
+    });
   });
 });
+
+/*
+'2016-2017': [new Date(2016, 09, 26, 23, 59, 59, 0).toISOString(), new Date(2017, 09, 25, 23, 59, 59, 0).toISOString()],
+'2015-2016': [new Date(2015, 09, 24, 23, 59, 59, 0).toISOString(), new Date(2016, 09, 23, 23, 59, 59, 0).toISOString()]
+*/

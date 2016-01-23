@@ -169,7 +169,7 @@ angular.module('uniQaApp')
         return currentUser.role === 'admin';
       },
       isTutor: function() {
-        return currentUser.role === 'teacher';
+        return currentUser.role === 'tutor';
       },
       isStudent: function() {
         return currentUser.role === 'student';
