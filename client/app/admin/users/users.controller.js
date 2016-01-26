@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uniQaApp')
-  .controller('UserCtrl', function($scope, $http, Auth, User, Thing, Department, Modal) {
+  .controller('AdminUserCtrl', function($scope, $http, Auth, User, Thing, Department, Modal) {
     $scope.title = "User Management";
     // filtered users, different from original object.
     $scope.filter = {};
@@ -48,9 +48,15 @@ angular.module('uniQaApp')
     });
     Department.get().then(function(val) {
       // loop through, and create key pairs to pass on scope variable
-      val.forEach(function(obj) {
-        $scope.departments[obj.name] = obj.subdepartments;
+      //   console.info(val);
+      val.forEach(function(dep) {
+        var subs = [];
+        dep.subdepartment.forEach(function(subdep) {
+          subs.push(subdep.name);
+        });
+        $scope.departments[dep.name] = subs;
       });
+      console.info(val);
       // add Any to start of array
       $scope.filter.department = 'Select Department';
     });
@@ -61,6 +67,7 @@ angular.module('uniQaApp')
 
 
     $scope.depDropdownSel = function(target) {
+      console.info(target);
       $scope.filter.department = target;
       $scope.clearedFilter.dropdown = false;
       $scope.refreshUserList();
@@ -79,6 +86,7 @@ angular.module('uniQaApp')
     };
 
     $scope.refreshUserList = function(pageRequest) {
+      refreshUserStats();
       // clean filter for query, roles aren't neccessary, as they're always included within the query
       var qFilter = angular.copy($scope.filter);
       if ($scope.isEmpty($scope.filter.searchStr))
@@ -115,6 +123,7 @@ angular.module('uniQaApp')
         paginate: $scope.resultsPerPage,
         page: $scope.currentPage // always init to 0 as a base point
       }).$promise.then(function(res) {
+        console.info(res);
         // reset this once filters are used. Need to look at removing this object altogether
         $scope.fUsers = res;
         $scope.users = {};

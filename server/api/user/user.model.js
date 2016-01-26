@@ -12,8 +12,8 @@ var UserSchema = new Schema({
     default: 'student'
   },
   department: {
-    type: String,
-    default: null
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Department'
   },
   email: {
     type: String,

@@ -13,14 +13,13 @@ var _ = require('lodash');
 var Qr = require('./qr.model');
 
 // USED FOR QR GENERATION
-var fs = require('fs');
-var path = require('path');
+// var fs = require('fs');
+// var path = require('path');
 var qrEncoder = require('qr-image');
-
-function file(name) {
-  return fs.createWriteStream(path.join(__dirname, '../../storage/qrs/', name));
-}
-
+//
+// function file(name) {
+//   return fs.createWriteStream(path.join(__dirname, '../../storage/qrs/', name));
+// }
 
 // var path = require('path');
 
@@ -40,6 +39,82 @@ exports.index = function(req, res) {
     return res.status(200).json(qr);
   });
 };
+exports.regen = function(req, res) {
+  Qr.find(req.query, function(err, qr) {
+    if (err) {
+      return handleError(res, err);
+    }
+    // if limited by querystring, return single object
+    if (req.query)
+      qr = qr[0];
+    return res.status(200).json(qr);
+  });
+
+  // Find the one sent in, delete it, create a new one, and update the lecture that its associated to. Do here or in lecture?
+  // Qr.create({
+  //     lecture: lecture._id,
+  //     createdBy: lecture.createdBy
+  //   },
+  //   function(err, qr) {
+  //     if (err) {
+  //       console.info(err);
+  //       return handleError(res, err);
+  //     } else {
+  //       Thing.find({
+  //         name: 'qrBaseURL'
+  //       }, function(err, thing) {
+  //         var serverBase = thing[0].content; // just the one
+  //         // replace temp with class id when classes are setup
+  //         var url = String(serverBase + '/' + qr._id + '/group/' + 'temp' + '/register');
+  //
+  //         // currently in Sync...? :(
+  //         var qrSvgString = qrEncoder.imageSync(url, {
+  //           type: 'svg',
+  //           ec_level: 'Q',
+  //           parse_url: false,
+  //           margin: 1,
+  //           size: 4
+  //         });
+  //
+  //         // REMOVE Inject elements on svg, problem with plugin
+  //         qrSvgString = qrSvgString.replace('<svg xmlns="http://www.w3.org/2000/svg" width="172" height="172" viewBox="0 0 43 43">', "");
+  //         qrSvgString = qrSvgString.replace('</svg>', "");
+  //         qrSvgString = qrSvgString.replace('\"', "\'");
+  //         qrSvgString = qrSvgString.replace('\"/', "\'/");
+  //
+  //         Qr.findById(qr._id).exec(function(err, uQr) {
+  //           if (err) {
+  //             console.info(err);
+  //             return handleError(res, err);
+  //           } else if (!uQr) {
+  //             return res.status(404).send('Not Found');
+  //           } else {
+  //             // lecture.qr = qr._id;
+  //             uQr.url = url;
+  //             uQr.svg = qrSvgString;
+  //             uQr.save(function(err) {
+  //               if (err) {
+  //                 console.info(err);
+  //                 return handleError(res, err);
+  //               }
+  //               lecture.qr = qr._id;
+  //               lecture.save(function(err, lecture) {
+  //                 if (err) {
+  //                   console.info(err);
+  //                   return handleError(res, err);
+  //                 }
+  //                 lecture.populate('qr', function(err, lecture) {
+  //                   return res.status(200).json(lecture);
+  //                 });
+  //               });
+  //             });
+  //           }
+  //         });
+  //       });
+  //     }
+  //   });
+};
+
 
 // Get a single qr
 exports.show = function(req, res) {

@@ -1,4 +1,4 @@
 'use strict';
 
 angular.module('uniQaApp')
-  .controller('LectureCtrl', function($scope, $http, Auth, User) {});
+  .controller('AdminLectureCtrl', function($scope, $http, Auth, User) {});

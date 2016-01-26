@@ -11,7 +11,7 @@ var ThingSchema = new Schema({
   },
   content: {
     type: Array,
-    "default": []
+    default: []
   },
   active: Boolean
 });

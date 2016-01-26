@@ -25,6 +25,20 @@ var LectureSchema = new Schema({
     max: 60,
     default: 10,
     required: true
+  },
+  attachments: {
+    type: [String],
+    default: []
+  },
+  qr: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Qr',
+    default: null
+  },
+  altAccess: {
+    type: String,
+    default: null,
+    max: 6
   }
 });
 

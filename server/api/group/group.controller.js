@@ -1,93 +1,93 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
- * GET     /departments              ->  index
- * POST    /departments              ->  create
- * GET     /departments/:id          ->  show
- * PUT     /departments/:id          ->  update
- * DELETE  /departments/:id          ->  destroy
+ * GET     /groups              ->  index
+ * POST    /groups              ->  create
+ * GET     /groups/:id          ->  show
+ * PUT     /groups/:id          ->  update
+ * DELETE  /groups/:id          ->  destroy
  */
 
 'use strict';
 
 var _ = require('lodash');
-var Department = require('./department.model');
+var Group = require('./group.model');
 
-// Get list of departments (or limit by querystring)
+// Get list of groups (or limit by querystring)
 exports.index = function(req, res) {
-  Department
+  Group
     .find(req.query)
+    .populate('Department')
     .populate({
-      path: "subdepartment.groups.tutors.tutor",
+      path: "tutor",
       populate: 'User'
     })
     .populate({
-      path: "subdepartment.groups.users",
+      path: "users.user",
       populate: 'User'
     })
-    .sort('name subdepartment.name')
-    .exec(function(err, departments) {
+    .exec(function(err, groups) {
       if (err) {
         return handleError(res, err);
       }
-      return res.status(200).json(departments);
+      return res.status(200).json(groups);
     });
 };
 
-// Get a single department
+// Get a single group
 exports.show = function(req, res) {
-  Department.findById(req.params.id, function(err, department) {
+  Group.findById(req.params.id, function(err, group) {
     if (err) {
       return handleError(res, err);
     }
-    if (!department) {
+    if (!group) {
       return res.status(404).send('Not Found');
     }
-    return res.json(department);
+    return res.json(group);
   });
 };
 
-// Creates a new department in the DB.
+// Creates a new group in the DB.
 exports.create = function(req, res) {
-  Department.create(req.body, function(err, department) {
+  Group.create(req.body, function(err, group) {
     if (err) {
       return handleError(res, err);
     }
-    return res.status(201).json(department);
+    return res.status(201).json(group);
   });
 };
 
-// Updates an existing department in the DB.
+// Updates an existing group in the DB.
 exports.update = function(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
-  Department.findById(req.params.id, function(err, department) {
+  Group.findById(req.params.id, function(err, group) {
     if (err) {
       return handleError(res, err);
     }
-    if (!department) {
+    if (!group) {
       return res.status(404).send('Not Found');
     }
-    var updated = _.merge(department, req.body);
+    var updated = _.merge(group, req.body);
     updated.save(function(err) {
       if (err) {
         return handleError(res, err);
       }
-      return res.status(200).json(department);
+      return res.status(200).json(group);
     });
   });
 };
 
-// Deletes a department from the DB.
+// Deletes a group from the DB.
 exports.destroy = function(req, res) {
-  Department.findById(req.params.id, function(err, department) {
+  Group.findById(req.params.id, function(err, group) {
     if (err) {
       return handleError(res, err);
     }
-    if (!department) {
+    if (!group) {
       return res.status(404).send('Not Found');
     }
-    department.remove(function(err) {
+    group.remove(function(err) {
       if (err) {
         return handleError(res, err);
       }

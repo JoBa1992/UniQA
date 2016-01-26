@@ -10,11 +10,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <base href="/">
     <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
+    <!-- <meta name="viewport" content="width=device-width"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(client) app/vendor.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/angular-ui-bootstrap-datetimepicker/datetimepicker.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
@@ -23,6 +23,7 @@
     <!-- endinjector -->
     <!-- endbuild -->
     <title>UniQA</title>
+
   </head>
   <body ng-app="uniQaApp">
     <!--[if lt IE 7]> <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p> <![endif]-->
@@ -49,6 +50,32 @@
       ga('send', 'pageview');
     </script>
 
+    <!-- NEEDS TESTING ON MOBILES TO CHECK IF HOVER ELEMENTS ARE REMOVED -->
+    <script>
+      var touch = window.ontouchstart || (navigator.MaxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
+
+      if (touch) { // remove all :hover stylesheets
+        try { // prevent crash on browsers not supporting DOM styleSheets properly
+          for (var si in document.styleSheets) {
+            var styleSheet = document.styleSheets[si];
+            if (!styleSheet.rules)
+              continue;
+
+            for (var ri = styleSheet.rules.length - 1; ri >= 0; ri--) {
+              if (!styleSheet.rules[ri].selectorText)
+                continue;
+
+              if (styleSheet.rules[ri].selectorText.match(':hover')) {
+                styleSheet.deleteRule(ri);
+              }
+            }
+          }
+        } catch (ex) {}
+      }
+    </script>
+
+
+
     <!--[if lt IE 9]> <script src="bower_components/es5-shim/es5-shim.js"></script> <script src="bower_components/json3/lib/json3.min.js"></script> <![endif]-->
     <!-- build:js({client,node_modules}) app/vendor.js -->
     <!-- bower:js -->
@@ -62,7 +89,7 @@
     <script src="bower_components/lodash/dist/lodash.compat.js"></script>
     <script src="bower_components/angular-socket-io/socket.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-    <script src="bower_components/angular-ui-bootstrap-datetimepicker/datetimepicker.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
     <!-- endbower -->
     <script src="socket.io-client/socket.io.js"></script>
     <!-- endbuild -->
@@ -82,24 +109,25 @@
     <script src="app/admin/admin.js"></script>
     <script src="app/admin/departments/departments.controller.js"></script>
     <script src="app/admin/general/general.controller.js"></script>
+    <script src="app/admin/groups/groups.controller.js"></script>
     <script src="app/admin/lectures/lectures.controller.js"></script>
     <script src="app/admin/stats/statistics.controller.js"></script>
     <script src="app/admin/users/users.controller.js"></script>
     <script src="app/contact/contact.controller.js"></script>
     <script src="app/contact/contact.js"></script>
+    <script src="app/dev/dev.controller.js"></script>
+    <script src="app/dev/dev.js"></script>
     <script src="app/index/index.controller.js"></script>
     <script src="app/index/index.js"></script>
     <script src="app/user/groups/groups.controller.js"></script>
-    <script src="app/user/lectures/start/lectures.controller.js"></script>
-    <script src="app/user/lectures/student/lectures.controller.js"></script>
-    <script src="app/user/lectures/tutor/lectures.controller.js"></script>
-    <script src="app/user/questions/student/questions.controller.js"></script>
-    <script src="app/user/questions/tutor/questions.controller.js"></script>
+    <script src="app/user/lectures/lectures.controller.js"></script>
+    <script src="app/user/questions/questions.controller.js"></script>
     <script src="app/user/user.js"></script>
     <script src="components/auth/auth.service.js"></script>
     <script src="components/auth/user.service.js"></script>
     <script src="components/department/department.service.js"></script>
     <script src="components/footer/footer.controller.js"></script>
+    <script src="components/group/group.service.js"></script>
     <script src="components/lecture/lecture.service.js"></script>
     <script src="components/modal/modal.service.js"></script>
     <script src="components/mongoose-error/mongoose-error.directive.js"></script>

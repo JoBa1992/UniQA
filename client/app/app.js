@@ -4,10 +4,10 @@ angular.module('uniQaApp', [
     'ngCookies',
     'ngResource',
     'ngSanitize',
+    'ngAnimate',
     'btford.socket-io',
     'ui.router',
-    'ui.bootstrap',
-    'ui.bootstrap.datetimepicker'
+    'ui.bootstrap'
   ])
   .config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $urlRouterProvider

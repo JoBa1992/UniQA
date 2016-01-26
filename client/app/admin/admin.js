@@ -3,34 +3,40 @@
 angular.module('uniQaApp')
   .config(function($stateProvider) {
     $stateProvider
-      .state('generalMgr', {
+      .state('genMgr', {
         url: '/admin/general',
         templateUrl: 'app/admin/general/general.html',
-        controller: 'GenCtrl',
+        controller: 'AdminGenCtrl',
         authenticate: true
       })
-      .state('usersMgr', {
+      .state('userMgr', {
         url: '/admin/users',
         templateUrl: 'app/admin/users/users.html',
-        controller: 'UserCtrl',
+        controller: 'AdminUserCtrl',
         authenticate: true
       })
       .state('depMgr', {
         url: '/admin/departments',
         templateUrl: 'app/admin/departments/departments.html',
-        controller: 'DepCtrl',
+        controller: 'AdminDepCtrl',
         authenticate: true
       })
       .state('lectMgr', {
         url: '/admin/lectures',
         templateUrl: 'app/admin/lectures/lectures.html',
-        controller: 'LectureCtrl',
+        controller: 'AdminLectureCtrl',
         authenticate: true
       })
-      .state('stats', {
+      .state('statMgr', {
         url: '/admin/stats',
         templateUrl: 'app/admin/stats/statistics.html',
-        controller: 'StatsCtrl',
+        controller: 'AdminStatsCtrl',
+        authenticate: true
+      })
+      .state('groupMgr', {
+        url: '/admin/groups',
+        templateUrl: 'app/admin/groups/groups.html',
+        controller: 'AdminGroupCtrl',
         authenticate: true
       });
   });

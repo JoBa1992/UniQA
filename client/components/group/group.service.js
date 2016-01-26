@@ -1,22 +1,14 @@
 'use strict';
 
 angular.module('uniQaApp')
-  .factory('Lecture', function Lecture($http, $q) {
+  .factory('Group', function Department($http, $q) {
     return {
-
-      /**
-       * Authenticate user and save token
-       *
-       * @param  {Object}   user     - login info
-       * @param  {Function} callback - optional
-       * @return {Promise}
-       */
-      createLecture: function(obj, callback) {
+      get: function(callback) {
         var cb = callback || angular.noop;
         var deferred = $q.defer();
-        var lecture = obj.lecture;
 
-        $http.post('/api/lectures', lecture).success(function(data) {
+        $http.get('/api/groups').success(function(data) {
+          //   console.info(data);
           deferred.resolve(data);
           return cb();
         }).error(function(err) {
@@ -25,17 +17,11 @@ angular.module('uniQaApp')
         }.bind(this));
         return deferred.promise;
       },
-      getForMe: function(obj, callback) {
+      getByName: function(query, callback) {
         var cb = callback || angular.noop;
         var deferred = $q.defer();
 
-        $http.get('/api/lectures', {
-          params: {
-            createdBy: obj.createdBy,
-            page: obj.page,
-            paginate: obj.paginate
-          }
-        }).success(function(data) {
+        $http.get('/api/groups?name=' + query).success(function(data) {
           deferred.resolve(data);
           return cb();
         }).error(function(err) {
@@ -44,15 +30,11 @@ angular.module('uniQaApp')
         }.bind(this));
         return deferred.promise;
       },
-      getMyTotal: function(obj, callback) {
+      create: function(query, callback) {
         var cb = callback || angular.noop;
         var deferred = $q.defer();
-        // console.info(obj.createdBy);
-        $http.get('/api/lectures/count', {
-          params: {
-            createdBy: obj.createdBy
-          }
-        }).success(function(data) {
+
+        $http.get('/api/groups').success(function(data) {
           deferred.resolve(data);
           return cb();
         }).error(function(err) {
@@ -61,11 +43,24 @@ angular.module('uniQaApp')
         }.bind(this));
         return deferred.promise;
       },
-      remove: function(id, callback) {
+      update: function(query, callback) {
         var cb = callback || angular.noop;
         var deferred = $q.defer();
-        id = id._id;
-        $http.delete('/api/lectures/' + id).success(function(data) {
+
+        $http.get('/api/groups').success(function(data) {
+          deferred.resolve(data);
+          return cb();
+        }).error(function(err) {
+          deferred.reject(err);
+          return cb(err);
+        }.bind(this));
+        return deferred.promise;
+      },
+      delete: function(query, callback) {
+        var cb = callback || angular.noop;
+        var deferred = $q.defer();
+
+        $http.get('/api/groups').success(function(data) {
           deferred.resolve(data);
           return cb();
         }).error(function(err) {

@@ -10,36 +10,8 @@ angular.module('uniQaApp')
     $scope.getCurrentUser = Auth.getCurrentUser;
 
     $scope.leftMenu = [{
-      title: 'General',
+      title: 'Gen',
       link: '/admin/general',
-      login: true,
-      admin: true,
-      tutor: false,
-      student: false
-    }, {
-      title: 'Users',
-      link: '/admin/users',
-      login: true,
-      admin: true,
-      tutor: false,
-      student: false
-    }, {
-      title: 'Departments',
-      link: '/admin/departments',
-      login: true,
-      admin: true,
-      tutor: false,
-      student: false
-    }, {
-      title: 'Lectures',
-      link: '/admin/lectures',
-      login: true,
-      admin: true,
-      tutor: false,
-      student: false
-    }, {
-      title: 'Statistics',
-      link: '/admin/stats',
       login: true,
       admin: true,
       tutor: false,
@@ -53,6 +25,13 @@ angular.module('uniQaApp')
       tutor: true,
       student: false
     }, {
+      title: 'Users',
+      link: '/admin/users',
+      login: true,
+      admin: true,
+      tutor: false,
+      student: false
+    }, {
       title: 'My Lectures',
       link: '/my/lectures',
       //   link: '#',
@@ -61,12 +40,34 @@ angular.module('uniQaApp')
       tutor: true,
       student: true
     }, {
+      title: 'Groups',
+      link: '/admin/groups',
+      //   link: '#',
+      login: true,
+      admin: true,
+      tutor: false,
+      student: false
+    }, {
       title: 'My Groups',
       link: '/my/groups',
       //   link: '#',
       login: true,
       admin: false,
       tutor: true,
+      student: false
+    }, {
+      title: 'Deps',
+      link: '/admin/departments',
+      login: true,
+      admin: true,
+      tutor: false,
+      student: false
+    }, {
+      title: 'Lectures',
+      link: '/admin/lectures',
+      login: true,
+      admin: true,
+      tutor: false,
       student: false
     }, {
       title: 'Questions',
@@ -91,6 +92,21 @@ angular.module('uniQaApp')
       login: true,
       admin: false,
       tutor: false,
+      student: true
+    }, {
+      title: 'Stats',
+      link: '/admin/stats',
+      login: true,
+      admin: true,
+      tutor: false,
+      student: false
+    }, {
+      title: 'Modal Dev',
+      //   link: '/my/questions/',
+      link: '/dev',
+      login: true,
+      admin: true,
+      tutor: true,
       student: true
     }];
     $scope.rightMenu = [{

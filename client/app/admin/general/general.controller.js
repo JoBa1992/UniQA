@@ -1,4 +1,4 @@
 'use strict';
 
 angular.module('uniQaApp')
-  .controller('GenCtrl', function($scope, $http, Auth, User) {});
+  .controller('AdminGenCtrl', function($scope, $http, Auth, User) {});

@@ -24,13 +24,21 @@ exports.index = function(req, res) {
     });
     */
 
-    User.find({}, '-salt -hashedPassword').skip(0).limit(req.query.paginate).lean().exec(function(err, users) {
-      if (err) return res.status(500).send(err);
-      users.forEach(function(user) {
-        user.createdOn = convertISOTime(user._id.getTimestamp(), "datetime");
+    User.find({}, '-salt -hashedPassword')
+      .skip(0)
+      .limit(req.query.paginate)
+      .populate({
+        path: "department",
+        populate: "Department"
+      })
+      .lean()
+      .exec(function(err, users) {
+        if (err) return res.status(500).send(err);
+        users.forEach(function(user) {
+          user.createdOn = convertISOTime(user._id.getTimestamp(), "datetime");
+        });
+        res.status(200).json(users);
       });
-      res.status(200).json(users);
-    });
   } else {
     // name checking
     if (req.query.name)
@@ -52,10 +60,14 @@ exports.index = function(req, res) {
         role: {
           $in: req.query.role
         },
-        department: req.query.department
+        // department: req.query.department
       }, '-salt -hashedPassword')
       .skip((req.query.page - 1) * req.query.paginate)
       .limit(req.query.paginate)
+      .populate({
+        path: "department",
+        populate: "Department"
+      })
       .lean()
       .exec(function(err, users) {
         if (err) return res.status(500).send(err);
@@ -65,7 +77,7 @@ exports.index = function(req, res) {
           role: {
             $in: req.query.role
           },
-          department: req.query.department
+          //   department: req.query.department
         }, function(err, count) {
           users.forEach(function(user) {
             user.createdOn = convertISOTime(user._id.getTimestamp(), "datetime");

@@ -4,11 +4,11 @@ var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
 var QrSchema = new Schema({
-  lecture: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Lecture',
-    require: true
-  },
+  // lecture: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'Lecture',
+  //   require: true
+  // },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -18,6 +18,10 @@ var QrSchema = new Schema({
     type: String,
     default: null,
     lowercase: true
+  },
+  svg: {
+    type: String,
+    default: null
   },
   accessed: {
     type: Number,

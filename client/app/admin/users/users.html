@@ -59,7 +59,7 @@
         <a ng-click="clearDepFilter($event)" ng-class="{ 'disable-custom-filter': clearedFilter.dropdown, 'custom-filter': !clearedFilter.dropdown }" class="glyphicon glyphicon-remove pull-right"></a>
         <ul class="dropdown-menu scrollable-menu" role="menu" style="overflow:hidden;">
           <li ng-repeat="(key,val) in departments">
-            <a class="dropdown-header disabled dropdown-header-custom" ng-click="$event.stopPropagation()">{{key}}</a>
+            <a class="dropdown-header disabled dropdown-header-custom" ng-click="depDropdownSel(key)">{{key}}</a>
             <a ng-repeat="subVals in departments[key]" ng-click="depDropdownSel(subVals)">{{departments[key][$index]}}</a>
           </li>
         </ul>
@@ -95,7 +95,7 @@
             <th>Role</th>
             <th>Department</th>
             <th>Created On</th>
-            <th>Validated</th>
+            <th class="text-center">Validated</th>
             <th></th>
           </tr>
         </thead>
@@ -107,11 +107,11 @@
             </td>
             <td>{{user.email}}</td>
             <td style="text-transform: capitalize;">{{user.role}}</td>
-            <td ng-if="user.department">{{user.department}}</td>
+            <td ng-if="user.department.name">{{user.department.name}}</td>
             <td ng-if="!user.department">N/A</td>
             <td>{{user.createdOn}}</td>
-            <td ng-if="!user.passcode">Y</td>
-            <td ng-if="user.passcode">N</td>
+            <td ng-if="!user.passcode" class="text-center"><span class="glyphicon glyphicon-ok text-success"></span></td>
+            <td ng-if="user.passcode" class="text-center"><span class="glyphicon glyphicon-remove text-danger"></span></td>
             <td>
               <a ng-click="openDeleteUserModal(user)" class="trash">
                 <span class="glyphicon glyphicon-trash pull-right"></span>
@@ -125,11 +125,11 @@
             </td>
             <td>{{user.email}}</td>
             <td style="text-transform: capitalize;">{{user.role}}</td>
-            <td ng-if="user.department">{{user.department}}</td>
+            <td ng-if="user.department">{{user.department.name}}</td>
             <td ng-if="!user.department">N/A</td>
             <td>{{user.createdOn}}</td>
-            <td ng-if="!user.passcode">Y</td>
-            <td ng-if="user.passcode">N</td>
+			<td ng-if="!user.passcode" class="text-center"><span class="glyphicon glyphicon-ok text-success"></span></td>
+            <td ng-if="user.passcode" class="text-center"><span class="glyphicon glyphicon-remove text-danger"></span></td>
             <td>
               <a ng-click="openDeleteUserModal(user)" class="trash">
                 <span class="glyphicon glyphicon-trash pull-right"></span>
@@ -139,7 +139,10 @@
         </tbody>
       </table>
     </div>
-    <div class="col-sm-12 col-med-12 col-lg-12">
+	<div class="col-sm-4 col-med-2 col-lg-2 pull-left">
+	  <button type="button" class="btn btn-success dropdown-toggle" ng-click="">Import Users...</button>
+	</div>
+    <div class="col-sm-8 col-med-10 col-lg-10">
       <ul class="pagination pull-right">
         <li ng-class="{disabled: currentPage-1==0}">
           <a href="#" aria-label="Previous" ng-click="changePaginationPage(currentPage-1)">

@@ -51,7 +51,7 @@
 												'has-error': form.passcode.$invalid && submitted }">
           <label>Access Code</label>
 
-          <input type="passcode" name="passcode" class="form-control" ng-model="user.passcode" minlength={{accCodeLen}} maxlength={{accCodeLen}} required mongoose-error/>
+          <input type="text" name="passcode" class="form-control" ng-model="user.passcode" minlength={{accCodeLen}} maxlength={{accCodeLen}} required mongoose-error/>
           <p class="regLogMsg">Lost your passcode?
             <a href="/request-passcode" target="_blank">Request a new one</a>
           </p>
