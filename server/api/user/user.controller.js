@@ -96,13 +96,6 @@ exports.count = function(req, res) {
       count: count
     });
   });
-  // User.find({}, '-salt -hashedPassword').lean().exec(function(err, users) {
-  //   if (err) return res.status(500).send(err);
-  //   users.forEach(function(user) {
-  //     user.createdOn = convertISOTime(user._id.getTimestamp(), "datetime");
-  //   });
-  //   res.status(200).json(users);
-  // });
 };
 
 
