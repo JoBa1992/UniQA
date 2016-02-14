@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uniQaApp')
-  .controller('AdminGroupCtrl', function($scope, $http, Auth, User, Thing, Department, Group, Modal) {
+  .controller('AdminCourseCtrl', function($scope, $http, Auth, User, Thing, Department, Group, Modal) {
     $scope.title = "User Management";
     // filtered users, different from original object.
     $scope.filter = {};

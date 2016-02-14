@@ -5,123 +5,93 @@ angular.module('uniQaApp')
     $scope.isCollapsed = true;
     $scope.isLoggedIn = Auth.isLoggedIn;
     $scope.isAdmin = Auth.isAdmin;
-    $scope.isTutor = Auth.isTutor;
     $scope.isStudent = Auth.isStudent;
     $scope.getCurrentUser = Auth.getCurrentUser;
 
-    $scope.leftMenu = [{
-      title: 'Gen',
-      link: '/admin/general',
-      login: true,
-      admin: true,
-      tutor: false,
-      student: false
-    }, {
-      title: 'Start Lecture',
-      link: '/lecture/start',
-      //   link: '#',
-      login: true,
-      admin: false,
-      tutor: true,
-      student: false
-    }, {
-      title: 'Users',
-      link: '/admin/users',
-      login: true,
-      admin: true,
-      tutor: false,
-      student: false
-    }, {
-      title: 'My Lectures',
-      link: '/my/lectures',
-      //   link: '#',
-      login: true,
-      admin: false,
-      tutor: true,
-      student: true
-    }, {
-      title: 'Groups',
-      link: '/admin/groups',
-      //   link: '#',
-      login: true,
-      admin: true,
-      tutor: false,
-      student: false
-    }, {
-      title: 'My Groups',
-      link: '/my/groups',
-      //   link: '#',
-      login: true,
-      admin: false,
-      tutor: true,
-      student: false
-    }, {
-      title: 'Deps',
-      link: '/admin/departments',
-      login: true,
-      admin: true,
-      tutor: false,
-      student: false
-    }, {
-      title: 'Lectures',
-      link: '/admin/lectures',
-      login: true,
-      admin: true,
-      tutor: false,
-      student: false
-    }, {
-      title: 'Questions',
-      link: '/my/questions',
-      //   link: '#',
-      login: true,
-      admin: false,
-      tutor: true,
-      student: false
-    }, {
-      title: 'Lecture Reg',
-      link: '/lecture/register',
-      //   link: '#',
-      login: true,
-      admin: false,
-      tutor: false,
-      student: true
-    }, {
-      title: 'My Questions',
-      link: '/my/questions/',
-      //   link: '#',
-      login: true,
-      admin: false,
-      tutor: false,
-      student: true
-    }, {
-      title: 'Stats',
-      link: '/admin/stats',
-      login: true,
-      admin: true,
-      tutor: false,
-      student: false
-    }, {
-      title: 'Modal Dev',
-      //   link: '/my/questions/',
-      link: '/dev',
-      login: true,
-      admin: true,
-      tutor: true,
-      student: true
-    }];
+    $scope.leftMenu = [
+      //     {
+      //   title: 'Gen',
+      //   link: '/admin/general',
+      //   login: true,
+      //   admin: true,
+      //   student: false
+      // },
+      {
+        title: 'Start Lecture',
+        link: '/lecture/start',
+        login: true,
+        admin: true,
+        student: false
+      }, {
+        title: 'Courses',
+        link: '/my/courses',
+        login: true,
+        admin: true,
+        student: false
+      }, {
+        title: 'Users',
+        link: '/users',
+        login: true,
+        admin: true,
+        student: false
+      }, {
+        title: 'My Lectures',
+        link: '/my/lectures',
+        login: true,
+        admin: false,
+        student: true
+      }, {
+        title: 'Lectures',
+        link: '/my/lectures',
+        login: true,
+        admin: true,
+        student: false
+      }, {
+        title: 'Questions',
+        link: '/my/questions',
+        login: true,
+        admin: true,
+        student: false
+      }, {
+        title: 'Lecture Reg',
+        link: '/lecture/register',
+        //   link: '#',
+        login: true,
+        admin: false,
+        student: true
+      }, {
+        title: 'My Questions',
+        link: '/my/questions/',
+        //   link: '#',
+        login: true,
+        admin: false,
+        student: true
+      }, {
+        title: 'Stats',
+        link: '/my/stats',
+        login: true,
+        admin: true,
+        student: false
+      }, {
+        title: 'Modal Dev',
+        //   link: '/my/questions/',
+        link: '/dev',
+        login: true,
+        admin: true,
+        student: true
+      }
+    ];
     $scope.rightMenu = [{
       title: 'Register',
       link: '/register',
       login: false,
       admin: false,
-      tutor: false,
       student: false
     }, {
       title: 'Sign in',
       link: '/login',
       login: false,
       admin: false,
-      tutor: false,
       student: false
     }];
     if ($scope.isLoggedIn()) {

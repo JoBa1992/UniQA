@@ -94,4 +94,8 @@ angular.module('uniQaApp')
     $scope.editMinutes = function(datetime, minutes) {
       return new Date(datetime).getTime() + minutes * 60000;
     };
+  })
+  .controller('LectureStartCtrl', function($scope, $http, Auth, Lecture, Modal) {
+
+
   });

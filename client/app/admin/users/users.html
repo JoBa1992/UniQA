@@ -53,14 +53,14 @@
     <div class="col-sm-4 col-med-4 col-lg-4 user-filter">
       <h5 class="text-left">Member of...</h5>
       <div class="dropdown reg-dropdown" style="position:relative;">
-        <button class="btn btn-inverse dropdown-toggle form-control" name="department" type="button" data-toggle="dropdown">{{filter.department}}
+        <button class="btn btn-inverse dropdown-toggle form-control" name="course" type="button" data-toggle="dropdown">{{filter.course}}
           <span class="caret"></span>
         </button>
         <a ng-click="clearDepFilter($event)" ng-class="{ 'disable-custom-filter': clearedFilter.dropdown, 'custom-filter': !clearedFilter.dropdown }" class="glyphicon glyphicon-remove pull-right"></a>
         <ul class="dropdown-menu scrollable-menu" role="menu" style="overflow:hidden;">
-          <li ng-repeat="(key,val) in departments">
+          <li ng-repeat="(key,val) in courses">
             <a class="dropdown-header disabled dropdown-header-custom" ng-click="depDropdownSel(key)">{{key}}</a>
-            <a ng-repeat="subVals in departments[key]" ng-click="depDropdownSel(subVals)">{{departments[key][$index]}}</a>
+            <a ng-repeat="subVals in courses[key]" ng-click="depDropdownSel(subVals)">{{courses[key][$index]}}</a>
           </li>
         </ul>
       </div>
@@ -89,11 +89,10 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <!-- <th>ID</th> -->
             <th>Name</th>
             <th>Email</th>
             <th>Role</th>
-            <th>Department</th>
+            <th>Course</th>
             <th>Created On</th>
             <th class="text-center">Validated</th>
             <th></th>
@@ -107,8 +106,8 @@
             </td>
             <td>{{user.email}}</td>
             <td style="text-transform: capitalize;">{{user.role}}</td>
-            <td ng-if="user.department.name">{{user.department.name}}</td>
-            <td ng-if="!user.department">N/A</td>
+            <td ng-if="user.course.name">{{user.course.name}}</td>
+            <td ng-if="!user.course">N/A</td>
             <td>{{user.createdOn}}</td>
             <td ng-if="!user.passcode" class="text-center"><span class="glyphicon glyphicon-ok text-success"></span></td>
             <td ng-if="user.passcode" class="text-center"><span class="glyphicon glyphicon-remove text-danger"></span></td>
@@ -125,8 +124,8 @@
             </td>
             <td>{{user.email}}</td>
             <td style="text-transform: capitalize;">{{user.role}}</td>
-            <td ng-if="user.department">{{user.department.name}}</td>
-            <td ng-if="!user.department">N/A</td>
+            <td ng-if="user.course">{{user.course.name}}</td>
+            <td ng-if="!user.course">N/A</td>
             <td>{{user.createdOn}}</td>
 			<td ng-if="!user.passcode" class="text-center"><span class="glyphicon glyphicon-ok text-success"></span></td>
             <td ng-if="user.passcode" class="text-center"><span class="glyphicon glyphicon-remove text-danger"></span></td>

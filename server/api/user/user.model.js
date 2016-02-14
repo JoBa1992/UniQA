@@ -5,18 +5,22 @@ var Schema = mongoose.Schema;
 var crypto = require('crypto');
 
 var UserSchema = new Schema({
-  name: String,
+  name: {
+    type: String,
+    required: true
+  },
   role: {
     type: String,
     lowercase: true,
     default: 'student'
   },
-  department: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Department'
+  course: { // don't want to overcomplicate it
+    type: String,
+    required: true,
   },
   email: {
     type: String,
+    required: true,
     lowercase: true
   },
   passcode: {

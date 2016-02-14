@@ -10,6 +10,32 @@ angular.module('uniQaApp', [
     'ui.bootstrap'
   ])
   .config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
+    // root level routes
+    $stateProvider
+      .state('startLecture', {
+        url: '/lecture/start',
+        templateUrl: 'app/lectures/start.html',
+        controller: 'LectureStartCtrl',
+        authenticate: true
+      })
+      .state('lectMgr', {
+        url: '/my/lectures',
+        templateUrl: 'app/lectures/tutor.html',
+        controller: 'LectureTutCtrl',
+        authenticate: true
+      })
+      .state('questions', {
+        url: '/my/questions',
+        templateUrl: 'app/questions/tutor.html',
+        controller: 'QuestionCtrl',
+        authenticate: true
+      })
+      .state('statMgr', {
+        url: '/my/stats',
+        templateUrl: 'app/stats/statistics.html',
+        controller: 'AdminStatsCtrl',
+        authenticate: true
+      });
     $urlRouterProvider
       .otherwise('/');
     $locationProvider.html5Mode(true);

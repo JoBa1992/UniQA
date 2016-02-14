@@ -81,7 +81,7 @@ Thing.find({}).remove(function() {
     }
   }, {
     name: 'userRoles',
-    content: ['admin', 'tutor', 'student']
+    content: ['admin', 'student']
   }, {
     name: 'accessCodeLen',
     content: 6
@@ -99,360 +99,272 @@ Thing.find({}).remove(function() {
   });
 });
 
-Department.find({}).remove(function() {
-  Department.create({
-      name: 'Admin',
-      subdepartment: [{
-        name: 'Admin'
-      }],
-      deleted: false
+User.find({}).remove(function() {
+  User.create({
+    _id: '56a7d95746b9e7db57417309',
+    role: 'admin',
+    name: 'JoBa',
+    email: 'JoBa@uniqa.co.uk',
+    course: 'Software Engineering',
+    password: 'Josh1992'
+  }, {
+    role: 'admin',
+    name: 'Test Teacher',
+    email: 'teacher@shu.ac.uk',
+    course: 'Software Engineering',
+    password: 'tutor'
+  }, {
+    name: 'Test Student',
+    role: 'student',
+    email: 'student@shu.ac.uk',
+    course: 'Software Engineering',
+    password: 'student'
+  }, {
+    _id: '56a7bf8a800c479155488fce',
+    name: 'JD',
+    role: 'student',
+    email: 'jd@shu.ac.uk',
+    course: 'Software Engineering',
+    password: 'jd'
+  }, {
+    name: 'Jack McGlone',
+    role: 'student',
+    email: 'jack.mcblown@shu.ac.uk',
+    course: 'Software Engineering',
+    password: 'mcblown'
+  }, {
+    name: 'Chad Skimpson',
+    role: 'student',
+    email: 'chad.simpson@shu.ac.uk',
+    course: 'Software Engineering',
+    password: 'Chad'
+  }, {
+    _id: '56a7afd3259ef46f559880c9',
+    name: 'Alexis Parks',
+    role: 'student',
+    email: 'ap@shu.ac.uk',
+    course: 'Software Engineering',
+    passcode: 9493265230
+  }, {
+    _id: "56a7886405ab050a54d4eaa5",
+    name: 'Jeff',
+    role: 'student',
+    email: 'jeff@shu.ac.uk',
+    course: 'Software Engineering',
+    passcode: 9493265230
+  }, {
+    _id: "56a7886405ab050a54d4eaa6",
+    name: 'Bill',
+    role: 'student',
+    email: 'Bill@shu.ac.uk',
+    course: 'Software Engineering',
+    password: 'Bill'
+  }, {
+    name: 'Alex',
+    role: 'student',
+    email: 'alexs@shu.ac.uk',
+    course: 'Software Engineering',
+    passcode: 9493265230
+  }, function() {
+    console.log('finished populating users');
+  });
+  // Add groups here?
+  //   Group.find({}).remove(function() {
+  //     Group.create({
+  //         course: 'Software Engineering',
+  //         name: "SE3U",
+  //         subdep: "56a784189212039d536d6098",
+  //         $push: [{
+  //           "users": "56a7886405ab050a54d4eaa5"
+  //         }, {
+  //           "users": "56a7886405ab050a54d4eaa6"
+  //         }],
+  //         tutor: "56a35bce4d9999381aa483db"
+  //       }
+  //       /*, {
+  //                     createdBy: '56a35bce4d9999381aa483db',
+  //                     name: "MAD No1",
+  //                     desc: "Descriptive element for MAD no1",
+  //                     startTime: moment.utc([2016, 1, 23, 12, 30, 0]),
+  //                     endTime: moment.utc([2016, 1, 23, 14, 0, 0]),
+  //                     qActiveAllowance: 10
+  //       		  }*/
+  //       ,
+  //       function(error) {
+  //         if (error) {
+  //           console.log(error);
+  //         } else {
+  //           console.log('finished populating groups');
+  //         }
+  //       })
+  //   });
+  Lecture.find({}).remove(function() {
+    Lecture.create({
+      createdBy: '56a7d95746b9e7db57417309',
+      name: "MAD No1",
+      desc: "Descriptive element for MAD no1",
+      startTime: moment.utc([2016, 1, 23, 12, 30, 0]),
+      endTime: moment.utc([2016, 1, 23, 14, 0, 0]),
+      qActiveAllowance: 10
     }, {
-      name: 'Development and Society',
-      subdepartment: [{
-        name: 'Natural and Built Environment'
-      }, {
-        name: 'SIOE'
-      }, {
-        name: 'Psychology, Sociology and Politics'
-      }, {
-        name: 'Humanities'
-      }, {
-        name: 'Law and Criminology'
-      }, {
-        name: 'TESOL Centre'
-      }],
-      deleted: false
+      createdBy: '56a7d95746b9e7db57417309',
+      name: "MAD No2",
+      desc: "Descriptive element for MAD no2",
+      startTime: moment.utc([2016, 1, 23, 16, 0, 0]),
+      endTime: moment.utc([2016, 1, 23, 17, 0, 0]),
+      qActiveAllowance: 10
     }, {
-      //   _id: '56a7d95746b9e7db57417309',
-      name: 'ACES',
-      subdepartment: [{
-        name: 'Computing',
-        _id: '56a784189212039d536d6098',
-        groups: [{
-          course: 'Software Engineering',
-          name: "SE3U",
-          users: ["56a7886405ab050a54d4eaa5", "56a7886405ab050a54d4eaa6"],
-          tutors: [{
-            tutor: "56a35bce4d9999381aa483db"
-          }]
-        }, {
-          course: 'Computer Science',
-          name: "CS3U",
-          users: ["56a7bf8a800c479155488fce", "56a7afd3259ef46f559880c9"],
-          tutors: [{
-            tutor: "56a35bce4d9999381aa483db"
-          }]
-        }]
-      }, {
-        name: 'Engineering and Mathematics'
-      }, {
-        name: 'SIA'
-      }, {
-        name: 'Media Arts and Communication'
-      }],
-      deleted: false
+      createdBy: '56a7d95746b9e7db57417309',
+      name: "CSSD No1",
+      desc: "Descriptive element for Case Studies No1",
+      startTime: moment.utc([2016, 3, 20, 12, 0, 0]),
+      endTime: moment.utc([2016, 3, 20, 13, 0, 0]),
+      qActiveAllowance: 10
     }, {
-      name: 'Health and Wellbeing',
-      subdepartment: [{
-        name: 'Allied Health Professions'
-      }, {
-        name: 'Biosciences'
-      }, {
-        name: 'Nursing and Midwifery'
-      }, {
-        name: 'Sport and Physical Activity Academy'
-      }, {
-        name: 'Social Work and Social Care'
-      }],
-      deleted: false
+      createdBy: '56a7d95746b9e7db57417309',
+      name: "CSSD No2",
+      desc: "Descriptive element for Case Studies No2",
+      startTime: moment.utc([2016, 5, 20, 12, 0, 0]),
+      endTime: moment.utc([2016, 5, 20, 13, 0, 0]),
+      qActiveAllowance: 10
     }, {
-      name: 'Business',
-      subdepartment: [{
-        name: 'Finance, Accounting and Business Systems'
-      }, {
-        name: 'Management'
-      }, {
-        name: 'Service Sector Management'
-      }],
-      deleted: false
-    },
-    function(err) {
-      if (err)
-        console.log(err);
-      console.log('finished populating department');
-      User.find({}).remove(function() {
-        User.create({
-          role: 'admin',
-          name: 'JoBa',
-          email: 'JoBa@uniqa.co.uk',
-          password: 'Josh1992',
-          department: '56a7d95746b9e7db57417309'
-        }, {
-          role: 'tutor',
-          name: 'Test Teacher',
-          email: 'teacher@shu.ac.uk',
-          password: 'tutor',
-          department: '56a7d95746b9e7db57417309'
-        }, {
-          name: 'Test Student',
-          role: 'student',
-          email: 'student@shu.ac.uk',
-          password: 'student',
-          department: '56a7d95746b9e7db57417309'
-        }, {
-          _id: '56a7bf8a800c479155488fce',
-          name: 'JD',
-          role: 'student',
-          email: 'jd@shu.ac.uk',
-          password: 'jd',
-          department: '56a7d95746b9e7db57417309'
-        }, {
-          name: 'Jack McGlone',
-          role: 'student',
-          email: 'jack.mcblown@shu.ac.uk',
-          password: 'mcblown',
-          department: '56a7d95746b9e7db57417309'
-        }, {
-          name: 'Chad Skimpson',
-          role: 'student',
-          email: 'chad.simpson@shu.ac.uk',
-          password: 'Chad',
-          department: '56a7d95746b9e7db57417309'
-        }, {
-          _id: '56a7afd3259ef46f559880c9',
-          name: 'Alexis Parks',
-          role: 'student',
-          email: 'ap@shu.ac.uk',
-          passcode: 9493265230,
-          department: '56a7d95746b9e7db57417309'
-        }, {
-          _id: '56a35bce4d9999381aa483db',
-          name: 'JoBa',
-          role: 'tutor',
-          email: 'JoBa@shu.ac.uk',
-          password: 'Josh1992',
-          department: '56a7d95746b9e7db57417309'
-        }, {
-          _id: "56a7886405ab050a54d4eaa5",
-          name: 'Jeff',
-          role: 'student',
-          email: 'jeff@shu.ac.uk',
-          passcode: 9493265230,
-          department: '56a7d95746b9e7db57417309'
-        }, {
-          _id: "56a7886405ab050a54d4eaa6",
-          name: 'Bill',
-          role: 'student',
-          email: 'Bill@shu.ac.uk',
-          password: 'Bill',
-          department: '56a7d95746b9e7db57417309'
-        }, {
-          name: 'Alex',
-          role: 'tutor',
-          email: 'alexs@shu.ac.uk',
-          passcode: 9493265230,
-          department: '56a7d95746b9e7db57417309'
-        }, function() {
-          console.log('finished populating users');
-        });
-        // Add groups here?
-        //   Group.find({}).remove(function() {
-        //     Group.create({
-        //         course: 'Software Engineering',
-        //         name: "SE3U",
-        //         subdep: "56a784189212039d536d6098",
-        //         $push: [{
-        //           "users": "56a7886405ab050a54d4eaa5"
-        //         }, {
-        //           "users": "56a7886405ab050a54d4eaa6"
-        //         }],
-        //         tutor: "56a35bce4d9999381aa483db"
-        //       }
-        //       /*, {
-        //                     createdBy: '56a35bce4d9999381aa483db',
-        //                     name: "MAD No1",
-        //                     desc: "Descriptive element for MAD no1",
-        //                     startTime: moment.utc([2016, 1, 23, 12, 30, 0]),
-        //                     endTime: moment.utc([2016, 1, 23, 14, 0, 0]),
-        //                     qActiveAllowance: 10
-        //       		  }*/
-        //       ,
-        //       function(error) {
-        //         if (error) {
-        //           console.log(error);
-        //         } else {
-        //           console.log('finished populating groups');
-        //         }
-        //       })
-        //   });
-        Lecture.find({}).remove(function() {
-          Lecture.create({
-            createdBy: '56a35bce4d9999381aa483db',
-            name: "MAD No1",
-            desc: "Descriptive element for MAD no1",
-            startTime: moment.utc([2016, 1, 23, 12, 30, 0]),
-            endTime: moment.utc([2016, 1, 23, 14, 0, 0]),
-            qActiveAllowance: 10
-          }, {
-            createdBy: '56a35bce4d9999381aa483db',
-            name: "MAD No2",
-            desc: "Descriptive element for MAD no2",
-            startTime: moment.utc([2016, 1, 23, 16, 0, 0]),
-            endTime: moment.utc([2016, 1, 23, 17, 0, 0]),
-            qActiveAllowance: 10
-          }, {
-            createdBy: '56a35bce4d9999381aa483db',
-            name: "CSSD No1",
-            desc: "Descriptive element for Case Studies No1",
-            startTime: moment.utc([2016, 3, 20, 12, 0, 0]),
-            endTime: moment.utc([2016, 3, 20, 13, 0, 0]),
-            qActiveAllowance: 10
-          }, {
-            createdBy: '56a35bce4d9999381aa483db',
-            name: "CSSD No2",
-            desc: "Descriptive element for Case Studies No2",
-            startTime: moment.utc([2016, 5, 20, 12, 0, 0]),
-            endTime: moment.utc([2016, 5, 20, 13, 0, 0]),
-            qActiveAllowance: 10
-          }, {
-            createdBy: '56a35bce4d9999381aa483db',
-            name: "CSSD No3",
-            desc: "Descriptive element for Case Studies No3",
-            startTime: moment.utc([2016, 6, 20, 12, 0, 0]),
-            endTime: moment.utc([2016, 6, 20, 13, 0, 0]),
-            qActiveAllowance: 10
-          }, {
-            createdBy: '56a35bce4d9999381aa483db',
-            name: "MAD No3",
-            desc: "Descriptive element for no3",
-            startTime: moment.utc([2016, 7, 20, 12, 0, 0]),
-            endTime: moment.utc([2016, 7, 20, 13, 0, 0]),
-            qActiveAllowance: 10
-          }, {
-            createdBy: '56a35bce4d9999381aa483db',
-            name: "SEGM No1",
-            desc: "Descriptive element for SEGM No1",
-            startTime: moment.utc([2016, 8, 20, 12, 0, 0]),
-            endTime: moment.utc([2016, 8, 20, 13, 0, 0]),
-            qActiveAllowance: 10
-          }, {
-            createdBy: '56a35bce4d9999381aa483db',
-            name: "SEGM No2",
-            desc: "Descriptive element for SEGM No2",
-            startTime: moment.utc([2016, 9, 20, 12, 0, 0]),
-            endTime: moment.utc([2016, 9, 20, 13, 0, 0]),
-            qActiveAllowance: 10
-          }, {
-            createdBy: '56a35bce4d9999381aa483db',
-            name: "AAF No1",
-            desc: "Descriptive element for AAF No1",
-            startTime: moment.utc([2016, 10, 20, 8, 0, 0]),
-            endTime: moment.utc([2016, 10, 20, 10, 0, 0]),
-            qActiveAllowance: 10
-          }, {
-            createdBy: '56a35bce4d9999381aa483db',
-            name: "AAF No2",
-            desc: "Descriptive element for AAF No2",
-            startTime: moment.utc([2016, 11, 20, 13, 0, 0]),
-            endTime: moment.utc([2016, 11, 20, 14, 0, 0]),
-            qActiveAllowance: 10
-          }, {
-            createdBy: '56a35bce4d9999381aa483db',
-            name: "AAF No3",
-            desc: "Descriptive element for AAF No3",
-            startTime: moment.utc([2016, 7, 11, 15, 0, 0]),
-            endTime: moment.utc([2016, 7, 11, 16, 0, 0]),
-            qActiveAllowance: 10
-          }, {
-            createdBy: '56a35bce4d9999381aa483db',
-            name: "MAD No12",
-            desc: "Descriptive element for no12",
-            startTime: moment.utc([2016, 7, 11, 16, 0, 0]),
-            endTime: moment.utc([2016, 7, 11, 17, 0, 0]),
-            qActiveAllowance: 10
-          }, function(error) {
-            if (error) {
-              console.log(error);
-            } else {
-              console.log('finished populating Lectures');
-              // populate QRs for these lectures
-              Lecture.find({}, function(err, lectures) {
-                Qr.find({}).remove(function() {
-                  lectures.forEach(function(lecture) {
-                    // console.info(lecture._id);
-                    // console.info(lecture.createdBy);
-                    Qr.create({
-                      lecture: lecture._id,
-                      createdBy: lecture.createdBy
-                    }, function(err, qr) {
-                      if (err) {
-                        console.info(err);
-                      } else {
-                        Thing.find({
-                          name: 'qrBaseURL'
-                        }, function(err, thing) {
-                          //   console.log(lecture.name);
-                          var serverBase = thing[0].content; // just the one
-                          Thing.find({
-                            name: 'accessCodeLen'
-                          }, function(err, thing) {
-                            var altAccKeyLen = thing[0].content; // just the one
-                            createUniqueAccKey(altAccKeyLen, function(altAccessKey) {
-                              lecture.altAccess = altAccessKey;
-                              var url = String(serverBase + '/' + qr._id + '/group/' + 'temp' + '/register');
+      createdBy: '56a7d95746b9e7db57417309',
+      name: "CSSD No3",
+      desc: "Descriptive element for Case Studies No3",
+      startTime: moment.utc([2016, 6, 20, 12, 0, 0]),
+      endTime: moment.utc([2016, 6, 20, 13, 0, 0]),
+      qActiveAllowance: 10
+    }, {
+      createdBy: '56a7d95746b9e7db57417309',
+      name: "MAD No3",
+      desc: "Descriptive element for no3",
+      startTime: moment.utc([2016, 7, 20, 12, 0, 0]),
+      endTime: moment.utc([2016, 7, 20, 13, 0, 0]),
+      qActiveAllowance: 10
+    }, {
+      createdBy: '56a7d95746b9e7db57417309',
+      name: "SEGM No1",
+      desc: "Descriptive element for SEGM No1",
+      startTime: moment.utc([2016, 8, 20, 12, 0, 0]),
+      endTime: moment.utc([2016, 8, 20, 13, 0, 0]),
+      qActiveAllowance: 10
+    }, {
+      createdBy: '56a7d95746b9e7db57417309',
+      name: "SEGM No2",
+      desc: "Descriptive element for SEGM No2",
+      startTime: moment.utc([2016, 9, 20, 12, 0, 0]),
+      endTime: moment.utc([2016, 9, 20, 13, 0, 0]),
+      qActiveAllowance: 10
+    }, {
+      createdBy: '56a7d95746b9e7db57417309',
+      name: "AAF No1",
+      desc: "Descriptive element for AAF No1",
+      startTime: moment.utc([2016, 10, 20, 8, 0, 0]),
+      endTime: moment.utc([2016, 10, 20, 10, 0, 0]),
+      qActiveAllowance: 10
+    }, {
+      createdBy: '56a7d95746b9e7db57417309',
+      name: "AAF No2",
+      desc: "Descriptive element for AAF No2",
+      startTime: moment.utc([2016, 11, 20, 13, 0, 0]),
+      endTime: moment.utc([2016, 11, 20, 14, 0, 0]),
+      qActiveAllowance: 10
+    }, {
+      createdBy: '56a7d95746b9e7db57417309',
+      name: "AAF No3",
+      desc: "Descriptive element for AAF No3",
+      startTime: moment.utc([2016, 7, 11, 15, 0, 0]),
+      endTime: moment.utc([2016, 7, 11, 16, 0, 0]),
+      qActiveAllowance: 10
+    }, {
+      createdBy: '56a7d95746b9e7db57417309',
+      name: "MAD No12",
+      desc: "Descriptive element for no12",
+      startTime: moment.utc([2016, 7, 11, 16, 0, 0]),
+      endTime: moment.utc([2016, 7, 11, 17, 0, 0]),
+      qActiveAllowance: 10
+    }, function(error) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('finished populating Lectures');
+        // populate QRs for these lectures
+        Lecture.find({}, function(err, lectures) {
+          Qr.find({}).remove(function() {
+            lectures.forEach(function(lecture) {
+              // console.info(lecture._id);
+              // console.info(lecture.createdBy);
+              Qr.create({
+                lecture: lecture._id,
+                createdBy: lecture.createdBy
+              }, function(err, qr) {
+                if (err) {
+                  console.info(err);
+                } else {
+                  Thing.find({
+                    name: 'qrBaseURL'
+                  }, function(err, thing) {
+                    //   console.log(lecture.name);
+                    var serverBase = thing[0].content; // just the one
+                    Thing.find({
+                      name: 'accessCodeLen'
+                    }, function(err, thing) {
+                      var altAccKeyLen = thing[0].content; // just the one
+                      createUniqueAccKey(altAccKeyLen, function(altAccessKey) {
+                        lecture.altAccess = altAccessKey;
+                        var url = String(serverBase + '/' + qr._id + '/group/' + 'temp' + '/register');
 
-                              // currently in Sync...? :(
-                              var qrSvgString = qrEncoder.imageSync(url, {
-                                type: 'svg',
-                                ec_level: 'Q',
-                                parse_url: false,
-                                margin: 1,
-                                size: 4
-                              });
-                              // REMOVE Inject elements on svg, problem with plugin
-                              qrSvgString = qrSvgString.replace('<svg xmlns="http://www.w3.org/2000/svg" width="172" height="172" viewBox="0 0 43 43">', "");
-                              qrSvgString = qrSvgString.replace('</svg>', "");
-                              qrSvgString = qrSvgString.replace('\"', "\'");
-                              qrSvgString = qrSvgString.replace('\"/', "\'/");
+                        // currently in Sync...? :(
+                        var qrSvgString = qrEncoder.imageSync(url, {
+                          type: 'svg',
+                          ec_level: 'Q',
+                          parse_url: false,
+                          margin: 1,
+                          size: 4
+                        });
+                        // REMOVE Inject elements on svg, problem with plugin
+                        qrSvgString = qrSvgString.replace('<svg xmlns="http://www.w3.org/2000/svg" width="172" height="172" viewBox="0 0 43 43">', "");
+                        qrSvgString = qrSvgString.replace('</svg>', "");
+                        qrSvgString = qrSvgString.replace('\"', "\'");
+                        qrSvgString = qrSvgString.replace('\"/', "\'/");
 
-                              Qr.findById(qr._id).exec(function(err, uQr) {
+                        Qr.findById(qr._id).exec(function(err, uQr) {
+                          if (err) {
+                            console.info(err);
+                          } else if (!uQr) {
+
+                          } else {
+                            lecture.qr = qr._id;
+                            uQr.url = url;
+                            uQr.svg = qrSvgString;
+                            uQr.save(function(err) {
+                              if (err) {
+                                console.info(err);
+                              }
+                              lecture.qr = qr._id;
+                              lecture.save(function(err, lecture) {
                                 if (err) {
                                   console.info(err);
-                                } else if (!uQr) {
-
                                 } else {
-                                  lecture.qr = qr._id;
-                                  uQr.url = url;
-                                  uQr.svg = qrSvgString;
-                                  uQr.save(function(err) {
-                                    if (err) {
-                                      console.info(err);
-                                    }
-                                    lecture.qr = qr._id;
-                                    lecture.save(function(err, lecture) {
-                                      if (err) {
-                                        console.info(err);
-                                      } else {
-                                        console.log('populated qr for ' + lecture.name);
-                                      }
-                                    });
-                                  });
+                                  console.log('populated qr for ' + lecture.name);
                                 }
                               });
                             });
-                          });
+                          }
                         });
-                      }
+                      });
                     });
                   });
-                });
+                }
               });
-            }
+            });
           });
         });
-      });
+      }
     });
+  });
 });
+
 
 /*
 '2016-2017': [new Date(2016, 09, 26, 23, 59, 59, 0).toISOString(), new Date(2017, 09, 25, 23, 59, 59, 0).toISOString()],
