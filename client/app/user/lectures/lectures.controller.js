@@ -7,10 +7,9 @@ angular.module('uniQaApp')
     $scope.noQueryResults = false;
 
     $scope.myLectures = {};
-    $scope.myLectureCount = 0;
     $scope.resultsPerPage = 10;
     $scope.currentPage = 1;
-    $scope.totalPages = 8;
+    // $scope.totalPages = 8;
 
     var me = Auth.getCurrentUser();
     Lecture.getMyTotal({

@@ -20,18 +20,11 @@ var DepartmentSchema = new Schema({
       },
       name: {
         type: String,
-        required: true,
-        unique: true
+        required: true
       },
-      // subdep: {
-      //   type: mongoose.Schema.Types.ObjectId,
-      //   ref: 'Department',
-      //   unique: true
-      // },
       users: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        unique: true
+        ref: 'User'
       }],
       tutors: [{
         tutor: {

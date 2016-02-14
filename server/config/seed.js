@@ -123,7 +123,7 @@ Department.find({}).remove(function() {
       }],
       deleted: false
     }, {
-      _id: '56a7d95746b9e7db57417309',
+      //   _id: '56a7d95746b9e7db57417309',
       name: 'ACES',
       subdepartment: [{
         name: 'Computing',
@@ -176,7 +176,9 @@ Department.find({}).remove(function() {
       }],
       deleted: false
     },
-    function() {
+    function(err) {
+      if (err)
+        console.log(err);
       console.log('finished populating department');
       User.find({}).remove(function() {
         User.create({
