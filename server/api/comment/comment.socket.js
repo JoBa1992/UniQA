@@ -7,18 +7,18 @@
 var Comment = require('./comment.model');
 
 exports.register = function(socket) {
-  Comment.schema.post('save', function (doc) {
-    onSave(socket, doc);
-  });
-  Comment.schema.post('remove', function (doc) {
-    onRemove(socket, doc);
-  });
+	Comment.schema.post('save', function(doc) {
+		onSave(socket, doc);
+	});
+	Comment.schema.post('remove', function(doc) {
+		onRemove(socket, doc);
+	});
 }
 
 function onSave(socket, doc, cb) {
-  socket.emit('comment:save', doc);
+	socket.emit('comment:save', doc);
 }
 
 function onRemove(socket, doc, cb) {
-  socket.emit('comment:remove', doc);
+	socket.emit('comment:remove', doc);
 }

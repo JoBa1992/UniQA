@@ -16,8 +16,7 @@
         <li ng-repeat="item in leftMenu" ng-class="{active: isActive(item.link)}">
           <a ng-if="isAdmin() && item.admin ||
 		  				isTutor() && item.tutor ||
-						isStudent() && item.student"
-		  ng-href="{{item.link}}" class="disable-animations">{{item.title}}</a>
+						isStudent() && item.student" ng-href="{{item.link}}" class="disable-animations">{{item.title}}</a>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right ">

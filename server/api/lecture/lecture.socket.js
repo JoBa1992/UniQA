@@ -7,18 +7,18 @@
 var lecture = require('./lecture.model');
 
 exports.register = function(socket) {
-  lecture.schema.post('save', function(doc) {
-    onSave(socket, doc);
-  });
-  lecture.schema.post('remove', function(doc) {
-    onRemove(socket, doc);
-  });
+	lecture.schema.post('save', function(doc) {
+		onSave(socket, doc);
+	});
+	lecture.schema.post('remove', function(doc) {
+		onRemove(socket, doc);
+	});
 }
 
 function onSave(socket, doc, cb) {
-  socket.emit('lecture:save', doc);
+	socket.emit('lecture:save', doc);
 }
 
 function onRemove(socket, doc, cb) {
-  socket.emit('lecture:remove', doc);
+	socket.emit('lecture:remove', doc);
 }

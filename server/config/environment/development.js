@@ -3,10 +3,10 @@
 // Development specific configuration
 // ==================================
 module.exports = {
-  // MongoDB connection options
-  mongo: {
-    uri: 'mongodb://localhost/uniqa-dev'
-  },
+	// MongoDB connection options
+	mongo: {
+		uri: 'mongodb://localhost/uniqa-dev'
+	},
 
-  seedDB: true
+	seedDB: true
 };

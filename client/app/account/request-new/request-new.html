@@ -98,9 +98,9 @@
       <label>Access Code</label>
 
       <input type="passcode" name="passcode" class="form-control" ng-model="user.passcode" maxlength=10 required mongoose-error/>
-	  <p class="help-block">Lost your passcode?
-	    <a href="/request-passcode" target="_blank">Request a new one</a>
-	  </p>
+      <p class="help-block">Lost your passcode?
+        <a href="/request-passcode" target="_blank">Request a new one</a>
+      </p>
       <p class="help-block" ng-show="(form.passcode.$error.minlength || form.passcode.$error.required) && submitted">
         Passcodes are 10 characters long.
       </p>
