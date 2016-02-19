@@ -1,8 +1,63 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
+<div>
+  <!-- space to segregate multiple page views here -->
+  <div class="container-full" id="lecture-fullscreen" style="margin-top:{{lectureHeightMarginTop}};background-color:#8DB7D2;">
+    <div class="row" style="margin:0;padding:0;height:{{lectureHeight + 'px'}}" id="lectureView">
+      <div class="col-xs-12 col-sm-12 {{presViewSizeMd}} {{presViewSizeLg}} presentation-view" style="display:inline-block;padding:0;position:relative;">
+        <a ng-click="toggleFullScreen()" class="btn btn-warning btn-sm" style="position:absolute;top:14px;right:{{toggleBtnPosRight}};">
+          <i class="fa {{toggleFullScreenIcon}}"></i>
+        </a>
+        <object id="lecture" type="text/html" data="http://www.mustbebuilt.co.uk/SHU/WAD/wad-wk8-lecture16.html#/step-1" style="width:100%;height:{{lectureHeight + 'px'}}"></object>
+        <a ng-click="toggleQuestions()" class="btn btn-warning btn-sm" style="position:absolute;bottom:14px;right:{{toggleBtnPosRight}};">
+          <i class="fa {{hideQuestionIcon}}">
+            <strong>{{questionIconNumber}}</strong>
+          </i>
+        </a>
+      </div>
 
-<div class="container">
-  <div class="row"></div>
+      <div ng-class="{ 'hidden': hideQuestions }" class="col-xs-12 col-sm-12 col-md-3 col-lg-3 question-container" id="lectureQuestions">
+        <div class="question-head-container">
+          <div class="question-head">
+            <h3>Questions</h3>
+          </div>
+        </div>
+        <div class="question-feed" style="height:{{lectureHeight-70 + 'px'}}">
+          <h5 style="color:#FFA700;">Welcome to WAD week 8...</h5>
+          <a>Joshua Bates:
+            <span tooltip="09:30" tooltip-trigger tooltip-animation="true" tooltip-placement="top" ng-click="something()">How do I do this?</span>
+          </a>
+          <a>Joshua Bates:
+            <span tooltip="09:30" tooltip-trigger tooltip-animation="true" tooltip-placement="top" ng-click="something()">more questions...</span>
+          </a>
+          <a>Joshua Bates:
+            <span tooltip="09:30" tooltip-trigger tooltip-animation="true" tooltip-placement="top" ng-click="something()">Ridiculously stupidly incredibily long comment to test out how it looks</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row" style="">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 presentation-view" style="padding:0;position:relative;">
+        <h3 class="text-primary" style="padding-left:4px;">Lecture Info</h3>
+        <hr class="lecture-resource-hr">
+        <p>Basic Information about this lecture, including the description, runtime, collaborators & live registration</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row" style="">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 presentation-view" style="padding:0;position:relative;">
+        <h3 class="text-primary" style="padding-left:4px;">Lecture Resources</h3>
+        <hr class="lecture-resource-hr">
+        <p>List of resources that are linked with this lecture (side presentation, handouts, etc)</p>
+      </div>
+    </div>
+  </div>
 </div>
+
 <!-- FOOTER -->
 <div ng-include="'components/footer/footer.html'"></div>
 <!-- /FOOTER -->

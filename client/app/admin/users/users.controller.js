@@ -12,7 +12,7 @@ angular.module('uniQaApp')
 			dropdown: true,
 		};
 
-		$scope.userCount = 0;
+		// $scope.userCount = 0;
 		$scope.resultsPerPage = 10;
 		$scope.currentPage = 1;
 		$scope.totalPages = 0;

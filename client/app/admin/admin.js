@@ -22,9 +22,9 @@ angular.module('uniQaApp')
 			//     authenticate: true
 			//   })
 			.state('groupMgr', {
-				url: '/my/courses',
-				templateUrl: 'app/admin/courses/courses.html',
-				controller: 'AdminCourseCtrl',
+				url: '/my/groups',
+				templateUrl: 'app/admin/groups/groups.html',
+				controller: 'AdminGroupCtrl',
 				authenticate: true
 			});
 	});

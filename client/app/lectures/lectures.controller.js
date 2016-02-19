@@ -95,7 +95,77 @@ angular.module('uniQaApp')
 			return new Date(datetime).getTime() + minutes * 60000;
 		};
 	})
-	.controller('LectureStartCtrl', function($scope, $http, Auth, Lecture, Modal) {
+	.controller('LectureStartCtrl', function($scope, $http, $window, Auth, Lecture, Modal) {
+		// scope load
+		$scope.lectureHeight = '760';
+		$scope.lectureHeightMarginTop = '-1.4em;';
+		$scope.fullScreenToggle = false;
+		$scope.hideQuestions = false;
+		$scope.presViewSizeMd = 'col-md-9';
+		$scope.presViewSizeLg = 'col-lg-9';
+		$scope.hideQuestionIcon = 'fa-arrow-right';
+		$scope.questionIconNumber = '';
+		$scope.toggleBtnPosRight = '16px;';
+		$scope.toggleFullScreenIcon = 'fa-expand';
 
+		$scope.toggleQuestions = function() {
+			if ($scope.hideQuestions) {
+				$scope.presViewSizeMd = 'col-md-9';
+				$scope.presViewSizeLg = 'col-lg-9';
+				$scope.questionIconNumber = '';
+				$scope.hideQuestionIcon = 'fa-arrow-right';
+				$scope.hideQuestions = false;
+				$scope.toggleBtnPosRight = '16px;';
 
+			} else {
+				$scope.presViewSizeMd = 'col-md-12';
+				$scope.presViewSizeLg = 'col-lg-12';
+				$scope.questionIconNumber = 3;
+				$scope.hideQuestionIcon = '';
+				$scope.hideQuestions = true;
+				$scope.toggleBtnPosRight = '26px;';
+
+			}
+		}
+
+		function onkeydownFS(e) {
+			console.info(document.getElementById("lecture"));
+			// e.preventDefault();
+			// console.info("hit");
+			// switch (e.keyCode) {
+			// 	case 27: // KeyEvent.DOM_VK_ESC
+			// 		e.preventDefault();
+			// 		break;
+			// }
+		}
+		$window.addEventListener("keydown", onkeydownFS, true);
+
+		$scope.toggleFullScreen = function() {
+			if (!$scope.fullScreenToggle) { // Launch fullscreen for browsers that support it!
+				var element = document.getElementById("lecture-fullscreen");
+				if (element.requestFullScreen) {
+					element.requestFullScreen();
+				} else if (element.mozRequestFullScreen) {
+					element.mozRequestFullScreen();
+				} else if (element.webkitRequestFullScreen) {
+					element.webkitRequestFullScreen();
+				}
+				// $scope.lectureHeightMarginTop = '0em;';
+				$scope.lectureHeight = '890';
+				$scope.toggleFullScreenIcon = 'fa-compress';
+				$scope.fullScreenToggle = true;
+			} else { // Cancel fullscreen for browsers that support it!
+				if (document.exitFullscreen) {
+					document.exitFullscreen();
+				} else if (document.mozCancelFullScreen) {
+					document.mozCancelFullScreen();
+				} else if (document.webkitExitFullscreen) {
+					document.webkitExitFullscreen();
+				}
+				// $scope.lectureHeightMarginTop = '-1.4em;';
+				$scope.lectureHeight = '760';
+				$scope.toggleFullScreenIcon = 'fa-expand';
+				$scope.fullScreenToggle = false;
+			}
+		}
 	});

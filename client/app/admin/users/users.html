@@ -106,7 +106,7 @@
             </td>
             <td>{{user.email}}</td>
             <td style="text-transform: capitalize;">{{user.role}}</td>
-            <td ng-if="user.course.name">{{user.course.name}}</td>
+            <td ng-if="user.course.name">{{user.course}}</td>
             <td ng-if="!user.course">N/A</td>
             <td>{{user.createdOn}}</td>
             <td ng-if="!user.passcode" class="text-center">
@@ -128,8 +128,8 @@
             </td>
             <td>{{user.email}}</td>
             <td style="text-transform: capitalize;">{{user.role}}</td>
-            <td ng-if="user.course">{{user.course.name}}</td>
-            <td ng-if="!user.course">N/A</td>
+            <td ng-if="user.course">{{user.course}}</td>
+            <td ng-if="isEmpty(user.course)">N/A</td>
             <td>{{user.createdOn}}</td>
             <td ng-if="!user.passcode" class="text-center">
               <span class="glyphicon glyphicon-ok text-success"></span>
