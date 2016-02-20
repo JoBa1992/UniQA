@@ -4,12 +4,12 @@ var mongoose = require('mongoose'),
 	Schema = mongoose.Schema;
 
 var LectureSchema = new Schema({
-	createdBy: {
-		type: mongoose.Schema.Types.ObjectId,
+	author: {
+		type: Schema.Types.ObjectId,
 		ref: 'User',
 		required: true
 	},
-	name: {
+	title: {
 		type: String,
 		required: true
 	},
@@ -17,29 +17,28 @@ var LectureSchema = new Schema({
 		type: String,
 		default: null
 	},
-	startTime: Date,
-	endTime: Date,
-	qActiveAllowance: {
-		type: Number,
-		min: 0,
-		max: 60,
-		default: 10,
-		required: true
+	collaborators: [{
+		user: {
+			type: Schema.Types.ObjectId,
+			ref: 'User'
+		},
+		_id: false
+	}],
+	url: {
+		type: String
 	},
-	attachments: {
-		type: [String],
-		default: []
-	},
-	qr: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Qr',
-		default: null
-	},
-	altAccess: {
-		type: String,
-		default: null,
-		max: 6
-	}
+	attachments: [{
+		loc: {
+			type: String
+		},
+		type: {
+			type: String,
+			default: 'code'
+		},
+		desc: {
+			type: String
+		}
+	}]
 });
 
 module.exports = mongoose.model('Lecture', LectureSchema);

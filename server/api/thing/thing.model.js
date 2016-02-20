@@ -11,7 +11,8 @@ var ThingSchema = new Schema({
 	},
 	content: {
 		type: Array,
-		default: []
+		default: [],
+		lowercase: true // useful for checking against explicit
 	},
 	active: Boolean
 });

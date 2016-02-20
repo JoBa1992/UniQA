@@ -88,6 +88,46 @@ angular.module('uniQaApp')
 
 		// Public API here
 		return {
+			read: {
+				qr: function(cb) {
+					cb = cb || angular.noop;
+					return function() {
+						var args = Array.prototype.slice.call(arguments),
+							readModal;
+
+						var me = Auth.getCurrentUser();
+
+						Lecture.getForMe({
+							createdBy: me._id,
+							page: 1,
+							paginate: 10
+						}).then(function(res) {
+							$rootScope.lecture = res[0]; // need to elaborate on this
+							readModal = openModal({
+								modal: {
+									name: "createrUserForm",
+									dismissable: true,
+									title: 'Show QR',
+									form: '<div class="container-fluid">' +
+										'<div class="row">' +
+										'<div class="col-md-8 col-sm-offset-2 col-md-offset-2" style="padding:0;border:2px solid #343D48;border-radius:2px;height:100%;background-color:white;">' +
+										'<ext-svg data-content="lecture.qr.svg"></ext-svg>' +
+										'</div>' +
+										'</div>' +
+										'</div>',
+									buttons: [{
+										classes: 'btn-primary',
+										text: 'Dismiss',
+										click: function(e) {
+											readModal.dismiss(e);
+										}
+									}]
+								}
+							}, 'modal-primary');
+						});
+					};
+				},
+			},
 			create: {
 				user: function(cb) {
 					cb = cb || angular.noop;
@@ -115,16 +155,6 @@ angular.module('uniQaApp')
 							$rootScope.user.role = 'Select Role';
 						});
 						Department.get().then(function(val) {
-							// loop through, and create key pairs to pass on scope variable
-							/*
-              val.forEach(function(dep) {
-				var subs = [];
-				dep.subdepartment.forEach(function(subdep) {
-				  subs.push(subdep.name);
-				});
-				$rootScope.departments[dep.name] = subs;
-              });
-              */
 							val.forEach(function(dep) {
 								var subs = [];
 								dep.subdepartment.forEach(function(subdep) {

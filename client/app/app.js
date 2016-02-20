@@ -24,6 +24,12 @@ angular.module('uniQaApp', [
 				controller: 'LectureTutCtrl',
 				authenticate: true
 			})
+			.state('userSchedule', {
+				url: '/my/schedule',
+				templateUrl: 'app/schedule/schedule.html',
+				controller: 'ScheduleCtrl',
+				authenticate: true
+			})
 			.state('questions', {
 				url: '/my/questions',
 				templateUrl: 'app/questions/tutor.html',
@@ -65,30 +71,24 @@ angular.module('uniQaApp', [
 			}
 		};
 	})
-
-// .directive('bootstrapTooltip', function() {
-// 	return function(scope, element, attrs) {
-// 		attrs.$observe('title', function(title) {
-// 			// Destroy any existing tooltips (otherwise new ones won't get initialized)
-// 			element.tooltip('destroy');
-// 			// Only initialize the tooltip if there's text (prevents empty tooltips)
-// 			if (jQuery.trim(title)) element.tooltip();
-// 		})
-// 		element.on('$destroy', function() {
-// 			element.tooltip('destroy');
-// 			delete attrs.$$observers['title'];
-// 		});
-// 	}
-// })
-
-.run(function($rootScope, $location, Auth) {
-	// Redirect to login if route requires auth and you're not logged in
-	$rootScope.$on('$stateChangeStart', function(event, next) {
-		Auth.isLoggedInAsync(function(loggedIn) {
-			if (next.authenticate && !loggedIn) {
-				event.preventDefault();
-				$location.path('/login');
+	.run(function($rootScope, $location, socket) {
+		// check for scope state changes
+		$rootScope.$on('$stateChangeStart', function(next, current) {
+			// if not on start lecture, unsync socket listening
+			if (current.url != '/lecture/start') {
+				socket.unsyncUpdates('session');
 			}
 		});
+
+	})
+	.run(function($rootScope, $location, Auth) {
+		// Redirect to login if route requires auth and you're not logged in
+		$rootScope.$on('$stateChangeStart', function(event, next) {
+			Auth.isLoggedInAsync(function(loggedIn) {
+				if (next.authenticate && !loggedIn) {
+					event.preventDefault();
+					$location.path('/login');
+				}
+			});
+		});
 	});
-});

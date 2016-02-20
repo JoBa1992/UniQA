@@ -10,7 +10,7 @@ var Thing = require('../api/thing/thing.model');
 var User = require('../api/user/user.model');
 var Group = require('../api/group/group.model');
 var Lecture = require('../api/lecture/lecture.model');
-var Qr = require('../api/qr/qr.model');
+var Session = require('../api/session/session.model');
 
 // USED FOR QR GENERATION
 var fs = require('fs');
@@ -114,6 +114,7 @@ User.find({}).remove(function() {
 		course: 'Software Engineering',
 		password: 'tutor'
 	}, {
+		_id: '56c86c25099777e930372eb7',
 		name: 'Test Student',
 		role: 'student',
 		email: 'student@shu.ac.uk',
@@ -154,7 +155,7 @@ User.find({}).remove(function() {
 		passcode: 9493265230
 	}, {
 		_id: "56a7886405ab050a54d4eaa6",
-		name: 'Bill',
+		name: 'Bill Gates',
 		role: 'student',
 		email: 'Bill@shu.ac.uk',
 		course: 'Software Engineering',
@@ -167,200 +168,391 @@ User.find({}).remove(function() {
 		passcode: 9493265230
 	}, function() {
 		console.log('finished populating users');
-	});
-	// Add groups here?
-	//   Group.find({}).remove(function() {
-	//     Group.create({
-	//         course: 'Software Engineering',
-	//         name: "SE3U",
-	//         subdep: "56a784189212039d536d6098",
-	//         $push: [{
-	//           "users": "56a7886405ab050a54d4eaa5"
-	//         }, {
-	//           "users": "56a7886405ab050a54d4eaa6"
-	//         }],
-	//         tutor: "56a35bce4d9999381aa483db"
-	//       }
-	//       /*, {
-	//                     createdBy: '56a35bce4d9999381aa483db',
-	//                     name: "MAD No1",
-	//                     desc: "Descriptive element for MAD no1",
-	//                     startTime: moment.utc([2016, 1, 23, 12, 30, 0]),
-	//                     endTime: moment.utc([2016, 1, 23, 14, 0, 0]),
-	//                     qActiveAllowance: 10
-	//       		  }*/
-	//       ,
-	//       function(error) {
-	//         if (error) {
-	//           console.log(error);
-	//         } else {
-	//           console.log('finished populating groups');
-	//         }
-	//       })
-	//   });
-	Lecture.find({}).remove(function() {
-		Lecture.create({
-			createdBy: '56a7d95746b9e7db57417309',
-			name: "MAD No1",
-			desc: "Descriptive element for MAD no1",
-			startTime: moment.utc([2016, 1, 23, 12, 30, 0]),
-			endTime: moment.utc([2016, 1, 23, 14, 0, 0]),
-			qActiveAllowance: 10
-		}, {
-			createdBy: '56a7d95746b9e7db57417309',
-			name: "MAD No2",
-			desc: "Descriptive element for MAD no2",
-			startTime: moment.utc([2016, 1, 23, 16, 0, 0]),
-			endTime: moment.utc([2016, 1, 23, 17, 0, 0]),
-			qActiveAllowance: 10
-		}, {
-			createdBy: '56a7d95746b9e7db57417309',
-			name: "CSSD No1",
-			desc: "Descriptive element for Case Studies No1",
-			startTime: moment.utc([2016, 3, 20, 12, 0, 0]),
-			endTime: moment.utc([2016, 3, 20, 13, 0, 0]),
-			qActiveAllowance: 10
-		}, {
-			createdBy: '56a7d95746b9e7db57417309',
-			name: "CSSD No2",
-			desc: "Descriptive element for Case Studies No2",
-			startTime: moment.utc([2016, 5, 20, 12, 0, 0]),
-			endTime: moment.utc([2016, 5, 20, 13, 0, 0]),
-			qActiveAllowance: 10
-		}, {
-			createdBy: '56a7d95746b9e7db57417309',
-			name: "CSSD No3",
-			desc: "Descriptive element for Case Studies No3",
-			startTime: moment.utc([2016, 6, 20, 12, 0, 0]),
-			endTime: moment.utc([2016, 6, 20, 13, 0, 0]),
-			qActiveAllowance: 10
-		}, {
-			createdBy: '56a7d95746b9e7db57417309',
-			name: "MAD No3",
-			desc: "Descriptive element for no3",
-			startTime: moment.utc([2016, 7, 20, 12, 0, 0]),
-			endTime: moment.utc([2016, 7, 20, 13, 0, 0]),
-			qActiveAllowance: 10
-		}, {
-			createdBy: '56a7d95746b9e7db57417309',
-			name: "SEGM No1",
-			desc: "Descriptive element for SEGM No1",
-			startTime: moment.utc([2016, 8, 20, 12, 0, 0]),
-			endTime: moment.utc([2016, 8, 20, 13, 0, 0]),
-			qActiveAllowance: 10
-		}, {
-			createdBy: '56a7d95746b9e7db57417309',
-			name: "SEGM No2",
-			desc: "Descriptive element for SEGM No2",
-			startTime: moment.utc([2016, 9, 20, 12, 0, 0]),
-			endTime: moment.utc([2016, 9, 20, 13, 0, 0]),
-			qActiveAllowance: 10
-		}, {
-			createdBy: '56a7d95746b9e7db57417309',
-			name: "AAF No1",
-			desc: "Descriptive element for AAF No1",
-			startTime: moment.utc([2016, 10, 20, 8, 0, 0]),
-			endTime: moment.utc([2016, 10, 20, 10, 0, 0]),
-			qActiveAllowance: 10
-		}, {
-			createdBy: '56a7d95746b9e7db57417309',
-			name: "AAF No2",
-			desc: "Descriptive element for AAF No2",
-			startTime: moment.utc([2016, 11, 20, 13, 0, 0]),
-			endTime: moment.utc([2016, 11, 20, 14, 0, 0]),
-			qActiveAllowance: 10
-		}, {
-			createdBy: '56a7d95746b9e7db57417309',
-			name: "AAF No3",
-			desc: "Descriptive element for AAF No3",
-			startTime: moment.utc([2016, 7, 11, 15, 0, 0]),
-			endTime: moment.utc([2016, 7, 11, 16, 0, 0]),
-			qActiveAllowance: 10
-		}, {
-			createdBy: '56a7d95746b9e7db57417309',
-			name: "MAD No12",
-			desc: "Descriptive element for no12",
-			startTime: moment.utc([2016, 7, 11, 16, 0, 0]),
-			endTime: moment.utc([2016, 7, 11, 17, 0, 0]),
-			qActiveAllowance: 10
-		}, function(error) {
-			if (error) {
-				console.log(error);
-			} else {
-				console.log('finished populating Lectures');
-				// populate QRs for these lectures
-				Lecture.find({}, function(err, lectures) {
-					Qr.find({}).remove(function() {
-						lectures.forEach(function(lecture) {
-							// console.info(lecture._id);
-							// console.info(lecture.createdBy);
-							Qr.create({
-								lecture: lecture._id,
-								createdBy: lecture.createdBy
-							}, function(err, qr) {
-								if (err) {
-									console.info(err);
-								} else {
-									Thing.find({
-										name: 'qrBaseURL'
-									}, function(err, thing) {
-										//   console.log(lecture.name);
-										var serverBase = thing[0].content; // just the one
-										Thing.find({
-											name: 'accessCodeLen'
-										}, function(err, thing) {
-											var altAccKeyLen = thing[0].content; // just the one
-											createUniqueAccKey(altAccKeyLen, function(altAccessKey) {
-												lecture.altAccess = altAccessKey;
-												var url = String(serverBase + '/' + qr._id + '/group/' + 'temp' + '/register');
-
-												// currently in Sync...? :(
-												var qrSvgString = qrEncoder.imageSync(url, {
-													type: 'svg',
-													ec_level: 'Q',
-													parse_url: false,
-													margin: 1,
-													size: 4
-												});
-												// REMOVE Inject elements on svg, problem with plugin
-												qrSvgString = qrSvgString.replace('<svg xmlns="http://www.w3.org/2000/svg" width="172" height="172" viewBox="0 0 43 43">', "");
-												qrSvgString = qrSvgString.replace('</svg>', "");
-												qrSvgString = qrSvgString.replace('\"', "\'");
-												qrSvgString = qrSvgString.replace('\"/', "\'/");
-
-												Qr.findById(qr._id).exec(function(err, uQr) {
-													if (err) {
-														console.info(err);
-													} else if (!uQr) {
-
-													} else {
-														lecture.qr = qr._id;
-														uQr.url = url;
-														uQr.svg = qrSvgString;
-														uQr.save(function(err) {
-															if (err) {
-																console.info(err);
-															}
-															lecture.qr = qr._id;
-															lecture.save(function(err, lecture) {
-																if (err) {
-																	console.info(err);
-																} else {
-																	console.log('populated qr for ' + lecture.name);
-																}
-															});
-														});
-													}
-												});
-											});
-										});
-									});
-								}
-							});
+		Lecture.find({}).remove(function() {
+			Lecture.create({
+				author: '56a7d95746b9e7db57417309',
+				title: "WAD Week 1",
+				desc: "Descriptive element for WAD no1",
+				collaborators: [],
+				url: '',
+				attachments: []
+			}, {
+				author: '56a7d95746b9e7db57417309',
+				title: "WAD Week 2",
+				desc: "Descriptive element for WAD no2",
+				collaborators: [],
+				url: '',
+				attachments: []
+			}, {
+				author: '56a7d95746b9e7db57417309',
+				title: "WAD Week 3",
+				desc: "Descriptive element for WAD no3",
+				collaborators: [],
+				url: '',
+				attachments: []
+			}, {
+				author: '56a7d95746b9e7db57417309',
+				title: "WAD Week 4",
+				desc: "Descriptive element for WAD no4",
+				collaborators: [],
+				url: '',
+				attachments: []
+			}, {
+				author: '56a7d95746b9e7db57417309',
+				title: "WAD Week 5",
+				desc: "Descriptive element for WAD no5",
+				collaborators: [],
+				url: '',
+				attachments: []
+			}, {
+				author: '56a7d95746b9e7db57417309',
+				title: "WAD Week 6",
+				desc: "Descriptive element for WAD no6",
+				collaborators: [],
+				url: '',
+				attachments: []
+			}, {
+				author: '56a7d95746b9e7db57417309',
+				title: "WAD Week 7",
+				desc: "Descriptive element for WAD no7",
+			}, {
+				_id: "56c868096bd3f7b730a051f4",
+				author: '56a7d95746b9e7db57417309',
+				title: "WAD Week 8",
+				desc: "Basic Information about this lecture, including the description, runtime, collaborators & live registration. This place here is reserved for a description of the lecture itself. Continuing text to see what it would look like when the word wrap is active.",
+				collaborators: [{
+					user: "56c86c25099777e930372eb7"
+				}],
+				url: 'http://www.mustbebuilt.co.uk/SHU/WAD/wad-wk8-lecture16.html#/step-1',
+				attachments: [{
+					'loc': '/storage/56c868096bd3f7b730a051f4/1.ppt',
+					'type': 'powerpoint'
+				}, {
+					'loc': '/storage/56c868096bd3f7b730a051f4/2.html',
+					'type': 'code'
+				}, {
+					'loc': '/storage/56c868096bd3f7b730a051f4/3.docx',
+					'type': 'word'
+				}, {
+					'loc': '/storage/56c868096bd3f7b730a051f4/4.pdf',
+					'type': 'pdf'
+				}, {
+					'loc': '/storage/56c868096bd3f7b730a051f4/5.xlsx',
+					'type': 'excel'
+				}, {
+					'loc': '/storage/56c868096bd3f7b730a051f4/6.txt',
+					'type': 'text'
+				}, {
+					'loc': '/storage/56c868096bd3f7b730a051f4/7.zip',
+					'type': 'zip'
+				}]
+			}, {
+				author: '56a7d95746b9e7db57417309',
+				title: "WAD Week 9",
+				desc: "Descriptive element for WAD no9",
+				collaborators: [],
+				url: '',
+				attachments: []
+			}, {
+				author: '56a7d95746b9e7db57417309',
+				title: "MAD No1",
+				desc: "Descriptive element for MAD no2",
+				collaborators: [],
+				url: '',
+				attachments: []
+			}, {
+				author: '56a7d95746b9e7db57417309',
+				title: "CSSD No1",
+				desc: "Descriptive element for Case Studies No1",
+				collaborators: [],
+				url: '',
+				attachments: []
+			}, {
+				author: '56a7d95746b9e7db57417309',
+				title: "CSSD No2",
+				desc: "Descriptive element for Case Studies No2",
+				collaborators: [],
+				url: '',
+				attachments: []
+			}, {
+				author: '56a7d95746b9e7db57417309',
+				title: "CSSD No3",
+				desc: "Descriptive element for Case Studies No3",
+				collaborators: [],
+				url: '',
+				attachments: []
+			}, {
+				author: '56a7d95746b9e7db57417309',
+				title: "MAD No2",
+				desc: "Descriptive element for no3",
+				collaborators: [],
+				url: '',
+				attachments: []
+			}, {
+				author: '56a7d95746b9e7db57417309',
+				title: "SEGM No1",
+				desc: "Descriptive element for SEGM No1",
+				collaborators: [],
+				url: '',
+				attachments: []
+			}, {
+				author: '56a7d95746b9e7db57417309',
+				title: "SEGM No2",
+				desc: "Descriptive element for SEGM No2",
+				collaborators: [],
+				url: '',
+				attachments: []
+			}, {
+				author: '56a7d95746b9e7db57417309',
+				title: "AAF No1",
+				desc: "Descriptive element for AAF No1",
+				collaborators: [],
+				url: '',
+				attachments: []
+			}, {
+				author: '56a7d95746b9e7db57417309',
+				title: "AAF No2",
+				desc: "Descriptive element for AAF No2",
+				collaborators: [],
+				url: '',
+				attachments: []
+			}, {
+				author: '56a7d95746b9e7db57417309',
+				title: "AAF No3",
+				desc: "Descriptive element for AAF No3",
+				collaborators: [],
+				url: '',
+				attachments: []
+			}, {
+				author: '56a7d95746b9e7db57417309',
+				title: "MAD No3",
+				desc: "Descriptive element for no12",
+				collaborators: [],
+				url: '',
+				attachments: []
+			}, function(error) {
+				if (error) {
+					console.log(error);
+				} else {
+					console.log('finished populating Lectures');
+					Session.find({}).remove(function() {
+						Session.create({
+							_id: '56c87667bcd6f3c431cb8681',
+							lecture: '56c868096bd3f7b730a051f4',
+							startTime: moment.utc([2016, 2, 20, 20, 30, 0]),
+							endTime: moment.utc([2016, 2, 20, 22, 0, 0]),
+							qActiveAllowance: 10,
+							qr: {
+								url: 'String',
+								svg: 'String'
+							},
+							altAccess: '',
+							register: [{
+								user: '56a7bf8a800c479155488fce'
+							}, {
+								user: '56a7886405ab050a54d4eaa6'
+							}, {
+								user: '56c86c25099777e930372eb5'
+							}, {
+								user: '56c86c25099777e930372eb7'
+							}, {
+								user: '56c86c25099777e930372eb6'
+							}, {
+								user: '56a7afd3259ef46f559880c9'
+							}, {
+								user: '56c86c25099777e930372eb4'
+							}, {
+								user: '56a7886405ab050a54d4eaa5'
+							}],
+							questions: [{
+								'asker': '56a7886405ab050a54d4eaa6',
+								'request': 'How do I do this?',
+								'time': moment.utc([2016, 2, 20, 20, 35, 0]),
+							}, {
+								'asker': '56c86c25099777e930372eb7',
+								'request': 'more questions...',
+								'time': moment.utc([2016, 2, 20, 20, 40, 0]),
+							}, {
+								'asker': '56a7afd3259ef46f559880c9',
+								'request': 'Ridiculously stupidly incredibily long comment to test out how it looks',
+								'time': moment.utc([2016, 2, 20, 20, 50, 0]),
+							}]
+						}, function(err, sessions) {
+							if (err)
+								console.log(err);
+							// sessions.forEach(function(session) {
+							// 	.create({
+							// 		lecture: lecture._id,
+							// 		createdBy: lecture.createdBy
+							// 	}, function(err, qr) {
+							// 		if (err) {
+							// 			console.info(err);
+							// 		} else {
+							// 			Thing.find({
+							// 				name: 'qrBaseURL'
+							// 			}, function(err, thing) {
+							// 				//   console.log(lecture.name);
+							// 				var serverBase = thing[0].content; // just the one
+							// 				Thing.find({
+							// 					name: 'accessCodeLen'
+							// 				}, function(err, thing) {
+							// 					var altAccKeyLen = thing[0].content; // just the one
+							// 					createUniqueAccKey(altAccKeyLen, function(altAccessKey) {
+							// 						lecture.altAccess = altAccessKey;
+							// 						var url = String(serverBase + '/' + qr._id + '/group/' + 'temp' + '/register');
+							//
+							// 						// currently in Sync...? :(
+							// 						var qrSvgString = qrEncoder.imageSync(url, {
+							// 							type: 'svg',
+							// 							ec_level: 'Q',
+							// 							parse_url: false,
+							// 							margin: 1,
+							// 							size: 4
+							// 						});
+							// 						// REMOVE Inject elements on svg, problem with plugin
+							// 						qrSvgString = qrSvgString.replace('<svg xmlns="http://www.w3.org/2000/svg" width="172" height="172" viewBox="0 0 43 43">', "");
+							// 						qrSvgString = qrSvgString.replace('</svg>', "");
+							// 						qrSvgString = qrSvgString.replace('\"', "\'");
+							// 						qrSvgString = qrSvgString.replace('\"/', "\'/");
+							//
+							// 						Qr.findById(qr._id).exec(function(err, uQr) {
+							// 							if (err) {
+							// 								console.info(err);
+							// 							} else if (!uQr) {
+							//
+							// 							} else {
+							// 								lecture.qr = qr._id;
+							// 								uQr.url = url;
+							// 								uQr.svg = qrSvgString;
+							// 								uQr.save(function(err) {
+							// 									if (err) {
+							// 										console.info(err);
+							// 									}
+							// 									lecture.qr = qr._id;
+							// 									lecture.save(function(err, lecture) {
+							// 										if (err) {
+							// 											console.info(err);
+							// 										} else {
+							// 											console.log('populated qr for ' + lecture.name);
+							// 										}
+							// 									});
+							// 								});
+							// 							}
+							// 						});
+							// 					});
+							// 				});
+							// 			});
+							// 		}
+							// 	});
+							// });
+							console.log('finished populating Sessions');
 						});
 					});
-				});
-			}
+					// populate QRs for these lectures
+					// Lecture.find({}, function(err, lectures) {
+					// 	Qr.find({}).remove(function() {
+					// 		lectures.forEach(function(lecture) {
+					// 			// console.info(lecture._id);
+					// 			// console.info(lecture.createdBy);
+					// 			Qr.create({
+					// 				lecture: lecture._id,
+					// 				createdBy: lecture.createdBy
+					// 			}, function(err, qr) {
+					// 				if (err) {
+					// 					console.info(err);
+					// 				} else {
+					// 					Thing.find({
+					// 						name: 'qrBaseURL'
+					// 					}, function(err, thing) {
+					// 						//   console.log(lecture.name);
+					// 						var serverBase = thing[0].content; // just the one
+					// 						Thing.find({
+					// 							name: 'accessCodeLen'
+					// 						}, function(err, thing) {
+					// 							var altAccKeyLen = thing[0].content; // just the one
+					// 							createUniqueAccKey(altAccKeyLen, function(altAccessKey) {
+					// 								lecture.altAccess = altAccessKey;
+					// 								var url = String(serverBase + '/' + qr._id + '/group/' + 'temp' + '/register');
+					//
+					// 								// currently in Sync...? :(
+					// 								var qrSvgString = qrEncoder.imageSync(url, {
+					// 									type: 'svg',
+					// 									ec_level: 'Q',
+					// 									parse_url: false,
+					// 									margin: 1,
+					// 									size: 4
+					// 								});
+					// 								// REMOVE Inject elements on svg, problem with plugin
+					// 								qrSvgString = qrSvgString.replace('<svg xmlns="http://www.w3.org/2000/svg" width="172" height="172" viewBox="0 0 43 43">', "");
+					// 								qrSvgString = qrSvgString.replace('</svg>', "");
+					// 								qrSvgString = qrSvgString.replace('\"', "\'");
+					// 								qrSvgString = qrSvgString.replace('\"/', "\'/");
+					//
+					// 								Qr.findById(qr._id).exec(function(err, uQr) {
+					// 									if (err) {
+					// 										console.info(err);
+					// 									} else if (!uQr) {
+					//
+					// 									} else {
+					// 										lecture.qr = qr._id;
+					// 										uQr.url = url;
+					// 										uQr.svg = qrSvgString;
+					// 										uQr.save(function(err) {
+					// 											if (err) {
+					// 												console.info(err);
+					// 											}
+					// 											lecture.qr = qr._id;
+					// 											lecture.save(function(err, lecture) {
+					// 												if (err) {
+					// 													console.info(err);
+					// 												} else {
+					// 													console.log('populated qr for ' + lecture.name);
+					// 												}
+					// 											});
+					// 										});
+					// 									}
+					// 								});
+					// 							});
+					// 						});
+					// 					});
+					// 				}
+					// 			});
+					// 		});
+					// 	});
+					// });
+				}
+			});
+			// Add groups here?
+			//   Group.find({}).remove(function() {
+			//     Group.create({
+			//         course: 'Software Engineering',
+			//         name: "SE3U",
+			//         subdep: "56a784189212039d536d6098",
+			//         $push: [{
+			//           "users": "56a7886405ab050a54d4eaa5"
+			//         }, {
+			//           "users": "56a7886405ab050a54d4eaa6"
+			//         }],
+			//         tutor: "56a35bce4d9999381aa483db"
+			//       }
+			//       /*, {
+			//                     createdBy: '56a35bce4d9999381aa483db',
+			//                     name: "MAD No1",
+			//                     desc: "Descriptive element for MAD no1",
+			//                     startTime: moment.utc([2016, 1, 23, 12, 30, 0]),
+			//                     endTime: moment.utc([2016, 1, 23, 14, 0, 0]),
+			//                     qActiveAllowance: 10
+			//       		  }*/
+			//       ,
+			//       function(error) {
+			//         if (error) {
+			//           console.log(error);
+			//         } else {
+			//           console.log('finished populating groups');
+			//         }
+			//       })
+			//   });
+
 		});
 	});
 });
