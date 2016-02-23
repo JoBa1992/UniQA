@@ -13,7 +13,7 @@ angular.module('uniQaApp')
 		};
 
 		// $scope.userCount = 0;
-		$scope.resultsPerPage = 10;
+		$scope.resultsPerPage = 15;
 		$scope.currentPage = 1;
 		$scope.totalPages = 0;
 

@@ -14,36 +14,42 @@ var Group = require('./group.model');
 
 // Get list of groups (or limit by querystring)
 exports.index = function(req, res) {
+	var result = {};
 	Group
 		.find(req.query)
-		.populate('Department')
-		.populate({
-			path: "tutor",
-			populate: 'User'
-		})
-		.populate({
-			path: "users.user",
-			populate: 'User'
-		})
+		.populate('students.user')
+		.populate('tutors.user')
+		.lean()
 		.exec(function(err, groups) {
 			if (err) {
 				return handleError(res, err);
 			}
-			return res.status(200).json(groups);
+			result['groups'] = groups;
+			Group.count({}, function(err, count) {
+				if (err) {
+					return handleError(res, err);
+				}
+				result['count'] = count;
+				return res.status(200).json(result);
+			});
+
 		});
 };
 
 // Get a single group
 exports.show = function(req, res) {
-	Group.findById(req.params.id, function(err, group) {
-		if (err) {
-			return handleError(res, err);
-		}
-		if (!group) {
-			return res.status(404).send('Not Found');
-		}
-		return res.json(group);
-	});
+	Group.findById(req.params.id)
+		.populate('students.user')
+		.populate('tutors.user')
+		.exec(function(err, group) {
+			if (err) {
+				return handleError(res, err);
+			}
+			if (!group) {
+				return res.status(404).send('Not Found');
+			}
+			return res.json(group);
+		});
 };
 
 // Creates a new group in the DB.

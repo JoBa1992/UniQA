@@ -15,11 +15,14 @@ var UserSchema = new Schema({
 		default: 'student'
 	},
 	course: { // don't want to overcomplicate it
-		type: String,
-		required: true,
+		type: String
+	},
+	teachingArea: { // don't want to overcomplicate it
+		type: String
 	},
 	email: {
 		type: String,
+		unique: true,
 		required: true,
 		lowercase: true
 	},

@@ -4,7 +4,7 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-4 col-med-4 col-lg-2 ">
-        <h1>Group Management</h1>
+        <h1>{{title}}</h1>
       </div>
       <div class="col-sm-3 col-med-3 col-lg-3 ">
         <form id="search-form" class="form-inline" role="form" method="post">
@@ -14,132 +14,73 @@
               <button type="submit" class="btn btn-primary search-btn" data-target="#search-form" name="q">
                 <span style="" class="glyphicon glyphicon-search"></span>
               </button>
-              <!-- <a ng-click="clearSearchFilter($event)" ng-class="{ 'disable-custom-filter': clearedFilter.dropdown, 'custom-filter': !clearedFilter.dropdown }" class="glyphicon glyphicon-remove pull-right"></a> -->
             </span>
           </div>
         </form>
       </div>
       <div class="col-sm-4 col-med-4 col-lg-4 pull-right text-center">
         <div class="col-sm-4 col-med-4 col-lg-4 pull-right">
-          <button type="button" class="btn btn-success dropdown-toggle page-sub-header-btn" ng-click="openCreateUserModal()">Create Group</button>
+          <button type="button" class="btn btn-success dropdown-toggle page-sub-header-btn" ng-click="openCreateGroupModal()">Create Group</button>
         </div>
         <div class="sub-menu-divider-vertical pull-right"></div>
         <div class="col-sm-4 col-med-4 col-lg-4 pull-right">
-          <button class="btn btn-primary pull-right page-sub-header-btn" ng-click="refreshUserList('btn')">
-            <span class="glyphicon glyphicon-refresh rotate"></span>
-            Refresh</button>
+          <h2>
+            <span>{{count}}</span><br>
+            System Group(s)
+          </h2>
         </div>
       </div>
     </div>
   </div>
 </div>
+
 <div class="container">
-  <div class="row" style="margin-top:1em;padding-bottom:1.4em;border-bottom:2px dotted #8CB7D3;">
-    <div class="col-sm-4 col-med-4 col-lg-4 user-filter text-center">
-      <h5 class="text-left">Filter</h5>
-      <!-- <div class="btn-group " role="group" aria-label="...">
-        <button ng-repeat="(key,value) in filter.role" type="button" style="text-transform: capitalize;" class="btn btn-default" ng-class="{active: value}" ng-click="userRoleFilterToggle(key)">{{key}}</button>
-      </div> -->
-    </div>
-    <div class="col-sm-4 col-med-4 col-lg-4 user-filter text-center">
-      <h5 class="text-left">Filter</h5>
-      <div class="sliderExample">
-        <p style="margin-bottom:-10px;"></p><br>
+  <div class="row" ng-repeat="group in groups">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 norm-marg" ng-class="{'foot-marg': $last && isEmpty(unassigned)}">
+      <h3 class="text-primary" style="padding-left:4px;">{{group.course}}
+        - (Level
+        {{group.level}})
+        <a href="#" ng-click="openUpdateGroupModal(group._id)" class="text-warning">
+          <i class="fa fa-pencil fa"></i>
+        </a>
+        <a href="#" ng-click="openDeleteGroupModal(group._id)" class="trash">
+          <i class="fa fa-trash pull-right"></i>
+        </a>
+      </h3>
+      <hr class="resource-hr">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h4 style="margin:0em 0 .4em;">Tutors</h4>
+        <a href="#" class="col-xs-6 col-sm-4 col-md-3 col-lg-3 text-primary" ng-repeat="tutor in group.tutors">
+          {{tutor.user.name}}
+        </a>
       </div>
-    </div>
-    <div class="col-sm-4 col-med-4 col-lg-4 user-filter">
-      <h5 class="text-left">Member of...</h5>
-      <div class="dropdown reg-dropdown" style="position:relative;">
-        <button class="btn btn-inverse dropdown-toggle form-control" name="department" type="button" data-toggle="dropdown">{{filter.department}}
-          <span class="caret"></span>
-        </button>
-        <a ng-click="clearDepFilter($event)" ng-class="{ 'disable-custom-filter': clearedFilter.dropdown, 'custom-filter': !clearedFilter.dropdown }" class="glyphicon glyphicon-remove pull-right"></a>
-        <ul class="dropdown-menu scrollable-menu" role="menu" style="overflow:hidden;">
-          <li ng-repeat="(key,val) in departments">
-            <a class="dropdown-header disabled dropdown-header-custom" ng-click="$event.stopPropagation()">{{key}}</a>
-            <a ng-repeat="subVals in departments[key]" ng-click="depDropdownSel(subVals)">{{departments[key][$index]}}</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <br>
-  <div class="row">
-    <div class="warnings">
-      <!-- <div class="alert alert-warning" role="alert">
-        <a href="#" class="alert-link">You have entered an incorrect attribute</a>
-      </div> -->
-      <div class="alert alert-danger" role="alert" ng-if="noFiltQueryReturn">
-        <p href="" class="alert-link">Query returned no results</p>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h4 style="margin:1em 0 .4em;">Students</h4>
+        <a class="col-xs-6 col-sm-4 col-md-3 col-lg-3 group-user" style="color:#343D48" ng-repeat="student in group.students">
+          {{student.user.name}}
+        </a>
       </div>
     </div>
   </div>
-  <div class="row" ng-if="isEmpty(deps)">
-    Add Something
-  </div>
-  <div class="col-xs-12 col-sm-12 col-med-4 col-lg-4 pull-left" ng-repeat="dep in deps">
-    <h2 class="text-muted">{{dep.name}}</h2>
-    <div class="panel panel-default" ng-repeat="subdep in dep.subdepartment">
-      <div class="panel-heading clearfix">
-        <strong>{{subdep.name}}</strong>
+  <div class="row" ng-if="!isEmpty(unassigned)">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 foot-marg">
+      <h3 class="text-primary" style="padding-left:4px;">Unassigned User Pool
+      </h3>
+      <hr class="resource-hr">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h4 style="margin:0em 0 .4em;" ng-if="!isEmpty(unassigned.tutors)">Tutors</h4>
+        <a href="#" class="col-xs-6 col-sm-4 col-md-3 col-lg-3 text-primary" ng-repeat="tutor in unassigned.tutors">
+          {{tutor.user.name}}
+        </a>
       </div>
-      <!-- <div class="panel-heading clearfix"></div> -->
-      <div ng-if="!isEmpty(subdep.groups)">
-        <div ng-repeat="group in subdep.groups">
-          <table class="table table-striped">
-            <thead>
-              <tr style="border-bottom:0px solid #ddd;">
-
-                <div style="position:relative;">
-                  <h5 style="width:100%;border-bottom:0;padding-left:6px;" class="pull-left text-primary">
-                    <strong>{{group.course}}
-                      ({{group.name}})</strong>
-                  </h5>
-                  <a href="#" style="position:absolute;top:.7em;right:.6em;" ng-click="openMoveGroupUserModal(user)" class="trash">
-                    <span class="glyphicon glyphicon-remove"></span>
-                  </a>
-                </div>
-              </tr>
-              <tr>
-                <!-- <th>ID</th> -->
-                <!-- <th>Name</th> -->
-                <th>Email</th>
-                <th>Role</th>
-                <!-- <th>Department</th> -->
-                <th></th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="user in group.users">
-                <!-- <td>{{user._id}}</td> -->
-                <!-- <td>{{user.name}}</td> -->
-                <td>{{user.email}}</td>
-                <td style="text-transform: capitalize;">{{user.role}}</td>
-                <!-- <td ng-if="user.department">{{user.department}}</td>
-				<td ng-if="!user.department">N/A</td> -->
-                <td>
-                  <a href="#" ng-click="openMoveGroupUserModal(user)" class="text-success">
-                    <span class="glyphicon glyphicon-share pull-right"></span>
-                  </a>
-                </td>
-                <td>
-                  <a href="#" ng-click="openRemoveGroupUserModal(user)" class="trash">
-                    <span class="glyphicon glyphicon-remove pull-right"></span>
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-        </div>
-      </div>
-      <div ng-if="isEmpty(subdep.groups)" class="text-center text-primary top-buffer">
-        <p>No groups exist for this sub department!</p>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h4 style="margin:1em 0 .4em;" ng-if="">!isEmpty(unassigned.tutors)</h4>
+        <a class="col-xs-6 col-sm-4 col-md-3 col-lg-3 group-user" style="color:#343D48" ng-repeat="student in unassigned.students">
+          {{student.user.name}}
+        </a>
       </div>
     </div>
   </div>
-</div>
 </div>
 <!-- FOOTER -->
 <div ng-include="'components/footer/footer.html'"></div>

@@ -4,28 +4,68 @@
   <div class="row">
     <div class="container-fluid">
       <div class="row">
+        <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,'has-error': form.name.$invalid && submitted }">
+          <label>Course Name</label>
+          <input type="text" name="name" class="form-control" ng-model="user.name" required/>
+          <p class="help-block" ng-show="form.name.$error.required && submitted">A name is required</p>
+        </div>
+        <div class="form-group" ng-class="{ 'has-success': user.role!='Select Role' && submitted,'has-error': user.role=='Select Role' && submitted }">
+          <label>Level</label>
+          <div class="dropdown reg-dropdown">
+            <button class="btn btn-inverse dropdown-toggle form-control" style="text-transform: capitalize;" name="type" ng-model="year" type="button" data-toggle="dropdown">{{user.role}}
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li>
+                <a ng-repeat="level in groupLevels" ng-click="groupLevelDropdownSel()" style="text-transform: capitalize;">{{level}}</a>
+              </li>
+            </ul>
+          </div>
+          <p class="help-block" ng-show="user.role=='Select Role' && submitted">Please select a user type</p>
+          <p class="help-block" ng-show="form.roles.$error.mongoose">{{ errors.roles }}</p>
+        </div>
+        <div class="form-group" ng-class="{ 'has-success': form.email.$valid && submitted,'has-error': form.email.$invalid && submitted }">
+          <label>Email</label>
+          <div class="input-group">
+            <input type="text" name="email" class="form-control" aria-describedby="basic-addon2" ng-model="user.email" required mongoose-error>
+            <span class="input-group-addon" id="basic-addon2">{{uniEmail}}</span>
+          </div>
+          <p class="help-block" ng-show="form.email.$error.email && submitted">Email address provided does not match the department format</p>
+          <p class="help-block" ng-show="form.email.$error.required && submitted">Please enter your email address</p>
+          <p class="help-block" name="emailVal" ng-show="form.email.$error.mongoose">{{ errors.email }}</p>
+        </div>
+        <div class="form-group" ng-class="{ 'has-success': form.passcode.$valid && submitted,'has-error': form.passcode.$invalid && submitted }">
+          <label>Access Code</label>
+          <input type="passcode" name="passcode" class="form-control" ng-model="user.passcode" value="{{user.passcode}}" maxlength=10 required readonly mongoose-error/>
+          <p class="help-block" ng-show="(form.passcode.$error.minlength || form.passcode.$error.required) && submitted">Passcodes are 10 characters long.</p>
+          <p class="help-block" ng-show="form.passcode.$error.mongoose">{{ errors.passcode }}</p>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="container-fluid">
+      <div class="row">
         <div class="form-group col-xs-8 col-sm-6 col-md-3 col-lg-3 col-xs-offset-2 col-sm-offset-3 col-md-offset-0 col-lg-offset-0 pull-left">
           <img src="assets/images/placeholders/uniqa-qr.png" style="border:2px solid #343D48;border-radius:2px;width:100%;" alt="QR Example" class="img-responsive"/>
         </div>
-        <div class="form-group col-xs-12 col-sm-12 col-md-9 col-lg-9 pull-right" ng-class="{ 'has-success': form.name.$valid && submitted,'has-error': form.name.$invalid && submitted }">
+        <div class="form-group col-xs-12 col-sm-12 col-md-9 col-lg-9 pull-right" ng-class="{ ''has-success'': form.name.$valid && submitted,''has-error'': form.name.$invalid && submitted }">
           <label>Lecture Name</label>
           <input type="text" name="name" class="form-control" ng-model="lecture.name" required mongoose-error>
           <p class="help-block" ng-show="form.name.$error.required && submitted">Lecture must have a name</p>
           <p class="help-block" name="nameVal" ng-show="form.name.$error.mongoose">{{ errors.name }}</p>
         </div>
-        <div class="form-group col-xs-12 col-sm-12 col-md-9 col-lg-9 pull-right" ng-class="{ 'has-success': form.desc.$valid && submitted,'has-error': form.desc.$invalid && submitted }">
+        <div class="form-group col-xs-12 col-sm-12 col-md-9 col-lg-9 pull-right" ng-class="{ ''has-success'': form.desc.$valid && submitted,''has-error'': form.desc.$invalid && submitted }">
           <label>Lecture Description</label>
           <textarea class="form-control" name="desc" rows="5" ng-model="lecture.desc" style="max-height:200px;" required mongoose-error></textarea>
           <p class="help-block" ng-show="form.desc.$error.required && submitted">Lecture must have a description</p>
           <p class="help-block" name="descVal" ng-show="form.desc.$error.mongoose">{{ errors.desc }}</p>
         </div>
-        <div class="form-group col-xs-12 col-sm-12 col-md-9 col-lg-9 pull-right" ng-class="{ 'has-success': form.createdBy.$valid && submitted,'has-error': form.createdBy.$invalid && submitted }">
+        <div class="form-group col-xs-12 col-sm-12 col-md-9 col-lg-9 pull-right" ng-class="{ ''has-success'': form.createdBy.$valid && submitted,''has-error'': form.createdBy.$invalid && submitted }">
           <label>Created By</label>
           <input type="text" name="createdBy" class="form-control" ng-model="lecture.createdBy" disabled required mongoose-error>
           <p class="help-block" ng-show="form.createdBy.$error.required && submitted">Something was not right there.</p>
           <p class="help-block" name="createdByVal" ng-show="form.createdBy.$error.mongoose">{{ errors.createdBy }}</p>
         </div>
-        <div class="form-group col-xs-12 col-sm-12 col-md-9 col-lg-9 pull-right" ng-class="{ 'has-success': form.startTime.$valid && submitted,'has-error': form.startTime.$invalid && submitted }">
+        <div class="form-group col-xs-12 col-sm-12 col-md-9 col-lg-9 pull-right" ng-class="{ ''has-success'': form.startTime.$valid && submitted,''has-error'': form.startTime.$invalid && submitted }">
           <label>Start Time</label>
           <div class="dropdown">
             <div class="input-group">
@@ -39,7 +79,7 @@
           <p class="help-block" ng-show="form.startTime.$error.required && submitted">Add some validation here</p>
           <p class="help-block" name="startTimeVal" ng-show="form.startTime.$error.mongoose">{{ errors.startTime }}</p>
         </div>
-        <div class="form-group col-xs-12 col-sm-12 col-md-9 col-lg-9 pull-right" ng-class="{ 'has-success': form.endTime.$valid && submitted,'has-error': form.endTime.$invalid && submitted }">
+        <div class="form-group col-xs-12 col-sm-12 col-md-9 col-lg-9 pull-right" ng-class="{ ''has-success'': form.endTime.$valid && submitted,''has-error'': form.endTime.$invalid && submitted }">
           <label>End Time</label>
           <div class="dropdown">
             <div class="input-group">
@@ -53,14 +93,14 @@
           <p class="help-block" ng-show="form.endTime.$error.required && submitted">Add some validation here</p>
           <p class="help-block" name="endTimeVal" ng-show="form.endTime.$error.mongoose">{{ errors.endTime }}</p>
         </div>
-        <div class="form-group col-xs-12 col-sm-12 col-md-9 col-lg-9 pull-right" ng-class="{ 'has-success': form.qActAllowance.$valid && submitted,'has-error': (form.qActAllowance.$invalid && submitted) || (form.qActAllowance < 0) || (form.qActAllowance > 60) }">
+        <div class="form-group col-xs-12 col-sm-12 col-md-9 col-lg-9 pull-right" ng-class="{ ''has-success'': form.qActAllowance.$valid && submitted,''has-error'': (form.qActAllowance.$invalid && submitted) || (form.qActAllowance < 0) || (form.qActAllowance > 60) }">
           <label>Question Time Allowance Variation</label>
           <input type="number" name="qActAllowance" class="form-control" step="5" ng-model="lecture.qActAllowance" value="{{user.qActAllowance}}" max="60" min="0" required mongoose-error/>
           <p class="help-block" ng-show="(form.qActAllowance.$error.minlength || form.qActAllowance.$error.required) && (form.qActAllowance < 0) || (form.qActAllowance > 60) && submitted">Must be between 0 and 60</p>
           <p class="help-block" ng-show="form.qActAllowance.$error.mongoose">{{ errors.qActAllowance }}</p>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>
 <!-- FOOTER -->

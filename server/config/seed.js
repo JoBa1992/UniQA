@@ -105,13 +105,84 @@ User.find({}).remove(function() {
 		role: 'admin',
 		name: 'JoBa',
 		email: 'JoBa@uniqa.co.uk',
-		course: 'Software Engineering',
+		teachingArea: 'Software Engineering',
 		password: 'Josh1992'
 	}, {
+		_id: '56cb76ebd5b3f4b6be5d7dd4',
 		role: 'admin',
-		name: 'Test Teacher',
-		email: 'teacher@shu.ac.uk',
-		course: 'Software Engineering',
+		name: 'Andrew Dearden',
+		email: 'ande@shu.ac.uk',
+		teachingArea: 'Software Engineering',
+		password: 'tutor'
+	}, {
+		_id: '56cb76ebd5b3f4b6be5d7dd5',
+		role: 'admin',
+		name: 'Andrew Stratton',
+		email: 'anst@shu.ac.uk',
+		teachingArea: 'Software Engineering',
+		password: 'tutor'
+	}, {
+		_id: '56cb76ebd5b3f4b6be5d7dd6',
+		role: 'admin',
+		name: 'Mehmet Özcan',
+		email: 'meoz@shu.ac.uk',
+		teachingArea: 'Software Engineering',
+		password: 'tutor'
+	}, {
+		_id: '56cb76ebd5b3f4b6be5d7dd7',
+		role: 'admin',
+		name: 'Chris Bates',
+		email: 'chba@shu.ac.uk',
+		teachingArea: 'Software Engineering',
+		password: 'tutor'
+	}, {
+		_id: '56cb76ebd5b3f4b6be5d7dd8',
+		role: 'admin',
+		name: "Peter O'Neill",
+		email: 'peon@shu.ac.uk',
+		teachingArea: 'Software Engineering',
+		password: 'tutor'
+	}, {
+		_id: '56cb76ebd5b3f4b6be5d7dd9',
+		role: 'admin',
+		name: 'Andrew Bisset',
+		email: 'anbi@shu.ac.uk',
+		teachingArea: 'Software Engineering',
+		password: 'tutor'
+	}, {
+		_id: '56cb76ebd5b3f4b6be5d7dda',
+		role: 'admin',
+		name: 'Ivan Phelan',
+		email: 'ivph@shu.ac.uk',
+		teachingArea: 'Software Engineering',
+		password: 'tutor'
+	}, {
+		_id: '56cb76ecd5b3f4b6be5d7ddb',
+		role: 'admin',
+		name: 'Martin Cooper',
+		email: 'maco@shu.ac.uk',
+		teachingArea: 'Software Engineering',
+		password: 'tutor'
+	}, {
+		_id: '56cb76ecd5b3f4b6be5d7ddc',
+		role: 'admin',
+		name: 'Adrian Oram',
+		email: 'ador@shu.ac.uk',
+		teachingArea: 'Software Engineering',
+		password: 'tutor'
+	}, {
+		_id: '56cb76ecd5b3f4b6be5d7ddd',
+		role: 'admin',
+		name: 'Pascale Vacher',
+		email: 'pava@shu.ac.uk',
+		teachingArea: 'Software Engineering',
+		password: 'tutor'
+	}, {
+		_id: '56cb76ecd5b3f4b6be5d7dde',
+		role: 'admin',
+		name: 'Mark Featherstone',
+		email: 'mafe@shu.ac.uk',
+		teachingArea: 'Software Engineering',
 		password: 'tutor'
 	}, {
 		_id: '56c86c25099777e930372eb7',
@@ -121,22 +192,122 @@ User.find({}).remove(function() {
 		course: 'Software Engineering',
 		password: 'student'
 	}, {
-		_id: '56a7bf8a800c479155488fce',
-		name: 'JD',
+		_id: '56a7bf8a800c479155488fcb',
+		name: 'Joshua Bates',
 		role: 'student',
-		email: 'jd@shu.ac.uk',
+		email: 'b2006241@my.shu.ac.uk',
+		course: 'Software Engineering',
+		password: 'password'
+	}, {
+		_id: '56a7bf8a800c479155488fce',
+		name: 'Jonathon Dickson',
+		role: 'student',
+		email: 'b2011327@my.shu.ac.uk',
 		course: 'Software Engineering',
 		password: 'jd'
 	}, {
+		_id: '56cb76ecd5b3f4b6be5d7ddf',
 		name: 'Jack McGlone',
 		role: 'student',
-		email: 'jack.mcblown@shu.ac.uk',
+		email: 'b2025797@my.shu.ac.uk',
 		course: 'Software Engineering',
 		password: 'mcblown'
 	}, {
+		_id: '56cb76ecd5b3f4b6be5d7de0',
 		name: 'Chad Skimpson',
 		role: 'student',
 		email: 'chad.simpson@shu.ac.uk',
+		course: 'Software Engineering',
+		password: 'Chad'
+	}, {
+		_id: '56cb76ecd5b3f4b6be5d7de1',
+		name: 'Daniel Haswell',
+		role: 'student',
+		email: 'dan.has@shu.ac.uk',
+		course: 'Software Engineering',
+		password: 'Chad'
+	}, {
+		_id: '56cb76ecd5b3f4b6be5d7de2',
+		name: 'Elizabeth Athanasiadi',
+		role: 'student',
+		email: 'liz.ath@shu.ac.uk',
+		course: 'Software Engineering',
+		password: 'Chad'
+	}, {
+		_id: '56cb76ecd5b3f4b6be5d7de3',
+		name: 'Rowell Heria',
+		role: 'student',
+		email: 'row.her@shu.ac.uk',
+		course: 'Software Engineering',
+		password: 'Chad'
+	}, {
+		_id: '56cb76ecd5b3f4b6be5d7de4',
+		name: 'Kyle Bingham',
+		role: 'student',
+		email: 'kyl.bin@shu.ac.uk',
+		course: 'Software Engineering',
+		password: 'Chad'
+	}, {
+		_id: '56cb76ecd5b3f4b6be5d7de5',
+		name: 'Cameron Chalmers',
+		role: 'student',
+		email: 'cam.cha@shu.ac.uk',
+		course: 'Software Engineering',
+		password: 'Chad'
+	}, {
+		_id: '56cb76ecd5b3f4b6be5d7de6',
+		name: 'Ryan Robinson',
+		role: 'student',
+		email: 'rya.rob@shu.ac.uk',
+		course: 'Software Engineering',
+		password: 'Chad'
+	}, {
+		_id: '56cb76ecd5b3f4b6be5d7de7',
+		name: 'Brandon Murdoch',
+		role: 'student',
+		email: 'bra.mur@shu.ac.uk',
+		course: 'Software Engineering',
+		password: 'Chad'
+	}, {
+		_id: '56cb76ecd5b3f4b6be5d7de8',
+		name: 'Tom McGurrin',
+		role: 'student',
+		email: 'tom.mcg@shu.ac.uk',
+		course: 'Software Engineering',
+		password: 'Chad'
+	}, {
+		_id: '56cb76ecd5b3f4b6be5d7de9',
+		name: 'Matt Bizley',
+		role: 'student',
+		email: 'mat.biz@shu.ac.uk',
+		course: 'Software Engineering',
+		password: 'Chad'
+	}, {
+		_id: '56cb76ecd5b3f4b6be5d7dea',
+		name: 'Latir Cole-Etti',
+		role: 'student',
+		email: 'lat.col@shu.ac.uk',
+		course: 'Software Engineering',
+		password: 'Chad'
+	}, {
+		_id: '56cb76ecd5b3f4b6be5d7deb',
+		name: 'Luke Ward',
+		role: 'student',
+		email: 'luk.war@shu.ac.uk',
+		course: 'Software Engineering',
+		password: 'Chad'
+	}, {
+		_id: '56cb76ecd5b3f4b6be5d7dec',
+		name: 'Shaun Webb',
+		role: 'student',
+		email: 'sha.web@shu.ac.uk',
+		course: 'Software Engineering',
+		password: 'Chad'
+	}, {
+		_id: '56cb76ecd5b3f4b6be5d7ded',
+		name: 'Michael Crowther',
+		role: 'student',
+		email: 'mic.cro@shu.ac.uk',
 		course: 'Software Engineering',
 		password: 'Chad'
 	}, {
@@ -151,408 +322,522 @@ User.find({}).remove(function() {
 		name: 'Jeff',
 		role: 'student',
 		email: 'jeff@shu.ac.uk',
-		course: 'Software Engineering',
+		course: 'Computer Science',
 		passcode: 9493265230
 	}, {
 		_id: "56a7886405ab050a54d4eaa6",
 		name: 'Bill Gates',
 		role: 'student',
 		email: 'Bill@shu.ac.uk',
-		course: 'Software Engineering',
+		course: 'Computer Science',
 		password: 'Bill'
 	}, {
+		_id: '56cb76ecd5b3f4b6be5d7dee',
 		name: 'Alex',
 		role: 'student',
 		email: 'alexs@shu.ac.uk',
-		course: 'Software Engineering',
+		course: 'Computer Science',
 		passcode: 9493265230
+	}, {
+		_id: '56cb76ecd5b3f4b6be5d7def',
+		name: 'Ben Parnell',
+		role: 'student',
+		email: 'be.pa@shu.ac.uk',
+		course: 'Computer Science',
+		password: 'password'
+	}, {
+		_id: '56cb76ecd5b3f4b6be5d7df0',
+		name: 'Jacob Burns',
+		role: 'student',
+		email: 'ja.bu@shu.ac.uk',
+		course: 'Computer Science',
+		password: 'password'
+	}, {
+		_id: '56cb76ecd5b3f4b6be5d7df1',
+		name: 'Martin Rushton',
+		role: 'student',
+		email: 'ma.ru@shu.ac.uk',
+		course: 'Computer Science',
+		password: 'password'
+	}, {
+		_id: '56cb76ecd5b3f4b6be5d7df2',
+		name: 'Tom Hanson',
+		role: 'student',
+		email: 'to.ha@shu.ac.uk',
+		course: 'Computer Science',
+		password: 'password'
+	}, {
+		_id: '56cb76ecd5b3f4b6be5d7df3',
+		name: 'Ehsan Hussain',
+		role: 'student',
+		email: 'eh.hu@shu.ac.uk',
+		course: 'Computer Science',
+		password: 'password'
+	}, {
+		_id: '56cb76ecd5b3f4b6be5d7df4',
+		name: 'Curtis Bailey',
+		role: 'student',
+		email: 'cu.ba@shu.ac.uk',
+		course: 'Computer Science',
+		password: 'password'
+	}, {
+		_id: '56cb76ecd5b3f4b6be5d7df5',
+		name: 'Akeem Khan',
+		role: 'student',
+		email: 'ak.kh@shu.ac.uk',
+		course: 'Computer Science',
+		password: 'password'
+	}, {
+		_id: '56cb76edd5b3f4b6be5d7df6',
+		name: 'Henry Rowland',
+		role: 'student',
+		email: 'he.ro@shu.ac.uk',
+		course: 'Computer Science',
+		password: 'password'
 	}, function() {
 		console.log('finished populating users');
-		Lecture.find({}).remove(function() {
-			Lecture.create({
-				author: '56a7d95746b9e7db57417309',
-				title: "WAD Week 1",
-				desc: "Descriptive element for WAD no1",
-				collaborators: [],
-				url: '',
-				attachments: []
-			}, {
-				author: '56a7d95746b9e7db57417309',
-				title: "WAD Week 2",
-				desc: "Descriptive element for WAD no2",
-				collaborators: [],
-				url: '',
-				attachments: []
-			}, {
-				author: '56a7d95746b9e7db57417309',
-				title: "WAD Week 3",
-				desc: "Descriptive element for WAD no3",
-				collaborators: [],
-				url: '',
-				attachments: []
-			}, {
-				author: '56a7d95746b9e7db57417309',
-				title: "WAD Week 4",
-				desc: "Descriptive element for WAD no4",
-				collaborators: [],
-				url: '',
-				attachments: []
-			}, {
-				author: '56a7d95746b9e7db57417309',
-				title: "WAD Week 5",
-				desc: "Descriptive element for WAD no5",
-				collaborators: [],
-				url: '',
-				attachments: []
-			}, {
-				author: '56a7d95746b9e7db57417309',
-				title: "WAD Week 6",
-				desc: "Descriptive element for WAD no6",
-				collaborators: [],
-				url: '',
-				attachments: []
-			}, {
-				author: '56a7d95746b9e7db57417309',
-				title: "WAD Week 7",
-				desc: "Descriptive element for WAD no7",
-			}, {
-				_id: "56c868096bd3f7b730a051f4",
-				author: '56a7d95746b9e7db57417309',
-				title: "WAD Week 8",
-				desc: "Basic Information about this lecture, including the description, runtime, collaborators & live registration. This place here is reserved for a description of the lecture itself. Continuing text to see what it would look like when the word wrap is active.",
-				collaborators: [{
-					user: "56c86c25099777e930372eb7"
+		Group.find({}).remove(function() {
+			Group.create({
+				_id: '56cb7c2e7bbe028ebfbe56a2',
+				course: 'Software Engineering',
+				students: [{
+					user: '56a7bf8a800c479155488fcb'
+				}, {
+					user: '56a7bf8a800c479155488fce'
+				}, {
+					user: '56cb76ecd5b3f4b6be5d7ddf'
+				}, {
+					user: '56cb76ecd5b3f4b6be5d7de0'
+				}, {
+					user: '56cb76ecd5b3f4b6be5d7de1'
+				}, {
+					user: '56cb76ecd5b3f4b6be5d7de2'
+				}, {
+					user: '56cb76ecd5b3f4b6be5d7de3'
+				}, {
+					user: '56cb76ecd5b3f4b6be5d7de4'
+				}, {
+					user: '56cb76ecd5b3f4b6be5d7de5'
+				}, {
+					user: '56cb76ecd5b3f4b6be5d7de6'
+				}, {
+					user: '56cb76ecd5b3f4b6be5d7de7'
+				}, {
+					user: '56cb76ecd5b3f4b6be5d7de8'
+				}, {
+					user: '56cb76ecd5b3f4b6be5d7de9'
+				}, {
+					user: '56cb76ecd5b3f4b6be5d7dea'
+				}, {
+					user: '56cb76ecd5b3f4b6be5d7deb'
+				}, {
+					user: '56cb76ecd5b3f4b6be5d7dec'
+				}, {
+					user: '56cb76ecd5b3f4b6be5d7ded'
 				}],
-				url: 'http://www.mustbebuilt.co.uk/SHU/WAD/wad-wk8-lecture16.html#/step-1',
-				attachments: [{
-					'loc': '/storage/56c868096bd3f7b730a051f4/1.ppt',
-					'type': 'powerpoint'
+				tutors: [{
+					user: '56a7d95746b9e7db57417309'
 				}, {
-					'loc': '/storage/56c868096bd3f7b730a051f4/2.html',
-					'type': 'code'
+					user: '56cb76ebd5b3f4b6be5d7dd4'
 				}, {
-					'loc': '/storage/56c868096bd3f7b730a051f4/3.docx',
-					'type': 'word'
+					user: '56cb76ebd5b3f4b6be5d7dd6'
 				}, {
-					'loc': '/storage/56c868096bd3f7b730a051f4/4.pdf',
-					'type': 'pdf'
+					user: '56cb76ebd5b3f4b6be5d7dd7'
 				}, {
-					'loc': '/storage/56c868096bd3f7b730a051f4/5.xlsx',
-					'type': 'excel'
+					user: '56cb76ecd5b3f4b6be5d7ddb'
+				}],
+				level: 6,
+				deleted: false
+			}, {
+				_id: '56cb7c2e7bbe028ebfbe56a3',
+				course: 'Computer Science',
+				students: [{
+					user: '56cb76ecd5b3f4b6be5d7def'
 				}, {
-					'loc': '/storage/56c868096bd3f7b730a051f4/6.txt',
-					'type': 'text'
+					user: '56cb76ecd5b3f4b6be5d7df0'
 				}, {
-					'loc': '/storage/56c868096bd3f7b730a051f4/7.zip',
-					'type': 'zip'
-				}]
-			}, {
-				author: '56a7d95746b9e7db57417309',
-				title: "WAD Week 9",
-				desc: "Descriptive element for WAD no9",
-				collaborators: [],
-				url: '',
-				attachments: []
-			}, {
-				author: '56a7d95746b9e7db57417309',
-				title: "MAD No1",
-				desc: "Descriptive element for MAD no2",
-				collaborators: [],
-				url: '',
-				attachments: []
-			}, {
-				author: '56a7d95746b9e7db57417309',
-				title: "CSSD No1",
-				desc: "Descriptive element for Case Studies No1",
-				collaborators: [],
-				url: '',
-				attachments: []
-			}, {
-				author: '56a7d95746b9e7db57417309',
-				title: "CSSD No2",
-				desc: "Descriptive element for Case Studies No2",
-				collaborators: [],
-				url: '',
-				attachments: []
-			}, {
-				author: '56a7d95746b9e7db57417309',
-				title: "CSSD No3",
-				desc: "Descriptive element for Case Studies No3",
-				collaborators: [],
-				url: '',
-				attachments: []
-			}, {
-				author: '56a7d95746b9e7db57417309',
-				title: "MAD No2",
-				desc: "Descriptive element for no3",
-				collaborators: [],
-				url: '',
-				attachments: []
-			}, {
-				author: '56a7d95746b9e7db57417309',
-				title: "SEGM No1",
-				desc: "Descriptive element for SEGM No1",
-				collaborators: [],
-				url: '',
-				attachments: []
-			}, {
-				author: '56a7d95746b9e7db57417309',
-				title: "SEGM No2",
-				desc: "Descriptive element for SEGM No2",
-				collaborators: [],
-				url: '',
-				attachments: []
-			}, {
-				author: '56a7d95746b9e7db57417309',
-				title: "AAF No1",
-				desc: "Descriptive element for AAF No1",
-				collaborators: [],
-				url: '',
-				attachments: []
-			}, {
-				author: '56a7d95746b9e7db57417309',
-				title: "AAF No2",
-				desc: "Descriptive element for AAF No2",
-				collaborators: [],
-				url: '',
-				attachments: []
-			}, {
-				author: '56a7d95746b9e7db57417309',
-				title: "AAF No3",
-				desc: "Descriptive element for AAF No3",
-				collaborators: [],
-				url: '',
-				attachments: []
-			}, {
-				author: '56a7d95746b9e7db57417309',
-				title: "MAD No3",
-				desc: "Descriptive element for no12",
-				collaborators: [],
-				url: '',
-				attachments: []
-			}, function(error) {
-				if (error) {
-					console.log(error);
-				} else {
-					console.log('finished populating Lectures');
-					Session.find({}).remove(function() {
-						Session.create({
-							_id: '56c87667bcd6f3c431cb8681',
-							lecture: '56c868096bd3f7b730a051f4',
-							startTime: moment.utc([2016, 2, 20, 20, 30, 0]),
-							endTime: moment.utc([2016, 2, 20, 22, 0, 0]),
-							qActiveAllowance: 10,
-							qr: {
-								url: 'String',
-								svg: 'String'
-							},
-							altAccess: '',
-							register: [{
-								user: '56a7bf8a800c479155488fce'
-							}, {
-								user: '56a7886405ab050a54d4eaa6'
-							}, {
-								user: '56c86c25099777e930372eb5'
-							}, {
-								user: '56c86c25099777e930372eb7'
-							}, {
-								user: '56c86c25099777e930372eb6'
-							}, {
-								user: '56a7afd3259ef46f559880c9'
-							}, {
-								user: '56c86c25099777e930372eb4'
-							}, {
-								user: '56a7886405ab050a54d4eaa5'
-							}],
-							questions: [{
-								'asker': '56a7886405ab050a54d4eaa6',
-								'request': 'How do I do this?',
-								'time': moment.utc([2016, 2, 20, 20, 35, 0]),
-							}, {
-								'asker': '56c86c25099777e930372eb7',
-								'request': 'more questions...',
-								'time': moment.utc([2016, 2, 20, 20, 40, 0]),
-							}, {
-								'asker': '56a7afd3259ef46f559880c9',
-								'request': 'Ridiculously stupidly incredibily long comment to test out how it looks',
-								'time': moment.utc([2016, 2, 20, 20, 50, 0]),
-							}]
-						}, function(err, sessions) {
-							if (err)
-								console.log(err);
-							// sessions.forEach(function(session) {
-							// 	.create({
-							// 		lecture: lecture._id,
-							// 		createdBy: lecture.createdBy
-							// 	}, function(err, qr) {
-							// 		if (err) {
-							// 			console.info(err);
-							// 		} else {
-							// 			Thing.find({
-							// 				name: 'qrBaseURL'
-							// 			}, function(err, thing) {
-							// 				//   console.log(lecture.name);
-							// 				var serverBase = thing[0].content; // just the one
-							// 				Thing.find({
-							// 					name: 'accessCodeLen'
-							// 				}, function(err, thing) {
-							// 					var altAccKeyLen = thing[0].content; // just the one
-							// 					createUniqueAccKey(altAccKeyLen, function(altAccessKey) {
-							// 						lecture.altAccess = altAccessKey;
-							// 						var url = String(serverBase + '/' + qr._id + '/group/' + 'temp' + '/register');
+					user: '56cb76ecd5b3f4b6be5d7df1'
+				}, {
+					user: '56cb76ecd5b3f4b6be5d7df2'
+				}, {
+					user: '56cb76ecd5b3f4b6be5d7df3'
+				}, {
+					user: '56cb76ecd5b3f4b6be5d7df4'
+				}, {
+					user: '56cb76ecd5b3f4b6be5d7df5'
+				}, {
+					user: '56cb76edd5b3f4b6be5d7df6'
+				}],
+				tutors: [{
+					user: '56cb76ebd5b3f4b6be5d7dd7'
+				}, {
+					user: '56cb76ecd5b3f4b6be5d7ddc'
+				}, {
+					user: '56cb76ecd5b3f4b6be5d7ddd'
+				}, {
+					user: '56cb76ecd5b3f4b6be5d7dde'
+				}],
+				level: 6,
+				deleted: false
+			}, function(err) {
+				if (err) console.log(err);
+				console.log('finished populating groups');
+				Lecture.find({}).remove(function() {
+					Lecture.create({
+						author: '56a7d95746b9e7db57417309',
+						title: "WAD Week 1",
+						desc: "Descriptive element for WAD no1",
+						collaborators: [],
+						url: '',
+						attachments: []
+					}, {
+						author: '56a7d95746b9e7db57417309',
+						title: "WAD Week 2",
+						desc: "Descriptive element for WAD no2",
+						collaborators: [],
+						url: '',
+						attachments: []
+					}, {
+						author: '56a7d95746b9e7db57417309',
+						title: "WAD Week 3",
+						desc: "Descriptive element for WAD no3",
+						collaborators: [],
+						url: '',
+						attachments: []
+					}, {
+						author: '56a7d95746b9e7db57417309',
+						title: "WAD Week 4",
+						desc: "Descriptive element for WAD no4",
+						collaborators: [],
+						url: '',
+						attachments: []
+					}, {
+						author: '56a7d95746b9e7db57417309',
+						title: "WAD Week 5",
+						desc: "Descriptive element for WAD no5",
+						collaborators: [],
+						url: '',
+						attachments: []
+					}, {
+						author: '56a7d95746b9e7db57417309',
+						title: "WAD Week 6",
+						desc: "Descriptive element for WAD no6",
+						collaborators: [],
+						url: '',
+						attachments: []
+					}, {
+						author: '56a7d95746b9e7db57417309',
+						title: "WAD Week 7",
+						desc: "Descriptive element for WAD no7",
+					}, {
+						_id: "56c868096bd3f7b730a051f4",
+						author: '56a7d95746b9e7db57417309',
+						title: "WAD Week 8",
+						desc: "Basic Information about this lecture, including the description, runtime, collaborators & live registration. This place here is reserved for a description of the lecture itself. Continuing text to see what it would look like when the word wrap is active.",
+						collaborators: [{
+							user: "56c86c25099777e930372eb7"
+						}],
+						url: 'http://www.mustbebuilt.co.uk/SHU/WAD/wad-wk8-lecture16.html#/step-1',
+						attachments: [{
+							'loc': '/storage/56c868096bd3f7b730a051f4/1.ppt',
+							'type': 'powerpoint'
+						}, {
+							'loc': '/storage/56c868096bd3f7b730a051f4/2.html',
+							'type': 'code'
+						}, {
+							'loc': '/storage/56c868096bd3f7b730a051f4/3.docx',
+							'type': 'word'
+						}, {
+							'loc': '/storage/56c868096bd3f7b730a051f4/4.pdf',
+							'type': 'pdf'
+						}, {
+							'loc': '/storage/56c868096bd3f7b730a051f4/5.xlsx',
+							'type': 'excel'
+						}, {
+							'loc': '/storage/56c868096bd3f7b730a051f4/6.txt',
+							'type': 'text'
+						}, {
+							'loc': '/storage/56c868096bd3f7b730a051f4/7.zip',
+							'type': 'zip'
+						}]
+					}, {
+						author: '56a7d95746b9e7db57417309',
+						title: "WAD Week 9",
+						desc: "Descriptive element for WAD no9",
+						collaborators: [],
+						url: '',
+						attachments: []
+					}, {
+						author: '56a7d95746b9e7db57417309',
+						title: "MAD No1",
+						desc: "Descriptive element for MAD no2",
+						collaborators: [],
+						url: '',
+						attachments: []
+					}, {
+						author: '56a7d95746b9e7db57417309',
+						title: "CSSD No1",
+						desc: "Descriptive element for Case Studies No1",
+						collaborators: [],
+						url: '',
+						attachments: []
+					}, {
+						author: '56a7d95746b9e7db57417309',
+						title: "CSSD No2",
+						desc: "Descriptive element for Case Studies No2",
+						collaborators: [],
+						url: '',
+						attachments: []
+					}, {
+						author: '56a7d95746b9e7db57417309',
+						title: "CSSD No3",
+						desc: "Descriptive element for Case Studies No3",
+						collaborators: [],
+						url: '',
+						attachments: []
+					}, {
+						author: '56a7d95746b9e7db57417309',
+						title: "MAD No2",
+						desc: "Descriptive element for no3",
+						collaborators: [],
+						url: '',
+						attachments: []
+					}, {
+						author: '56a7d95746b9e7db57417309',
+						title: "SEGM No1",
+						desc: "Descriptive element for SEGM No1",
+						collaborators: [],
+						url: '',
+						attachments: []
+					}, {
+						author: '56a7d95746b9e7db57417309',
+						title: "SEGM No2",
+						desc: "Descriptive element for SEGM No2",
+						collaborators: [],
+						url: '',
+						attachments: []
+					}, {
+						author: '56a7d95746b9e7db57417309',
+						title: "AAF No1",
+						desc: "Descriptive element for AAF No1",
+						collaborators: [],
+						url: '',
+						attachments: []
+					}, {
+						author: '56a7d95746b9e7db57417309',
+						title: "AAF No2",
+						desc: "Descriptive element for AAF No2",
+						collaborators: [],
+						url: '',
+						attachments: []
+					}, {
+						author: '56a7d95746b9e7db57417309',
+						title: "AAF No3",
+						desc: "Descriptive element for AAF No3",
+						collaborators: [],
+						url: '',
+						attachments: []
+					}, {
+						author: '56a7d95746b9e7db57417309',
+						title: "MAD No3",
+						desc: "Descriptive element for no12",
+						collaborators: [],
+						url: '',
+						attachments: []
+					}, function(error) {
+						if (error) {
+							console.log(error);
+						} else {
+							console.log('finished populating Lectures');
+							Session.find({}).remove(function() {
+								Session.create({
+									_id: '56c87667bcd6f3c431cb8681',
+									lecture: '56c868096bd3f7b730a051f4',
+									startTime: moment.utc([2016, 2, 20, 20, 30, 0]),
+									endTime: moment.utc([2016, 2, 20, 22, 0, 0]),
+									qActiveAllowance: 10,
+									qr: {
+										url: 'String',
+										svg: 'String'
+									},
+									altAccess: '',
+									register: [{
+										user: '56a7bf8a800c479155488fce'
+									}, {
+										user: '56a7886405ab050a54d4eaa6'
+									}, {
+										user: '56c86c25099777e930372eb5'
+									}, {
+										user: '56c86c25099777e930372eb7'
+									}, {
+										user: '56c86c25099777e930372eb6'
+									}, {
+										user: '56a7afd3259ef46f559880c9'
+									}, {
+										user: '56c86c25099777e930372eb4'
+									}, {
+										user: '56a7886405ab050a54d4eaa5'
+									}],
+									questions: [{
+										'asker': '56a7886405ab050a54d4eaa6',
+										'request': 'How do I do this?',
+										'time': moment.utc([2016, 2, 20, 20, 35, 0]),
+									}, {
+										'asker': '56c86c25099777e930372eb7',
+										'request': 'more questions...',
+										'time': moment.utc([2016, 2, 20, 20, 40, 0]),
+									}, {
+										'asker': '56a7afd3259ef46f559880c9',
+										'request': 'Ridiculously stupidly incredibily long comment to test out how it looks',
+										'time': moment.utc([2016, 2, 20, 20, 50, 0]),
+									}]
+								}, function(err, sessions) {
+									if (err)
+										console.log(err);
+									// sessions.forEach(function(session) {
+									// 	.create({
+									// 		lecture: lecture._id,
+									// 		createdBy: lecture.createdBy
+									// 	}, function(err, qr) {
+									// 		if (err) {
+									// 			console.info(err);
+									// 		} else {
+									// 			Thing.find({
+									// 				name: 'qrBaseURL'
+									// 			}, function(err, thing) {
+									// 				//   console.log(lecture.name);
+									// 				var serverBase = thing[0].content; // just the one
+									// 				Thing.find({
+									// 					name: 'accessCodeLen'
+									// 				}, function(err, thing) {
+									// 					var altAccKeyLen = thing[0].content; // just the one
+									// 					createUniqueAccKey(altAccKeyLen, function(altAccessKey) {
+									// 						lecture.altAccess = altAccessKey;
+									// 						var url = String(serverBase + '/' + qr._id + '/group/' + 'temp' + '/register');
+									//
+									// 						// currently in Sync...? :(
+									// 						var qrSvgString = qrEncoder.imageSync(url, {
+									// 							type: 'svg',
+									// 							ec_level: 'Q',
+									// 							parse_url: false,
+									// 							margin: 1,
+									// 							size: 4
+									// 						});
+									// 						// REMOVE Inject elements on svg, problem with plugin
+									// 						qrSvgString = qrSvgString.replace('<svg xmlns="http://www.w3.org/2000/svg" width="172" height="172" viewBox="0 0 43 43">', "");
+									// 						qrSvgString = qrSvgString.replace('</svg>', "");
+									// 						qrSvgString = qrSvgString.replace('\"', "\'");
+									// 						qrSvgString = qrSvgString.replace('\"/', "\'/");
+									//
+									// 						Qr.findById(qr._id).exec(function(err, uQr) {
+									// 							if (err) {
+									// 								console.info(err);
+									// 							} else if (!uQr) {
+									//
+									// 							} else {
+									// 								lecture.qr = qr._id;
+									// 								uQr.url = url;
+									// 								uQr.svg = qrSvgString;
+									// 								uQr.save(function(err) {
+									// 									if (err) {
+									// 										console.info(err);
+									// 									}
+									// 									lecture.qr = qr._id;
+									// 									lecture.save(function(err, lecture) {
+									// 										if (err) {
+									// 											console.info(err);
+									// 										} else {
+									// 											console.log('populated qr for ' + lecture.name);
+									// 										}
+									// 									});
+									// 								});
+									// 							}
+									// 						});
+									// 					});
+									// 				});
+									// 			});
+									// 		}
+									// 	});
+									// });
+									console.log('finished populating Sessions');
+								});
+							});
+							// populate QRs for these lectures
+							// Lecture.find({}, function(err, lectures) {
+							// 	Qr.find({}).remove(function() {
+							// 		lectures.forEach(function(lecture) {
+							// 			// console.info(lecture._id);
+							// 			// console.info(lecture.createdBy);
+							// 			Qr.create({
+							// 				lecture: lecture._id,
+							// 				createdBy: lecture.createdBy
+							// 			}, function(err, qr) {
+							// 				if (err) {
+							// 					console.info(err);
+							// 				} else {
+							// 					Thing.find({
+							// 						name: 'qrBaseURL'
+							// 					}, function(err, thing) {
+							// 						//   console.log(lecture.name);
+							// 						var serverBase = thing[0].content; // just the one
+							// 						Thing.find({
+							// 							name: 'accessCodeLen'
+							// 						}, function(err, thing) {
+							// 							var altAccKeyLen = thing[0].content; // just the one
+							// 							createUniqueAccKey(altAccKeyLen, function(altAccessKey) {
+							// 								lecture.altAccess = altAccessKey;
+							// 								var url = String(serverBase + '/' + qr._id + '/group/' + 'temp' + '/register');
 							//
-							// 						// currently in Sync...? :(
-							// 						var qrSvgString = qrEncoder.imageSync(url, {
-							// 							type: 'svg',
-							// 							ec_level: 'Q',
-							// 							parse_url: false,
-							// 							margin: 1,
-							// 							size: 4
-							// 						});
-							// 						// REMOVE Inject elements on svg, problem with plugin
-							// 						qrSvgString = qrSvgString.replace('<svg xmlns="http://www.w3.org/2000/svg" width="172" height="172" viewBox="0 0 43 43">', "");
-							// 						qrSvgString = qrSvgString.replace('</svg>', "");
-							// 						qrSvgString = qrSvgString.replace('\"', "\'");
-							// 						qrSvgString = qrSvgString.replace('\"/', "\'/");
+							// 								// currently in Sync...? :(
+							// 								var qrSvgString = qrEncoder.imageSync(url, {
+							// 									type: 'svg',
+							// 									ec_level: 'Q',
+							// 									parse_url: false,
+							// 									margin: 1,
+							// 									size: 4
+							// 								});
+							// 								// REMOVE Inject elements on svg, problem with plugin
+							// 								qrSvgString = qrSvgString.replace('<svg xmlns="http://www.w3.org/2000/svg" width="172" height="172" viewBox="0 0 43 43">', "");
+							// 								qrSvgString = qrSvgString.replace('</svg>', "");
+							// 								qrSvgString = qrSvgString.replace('\"', "\'");
+							// 								qrSvgString = qrSvgString.replace('\"/', "\'/");
 							//
-							// 						Qr.findById(qr._id).exec(function(err, uQr) {
-							// 							if (err) {
-							// 								console.info(err);
-							// 							} else if (!uQr) {
-							//
-							// 							} else {
-							// 								lecture.qr = qr._id;
-							// 								uQr.url = url;
-							// 								uQr.svg = qrSvgString;
-							// 								uQr.save(function(err) {
+							// 								Qr.findById(qr._id).exec(function(err, uQr) {
 							// 									if (err) {
 							// 										console.info(err);
+							// 									} else if (!uQr) {
+							//
+							// 									} else {
+							// 										lecture.qr = qr._id;
+							// 										uQr.url = url;
+							// 										uQr.svg = qrSvgString;
+							// 										uQr.save(function(err) {
+							// 											if (err) {
+							// 												console.info(err);
+							// 											}
+							// 											lecture.qr = qr._id;
+							// 											lecture.save(function(err, lecture) {
+							// 												if (err) {
+							// 													console.info(err);
+							// 												} else {
+							// 													console.log('populated qr for ' + lecture.name);
+							// 												}
+							// 											});
+							// 										});
 							// 									}
-							// 									lecture.qr = qr._id;
-							// 									lecture.save(function(err, lecture) {
-							// 										if (err) {
-							// 											console.info(err);
-							// 										} else {
-							// 											console.log('populated qr for ' + lecture.name);
-							// 										}
-							// 									});
 							// 								});
-							// 							}
+							// 							});
 							// 						});
 							// 					});
-							// 				});
+							// 				}
 							// 			});
-							// 		}
+							// 		});
 							// 	});
 							// });
-							console.log('finished populating Sessions');
-						});
+						}
 					});
-					// populate QRs for these lectures
-					// Lecture.find({}, function(err, lectures) {
-					// 	Qr.find({}).remove(function() {
-					// 		lectures.forEach(function(lecture) {
-					// 			// console.info(lecture._id);
-					// 			// console.info(lecture.createdBy);
-					// 			Qr.create({
-					// 				lecture: lecture._id,
-					// 				createdBy: lecture.createdBy
-					// 			}, function(err, qr) {
-					// 				if (err) {
-					// 					console.info(err);
-					// 				} else {
-					// 					Thing.find({
-					// 						name: 'qrBaseURL'
-					// 					}, function(err, thing) {
-					// 						//   console.log(lecture.name);
-					// 						var serverBase = thing[0].content; // just the one
-					// 						Thing.find({
-					// 							name: 'accessCodeLen'
-					// 						}, function(err, thing) {
-					// 							var altAccKeyLen = thing[0].content; // just the one
-					// 							createUniqueAccKey(altAccKeyLen, function(altAccessKey) {
-					// 								lecture.altAccess = altAccessKey;
-					// 								var url = String(serverBase + '/' + qr._id + '/group/' + 'temp' + '/register');
-					//
-					// 								// currently in Sync...? :(
-					// 								var qrSvgString = qrEncoder.imageSync(url, {
-					// 									type: 'svg',
-					// 									ec_level: 'Q',
-					// 									parse_url: false,
-					// 									margin: 1,
-					// 									size: 4
-					// 								});
-					// 								// REMOVE Inject elements on svg, problem with plugin
-					// 								qrSvgString = qrSvgString.replace('<svg xmlns="http://www.w3.org/2000/svg" width="172" height="172" viewBox="0 0 43 43">', "");
-					// 								qrSvgString = qrSvgString.replace('</svg>', "");
-					// 								qrSvgString = qrSvgString.replace('\"', "\'");
-					// 								qrSvgString = qrSvgString.replace('\"/', "\'/");
-					//
-					// 								Qr.findById(qr._id).exec(function(err, uQr) {
-					// 									if (err) {
-					// 										console.info(err);
-					// 									} else if (!uQr) {
-					//
-					// 									} else {
-					// 										lecture.qr = qr._id;
-					// 										uQr.url = url;
-					// 										uQr.svg = qrSvgString;
-					// 										uQr.save(function(err) {
-					// 											if (err) {
-					// 												console.info(err);
-					// 											}
-					// 											lecture.qr = qr._id;
-					// 											lecture.save(function(err, lecture) {
-					// 												if (err) {
-					// 													console.info(err);
-					// 												} else {
-					// 													console.log('populated qr for ' + lecture.name);
-					// 												}
-					// 											});
-					// 										});
-					// 									}
-					// 								});
-					// 							});
-					// 						});
-					// 					});
-					// 				}
-					// 			});
-					// 		});
-					// 	});
-					// });
-				}
+				});
 			});
-			// Add groups here?
-			//   Group.find({}).remove(function() {
-			//     Group.create({
-			//         course: 'Software Engineering',
-			//         name: "SE3U",
-			//         subdep: "56a784189212039d536d6098",
-			//         $push: [{
-			//           "users": "56a7886405ab050a54d4eaa5"
-			//         }, {
-			//           "users": "56a7886405ab050a54d4eaa6"
-			//         }],
-			//         tutor: "56a35bce4d9999381aa483db"
-			//       }
-			//       /*, {
-			//                     createdBy: '56a35bce4d9999381aa483db',
-			//                     name: "MAD No1",
-			//                     desc: "Descriptive element for MAD no1",
-			//                     startTime: moment.utc([2016, 1, 23, 12, 30, 0]),
-			//                     endTime: moment.utc([2016, 1, 23, 14, 0, 0]),
-			//                     qActiveAllowance: 10
-			//       		  }*/
-			//       ,
-			//       function(error) {
-			//         if (error) {
-			//           console.log(error);
-			//         } else {
-			//           console.log('finished populating groups');
-			//         }
-			//       })
-			//   });
-
 		});
 	});
 });

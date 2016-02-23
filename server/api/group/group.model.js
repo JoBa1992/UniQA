@@ -5,30 +5,26 @@ var mongoose = require('mongoose'),
 
 var GroupSchema = new Schema({
 	course: {
-		type: String,
-		required: true,
+		type: String
 	},
-	name: {
-		type: String,
-		required: true,
-		unique: true
-	},
-	// subdep: {
-	//   type: mongoose.Schema.Types.ObjectId,
-	//   ref: 'Department',
-	//   unique: true
-	// },
-	users: [{
+	students: [{
 		user: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User',
-			unique: true
+			ref: 'User'
 		},
 		_id: false
 	}],
-	tutor: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User',
+	tutors: [{
+		user: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User',
+		},
+		_id: false
+	}],
+	level: {
+		type: Number,
+		min: 4,
+		max: 7
 	},
 	deleted: {
 		type: Boolean,

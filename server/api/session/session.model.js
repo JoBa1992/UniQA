@@ -20,7 +20,7 @@ var SessionSchema = new Schema({
 		default: null,
 		max: 6
 	},
-	qActiveAllowance: {
+	timeAllowance: {
 		type: Number,
 		min: 0,
 		max: 60,
@@ -56,7 +56,19 @@ var SessionSchema = new Schema({
 			type: Boolean,
 			default: false
 		}
-	}]
+	}],
+	feedback: [{
+		user: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User'
+		},
+		rating: {
+			type: String
+		},
+		comment: {
+			type: Date
+		}
+	}],
 });
 
 module.exports = mongoose.model('Session', SessionSchema);

@@ -95,11 +95,15 @@ angular.module('uniQaApp')
 			return new Date(datetime).getTime() + minutes * 60000;
 		};
 	})
-	.controller('LectureStartCtrl', function($scope, $http, $window, $timeout, socket, Auth, Lecture, Session, Modal) {
+	.controller('LectureStartCtrl', function($scope, $http, $window, $timeout, $sce, socket, Auth, Lecture, Session, Modal) {
 		// attach lodash to scope
 		$scope._ = _;
 		// attach moment to scope
 		$scope.moment = moment;
+
+		$scope.trustSrc = function(src) {
+			return $sce.trustAsResourceUrl(src);
+		}
 
 		// ping noise on new question
 		var ping = new Audio('assets/fx/drop.mp3');
@@ -244,7 +248,6 @@ angular.module('uniQaApp')
 				$scope.toggleFullScreen()
 			}
 			var openModal = Modal.read.qr(function(user) {
-				//$scope.users.push(user);
 				refreshUserStats();
 				$scope.refreshUserList();
 			});

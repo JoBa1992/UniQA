@@ -9,5 +9,6 @@ angular.module('uniQaApp')
 			createdBy: $scope.me.name,
 			qActAllowance: 10,
 		};
+		$scope.groupLevels = [4, 5, 6, 7];
 
 	});

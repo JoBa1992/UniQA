@@ -13,7 +13,8 @@
         <a ng-click="showQrModal()" class="btn btn-warning btn-sm" style="position:absolute;bottom:14px;left:{{toggleBtnPosRight}};">
           <span class="glyphicon glyphicon-qrcode"></span>
         </a>
-        <object id="lecture" type="text/html" data="{{lecture.url}}" style="width:100%;height:{{lectureHeight + 'px'}}"></object>
+        <iframe id="lecture" type="text/html" frameborder="0" ng-src="{{trustSrc(lecture.url)}}" style="width:100%;height:{{lectureHeight + 'px'}}"></iframe>
+        <!-- <object id="lecture" type="text/html" data="{{lecture.url}}" style="width:100%;height:{{lectureHeight + 'px'}}"></object> -->
         <a ng-click="toggleQuestions()" class="btn btn-warning btn-sm" style="position:absolute;bottom:14px;right:{{toggleBtnPosRight}};">
           <i class="fa {{hideQuestionIcon}}">
             <span ng-if="hideQuestions">
@@ -60,7 +61,7 @@
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 presentation-view" style="padding:0;position:relative;">
         <h3 class="text-primary" style="padding-left:4px;">Information</h3>
-        <hr class="lecture-resource-hr">
+        <hr class="resource-hr">
 
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <i class="fa fa-quote-left"></i>
@@ -104,7 +105,7 @@
     <div class="row" style="">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 presentation-view" style="padding:0;position:relative;">
         <h3 class="text-primary" style="padding-left:4px;">Resources</h3>
-        <hr class="lecture-resource-hr">
+        <hr class="resource-hr">
         <a ng-repeat="item in lecture.resources" target="_blank" class="btn btn-primary text-primary" href="{{item.loc}}" style="padding:.5em .3em .3em; margin:0 .4em;">
           <i class="fa fa-file-{{item.type}}-o fa-4x"></i>
         </a>
@@ -116,7 +117,7 @@
     <div class="row" style="">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 presentation-view" style="padding:0;position:relative;">
         <h3 class="text-primary" style="padding-left:4px;">Series</h3>
-        <hr class="lecture-resource-hr">
+        <hr class="resource-hr">
         <p>Show this lecture as apart of the entire lecture series (weeks)</p>
       </div>
     </div>
