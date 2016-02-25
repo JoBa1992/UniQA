@@ -15,9 +15,6 @@ angular.module('uniQaApp')
 			});
 		};
 
-
-
-
 		for (var i = 0; i < slideCnt; i++) {
 			$scope.addSlide();
 		}
@@ -33,10 +30,10 @@ angular.module('uniQaApp')
 			// 	return false;
 			// 	}
 			// }
-		}
+		};
 	});
-
-angular.module('ui.bootstrap.carousel', ['ui.bootstrap.transition'])
-	.controller('CarouselController', ['$scope', '$timeout', '$transition', '$q', function($scope, $timeout, $transition, $q) {}]).directive('carousel', [function() {
-		return {}
-	}]);
+// 
+// angular.module('ui.bootstrap.carousel', ['ui.bootstrap.transition'])
+// 	.controller('CarouselController', ['$scope', '$timeout', '$transition', '$q', function($scope, $timeout, $transition, $q) {}]).directive('carousel', [function() {
+// 		return {};
+// 	}]);

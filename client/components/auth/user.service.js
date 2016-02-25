@@ -55,7 +55,7 @@ angular.module('uniQaApp')
 			getTotal: {
 				method: 'GET',
 				params: {
-					count: "count"
+					count: 'count'
 				}
 			}
 		});

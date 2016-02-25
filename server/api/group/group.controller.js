@@ -24,12 +24,12 @@ exports.index = function(req, res) {
 			if (err) {
 				return handleError(res, err);
 			}
-			result['groups'] = groups;
+			result.groups = groups;
 			Group.count({}, function(err, count) {
 				if (err) {
 					return handleError(res, err);
 				}
-				result['count'] = count;
+				result.count = count;
 				return res.status(200).json(result);
 			});
 

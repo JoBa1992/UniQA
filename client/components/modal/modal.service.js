@@ -8,7 +8,7 @@ angular.module('uniQaApp')
 		$rootScope.errors = {};
 		$rootScope.form = {};
 
-		Thing.getByName("accessCodeLen").then(function(val) {
+		Thing.getByName('accessCodeLen').then(function(val) {
 			// only returns one element
 			$rootScope.accessCodeLen = val.content[0];
 		});
@@ -18,10 +18,12 @@ angular.module('uniQaApp')
 			var key = '';
 			var randomchar = function() {
 				var num = Math.floor(Math.random() * 62);
-				if (num < 10)
+				if (num < 10) {
 					return num; //1-10
-				if (num < 36)
+				}
+				if (num < 36) {
 					return String.fromCharCode(num + 55); //A-Z
+				}
 				return String.fromCharCode(num + 61); //a-z
 			};
 			while (length--) {
@@ -48,7 +50,7 @@ angular.module('uniQaApp')
 			callback(true);
 		}
 		//
-		function createUniqueAccessCode(callback) {
+		function createUniqueAccessCode() {
 			var accessCode = genAccessCode($rootScope.accessCodeLen);
 			isAccessCodeUnique(accessCode, function(unique) {
 				if (unique) {
@@ -88,8 +90,7 @@ angular.module('uniQaApp')
 				qr: function(cb) {
 					cb = cb || angular.noop;
 					return function() {
-						var args = Array.prototype.slice.call(arguments),
-							readModal;
+						var readModal;
 
 						var me = Auth.getCurrentUser();
 
@@ -101,7 +102,7 @@ angular.module('uniQaApp')
 							$rootScope.lecture = res[0]; // need to elaborate on this
 							readModal = openModal({
 								modal: {
-									name: "createrUserForm",
+									name: 'createrUserForm',
 									dismissable: true,
 									title: 'Show QR',
 									form: '<div class="container-fluid">' +
@@ -128,12 +129,11 @@ angular.module('uniQaApp')
 				user: function(cb) {
 					cb = cb || angular.noop;
 					return function() {
-						var args = Array.prototype.slice.call(arguments),
-							createModal, createdUser;
+						var createModal, createdUser;
 						// refresh validation on new modal open - remove details
 						$rootScope.user = {
-							name: "",
-							email: ""
+							name: '',
+							email: ''
 						};
 						$rootScope.roles = {};
 						$rootScope.departments = {};
@@ -146,7 +146,7 @@ angular.module('uniQaApp')
 						};
 
 						// use the Thing service to return back some constants
-						Thing.getByName("userRoles").then(function(val) {
+						Thing.getByName('userRoles').then(function(val) {
 							$rootScope.roles = val.content;
 							$rootScope.user.role = 'Select Role';
 						});
@@ -162,7 +162,7 @@ angular.module('uniQaApp')
 							$rootScope.user.department = 'Select Department';
 						});
 
-						Thing.getByName("uniEmail").then(function(val) {
+						Thing.getByName('uniEmail').then(function(val) {
 							// add Any to start of array
 							$rootScope.uniEmail = val.content[0];
 						});
@@ -171,7 +171,7 @@ angular.module('uniQaApp')
 						createUniqueAccessCode();
 						createModal = openModal({
 							modal: {
-								name: "createrUserForm",
+								name: 'createrUserForm',
 								dismissable: true,
 								title: 'Create User',
 								form: '<div class="form-group" ng-class="{ \'has-success\': form.name.$valid && submitted,\'has-error\': form.name.$invalid && submitted }">' +
@@ -238,7 +238,7 @@ angular.module('uniQaApp')
 										// form.$setPristine();
 										// form.$setValidity();
 										// form.$setUntouched();
-										if ($rootScope.user.role != "Select Role" && $rootScope.user.department != "Select Department" && $rootScope.user.name && $rootScope.user.email && $rootScope.user.passcode) {
+										if ($rootScope.user.role !== 'Select Role' && $rootScope.user.department !== 'Select Department' && $rootScope.user.name && $rootScope.user.email && $rootScope.user.passcode) {
 
 											Auth.createUser({
 													user: $rootScope.user
@@ -264,7 +264,7 @@ angular.module('uniQaApp')
 							}
 						}, 'modal-success');
 
-						createModal.result.then(function(event) {
+						createModal.result.then(function() {
 							cb(createdUser);
 						});
 					};
@@ -272,12 +272,11 @@ angular.module('uniQaApp')
 				group: function(cb) {
 					cb = cb || angular.noop;
 					return function() {
-						var args = Array.prototype.slice.call(arguments),
-							createModal, createdUser;
+						var createModal, createdUser;
 						// refresh validation on new modal open - remove details
 						$rootScope.group = {
-							name: "",
-							email: ""
+							name: '',
+							email: ''
 						};
 
 
@@ -285,7 +284,7 @@ angular.module('uniQaApp')
 						createUniqueAccessCode();
 						createModal = openModal({
 							modal: {
-								name: "createrUserForm",
+								name: 'createrUserForm',
 								dismissable: true,
 								title: 'Create Group',
 								form: '<div class="form-group" ng-class="{ \'has-success\': form.name.$valid && submitted,\'has-error\': form.name.$invalid && submitted }">' +
@@ -352,7 +351,7 @@ angular.module('uniQaApp')
 										// form.$setPristine();
 										// form.$setValidity();
 										// form.$setUntouched();
-										if ($rootScope.user.role != "Select Role" && $rootScope.user.department != "Select Department" && $rootScope.user.name && $rootScope.user.email && $rootScope.user.passcode) {
+										if ($rootScope.user.role !== 'Select Role' && $rootScope.user.department !== 'Select Department' && $rootScope.user.name && $rootScope.user.email && $rootScope.user.passcode) {
 
 											Auth.createUser({
 													user: $rootScope.user
@@ -378,7 +377,7 @@ angular.module('uniQaApp')
 							}
 						}, 'modal-success');
 
-						createModal.result.then(function(event) {
+						createModal.result.then(function() {
 							cb(createdUser);
 						});
 					};
@@ -386,8 +385,7 @@ angular.module('uniQaApp')
 				lecture: function(cb) {
 					cb = cb || angular.noop;
 					return function() {
-						var args = Array.prototype.slice.call(arguments),
-							createModal, createdLecture;
+						var createModal, createdLecture;
 						$rootScope.me = Auth.getCurrentUser();
 						$rootScope.lecture = {
 							startTime: new Date(),
@@ -399,8 +397,8 @@ angular.module('uniQaApp')
 
 						createModal = openModal({
 							modal: {
-								name: "createrUserForm",
-								size: "lg",
+								name: 'createrUserForm',
+								size: 'lg',
 								dismissable: true,
 								title: 'Create Lecture',
 								form: '<div class="container-fluid">' +
@@ -503,7 +501,7 @@ angular.module('uniQaApp')
 							}
 						}, 'modal-success', 'lg');
 
-						createModal.result.then(function(event) {
+						createModal.result.then(function() {
 							cb(createdLecture);
 						});
 					};
@@ -529,7 +527,7 @@ angular.module('uniQaApp')
 						};
 
 						// use the Thing service to return back some constants
-						Thing.getByName("userRoles").then(function(val) {
+						Thing.getByName('userRoles').then(function(val) {
 							$rootScope.roles = val.content;
 						});
 						Department.get().then(function(val) {
@@ -546,7 +544,7 @@ angular.module('uniQaApp')
 							$rootScope.updatedUser.department = user.department;
 						});
 
-						Thing.getByName("uniEmail").then(function(val) {
+						Thing.getByName('uniEmail').then(function(val) {
 							// add Any to start of array
 							$rootScope.uniEmail = val.content[0];
 							// remove uniEmail standard from users Email
@@ -556,7 +554,7 @@ angular.module('uniQaApp')
 
 						updateModal = openModal({
 							modal: {
-								name: "updateUserForm",
+								name: 'updateUserForm',
 								dismissable: true,
 								title: 'Update User',
 								form: '<div class="form-group" ng-class="{ \'has-success\': form.name.$valid && submitted,\'has-error\': form.name.$invalid && submitted }">' +
@@ -621,7 +619,7 @@ angular.module('uniQaApp')
 									click: function(e, form) {
 										$rootScope.submitted = true;
 
-										if ($rootScope.updatedUser.role != "Select Role" && $rootScope.updatedUser.department != "Select Department" && $rootScope.updatedUser.name) {
+										if ($rootScope.updatedUser.role !== 'Select Role' && $rootScope.updatedUser.department !== 'Select Department' && $rootScope.updatedUser.name) {
 
 											Auth.updateUser({
 													user: $rootScope.updatedUser
@@ -647,7 +645,7 @@ angular.module('uniQaApp')
 							}
 						}, 'modal-warning');
 
-						updateModal.result.then(function(event) {
+						updateModal.result.then(function() {
 							cb(updatedUser);
 						});
 					};
@@ -671,7 +669,7 @@ angular.module('uniQaApp')
 						};
 
 						// use the Thing service to return back some constants
-						Thing.getByName("userRoles").then(function(val) {
+						Thing.getByName('userRoles').then(function(val) {
 							$rootScope.roles = val.content;
 						});
 						Department.get().then(function(val) {
@@ -688,7 +686,7 @@ angular.module('uniQaApp')
 							$rootScope.updatedUser.department = user.department;
 						});
 
-						Thing.getByName("uniEmail").then(function(val) {
+						Thing.getByName('uniEmail').then(function(val) {
 							// add Any to start of array
 							$rootScope.uniEmail = val.content[0];
 							// remove uniEmail standard from users Email
@@ -698,7 +696,7 @@ angular.module('uniQaApp')
 
 						updateModal = openModal({
 							modal: {
-								name: "updateUserForm",
+								name: 'updateUserForm',
 								dismissable: true,
 								title: 'Update Group',
 								form: '<div class="form-group" ng-class="{ \'has-success\': form.name.$valid && submitted,\'has-error\': form.name.$invalid && submitted }">' +
@@ -763,7 +761,7 @@ angular.module('uniQaApp')
 									click: function(e, form) {
 										$rootScope.submitted = true;
 
-										if ($rootScope.updatedUser.role != "Select Role" && $rootScope.updatedUser.department != "Select Department" && $rootScope.updatedUser.name) {
+										if ($rootScope.updatedUser.role !== 'Select Role' && $rootScope.updatedUser.department !== 'Select Department' && $rootScope.updatedUser.name) {
 
 											Auth.updateUser({
 													user: $rootScope.updatedUser
@@ -789,7 +787,7 @@ angular.module('uniQaApp')
 							}
 						}, 'modal-warning');
 
-						updateModal.result.then(function(event) {
+						updateModal.result.then(function() {
 							cb(updatedUser);
 						});
 					};
@@ -819,7 +817,7 @@ angular.module('uniQaApp')
 						// refresh validation on new modal open - remove details
 						updateModal = openModal({
 							modal: {
-								name: "updateLectureForm",
+								name: 'updateLectureForm',
 								dismissable: true,
 								title: 'Update Lecture',
 								form: '<div class="container-fluid">' +
@@ -894,37 +892,37 @@ angular.module('uniQaApp')
 								}, {
 									classes: 'btn-warning',
 									text: 'Update',
-									click: function(e, form) {
+									click: function() {
 										$rootScope.submitted = true;
-
-										if ($rootScope.updatedUser.role != "Select Role" && $rootScope.updatedUser.department != "Select Department" && $rootScope.updatedUser.name) {
-
-											Auth.updateUser({
-													user: $rootScope.updatedUser
-												})
-												.then(function(res) {
-													updatedUser = res.user;
-													// user created, close the modal
-													updateModal.close(e);
-												})
-												.catch(function(err) {
-													$rootScope.errors = {};
-
-													// Update validity of form fields that match the mongoose errors
-													angular.forEach(err.errors, function(error, field) {
-														//console.info(form[field]);
-														form[field].$setValidity('mongoose', false);
-														$rootScope.errors[field] = error.message;
-													});
-												});
-										}
+										//
+										// if ($rootScope.updatedUser.role !== 'Select Role' && $rootScope.updatedUser.department !== 'Select Department' && $rootScope.updatedUser.name) {
+										//
+										// 	Auth.updateUser({
+										// 			user: $rootScope.updatedUser
+										// 		})
+										// 		.then(function(res) {
+										// 			updatedUser = res.user;
+										// 			// user created, close the modal
+										// 			updateModal.close(e);
+										// 		})
+										// 		.catch(function(err) {
+										// 			$rootScope.errors = {};
+										//
+										// 			// Update validity of form fields that match the mongoose errors
+										// 			angular.forEach(err.errors, function(error, field) {
+										// 				//console.info(form[field]);
+										// 				form[field].$setValidity('mongoose', false);
+										// 				$rootScope.errors[field] = error.message;
+										// 			});
+										// 		});
+										// }
 									}
 								}]
 							}
 						}, 'modal-warning', 'lg');
 
-						updateModal.result.then(function(event) {
-							cb(updatedUser);
+						updateModal.result.then(function() {
+							cb(updatedLecture);
 						});
 					};
 				}
@@ -948,10 +946,10 @@ angular.module('uniQaApp')
 						var args = Array.prototype.slice.call(arguments),
 							user = args.shift(),
 							deleteModal;
-						if (user._id == Auth.getCurrentUser()._id) {
+						if (user._id === Auth.getCurrentUser()._id) {
 							deleteModal = openModal({
 								modal: {
-									name: "deleteUserForm",
+									name: 'deleteUserForm',
 									dismissable: true,
 									title: 'Warning',
 									form: '<p>You cannot delete your own user through this method. <br><br>You can find options like this by accessing the following link: <a ng-click="deleteModal.close(e)" href="/profile/settings">Profile Settings</a></p>',
@@ -965,13 +963,13 @@ angular.module('uniQaApp')
 								}
 							}, 'modal-warning');
 
-							deleteModal.result.then(function(event) {
+							deleteModal.result.then(function() {
 								cb(null);
 							});
 						} else {
 							deleteModal = openModal({
 								modal: {
-									name: "deleteConf",
+									name: 'deleteConf',
 									dismissable: true,
 									title: 'Confirm Delete',
 									form: '<p>Are you sure you want to delete <strong>' + user.name + '</strong> ?</p>',
@@ -991,7 +989,7 @@ angular.module('uniQaApp')
 								}
 							}, 'modal-danger');
 
-							deleteModal.result.then(function(event) {
+							deleteModal.result.then(function() {
 								cb(user);
 							});
 						}
@@ -1010,7 +1008,7 @@ angular.module('uniQaApp')
 							deleteModal;
 						deleteModal = openModal({
 							modal: {
-								name: "deleteConf",
+								name: 'deleteConf',
 								dismissable: true,
 								title: 'Confirm Delete',
 								form: '<p>Are you sure you want to delete <strong>' + user.name + '</strong> ?</p>',
@@ -1030,7 +1028,7 @@ angular.module('uniQaApp')
 							}
 						}, 'modal-danger');
 
-						deleteModal.result.then(function(event) {
+						deleteModal.result.then(function() {
 							cb(user);
 						});
 					};
@@ -1048,7 +1046,7 @@ angular.module('uniQaApp')
 							deleteModal;
 						deleteModal = openModal({
 							modal: {
-								name: "deleteConf",
+								name: 'deleteConf',
 								dismissable: true,
 								title: 'Confirm Delete',
 								form: '<p>Are you sure you want to delete <strong>' + lecture.name + '</strong> ?</p>',
@@ -1068,7 +1066,7 @@ angular.module('uniQaApp')
 							}
 						}, 'modal-danger');
 
-						deleteModal.result.then(function(event) {
+						deleteModal.result.then(function() {
 							cb(lecture);
 						});
 

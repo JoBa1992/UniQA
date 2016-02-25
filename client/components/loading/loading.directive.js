@@ -15,4 +15,4 @@ angular.module('uniQaApp')
 				'</div>',
 			scope: {}
 		};
-	})
+	});

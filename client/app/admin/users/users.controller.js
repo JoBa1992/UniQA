@@ -2,7 +2,7 @@
 
 angular.module('uniQaApp')
 	.controller('AdminUserCtrl', function($scope, $http, Auth, User, Thing, Department, Modal) {
-		$scope.title = "User Management";
+		$scope.title = 'User Management';
 		// filtered users, different from original object.
 		$scope.filter = {};
 		$scope.departments = {};
@@ -25,7 +25,7 @@ angular.module('uniQaApp')
 		});
 
 		$scope.changePaginationPage = function(page) {
-			if (page != $scope.currentPage && page > 0 && page <= $scope.totalPages) {
+			if (page !== $scope.currentPage && page > 0 && page <= $scope.totalPages) {
 				$scope.currentPage = page;
 				$scope.refreshUserList(true);
 			}
@@ -34,14 +34,14 @@ angular.module('uniQaApp')
 		// initial call to get system users length.
 		var refreshUserStats = function() {
 			User.getTotal().$promise.then(function(res) {
-				$scope.userCount = res.count
+				$scope.userCount = res.count;
 				$scope.totalPages = Math.ceil(res.count / $scope.resultsPerPage);
 			});
 		};
 		refreshUserStats();
 
 		// use the Thing service to return back some constants
-		Thing.getByName("userRoles").then(function(val) {
+		Thing.getByName('userRoles').then(function(val) {
 			val.content.forEach(function(iterate) {
 				$scope.filter.role[iterate] = true;
 			});
@@ -60,7 +60,7 @@ angular.module('uniQaApp')
 			// add Any to start of array
 			$scope.filter.department = 'Select Department';
 		});
-		Thing.getByName("uniEmail").then(function(val) {
+		Thing.getByName('uniEmail').then(function(val) {
 			// only returns one element
 			$scope.uniEmail = val.content[0];
 		});
@@ -74,14 +74,15 @@ angular.module('uniQaApp')
 		};
 
 		$scope.userRoleFilterToggle = function(target) {
-			if ($scope.filter.role[target])
+			if ($scope.filter.role[target]) {
 				$scope.filter.role[target] = false;
-			else
+			} else {
 				$scope.filter.role[target] = true;
+			}
 			$scope.refreshUserList();
-		}
+		};
 
-		$scope.searchStrFilter = function(e) {
+		$scope.searchStrFilter = function() {
 			$scope.refreshUserList();
 		};
 
@@ -89,12 +90,16 @@ angular.module('uniQaApp')
 			refreshUserStats();
 			// clean filter for query, roles aren't neccessary, as they're always included within the query
 			var qFilter = angular.copy($scope.filter);
-			if ($scope.isEmpty($scope.filter.searchStr))
+			if ($scope.isEmpty($scope.filter.searchStr)) {
 				qFilter = _.omit(qFilter, 'searchStr');
-			if ($scope.filter.department == "Select Department")
+			}
+
+			if ($scope.filter.department === 'Select Department') {
 				qFilter = _.omit(qFilter, 'department');
+			}
+
 			// remove any false keys
-			var arr = new Array();
+			var arr = [];
 			for (var key in qFilter.role) {
 				if (qFilter.role[key] === false) {
 					delete qFilter.role[key];
@@ -107,15 +112,17 @@ angular.module('uniQaApp')
 			qFilter.role = arr;
 
 			// error handling when no roles are selected
-			if (qFilter.role.length == 0) {
+			if (qFilter.role.length === 0) {
 				qFilter.role.push('No Role');
 			}
 
 			if ($scope.currentPage > 1 && !pageRequest) {
 				$scope.currentPage = 1;
 			}
-			if (qFilter.searchStr) // escape dodgy characters, doesn't work for [ weirdly...
-				qFilter.searchStr = qFilter.searchStr.replace(/[\\$'"]/g, "\\$&");
+			if (qFilter.searchStr) { // escape dodgy characters, doesn't work for [ weirdly...
+				qFilter.searchStr = qFilter.searchStr.replace(/[\\$'"]/g, '\\$&');
+			}
+
 			User.filtGet({
 				name: qFilter.searchStr,
 				role: qFilter.role,
@@ -128,7 +135,7 @@ angular.module('uniQaApp')
 				$scope.fUsers = res;
 				$scope.users = {};
 				$scope.totalPages = Math.ceil(res.count / $scope.resultsPerPage);
-				$scope.noFiltQueryReturn = res.count == 0 ? true : false;
+				$scope.noFiltQueryReturn = res.count === 0 ? true : false;
 			});
 		};
 
@@ -144,17 +151,20 @@ angular.module('uniQaApp')
 
 		// Error handling for when query returns no users
 		$scope.isEmpty = function(obj) {
-			for (var i in obj)
-				if (obj.hasOwnProperty(i)) return false;
+			for (var i in obj) {
+				if (obj.hasOwnProperty(i)) {
+					return false;
+				}
+			}
 			return true;
 		};
 
-		$scope.openCreateUserModal = Modal.create.user(function(user) { // callback when modal is confirmed
+		$scope.openCreateUserModal = Modal.create.user(function() { // callback when modal is confirmed
 			//$scope.users.push(user);
 			refreshUserStats();
 			$scope.refreshUserList();
 		});
-		$scope.openUpdateUserModal = Modal.update.user(function(user) { // callback when modal is confirmed
+		$scope.openUpdateUserModal = Modal.update.user(function() { // callback when modal is confirmed
 			$scope.refreshUserList();
 		});
 		$scope.openDeleteUserModal = Modal.delete.user(function(user) {

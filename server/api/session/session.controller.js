@@ -38,7 +38,7 @@ Array.prototype.diff = function(arr2) {
 };
 
 //
-function genKey(length) {
+var genKey = function(length) {
 	var key = '';
 	var randomchar = function() {
 		var num = Math.floor(Math.random() * 62);
@@ -51,52 +51,10 @@ function genKey(length) {
 	while (length--)
 		key += randomchar();
 	return key;
-}
-//
-function isKeyUnique(altAccess, callback) {
-	Lecture.find({
-		altAccess: altAccess
-	}, function(err, lecture) {
-		// if authenticated user exists (find returns back an empty set,
-		// so check to see if it has any elements)
-		if (!lecture[0]) {
-			// if it does, go to next middleware
-			callback(true);
-			return true;
-		} else {
-			// if it doesn't, send back error
-			callback(false);
-		}
-	});
-}
-//
-function createUniqueAccKey(altAccKeyLen, callback) {
-	var altAccess = genKey(altAccKeyLen);
-	isKeyUnique(altAccess, function(unique) {
-		if (unique)
-			callback(altAccess);
-		else
-			createUniqueKey();
-	});
 }
 
 //
-function genKey(length) {
-	var key = '';
-	var randomchar = function() {
-		var num = Math.floor(Math.random() * 62);
-		if (num < 10)
-			return num; //1-10
-		if (num < 36)
-			return String.fromCharCode(num + 55); //A-Z
-		return String.fromCharCode(num + 61); //a-z
-	};
-	while (length--)
-		key += randomchar();
-	return key;
-}
-//
-function isKeyUnique(altAccess, callback) {
+var isKeyUnique = function(altAccess, callback) {
 	Lecture.find({
 		altAccess: altAccess
 	}, function(err, session) {
@@ -112,14 +70,15 @@ function isKeyUnique(altAccess, callback) {
 		}
 	});
 }
+
 //
-function createUniqueAccKey(altAccKeyLen, callback) {
+var createUniqueAccKey = function(altAccKeyLen, callback) {
 	var altAccess = genKey(altAccKeyLen);
 	isKeyUnique(altAccess, function(unique) {
 		if (unique)
 			callback(altAccess);
 		else
-			createUniqueKey();
+			createUniqueAccKey();
 	});
 }
 
@@ -176,7 +135,6 @@ function convertISOTime(timeStamp, convertType, cb) {
 			return hour + ':' + minute + ':' + second;
 		case "dateISO":
 			return year + '-' + month + '-' + day;
-		case "datetime":
 		default: //datetime
 			return day + '/' + month + '/' + year + ' ' + hour + ':' + minute + ':' + second;
 	}
@@ -232,78 +190,78 @@ exports.create = function(req, res) {
 			console.log(err);
 			return handleError(res, err);
 		} else {
-			Qr.create({
-					session: session._id,
-					createdBy: session.createdBy
-				},
-				function(err, qr) {
-					if (err) {
-						console.info(err);
-						return handleError(res, err);
-					} else {
-						Thing.find({
-							name: 'qrBaseURL'
-						}, function(err, thing) {
-							var serverBase = thing[0].content; // just the one
-							Thing.find({
-								name: 'accessCodeLen'
-							}, function(err, thing) {
-								var altAccKeyLen = thing[0].content; // just the one
-
-								createUniqueAccKey(altAccKeyLen, function(altAccessKey) {
-									session.altAccess = altAccessKey;
-									// replace temp with class id when classes are setup
-									var url = String(serverBase + '/' + qr._id + '/group/' + 'temp' + '/register');
-
-									// currently in Sync...? :(
-									var qrSvgString = qrEncoder.imageSync(url, {
-										type: 'svg',
-										ec_level: 'Q',
-										parse_url: false,
-										margin: 1,
-										size: 4
-									});
-
-									// REMOVE Inject elements on svg, problem with plugin
-									qrSvgString = qrSvgString.replace('<svg xmlns="http://www.w3.org/2000/svg" width="172" height="172" viewBox="0 0 43 43">', "");
-									qrSvgString = qrSvgString.replace('</svg>', "");
-									qrSvgString = qrSvgString.replace('\"', "\'");
-									qrSvgString = qrSvgString.replace('\"/', "\'/");
-
-									Qr.findById(qr._id).exec(function(err, uQr) {
-										if (err) {
-											console.info(err);
-											return handleError(res, err);
-										} else if (!uQr) {
-											return res.status(404).send('Not Found');
-										} else {
-											// session.qr = qr._id;
-											uQr.url = url;
-											uQr.svg = qrSvgString;
-											uQr.save(function(err) {
-												if (err) {
-													console.info(err);
-													return handleError(res, err);
-												}
-												session.qr = qr._id;
-												session.save(function(err, session) {
-													if (err) {
-														console.info(err);
-														return handleError(res, err);
-													}
-													session.populate('qr', function(err, session) {
-														return res.status(200).json(session);
-													});
-												});
-											});
-										}
-									});
-								});
-							});
-
-						});
-					}
-				});
+			// Qr.create({
+			// 		session: session._id,
+			// 		createdBy: session.createdBy
+			// 	},
+			// 	function(err, qr) {
+			// 		if (err) {
+			// 			console.info(err);
+			// 			return handleError(res, err);
+			// 		} else {
+			// 			Thing.find({
+			// 				name: 'qrBaseURL'
+			// 			}, function(err, thing) {
+			// 				var serverBase = thing[0].content; // just the one
+			// 				Thing.find({
+			// 					name: 'accessCodeLen'
+			// 				}, function(err, thing) {
+			// 					var altAccKeyLen = thing[0].content; // just the one
+			//
+			// 					createUniqueAccKey(altAccKeyLen, function(altAccessKey) {
+			// 						session.altAccess = altAccessKey;
+			// 						// replace temp with class id when classes are setup
+			// 						var url = String(serverBase + '/' + qr._id + '/group/' + 'temp' + '/register');
+			//
+			// 						// currently in Sync...? :(
+			// 						var qrSvgString = qrEncoder.imageSync(url, {
+			// 							type: 'svg',
+			// 							ec_level: 'Q',
+			// 							parse_url: false,
+			// 							margin: 1,
+			// 							size: 4
+			// 						});
+			//
+			// 						// REMOVE Inject elements on svg, problem with plugin
+			// 						qrSvgString = qrSvgString.replace('<svg xmlns="http://www.w3.org/2000/svg" width="172" height="172" viewBox="0 0 43 43">', "");
+			// 						qrSvgString = qrSvgString.replace('</svg>', "");
+			// 						qrSvgString = qrSvgString.replace('\"', "\'");
+			// 						qrSvgString = qrSvgString.replace('\"/', "\'/");
+			//
+			// 						Qr.findById(qr._id).exec(function(err, uQr) {
+			// 							if (err) {
+			// 								console.info(err);
+			// 								return handleError(res, err);
+			// 							} else if (!uQr) {
+			// 								return res.status(404).send('Not Found');
+			// 							} else {
+			// 								// session.qr = qr._id;
+			// 								uQr.url = url;
+			// 								uQr.svg = qrSvgString;
+			// 								uQr.save(function(err) {
+			// 									if (err) {
+			// 										console.info(err);
+			// 										return handleError(res, err);
+			// 									}
+			// 									session.qr = qr._id;
+			// 									session.save(function(err, session) {
+			// 										if (err) {
+			// 											console.info(err);
+			// 											return handleError(res, err);
+			// 										}
+			// 										session.populate('qr', function(err, session) {
+			// 											return res.status(200).json(session);
+			// 										});
+			// 									});
+			// 								});
+			// 							}
+			// 						});
+			// 					});
+			// 				});
+			//
+			// 			});
+			// 		}
+			// 	});
 		}
 	});
 };
@@ -325,7 +283,7 @@ exports.getQuestions = function(req, res) {
 
 exports.addQuestion = function(req, res) {
 	var questionToAdd = JSON.parse(JSON.stringify(req.body)); // deep copy
-	questionToAdd['time'] = new Date(moment.utc().format());
+	questionToAdd.time = new Date(moment.utc().format());
 	var requestArr = questionToAdd.request.split(' ');
 
 	var expWords = [];
@@ -425,8 +383,7 @@ function convertISOTime(timeStamp, convertType) {
 			return hour + ':' + minute + ':' + second;
 		case "dateISO":
 			return year + '-' + month + '-' + day;
-		case "datetime":
 		default: //datetime
 			return day + '/' + month + '/' + year + ' ' + hour + ':' + minute + ':' + second;
 	}
-};
+}

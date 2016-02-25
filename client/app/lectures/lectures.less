@@ -2,6 +2,36 @@
 #preview-resizer:hover {
   background-color: #AAA;
 }
+.lecture-no-preview {
+  border: 1px solid #000;
+  height: 250px;
+  width: 250px;
+  color: #8DB7D2 !important; // don't want to signify hover event
+  background-color: lighten(#8DB7D2,14%);
+}
+.lecture-no-preview:hover {
+  text-decoration: none;
+  cursor: default;
+}
+.lecture-title-hr {
+  margin: 16px 0;
+  border-color: #8DB7D2;
+}
+/* EXACTLY THE SAME BUT WITH A HOVER EVENT */
+.lecture-preview {
+  border: 1px solid #000;
+  height: 250px;
+  width: 250px;
+  background-color: lighten(#8DB7D2,14%);
+}
+.lecture-preview:hover {
+  background-color: rgba(170, 170, 170, .1);
+  cursor: pointer;
+}
+.lecture-preview:hover,
+.lecture-preview h5:hover {
+  text-decoration: none !important;
+}
 .question-container {
   padding: 0;
   background-color: #414C5B;

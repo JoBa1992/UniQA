@@ -15,7 +15,7 @@ var validationError = function(res, err) {
  * restriction: 'admin'
  */
 exports.index = function(req, res) {
-	if (isEmpty(req.query) || req.query.page == 0) {
+	if (isEmpty(req.query) || req.query.page === 0) {
 		// console.info(req.query.page);
 		/*
 		MySchema.find({}).sort('mykey', 1).skip((pageNumber-1)*paginate).limit(paginate)
@@ -46,7 +46,7 @@ exports.index = function(req, res) {
 		else
 			req.query.name = new RegExp('', "i");
 		// role checking
-		if (typeof req.query.role == 'string') {
+		if (typeof req.query.role === 'string') {
 			req.query.role = [req.query.role];
 		} else if (!req.query.role) {
 			req.query.role = [];
@@ -121,7 +121,6 @@ function convertISOTime(timeStamp, convertType) {
 			return hour + ':' + minute + ':' + second;
 		case "dateISO":
 			return year + '-' + month + '-' + day;
-		case "datetime":
 		default: //datetime
 			return day + '/' + month + '/' + year + ' ' + hour + ':' + minute + ':' + second;
 	}
@@ -131,7 +130,8 @@ function isEmpty(obj) {
 	for (var i in obj)
 		if (obj.hasOwnProperty(i)) return false;
 	return true;
-};
+}
+
 /**
  * Creates a new user
  *  This function is to create a user with a access code, for users using the "register page" to "register" please refer to userRegistration.

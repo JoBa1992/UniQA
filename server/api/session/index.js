@@ -15,7 +15,7 @@ router.get('/:id', controller.show);
 router.post('/', controller.create);
 router.get('/:id/question', controller.getQuestions);
 router.post('/:id/question', controller.addQuestion);
-router.patch('/:id', controller.update);
+// router.patch('/:id', controller.update);
 
 
 module.exports = router;

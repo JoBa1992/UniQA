@@ -75,7 +75,7 @@ angular.module('uniQaApp', [
 		// check for scope state changes
 		$rootScope.$on('$stateChangeStart', function(next, current) {
 			// if not on start lecture, unsync socket listening
-			if (current.url != '/lecture/start') {
+			if (current.url !== '/lecture/start') {
 				socket.unsyncUpdates('session');
 			}
 		});

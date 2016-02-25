@@ -45,6 +45,7 @@ angular.module('uniQaApp')
 			update: function(query, callback) {
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();
+				var id = query.id;
 
 				$http.put('/api/groups/' + id).success(function(data) {
 					deferred.resolve(data);
@@ -58,6 +59,7 @@ angular.module('uniQaApp')
 			delete: function(query, callback) {
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();
+				var id = query.id;
 
 				$http.delete('/api/groups/' + id).success(function(data) {
 					deferred.resolve(data);

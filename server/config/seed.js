@@ -62,7 +62,7 @@ function createUniqueAccKey(altAccKeyLen, callback) {
 		if (unique)
 			callback(altAccess);
 		else
-			createUniqueKey();
+			createUniqueAccKey();
 	});
 }
 

@@ -4,7 +4,7 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-2 col-med-2 col-lg-2 pull-left">
-        <h1>My Lectures</h1>
+        <h1>{{title}}</h1>
       </div>
       <div class="col-sm-4 col-med-3 col-lg-3 pull-left">
         <form id="search-form" class="form-inline" role="form" method="post">
@@ -34,105 +34,49 @@
     </div>
   </div>
 </div>
-<div class="container">
-  <div class="row" style="margin-top:1em;padding-bottom:1.4em;border-bottom:2px dotted #8CB7D3;">
-    <div class="col-sm-12 col-med-12 col-lg-12 user-filter text-center" style="margin:50px 0;">
-      <strong>Filters</strong>
-    </div>
-  </div>
-  <div class="row" style="margin-top:1em;padding-bottom:1.4em;border-bottom:2px dotted #8CB7D3;">
-    <div class="col-sm-12 col-med-12 col-lg-12 user-filter text-center" style="margin:5px 0;">
-      <strong>Sort By</strong>
-    </div>
-  </div>
-  <div class="row" style="margin-bottom:40px;">
-    <div class="warnings">
-      <!-- <div class="alert alert-warning" role="alert">
-        <a href="#" class="alert-link">You have entered an incorrect attribute</a>
-      </div> -->
-      <div class="alert alert-danger" role="alert" ng-if="noFiltQueryReturn">
-        <p href="" class="alert-link">Query returned no users</p>
+<div class="container" style="margin-top:1.4em;">
+  <div class="row" ng-repeat="lecture in lectures">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 presentation-view" style="">
+      <a href="#" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 visible-sm visible-md visible-lg" ng-class="{'lecture-no-preview' : !lecture.preview, 'lecture-preview' : lecture.preview}" ng-mouseenter="preview = true" ng-mouseleave="preview = false">
+        <h5 ng-if="!lecture.preview" style="width:100%;text-align:center;margin:6.94em 0;">No Preview Available
+          <i style="display:block;margin-top:.4em;" class="fa fa-frown-o fa-2x"></i>
+        </h5>
+        <i ng-if="lecture.preview" class="fa fa-search-plus fa-5x" style="width:100%;text-align:center;margin:1.27em 0;" ng-if="preview"></i>
+
+      </a>
+      <div class="col-xs-12 col-sm-6 col-md-8 col-lg-9" style="position:relative;">
+        <h3 class="" style="margin:.2em 0 0;">{{lecture.title}}
+          <a href="#" ng-click="openUpdateGroupModal(group._id)" class="text-warning">
+            <i class="fa fa-pencil fa"></i>
+          </a>
+          <a href="#" ng-click="openDeleteGroupModal(group._id)" class="trash">
+            <i class="fa fa-trash pull-right"></i>
+          </a>
+        </h3>
+
+        <hr class="lecture-title-hr">
+        <h5 class="">Author:
+          <a href="#" class="text-primary">{{lecture.author.name}}</a>
+        </h5>
+        <p>Description:
+          {{lecture.desc}}</p>
+        <h5 class="" ng-if="!isEmpty(lecture.collaborators)">Collaborators:
+          <a href="#" class="text-primary" ng-repeat="collab in lecture.collaborators">{{collab.user.name}}
+            <span ng-if="!$last">,</span>
+          </a>
+        </h5>
+        <div style="position:absolute;bottom:-3em;left:.8em;" ng-if="!isEmpty(lecture.attachments)">
+          <h5 ng-repeat="item in lecture.attachments" class="" style="margin:0 .4em;text-decoration:none;display:inline-block;">
+            <i class="fa fa-file-{{item.type}}-o fa-2x"></i>
+          </h5>
+        </div>
       </div>
     </div>
-  </div>
-  <!-- <div class="row" ng-repeat="lecture in myLectures" style="margin:16px 0;background-color:#8CB7D3;">
-    <a class="col-sm-12 col-med-12 col-lg-12 text-center" style="padding:20px 0;">
-      <strong>{{lecture.name}}</strong>
-    </a>
-  </div> -->
-  <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="position:relative;" ng-repeat="lecture in myLectures">
-      <a ng-click="openUpdateLectureModal(lecture)" class="thumbnail" href="#" style="position:relative;">
-        <!--ng-href="/lecture/{{lecture._id}}"-->
-        <div class="" style="height:88px">
-          <div class="col-md-2 pull-left" style="border:2px solid #343D48;border-radius:2px;height:100%;width:88px;background-color:#FFF;padding:0;display:inline-block;">
-            <!-- custom directive for inserting svg into DOM -->
-            <ext-svg data-content="lecture.qr.svg"></ext-svg>
-          </div>
-          <div class="col-xs-8 col-sm-8 col-md-8">
-            <strong>{{lecture.name}}</strong>
-          </div>
-          <div class="col-xs-8 col-sm-8 col-md-8">
-            <span class="small" style="color:#666;">{{lecture.desc}}</span>
-          </div>
-          <div ng-if="(
-		            cTime >= editMinutes(lecture.startTime, -lecture.qActiveAllowance) && cTime < editMinutes(lecture.endTime, lecture.qActiveAllowance)
-					)" style="position:absolute;top:0;right:4px;">
-            <span class="pull-right">
-              <strong>UR: (0/20)</strong>
-            </span>
-          </div>
-          <div class="col-xs-8 col-sm-10 col-md-10 col-lg-12 text-right small" style="position:absolute;bottom:0;right:4px;padding:0">
-            <span style="color:#666;">
-              <strong>Runtime:&nbsp;</strong>
-            </span>
-            <span>
-              <strong>{{lecture.startTime}}&nbsp;-</strong>
-            </span>
-
-            <span>
-              <strong>&nbsp;{{lecture.endTime}}</strong>
-            </span>
-          </div>
-        </div>
-      </a>
-      <a ng-if="(!(cTime >= editMinutes(lecture.startTime, -lecture.qActiveAllowance) && cTime < editMinutes(lecture.endTime, lecture.qActiveAllowance)))" ng-click="openDeleteLectureModal(lecture)" class="trash del-lec-icon" style="">
-        <span class="glyphicon glyphicon-remove pull-right"></span>
-      </a>
+    <div ng-if="!$last" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin:2em 0;">
+      <hr class="resource-hr">
     </div>
   </div>
-  <div class="col-sm-12 col-med-12 col-lg-12">
-    <ul class="pagination pull-right">
-      <li ng-class="{disabled: currentPage-1==0}">
-        <a href="#" aria-label="Previous" ng-click="changePaginationPage(currentPage-1)">
-          <span aria-hidden="true">&laquo;</span>
-        </a>
-      </li>
-      <li ng-repeat="n in [].constructor(totalPages) track by $index" ng-class="{active: $index+1==currentPage}">
-        <a ng-click="changePaginationPage($index+1)">{{$index+1}}</a>
-      </li>
-      <li ng-if="totalPages==0" class="disabled">
-        <a>&#x2639;</a>
-      </li>
-      <li ng-class="{disabled: currentPage+1>totalPages}">
-        <a href="#" aria-label="Next" ng-click="changePaginationPage(currentPage+1)">
-          <span aria-hidden="true">&raquo;</span>
-        </a>
-      </li>
-    </ul>
-  </div>
 </div>
-<!--
-<div class="col-sm-4 col-med-4 col-lg-4">
-  Results per page: &nbsp;
-  <div class="btn-group" role="group" aria-label="">
-	<button type="button" class="btn btn-default active">10</button>
-	<button type="button" class="btn btn-default">20</button>
-	<button type="button" class="btn btn-default">50</button>
-	<button type="button" class="btn btn-default">100</button>
-  </div>
-</div>
--->
 <!-- FOOTER -->
 <div ng-include="'components/footer/footer.html'"></div>
 <!-- /FOOTER -->

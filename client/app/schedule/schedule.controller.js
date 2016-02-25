@@ -15,7 +15,7 @@ angular.module('uniQaApp')
 		Lecture.getMyTotal({
 			createdBy: me._id
 		}).then(function(res) {
-			$scope.myLectureCount = res.count == 0 ? 0 : res.count;
+			$scope.myLectureCount = res.count === 0 ? 0 : res.count;
 			$scope.totalPages = Math.ceil(res.count / $scope.resultsPerPage);
 		});
 
@@ -29,7 +29,7 @@ angular.module('uniQaApp')
 				paginate: $scope.resultsPerPage
 			}).then(function(res) {
 				// reset this once filters are used. Need to look at removing this object altogether
-				if (res.count == 0) {
+				if (res.count === 0) {
 					//no results
 					$scope.noQueryResults = true;
 				} else {
@@ -42,13 +42,13 @@ angular.module('uniQaApp')
 			Lecture.getMyTotal({
 				createdBy: me._id
 			}).then(function(res) {
-				$scope.myLectureCount = res.count == 0 ? 0 : res.count;
+				$scope.myLectureCount = res.count === 0 ? 0 : res.count;
 				$scope.totalPages = Math.ceil(res.count / $scope.resultsPerPage);
 			});
 		};
 
 		$scope.changePaginationPage = function(page) {
-			if (page != $scope.currentPage && page > 0 && page <= $scope.totalPages) {
+			if (page !== $scope.currentPage && page > 0 && page <= $scope.totalPages) {
 				$scope.currentPage = page;
 				$scope.refreshLectures(true);
 			}
@@ -60,7 +60,7 @@ angular.module('uniQaApp')
 			paginate: $scope.resultsPerPage
 		}).then(function(res) {
 			// reset this once filters are used. Need to look at removing this object altogether
-			if (res.count == 0) {
+			if (res.count === 0) {
 				//no results
 				$scope.noQueryResults = true;
 			} else {
@@ -73,11 +73,11 @@ angular.module('uniQaApp')
 		//   return mode === 'day' && (currentDate.getDay() === 0 || currentDate.getDay() === 6);
 		// };
 
-		$scope.openCreateLectureModal = Modal.create.lecture(function(lecture) { // callback when modal is confirmed
+		$scope.openCreateLectureModal = Modal.create.lecture(function() { // callback when modal is confirmed
 			$scope.refreshLectures();
 			refreshLectureStats();
 		});
-		$scope.openUpdateLectureModal = Modal.update.lecture(function(lecture) { // callback when modal is confirmed
+		$scope.openUpdateLectureModal = Modal.update.lecture(function() { // callback when modal is confirmed
 			$scope.refreshLectures();
 		});
 		$scope.openDeleteLectureModal = Modal.delete.lecture(function(lecture) {

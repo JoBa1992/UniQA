@@ -4,10 +4,11 @@ angular.module('uniQaApp')
 	.controller('LoginCtrl', function($scope, Auth, Thing, $location) {
 		$scope.user = {};
 		// for quicker access, remove once finished
-		$scope.user.email = "joba@uniqa.co.uk";
+		$scope.user.email = 'joba@uniqa.co.uk';
 		$scope.errors = {};
 
 		$scope.password = {};
+		$scope.user.password = 'Josh1992';
 		$scope.password.inputType = 'password';
 		$scope.password.icon = 'glyphicon glyphicon-eye-close';
 
@@ -15,20 +16,20 @@ angular.module('uniQaApp')
 			// only returns one element
 			$scope.uniEmail = val.content[0];
 		});
-		Thing.getByName("uniName").then(function(val) {
+		Thing.getByName('uniName').then(function(val) {
 			// only returns one element
 			$scope.uniName = val.content[0];
 		});
 
 		$scope.togglePassInput = function() {
-			if ($scope.password.inputType == 'password') {
+			if ($scope.password.inputType === 'password') {
 				$scope.password.inputType = 'text';
 				$scope.password.icon = 'glyphicon glyphicon-eye-open';
 			} else {
 				$scope.password.inputType = 'password';
 				$scope.password.icon = 'glyphicon glyphicon-eye-close';
 			}
-		}
+		};
 
 		$scope.login = function(form) {
 			$scope.submitted = true;

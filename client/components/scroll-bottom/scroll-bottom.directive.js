@@ -7,7 +7,7 @@ angular.module('uniQaApp')
 	.directive('scrollBottom', ['$timeout', function($timeout) {
 		return {
 			scope: {
-				scrollBottom: "="
+				scrollBottom: '='
 			},
 			link: function($scope, $element) {
 				$scope.$watchCollection('scrollBottom', function(newValue) {
@@ -18,5 +18,5 @@ angular.module('uniQaApp')
 					}
 				});
 			}
-		}
+		};
 	}]);

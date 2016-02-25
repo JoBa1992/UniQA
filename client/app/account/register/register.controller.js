@@ -7,7 +7,7 @@ angular.module('uniQaApp')
 		$scope.departments = {};
 		$scope.subDepartments = {};
 		$scope.errors = {};
-		$scope.passStr;
+		$scope.passStr = '';
 		$scope.password = {};
 		/**************** Password control ****************/
 		$scope.password.inputType = 'password';
@@ -44,30 +44,43 @@ angular.module('uniQaApp')
 		// };
 
 		$scope.togglePassInput = function() {
-			if ($scope.password.inputType == 'password') {
+			if ($scope.password.inputType === 'password') {
 				$scope.password.inputType = 'text';
 				$scope.password.icon = 'glyphicon glyphicon-eye-open';
 			} else {
 				$scope.password.inputType = 'password';
 				$scope.password.icon = 'glyphicon glyphicon-eye-close';
 			}
-		}
+		};
 
 		$scope.testPassword = function() {
-			if (!$scope.user.password)
-				return $scope.passStr = -1;
+			if (!$scope.user.password) {
+				$scope.passStr = -1;
+				return;
+			}
+
 			$scope.passStr = 0;
-			if ($scope.user.password.length < 6)
-				return $scope.passStr = 0;
-			if (/[0-9]/.test($scope.user.password))
+			if ($scope.user.password.length < 6) {
+				$scope.passStr = 0;
+				return;
+			}
+
+			if (/[0-9]/.test($scope.user.password)) {
 				$scope.passStr++;
-			if (/[a-z]/.test($scope.user.password))
+			}
+
+			if (/[a-z]/.test($scope.user.password)) {
 				$scope.passStr++;
-			if (/[A-Z]/.test($scope.user.password))
+			}
+
+			if (/[A-Z]/.test($scope.user.password)) {
 				$scope.passStr++;
-			if (/[^A-Z-0-9]/i.test($scope.user.password))
+			}
+
+			if (/[^A-Z-0-9]/i.test($scope.user.password)) {
 				$scope.passStr++;
-		}
+			}
+		};
 
 		// init on declaration
 		$scope.testPassword();

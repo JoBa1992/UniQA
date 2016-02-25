@@ -27,6 +27,10 @@ var LectureSchema = new Schema({
 	url: {
 		type: String
 	},
+	preview: {
+		type: String,
+		default: null
+	},
 	attachments: [{
 		loc: {
 			type: String

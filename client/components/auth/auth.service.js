@@ -116,8 +116,8 @@ angular.module('uniQaApp')
 				return User.changePassword({
 					id: currentUser._id
 				}, {
-					oldPassword: oldPassword,
-					newPassword: newPassword
+					oldPassword: oldPass,
+					newPassword: newPass
 				}, function(user) {
 					return cb(user);
 				}, function(err) {

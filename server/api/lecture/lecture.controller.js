@@ -23,6 +23,8 @@ exports.index = function(req, res) {
 		.skip((req.query.page - 1) * req.query.paginate)
 		.limit(req.query.paginate)
 		.populate('author')
+		.populate('collaborators.user')
+		.sort('title')
 		.lean()
 		.exec(function(err, lectures) {
 			if (err) {

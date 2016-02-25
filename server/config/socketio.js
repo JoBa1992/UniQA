@@ -39,8 +39,13 @@ module.exports = function(socketio) {
 	// }));
 
 	socketio.on('connection', function(socket) {
+		// this is what shows up when client accesses server
+		var address = socket.handshake.address;
+		// JSON.stringify(JSON.parse(socket),null,2);
+		// console.info(socket.request.client._peername);
 		socket.address = socket.handshake.address !== null ?
-			socket.handshake.address.address + ':' + socket.handshake.address.port :
+			// socket.request.connection.remoteAddress + ':' + address.port :
+			socket.request.client._peername.address + ':' + socket.request.client._peername.port :
 			process.env.DOMAIN;
 
 		socket.connectedAt = new Date();

@@ -111,9 +111,9 @@ angular.module('uniQaApp')
 		};
 
 		$scope.isRoot = function() {
-			if ($location.path() == "/") {
-				return "navbar-inverse";
+			if ($location.path() === '/') {
+				return 'navbar-inverse';
 			}
-			return "navbar-default";
-		}
+			return 'navbar-default';
+		};
 	});

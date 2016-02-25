@@ -23,11 +23,13 @@
         <li ng-if="!isLoggedIn()" ng-repeat="item in rightMenu" ng-class="{active: isActive(item.link)}">
           <a ng-href="{{item.link}}" class="disable-animations">{{item.title}}</a>
         </li>
-        <li ng-if="isLoggedIn()" ng-class="{active: isActive('/notifications')}" class="nav-notification">
+        <li ng-if="isLoggedIn()" ng-class="{active: isActive('/profile/notifications')}" class="nav-notification">
           <!-- NOTIFICATIONS -->
           <a href="/profile/notifications">
-            <span class="glyphicon glyphicon-bell"></span>
-            <span class="badge badge-notify nav-notification-badge">3</span>
+            <!-- Custom Font -->
+            <i class="fa fa-bell-o" style="font-size:1.3em;"></i>
+            <!-- Need to add ng-if for notifications here -->
+            <!-- <span class="badge nav-notification-badge">3</span> -->
           </a>
         </li>
         <li ng-show="isLoggedIn()" class="divider-vertical"></li>
