@@ -15,7 +15,7 @@ var Session = require('../api/session/session.model');
 // USED FOR QR GENERATION
 var fs = require('fs');
 var path = require('path');
-var qrEncoder = require('qr-image');
+// var qrEncoder = require('qr-image');
 
 var moment = require('moment');
 

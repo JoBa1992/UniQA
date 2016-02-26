@@ -18,7 +18,7 @@ var Thing = require('../thing/thing.model');
 // USED FOR QR GENERATION
 var fs = require('fs');
 var path = require('path');
-var qrEncoder = require('qr-image');
+// var qrEncoder = require('qr-image');
 
 function file(name) {
 	return fs.createWriteStream(path.join(__dirname, '../../storage/qrs/', name));
