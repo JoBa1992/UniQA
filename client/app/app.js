@@ -5,17 +5,23 @@ angular.module('uniQaApp', [
 		'ngResource',
 		'ngSanitize',
 		'ngAnimate',
-		'btford.socket-io',
 		'ui.router',
-		'ui.bootstrap'
+		'ui.bootstrap',
+		'btford.socket-io'
 	])
 	.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
 		// root level routes
 		$stateProvider
-			.state('startLecture', {
-				url: '/lecture/start',
-				templateUrl: 'app/lectures/start.html',
-				controller: 'LectureStartCtrl',
+			.state('startSession', {
+				url: '/session/start',
+				templateUrl: 'app/session/start.html',
+				controller: 'SessionStartCtrl',
+				authenticate: true
+			})
+			.state('activeSession', {
+				url: '/session/active/:sessionid',
+				templateUrl: 'app/session/active.html',
+				controller: 'SessionActiveCtrl',
 				authenticate: true
 			})
 			.state('lectMgr', {
@@ -74,8 +80,8 @@ angular.module('uniQaApp', [
 	.run(function($rootScope, $location, socket) {
 		// check for scope state changes
 		$rootScope.$on('$stateChangeStart', function(next, current) {
-			// if not on start lecture, unsync socket listening
-			if (current.url !== '/lecture/start') {
+			// if not on active lecture, unsync socket listening for questions
+			if (current.url !== '/session/active/:sessionid') {
 				socket.unsyncUpdates('session');
 			}
 		});

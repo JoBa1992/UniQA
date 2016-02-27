@@ -23,6 +23,18 @@ angular.module('uniQaApp')
 				}.bind(this));
 				return deferred.promise;
 			},
+			getNextFive: function(id, callback) {
+				var cb = callback || angular.noop;
+				var deferred = $q.defer();
+				$http.get('/api/sessions/' + id + '/getnextfive').success(function(data) {
+					deferred.resolve(data);
+					return cb();
+				}).error(function(err) {
+					deferred.reject(err);
+					return cb(err);
+				}.bind(this));
+				return deferred.promise;
+			},
 			createSession: function(obj, callback) {
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();

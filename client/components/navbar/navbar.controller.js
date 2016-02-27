@@ -9,8 +9,8 @@ angular.module('uniQaApp')
 		$scope.getCurrentUser = Auth.getCurrentUser;
 
 		$scope.leftMenu = [{
-				title: 'Start Lecture',
-				link: '/lecture/start',
+				title: 'Start Session',
+				link: '/session/start',
 				login: true,
 				admin: true,
 				student: false

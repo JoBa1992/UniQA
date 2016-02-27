@@ -11,6 +11,10 @@ var SessionSchema = new Schema({
 	},
 	startTime: Date,
 	endTime: Date,
+	started: {
+		type: Boolean,
+		default: false
+	},
 	qr: {
 		url: String,
 		svg: String

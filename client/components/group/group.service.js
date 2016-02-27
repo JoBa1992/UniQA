@@ -9,7 +9,7 @@ angular.module('uniQaApp')
 
 				$http.get('/api/groups').success(function(data) {
 					deferred.resolve(data);
-					return cb();
+					return cb;
 				}).error(function(err) {
 					deferred.reject(err);
 					return cb(err);

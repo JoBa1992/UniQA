@@ -1,6 +1,8 @@
 // Karma configuration
 // http://karma-runner.github.io/0.10/config/configuration-file.html
 
+// var io = require('socket.io');
+
 module.exports = function(config) {
 	config.set({
 		// base path, that will be used to resolve files and exclude
@@ -23,13 +25,9 @@ module.exports = function(config) {
 			'client/bower_components/angular-socket-io/socket.js',
 			'client/bower_components/angular-ui-router/release/angular-ui-router.js',
 			'client/app/app.js',
-			'client/app/app.coffee',
+			'client/spec/**/*.js',
 			'client/app/**/*.js',
-			'client/app/**/*.coffee',
 			'client/components/**/*.js',
-			'client/components/**/*.coffee',
-			'client/app/**/*.jade',
-			'client/components/**/*.jade',
 			'client/app/**/*.html',
 			'client/components/**/*.html'
 		],
@@ -86,7 +84,7 @@ module.exports = function(config) {
 		// - Safari (only Mac)
 		// - PhantomJS
 		// - IE (only Windows)
-		browsers: ['PhantomJS'],
+		browsers: ['Chrome'],
 
 
 		// Continuous Integration mode

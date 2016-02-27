@@ -53,14 +53,17 @@
     <div class="col-sm-4 col-med-4 col-lg-4 user-filter">
       <h5 class="text-left">Member of...</h5>
       <div class="dropdown reg-dropdown" style="position:relative;">
-        <button class="btn btn-inverse dropdown-toggle form-control" name="course" type="button" data-toggle="dropdown">{{filter.course}}
+        <button class="btn btn-inverse dropdown-toggle form-control" name="course" type="button" data-toggle="dropdown">{{filter.group}}
           <span class="caret"></span>
         </button>
         <a ng-click="clearDepFilter($event)" ng-class="{ 'disable-custom-filter': clearedFilter.dropdown, 'custom-filter': !clearedFilter.dropdown }" class="glyphicon glyphicon-remove pull-right"></a>
         <ul class="dropdown-menu scrollable-menu" role="menu" style="overflow:hidden;">
-          <li ng-repeat="(key,val) in courses">
-            <a class="dropdown-header disabled dropdown-header-custom" ng-click="depDropdownSel(key)">{{key}}</a>
-            <a ng-repeat="subVals in courses[key]" ng-click="depDropdownSel(subVals)">{{courses[key][$index]}}</a>
+          <!-- <li ng-repeat="(key,val) in groups">
+            <a class="dropdown-header disabled dropdown-header-custom" ng-click="groupDropdownSel(key)">{{key}}</a>
+            <a ng-repeat="subVals in courses[key]" ng-click="groupDropdownSel(subVals)">{{courses[key][$index]}}</a>
+          </li> -->
+          <li ng-repeat="group in groups">
+            <a class="" ng-click="groupDropdownSel(group.course)">{{group.course}}</a>
           </li>
         </ul>
       </div>
@@ -100,7 +103,7 @@
         </thead>
         <tbody>
           <!-- IF filters are active -->
-          <tr ng-if="isEmpty(fUsers.result) && !isEmpty(users)" ng-repeat="user in users">
+          <!-- <tr ng-if="isEmpty(users.result) && !isEmpty(users)" ng-repeat="user in users">
             <td>
               <a href="#" class="text-muted" ng-click="openUpdateUserModal(user)">{{user.name}}</a>
             </td>
@@ -120,9 +123,8 @@
                 <span class="glyphicon glyphicon-trash pull-right"></span>
               </a>
             </td>
-          </tr>
-          <!-- IF filters are NOT active -->
-          <tr ng-if="!isEmpty(fUsers.result)" ng-repeat="user in fUsers.result">
+          </tr> -->
+          <tr ng-if="!isEmpty(users.result)" ng-repeat="user in users.result">
             <td>
               <a href="#" class="text-muted" ng-click="openUpdateUserModal(user)">{{user.name}}</a>
             </td>

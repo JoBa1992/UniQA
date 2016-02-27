@@ -30,8 +30,14 @@ var UserSchema = new Schema({
 		type: String,
 		max: 10
 	},
-	hashedPassword: String,
-	salt: String,
+	hashedPassword: {
+		type: String,
+		// select: false
+	},
+	salt: {
+		type: String,
+		// select: false
+	},
 	lastLoggedIn: Date,
 	lastUpdated: Date
 });

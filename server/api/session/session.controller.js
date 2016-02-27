@@ -154,6 +154,66 @@ exports.count = function(req, res) {
 	});
 };
 
+exports.getNextFive = function(req, res) {
+	Session.find({
+			endTime: {
+				$gt: new Date()
+			}
+		}) // order by startDate asc
+		.populate('lecture')
+		.populate('register')
+		.populate('questions.asker')
+		.sort('startTime')
+		.limit(5)
+		.exec(function(err, sessions) {
+			if (err) {
+				return handleError(res, err);
+			}
+			if (!sessions) {
+				return res.status(404).send('Not Found');
+			}
+			Session.populate(sessions, {
+				path: 'lecture.author',
+				model: 'User'
+			}, function(err) {
+				Session.populate(sessions, {
+					path: 'lecture.collaborators.user',
+					model: 'User'
+				}, function(err) {
+					return res.json(sessions);
+				});
+			});
+
+		});
+	/*
+	Session.find({})
+		.populate('lecture', null, {
+			author: req.params.id
+		})
+		.populate('register')
+		.populate('questions.asker')
+		.exec(function(err, sessions) {
+			if (err) {
+				return handleError(res, err);
+			}
+			if (!sessions) {
+				return res.status(404).send('Not Found');
+			}
+			console.info(sessions);
+			Session.populate(sessions, {
+				path: 'lecture.author',
+				model: 'User'
+			}, function(err) {
+				Session.populate(sessions, {
+					path: 'lecture.collaborators.user',
+					model: 'User'
+				}, function(err) {
+					return res.json(sessions);
+				});
+			});
+
+		});*/
+};
 
 // Get a single session
 exports.show = function(req, res) {

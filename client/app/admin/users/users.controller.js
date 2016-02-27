@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('uniQaApp')
-	.controller('AdminUserCtrl', function($scope, $http, Auth, User, Thing, Department, Modal) {
+	.controller('AdminUserCtrl', function($scope, $http, Auth, User, Thing, Modal, Group) {
 		$scope.title = 'User Management';
 		// filtered users, different from original object.
 		$scope.filter = {};
-		$scope.departments = {};
+		$scope.groups = {};
 		$scope.filter.role = {};
-		$scope.filter.department = {};
+		// $scope.filter.group = {};
 		$scope.clearedFilter = {
 			dropdown: true,
 		};
@@ -17,12 +17,40 @@ angular.module('uniQaApp')
 		$scope.currentPage = 1;
 		$scope.totalPages = 0;
 
-		$scope.fUsers = {};
-		// initial call to get initial system user state.
-		$scope.users = User.query({
-			paginate: $scope.resultsPerPage,
-			page: 0 // always init to 0 as a base point
+		$scope.users = {};
+
+		Thing.getByName('uniEmail').then(function(res) {
+			// only returns one element
+			$scope.uniEmail = res.content[0];
 		});
+
+		Group.get().then(function(res) {
+			var group = {
+				course: 'None'
+			}
+			res.groups.unshift(group);
+			$scope.filter.group = 'Select Group';
+			$scope.groups = res.groups;
+		});
+
+		// use the Thing service to return back some constants
+		Thing.getByName('userRoles').then(function(res) {
+			res.content.forEach(function(iterate) {
+				$scope.filter.role[iterate] = true;
+			});
+			// fire off initial refresh when userRoles are returned
+			$scope.refreshUserList();
+		});
+
+		// Error handling for when query returns no users
+		$scope.isEmpty = function(obj) {
+			for (var i in obj) {
+				if (obj.hasOwnProperty(i)) {
+					return false;
+				}
+			}
+			return true;
+		};
 
 		$scope.changePaginationPage = function(page) {
 			if (page !== $scope.currentPage && page > 0 && page <= $scope.totalPages) {
@@ -40,39 +68,6 @@ angular.module('uniQaApp')
 		};
 		refreshUserStats();
 
-		// use the Thing service to return back some constants
-		Thing.getByName('userRoles').then(function(val) {
-			val.content.forEach(function(iterate) {
-				$scope.filter.role[iterate] = true;
-			});
-		});
-		Department.get().then(function(val) {
-			// loop through, and create key pairs to pass on scope variable
-			//   console.info(val);
-			val.forEach(function(dep) {
-				var subs = [];
-				dep.subdepartment.forEach(function(subdep) {
-					subs.push(subdep.name);
-				});
-				$scope.departments[dep.name] = subs;
-			});
-			console.info(val);
-			// add Any to start of array
-			$scope.filter.department = 'Select Department';
-		});
-		Thing.getByName('uniEmail').then(function(val) {
-			// only returns one element
-			$scope.uniEmail = val.content[0];
-		});
-
-
-		$scope.depDropdownSel = function(target) {
-			console.info(target);
-			$scope.filter.department = target;
-			$scope.clearedFilter.dropdown = false;
-			$scope.refreshUserList();
-		};
-
 		$scope.userRoleFilterToggle = function(target) {
 			if ($scope.filter.role[target]) {
 				$scope.filter.role[target] = false;
@@ -86,6 +81,23 @@ angular.module('uniQaApp')
 			$scope.refreshUserList();
 		};
 
+		$scope.groupDropdownSel = function(target) {
+			// console.info(target);
+			$scope.filter.group = target;
+			$scope.clearedFilter.dropdown = false;
+			$scope.refreshUserList();
+		};
+
+		// Error handling for when query returns no users
+		$scope.clearDepFilter = function(e) {
+			if (!$scope.clearedFilter.dropdown) {
+				e.stopPropagation();
+				$scope.filter.group = 'Select Group';
+				$scope.clearedFilter.dropdown = true;
+				$scope.refreshUserList();
+			}
+		};
+
 		$scope.refreshUserList = function(pageRequest) {
 			refreshUserStats();
 			// clean filter for query, roles aren't neccessary, as they're always included within the query
@@ -94,8 +106,8 @@ angular.module('uniQaApp')
 				qFilter = _.omit(qFilter, 'searchStr');
 			}
 
-			if ($scope.filter.department === 'Select Department') {
-				qFilter = _.omit(qFilter, 'department');
+			if ($scope.filter.group === 'Select Group') {
+				qFilter = _.omit(qFilter, 'group');
 			}
 
 			// remove any false keys
@@ -126,37 +138,14 @@ angular.module('uniQaApp')
 			User.filtGet({
 				name: qFilter.searchStr,
 				role: qFilter.role,
-				department: qFilter.department,
+				group: qFilter.group,
 				paginate: $scope.resultsPerPage,
-				page: $scope.currentPage // always init to 0 as a base point
+				page: $scope.currentPage
 			}).$promise.then(function(res) {
-				console.info(res);
-				// reset this once filters are used. Need to look at removing this object altogether
-				$scope.fUsers = res;
-				$scope.users = {};
+				$scope.users = res;
 				$scope.totalPages = Math.ceil(res.count / $scope.resultsPerPage);
 				$scope.noFiltQueryReturn = res.count === 0 ? true : false;
 			});
-		};
-
-		// Error handling for when query returns no users
-		$scope.clearDepFilter = function(e) {
-			if (!$scope.clearedFilter.dropdown) {
-				e.stopPropagation();
-				$scope.filter.department = 'Select Department';
-				$scope.clearedFilter.dropdown = true;
-				$scope.refreshUserList();
-			}
-		};
-
-		// Error handling for when query returns no users
-		$scope.isEmpty = function(obj) {
-			for (var i in obj) {
-				if (obj.hasOwnProperty(i)) {
-					return false;
-				}
-			}
-			return true;
 		};
 
 		$scope.openCreateUserModal = Modal.create.user(function() { // callback when modal is confirmed

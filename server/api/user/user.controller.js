@@ -15,80 +15,56 @@ var validationError = function(res, err) {
  * restriction: 'admin'
  */
 exports.index = function(req, res) {
-	if (isEmpty(req.query) || req.query.page === 0) {
-		// console.info(req.query.page);
-		/*
-		MySchema.find({}).sort('mykey', 1).skip((pageNumber-1)*paginate).limit(paginate)
-		.exec(function(err, result) {
-		    // Write some stuff here
-		});
-		*/
+	// name checking
+	if (req.query.name)
+		req.query.name = new RegExp(req.query.name, "i");
+	else
+		req.query.name = new RegExp('', "i");
 
-		User.find({}, '-salt -hashedPassword')
-			.skip(0)
-			.limit(req.query.paginate)
-			.populate({
-				path: "department",
-				populate: "Department"
-			})
-			.lean()
-			.exec(function(err, users) {
-				if (err) return res.status(500).send(err);
-				users.forEach(function(user) {
-					user.createdOn = convertISOTime(user._id.getTimestamp(), "datetime");
-				});
-				res.status(200).json(users);
-			});
-	} else {
-		// name checking
-		if (req.query.name)
-			req.query.name = new RegExp(req.query.name, "i");
-		else
-			req.query.name = new RegExp('', "i");
-		// role checking
-		if (typeof req.query.role === 'string') {
-			req.query.role = [req.query.role];
-		} else if (!req.query.role) {
-			req.query.role = [];
-		}
-		// dep checking
-		if (!req.query.department)
-			req.query.department = new RegExp('', "i");
+	// role checking
+	if (typeof req.query.role === 'string') {
+		req.query.role = [req.query.role];
+	} else if (!req.query.role) {
+		req.query.role = [];
+	}
 
-		User.find({
+	// group checking
+	if (!req.query.group)
+		req.query.group = new RegExp('', "i");
+
+	User.find({
+			name: req.query.name,
+			role: {
+				$in: req.query.role
+			},
+			//group: req.query.department
+		}, '-salt -hashedPassword')
+		.skip((req.query.page - 1) * req.query.paginate)
+		.limit(req.query.paginate)
+		.populate({
+			path: "department",
+			populate: "Department"
+		})
+		.lean()
+		.exec(function(err, users) {
+			if (err) return res.status(500).send(err);
+
+			User.count({
 				name: req.query.name,
 				role: {
 					$in: req.query.role
 				},
-				// department: req.query.department
-			}, '-salt -hashedPassword')
-			.skip((req.query.page - 1) * req.query.paginate)
-			.limit(req.query.paginate)
-			.populate({
-				path: "department",
-				populate: "Department"
-			})
-			.lean()
-			.exec(function(err, users) {
-				if (err) return res.status(500).send(err);
-
-				User.count({
-					name: req.query.name,
-					role: {
-						$in: req.query.role
-					},
-					//   department: req.query.department
-				}, function(err, count) {
-					users.forEach(function(user) {
-						user.createdOn = convertISOTime(user._id.getTimestamp(), "datetime");
-					});
-					res.status(200).json({
-						result: users,
-						count: count
-					});
+				//   group: req.query.group
+			}, function(err, count) {
+				users.forEach(function(user) {
+					user.createdOn = convertISOTime(user._id.getTimestamp(), "datetime");
+				});
+				res.status(200).json({
+					result: users,
+					count: count
 				});
 			});
-	}
+		});
 };
 exports.count = function(req, res) {
 	User.count({}, function(err, count) {

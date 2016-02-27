@@ -1,0 +1,113 @@
+#sidebar-resizer:hover,
+#preview-resizer:hover {
+  background-color: #AAA;
+}
+.lecture-no-preview {
+  border: 1px solid #000;
+  height: 250px;
+  width: 250px;
+  color: #8DB7D2 !important; // don't want to signify hover event
+  background-color: lighten(#8DB7D2,14%);
+}
+.lecture-no-preview:hover {
+  text-decoration: none;
+  cursor: default;
+}
+.lecture-title-hr {
+  margin: 16px 0;
+  border-color: #8DB7D2;
+}
+.lecture-start-preview {
+  border: 1px solid #000;
+  height: 400px;
+  width: 400px;
+  background-color: lighten(#8DB7D2,14%);
+}
+.lecture-start-preview h4 {
+  width: 100%;
+  text-align: center;
+  margin: 9.14em 0;
+}
+.lecture-start-info {
+  margin-top: 2.2em;
+}
+/* EXACTLY THE SAME BUT WITH A HOVER EVENT */
+.lecture-preview {
+  border: 1px solid #000;
+  height: 250px;
+  width: 250px;
+  background-color: lighten(#8DB7D2,14%);
+}
+.lecture-preview:hover {
+  background-color: rgba(170, 170, 170, .1);
+  cursor: pointer;
+}
+.lecture-preview:hover,
+.lecture-preview h5:hover {
+  text-decoration: none !important;
+}
+.question-container {
+  padding: 0;
+  background-color: #414C5B;
+  cursor: default;
+}
+.question-head {
+  position: absolute;
+  border-bottom: 1px solid #3A4352 !important;
+  width: 84%;
+  margin: 0.4em 6%;
+}
+.question-head h3 {
+  color: #8DB7D2;
+  text-align: center;
+}
+.presentation-view {}
+.question-feed {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  width: 100%;
+  // height: 100%;
+  padding: 0 3%;
+}
+.question-feed-blur {
+  filter:blur(6px);
+}
+.question-feed a {
+  overflow-x: visible;
+  color: #8DB7D2;
+  font-size: 0.9em;
+  width: 90%;
+  padding: 0.5em 0;
+  display: block;
+}
+.question-feed a:hover {
+  text-decoration: none;
+}
+.question-feed a span {
+  color: white;
+  cursor: pointer;
+}
+.question-feed a span:hover {
+  text-decoration: underline;
+}
+.countdown-circle {
+  width: 180px;
+  margin: 0.2em 10%;
+  height: 180px;
+  border-radius: 50%;
+  font-size: 5em;
+  color: #FFA700;
+  line-height: 168px;
+  text-align: center;
+  border: 6px solid #343D48;
+  background: transparent;
+}
+// .table-user-information > tbody > tr:first-child {
+//   border-top: 0;
+// }
+// .table-user-information > tbody > tr {
+//   border-top: 1px solid rgb(221, 221, 221);
+// }
+// .table-user-information > tbody > tr > td {
+//   border-top: 0;
+// }

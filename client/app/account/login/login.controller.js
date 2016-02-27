@@ -8,7 +8,6 @@ angular.module('uniQaApp')
 		$scope.errors = {};
 
 		$scope.password = {};
-		$scope.user.password = 'Josh1992';
 		$scope.password.inputType = 'password';
 		$scope.password.icon = 'glyphicon glyphicon-eye-close';
 
