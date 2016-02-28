@@ -71,13 +71,18 @@
             <i class="fa fa-clock-o"></i>
             <span style="padding-left:.4em;">{{lecture.runTime}}</span>
           </div>
-          <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9" style="padding:0">
+          <div>
             <i class="fa fa-users"></i>
-            <div style="padding-left:.4em;display:inline-block;">
+            <div ng-repeat="user in lecture.collaborators" style="display:inline-block;">
+              <a style="display:inline-block;" href="#">{{user}}
+              </a>
+              <span style="padding:0;margin:0;" ng-if="!$last">,&nbsp;</span>
+            </div>
+            <!-- <div style="padding-left:.4em;display:inline-block;">
               <a ng-repeat="user in lecture.collaborators" style="padding:0;margin:0;" href="#">{{user}}
                 <span style="padding:0;margin:0;" ng-if="!$last">,</span>
               </a>
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top:1.2em;">
@@ -86,9 +91,13 @@
             {{(lecture.registered.length/lecture.expected)*100| number:2}}%</span>
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <a href="#" ng-repeat="user in lecture.registered" style="padding:0;margin:0;">{{user}}
+              <div ng-repeat="user in lecture.registered" style="display:inline-block;">
+                <a style="color:#343D48;padding:0;margin:0;">{{user}}</a>
+                <span style="padding:0;margin:0;" ng-if="!$last">,&nbsp;</span>
+              </div>
+              <!-- <a href="#" ng-repeat="user in lecture.registered" style="padding:0;margin:0;">{{user}}
                 <span style="padding:0;margin:0;" ng-if="!$last">,</span>
-              </a>
+              </a> -->
             </div>
           </div>
         </div>

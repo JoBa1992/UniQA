@@ -59,6 +59,16 @@ var SessionSchema = new Schema({
 		anon: {
 			type: Boolean,
 			default: false
+		},
+		response: {
+			tutor: {
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'User'
+			},
+			body: {
+				type: String,
+				max: 255
+			}
 		}
 	}],
 	feedback: [{

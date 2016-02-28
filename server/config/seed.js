@@ -485,7 +485,7 @@ User.find({}).remove(function() {
 				Lecture.find({}).remove(function() {
 					Lecture.create({
 						_id: '56d1ca2e4f6973280ce025e6',
-						author: '56a7d95746b9e7db57417309',
+						author: '56a7d95746b9e7db57417309', // 56a7bf8a800c479155488fce
 						title: "WAD Week 1",
 						desc: "Descriptive element for WAD no1",
 						collaborators: [],
@@ -659,9 +659,9 @@ User.find({}).remove(function() {
 								Session.create({
 									_id: '56c87667bcd6f3c431cb8681',
 									lecture: '56c868096bd3f7b730a051f4',
-									startTime: moment.utc([2016, 1, 27, 21, 6, 0]),
-									endTime: moment.utc([2016, 1, 27, 21, 22, 0]),
-									timeAllowance: 10,
+									startTime: moment.utc([2016, 1, 29, 16, 0, 0]),
+									endTime: moment.utc([2016, 1, 29, 17, 30, 0]),
+									timeAllowance: 30,
 									qr: {
 										url: 'String',
 										svg: 'String'
@@ -687,26 +687,36 @@ User.find({}).remove(function() {
 									questions: [{
 										'asker': '56a7886405ab050a54d4eaa6',
 										'request': 'How do I do this?',
-										'time': moment.utc([2016, 2, 28, 20, 35, 0]),
+										'time': moment.utc([2016, 2, 29, 20, 35, 0]),
 									}, {
 										'asker': '56c86c25099777e930372eb7',
 										'request': 'more questions...',
-										'time': moment.utc([2016, 2, 28, 20, 40, 0]),
+										'time': moment.utc([2016, 2, 29, 20, 40, 0]),
 									}, {
 										'asker': '56a7afd3259ef46f559880c9',
 										'request': 'Ridiculously stupidly incredibily long comment to test out how it looks',
-										'time': moment.utc([2016, 2, 28, 20, 50, 0]),
+										'time': moment.utc([2016, 2, 29, 20, 50, 0]),
+									}],
+									groups: [{
+										group: '56cb7c2e7bbe028ebfbe56a2'
+									}, {
+										group: '56cb7c2e7bbe028ebfbe56a3'
 									}]
 								}, {
 									lecture: '56d1ca2e4f6973280ce025e6',
-									startTime: moment.utc([2016, 1, 27, 22, 0, 0]),
-									endTime: moment.utc([2016, 1, 27, 23, 59, 0]),
-									timeAllowance: 36,
+									startTime: moment.utc([2016, 1, 29, 22, 0, 0]),
+									endTime: moment.utc([2016, 1, 29, 23, 59, 0]),
+									timeAllowance: 20,
 									qr: {
 										url: 'String',
 										svg: 'String'
 									},
-									altAccess: ''
+									altAccess: '',
+									groups: [{
+										group: '56cb7c2e7bbe028ebfbe56a2'
+									}, {
+										group: '56cb7c2e7bbe028ebfbe56a3'
+									}]
 								}, {
 									lecture: '56d1ca2e4f6973280ce025e7',
 									startTime: moment.utc([2016, 2, 1, 18, 0, 0]),
@@ -719,8 +729,8 @@ User.find({}).remove(function() {
 									altAccess: ''
 								}, {
 									lecture: '56d1ca2e4f6973280ce025e8',
-									startTime: moment.utc([2016, 2, 2, 12, 0, 0]),
-									endTime: moment.utc([2016, 2, 2, 11, 0, 0]),
+									startTime: moment.utc([2016, 2, 2, 11, 0, 0]),
+									endTime: moment.utc([2016, 2, 2, 12, 0, 0]),
 									timeAllowance: 10,
 									qr: {
 										url: 'String',
@@ -736,7 +746,12 @@ User.find({}).remove(function() {
 										url: 'String',
 										svg: 'String'
 									},
-									altAccess: ''
+									altAccess: '',
+									groups: [{
+										group: '56cb7c2e7bbe028ebfbe56a2'
+									}, {
+										group: '56cb7c2e7bbe028ebfbe56a3'
+									}]
 								}, {
 									lecture: '56d1ca2e4f6973280ce025ea',
 									startTime: moment.utc([2016, 2, 5, 12, 0, 0]),
@@ -756,7 +771,12 @@ User.find({}).remove(function() {
 										url: 'String',
 										svg: 'String'
 									},
-									altAccess: ''
+									altAccess: '',
+									groups: [{
+										group: '56cb7c2e7bbe028ebfbe56a2'
+									}, {
+										group: '56cb7c2e7bbe028ebfbe56a3'
+									}]
 								}, function(err, sessions) {
 									if (err)
 										console.log(err);

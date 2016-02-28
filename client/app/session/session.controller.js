@@ -35,7 +35,7 @@ angular.module('uniQaApp')
 		// }
 		// onConnect();
 
-		$scope.now = moment.utc();
+		// $scope.now = moment.utc();
 
 		// scope load for lecture
 		$scope.lectureHeight = '760';
@@ -119,13 +119,13 @@ angular.module('uniQaApp')
 
 		// need to set this id by what gets passed through
 		Session.getOne(sessionid).then(function(res) {
-			var start = moment(moment(res.startTime).utc() - (res.timeAllowance * _minute)).utc();
-			var end = moment(moment(res.endTime).utc() + (res.timeAllowance * _minute)).utc();
-
-			// if session isn't between goalposts kick back to session start
-			if (!($scope.now >= start && $scope.now <= end)) {
-				return $location.url('/session/start');
-			}
+			// var start = moment(moment(res.startTime).utc() - (res.timeAllowance * _minute)).utc();
+			// var end = moment(moment(res.endTime).utc() + (res.timeAllowance * _minute)).utc();
+			//
+			// // if session isn't between goalposts kick back to session start
+			// if (!($scope.now >= start && $scope.now <= end)) {
+			// 	return $location.url('/session/start');
+			// }
 
 			var lecture = res.lecture;
 			// var groups = res.groups;
@@ -266,7 +266,8 @@ angular.module('uniQaApp')
 		var interval = 100;
 
 		// need to set this id by what gets passed through
-		Session.getNextFive(me._id).then(function(res) {
+		Session.getNextFour(me._id).then(function(res) {
+			console.log(res);
 			// take next lecture ordered by mongoose
 			var nextSession = res.shift();
 

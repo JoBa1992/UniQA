@@ -1,23 +1,39 @@
 'use strict';
 
 angular.module('uniQaApp')
-	.controller('ScheduleCtrl', function($scope, $http, Auth, Lecture, Modal) {
+	.controller('ScheduleCtrl', function($scope, $http, $window, Auth, Session, Modal) {
 
-		$scope.cTime = new Date(); // get current date
+		// attach lodash to scope
+		$scope._ = _;
+		// attach moment to scope
+		$scope.moment = moment;
+
+		$scope.windowHeight = $window.innerHeight - 52; // navbar + margin
+
+		$scope.formAddSaveBtn = 'Add';
+
+		// $scope.cTime = new Date(); // get current date
 		$scope.noQueryResults = false;
 
-		$scope.myLectures = {};
+		$scope.mySessions = {};
 		$scope.resultsPerPage = 10;
 		$scope.currentPage = 1;
 		// $scope.totalPages = 8;
 
 		var me = Auth.getCurrentUser();
-		Lecture.getMyTotal({
-			createdBy: me._id
+
+		Session.getForMe({
+			author: me._id
 		}).then(function(res) {
-			$scope.myLectureCount = res.count === 0 ? 0 : res.count;
+			$scope.mySessions = res;
+			$scope.mySessionCount = res.count === 0 ? 0 : res.count;
 			$scope.totalPages = Math.ceil(res.count / $scope.resultsPerPage);
 		});
+
+		// need a function thats smart enough to tell wether the user wants to save or add a scheduled item
+
+		// addSaveSchedule
+		/*
 
 		$scope.refreshLectures = function(pageRequest) {
 			if ($scope.currentPage > 1 && !pageRequest) {
@@ -93,5 +109,5 @@ angular.module('uniQaApp')
 
 		$scope.editMinutes = function(datetime, minutes) {
 			return new Date(datetime).getTime() + minutes * 60000;
-		};
+		};*/
 	});

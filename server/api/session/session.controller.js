@@ -84,17 +84,34 @@ var createUniqueAccKey = function(altAccKeyLen, callback) {
 
 // Get list of sessions (or limit by querystring)
 exports.index = function(req, res) {
-	Lecture.find({
-			createdBy: req.query.createdBy,
-			endTime: {
-				"$gte": new Date()
+	var getAuthor = {
+		author: null
+	};
+	var query = {};
+	if (req.query) {
+		if (!req.query.author) {
+			getAuthor = {};
+		} else {
+			getAuthor.author = req.query.author
+		}
+		// add historical if flag is not set
+		if (!req.query.history) {
+			query.endTime = {
+				$gte: moment.utc()
 			}
+		}
+	}
+	Session.find(query)
+		.populate({
+			path: 'lecture',
+			match: getAuthor
 		})
+		.populate('register')
+		.populate('questions.asker')
+		.populate('groups.group')
 		.sort('startTime')
-		.skip((req.query.page - 1) * req.query.paginate)
-		.limit(req.query.paginate)
-		.populate('qr')
-		.populate('createdBy')
+		// .skip((req.query.page - 1) * req.query.paginate)
+		// .limit(req.query.paginate)
 		.lean()
 		.exec(function(err, sessions) {
 			if (err) {
@@ -103,10 +120,15 @@ exports.index = function(req, res) {
 			if (!sessions[0]) {
 				return res.status(404).send('Not Found');
 			} else {
-				sessions.forEach(function(session) {
-					session.startTime = convertISOTime(session.startTime, "datetime");
-					session.endTime = convertISOTime(session.endTime, "datetime");
+				// rip out any null lectures
+				sessions = sessions.filter(function(session) {
+					return session.lecture;
 				});
+
+				// sessions.forEach(function(session) {
+				// 	session.startTime = convertISOTime(session.startTime, "datetime");
+				// 	session.endTime = convertISOTime(session.endTime, "datetime");
+				// });
 				res.status(200).json(sessions);
 			}
 
@@ -154,24 +176,37 @@ exports.count = function(req, res) {
 	});
 };
 
-exports.getNextFive = function(req, res) {
+exports.getNextFour = function(req, res) {
+	// console.info(req.params);
 	Session.find({
 			endTime: {
 				$gt: new Date()
 			}
 		}) // order by startDate asc
-		.populate('lecture')
+		.populate({
+			path: 'lecture',
+			match: {
+				author: req.params.userid
+			}
+		})
 		.populate('register')
 		.populate('questions.asker')
+		.populate('groups.group')
 		.sort('startTime')
-		.limit(5)
+		.limit(4)
 		.exec(function(err, sessions) {
+			// console.info(sessions);
 			if (err) {
 				return handleError(res, err);
 			}
 			if (!sessions) {
 				return res.status(404).send('Not Found');
 			}
+			// rip out any null lectures
+			sessions = sessions.filter(function(session) {
+				return session.lecture;
+			});
+
 			Session.populate(sessions, {
 				path: 'lecture.author',
 				model: 'User'
@@ -219,6 +254,36 @@ exports.getNextFive = function(req, res) {
 exports.show = function(req, res) {
 	Session.findById(req.params.id)
 		.populate('lecture')
+		.populate('register')
+		.populate('questions.asker')
+		.populate('groups.group')
+		.exec(function(err, session) {
+			if (err) {
+				return handleError(res, err);
+			}
+			if (!session) {
+				return res.status(404).send('Not Found');
+			}
+			Session.populate(session, {
+				path: 'lecture.author',
+				model: 'User'
+			}, function(err) {
+				Session.populate(session, {
+					path: 'lecture.collaborators.user',
+					model: 'User'
+				}, function(err) {
+					return res.json(session);
+				});
+			});
+
+		});
+};
+
+exports.showForUser = function(req, res) {
+	Session.findById(req.params.id)
+		.populate('lecture', null, {
+			'lecture.author': req.params.user
+		})
 		.populate('register')
 		.populate('questions.asker')
 		.exec(function(err, session) {
@@ -420,30 +485,30 @@ exports.destroy = function(req, res) {
 function handleError(res, err) {
 	return res.status(500).send(err);
 }
-
-function convertISOTime(timeStamp, convertType) {
-	// function takes a timestamp and converts to the requested type
-	// datetime is the default return
-	var day = timeStamp.getDate().toString().length <= 1 ?
-		'0' + timeStamp.getDate().toString() : timeStamp.getDate(),
-		// month is stored as a zero-indexed array, so needs 1 adding
-		month = (timeStamp.getMonth() + 1).toString().length <= 1 ?
-		'0' + (timeStamp.getMonth() + 1).toString() : (timeStamp.getMonth() + 1),
-		year = timeStamp.getFullYear(),
-		second = timeStamp.getSeconds().toString().length <= 1 ?
-		'0' + timeStamp.getSeconds().toString() : timeStamp.getSeconds(),
-		minute = timeStamp.getMinutes().toString().length <= 1 ?
-		'0' + timeStamp.getMinutes().toString() : timeStamp.getMinutes(),
-		hour = timeStamp.getHours().toString().length <= 1 ?
-		'0' + timeStamp.getHours().toString() : timeStamp.getHours();
-	switch (convertType) {
-		case "date":
-			return day + '/' + month + '/' + year;
-		case "time":
-			return hour + ':' + minute + ':' + second;
-		case "dateISO":
-			return year + '-' + month + '-' + day;
-		default: //datetime
-			return day + '/' + month + '/' + year + ' ' + hour + ':' + minute + ':' + second;
-	}
-}
+//
+// function convertISOTime(timeStamp, convertType) {
+// 	// function takes a timestamp and converts to the requested type
+// 	// datetime is the default return
+// 	var day = timeStamp.getDate().toString().length <= 1 ?
+// 		'0' + timeStamp.getDate().toString() : timeStamp.getDate(),
+// 		// month is stored as a zero-indexed array, so needs 1 adding
+// 		month = (timeStamp.getMonth() + 1).toString().length <= 1 ?
+// 		'0' + (timeStamp.getMonth() + 1).toString() : (timeStamp.getMonth() + 1),
+// 		year = timeStamp.getFullYear(),
+// 		second = timeStamp.getSeconds().toString().length <= 1 ?
+// 		'0' + timeStamp.getSeconds().toString() : timeStamp.getSeconds(),
+// 		minute = timeStamp.getMinutes().toString().length <= 1 ?
+// 		'0' + timeStamp.getMinutes().toString() : timeStamp.getMinutes(),
+// 		hour = timeStamp.getHours().toString().length <= 1 ?
+// 		'0' + timeStamp.getHours().toString() : timeStamp.getHours();
+// 	switch (convertType) {
+// 		case "date":
+// 			return day + '/' + month + '/' + year;
+// 		case "time":
+// 			return hour + ':' + minute + ':' + second;
+// 		case "dateISO":
+// 			return year + '-' + month + '-' + day;
+// 		default: //datetime
+// 			return day + '/' + month + '/' + year + ' ' + hour + ':' + minute + ':' + second;
+// 	}
+// }

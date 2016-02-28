@@ -4,6 +4,7 @@ angular.module('uniQaApp')
 	.controller('AdminGroupCtrl', function($scope, $http, Auth, Group, Modal) {
 		$scope.title = 'Group Management';
 
+
 		// Check for when query returns no groups
 		$scope.isEmpty = function(obj) {
 			//   console.info(obj);

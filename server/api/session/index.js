@@ -14,7 +14,7 @@ router.get('/count', auth.isAuthenticated(), controller.count);
 router.put('/:id', auth.isAuthenticated(), controller.update);
 router.delete('/:id', auth.isAuthenticated(), controller.destroy);
 router.get('/:id', auth.isAuthenticated(), controller.show);
-router.get('/:id/getnextfive', auth.isAuthenticated(), controller.getNextFive);
+router.get('/:userid/getnextfour', auth.isAuthenticated(), controller.getNextFour);
 router.post('/', auth.isAuthenticated(), controller.create);
 router.get('/:id/question', auth.isAuthenticated(), controller.getQuestions);
 router.post('/:id/question' /*, auth.isAuthenticated()*/ , controller.addQuestion);

@@ -27,12 +27,6 @@ angular.module('uniQaApp')
 				admin: true,
 				student: false
 			}, {
-				title: 'My Lectures',
-				link: '/my/lectures',
-				login: true,
-				admin: false,
-				student: true
-			}, {
 				title: 'Lectures',
 				link: '/my/lectures',
 				login: true,
@@ -45,8 +39,8 @@ angular.module('uniQaApp')
 				admin: true,
 				student: false
 			}, {
-				title: 'Questions',
-				link: '/my/questions',
+				title: 'Feedback',
+				link: '/my/feedback',
 				login: true,
 				admin: true,
 				student: false

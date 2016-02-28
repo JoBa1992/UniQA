@@ -36,10 +36,10 @@ angular.module('uniQaApp', [
 				controller: 'ScheduleCtrl',
 				authenticate: true
 			})
-			.state('questions', {
-				url: '/my/questions',
-				templateUrl: 'app/questions/tutor.html',
-				controller: 'QuestionCtrl',
+			.state('feedback', {
+				url: '/my/feedback',
+				templateUrl: 'app/feedback/feedback.html',
+				controller: 'FeedbackCtrl',
 				authenticate: true
 			})
 			.state('statMgr', {
@@ -77,12 +77,39 @@ angular.module('uniQaApp', [
 			}
 		};
 	})
-	.run(function($rootScope, $location, socket) {
+	.run(function($rootScope, $location, socket, Auth, Session) {
 		// check for scope state changes
-		$rootScope.$on('$stateChangeStart', function(next, current) {
+		//next, current
+		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
 			// if not on active lecture, unsync socket listening for questions
-			if (current.url !== '/session/active/:sessionid') {
+			if (toState.url !== '/session/active/:sessionid') {
 				socket.unsyncUpdates('session');
+			} else {
+				if (!toParams.sessionid) {
+					return $location.url('/session/start');
+				}
+				var sessionid = toParams.sessionid;
+				var now = moment.utc();
+				var _second = 1000;
+				var _minute = _second * 60;
+				// don't want user accessing page if session isn't valid
+				Session.getOne(sessionid).then(function(res) {
+					var start = moment(moment(res.startTime).utc() - (res.timeAllowance * _minute)).utc();
+					var end = moment(moment(res.endTime).utc() + (res.timeAllowance * _minute)).utc();
+
+					// if session isn't between goalposts kick back to session start
+					if (!(now >= start && now <= end)) {
+						return $location.url('/session/start');
+					}
+				});
+			}
+			// don't want users going to 'homepage' if logged in
+			if (toState.url === '/') {
+				Auth.isLoggedInAsync(function(loggedIn) {
+					if (loggedIn) {
+						$location.path('/profile');
+					}
+				});
 			}
 		});
 

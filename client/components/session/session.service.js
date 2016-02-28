@@ -23,10 +23,10 @@ angular.module('uniQaApp')
 				}.bind(this));
 				return deferred.promise;
 			},
-			getNextFive: function(id, callback) {
+			getNextFour: function(id, callback) {
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();
-				$http.get('/api/sessions/' + id + '/getnextfive').success(function(data) {
+				$http.get('/api/sessions/' + id + '/getnextfour').success(function(data) {
 					deferred.resolve(data);
 					return cb();
 				}).error(function(err) {
@@ -53,11 +53,11 @@ angular.module('uniQaApp')
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();
 
-				$http.get('/api/lectures', {
+				$http.get('/api/sessions', {
 					params: {
-						createdBy: obj.createdBy,
-						page: obj.page,
-						paginate: obj.paginate
+						author: obj.createdBy,
+						// page: obj.page,
+						// paginate: obj.paginate
 					}
 				}).success(function(data) {
 					deferred.resolve(data);
