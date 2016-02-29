@@ -52,12 +52,16 @@ angular.module('uniQaApp')
 			getForMe: function(obj, callback) {
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();
+				var history = obj.historic || null;
+				var order = obj.order || null;
 
 				$http.get('/api/sessions', {
 					params: {
 						author: obj.createdBy,
-						// page: obj.page,
-						// paginate: obj.paginate
+						history: history,
+						order: order
+							// page: obj.page,
+							// paginate: obj.paginate
 					}
 				}).success(function(data) {
 					deferred.resolve(data);

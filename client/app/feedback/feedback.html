@@ -1,6 +1,87 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <h1 style="width:100%;text-align:center">Feedback Timeline</h1>
+    </div>
 
-Questions Page
+    <ul class="timeline" style="margin:2em 0 6em;">
+
+      <li ng-if="moment.utc(myFeedback[0].startTime).format('dddd Do MMMM, YYYY')
+                    === moment.utc().format('dddd Do MMMM, YYYY')">
+
+        <div class="timeline-date" style="height:32px;">
+          <h5 style="margin:.4em 0;">
+            <strong>Today</strong>
+          </h5>
+        </div>
+        <div class="timeline-panel invisible">
+          <div class="timeline-heading "></div>
+          <div class="timeline-body"></div>
+        </div>
+      </li>
+
+      <li ng-repeat-start="feedback in myFeedback" ng-if="$index == 0 || moment.utc(myFeedback[$index-1].startTime).format('dddd Do MMMM, YYYY') !== moment.utc(feedback.startTime).format('dddd Do MMMM, YYYY')" ng-hide="moment.utc(feedback.startTime).format('dddd Do MMMM, YYYY') === moment.utc().format('dddd Do MMMM, YYYY')">
+        <div class="timeline-date" style="height:58px;">
+          <div style="margin:.6em 0;">
+            <h5 style="margin:.1em 0;">
+              <strong>{{moment.utc(feedback.startTime).format('DD')}}</strong>
+            </h5>
+            <h5 style="margin:.1em 0;">
+              <strong>{{moment.utc(feedback.startTime).format('MMM')}}</strong>
+            </h5>
+          </div>
+        </div>
+        <div class="timeline-panel timeline-date-padding invisible">
+          <div class="timeline-heading "></div>
+          <div class="timeline-body"></div>
+        </div>
+      </li>
+
+      <li ng-repeat-end ng-class-odd="''" ng-class-even="'timeline-inverted'">
+        <div class="timeline-badge primary">
+          <i class="fa fa-graduation-cap"></i>
+        </div>
+        <div class="timeline-panel">
+          <div class="timeline-heading" style="position:relative;">
+            <a class="timeline-title" style="position:relative;white-space:nowrap;width:auto;font-size:1.4em;">
+              <strong>{{feedback.lecture.title}}</strong>
+            </a>
+            <div class="timeline-rating" style="">
+              <!-- Attach Avg rating here, served by server -->
+              <div style="display:inline-block;" class="timeline-stars" star-rating rating-value=".5" data-max="5"></div>
+              <div style="border-left:1px solid white;display:inline-block;padding-left:.4em;color:#343D48;">{{feedback.feedback.length}}
+                {{feedback.feedback.length == 1 ? 'Review' : 'Reviews'}}</div>
+            </div>
+            <p>
+              <small class="text-muted" style="color:white;">
+                <i class="glyphicon glyphicon-time" style="margin-right:.4em;"></i>{{moment.utc(feedback.startTime).format('dddd Do MMMM, YYYY') === moment.utc().format('dddd Do MMMM, YYYY')? moment.utc(feedback.startTime).fromNow():moment.utc(feedback.startTime).format('HH:mm') + ' - ' + moment.utc(feedback.endTime).format('HH:mm')}}
+              </small>
+            </p>
+          </div>
+          <div class="timeline-body">
+            <p>Audience:
+              <span ng-repeat="group in feedback.groups">{{group.group.course}}
+                <span style="padding:0;margin:0;" ng-if="!$last">,&nbsp;</span>
+              </span>
+            </p>
+            <p>Attendance: 14/40</p>
+            <p>Questions:
+              {{feedback.questions.length}}</p>
+          </div>
+
+        </div>
+      </li>
+
+      <li>
+        <div class="timeline-badge primary">
+          <i class="{{timelineLoading}}"></i>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
 <!-- FOOTER -->
 <div ng-include="'components/footer/footer.html'"></div>
 <!-- /FOOTER -->

@@ -88,19 +88,29 @@ exports.index = function(req, res) {
 		author: null
 	};
 	var query = {};
+	var order = 'startTime';
 	if (req.query) {
 		if (!req.query.author) {
 			getAuthor = {};
 		} else {
 			getAuthor.author = req.query.author
 		}
-		// add historical if flag is not set
+		// if set get past, else get future
 		if (!req.query.history) {
 			query.endTime = {
 				$gte: moment.utc()
 			}
+		} else {
+			query.endTime = {
+				$lt: moment.utc()
+			}
+		}
+
+		if (req.query.order) {
+			order = req.query.order;
 		}
 	}
+
 	Session.find(query)
 		.populate({
 			path: 'lecture',
@@ -109,7 +119,7 @@ exports.index = function(req, res) {
 		.populate('register')
 		.populate('questions.asker')
 		.populate('groups.group')
-		.sort('startTime')
+		.sort(order)
 		// .skip((req.query.page - 1) * req.query.paginate)
 		// .limit(req.query.paginate)
 		.lean()

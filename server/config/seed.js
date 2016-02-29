@@ -657,196 +657,289 @@ User.find({}).remove(function() {
 							console.log('finished populating Lectures');
 							Session.find({}).remove(function() {
 								Session.create({
-									_id: '56c87667bcd6f3c431cb8681',
-									lecture: '56c868096bd3f7b730a051f4',
-									startTime: moment.utc([2016, 1, 29, 16, 0, 0]),
-									endTime: moment.utc([2016, 1, 29, 17, 30, 0]),
-									timeAllowance: 30,
-									qr: {
-										url: 'String',
-										svg: 'String'
-									},
-									altAccess: '',
-									register: [{
-										user: '56a7bf8a800c479155488fce'
+										_id: '56c87667bcd6f3c431cb8681',
+										lecture: '56c868096bd3f7b730a051f4',
+										startTime: moment.utc([2016, 1, 29, 10, 0, 0]),
+										endTime: moment.utc([2016, 1, 29, 12, 30, 0]),
+										timeAllowance: 30,
+										qr: {
+											url: 'String',
+											svg: 'String'
+										},
+										altAccess: '',
+										register: [{
+											user: '56a7bf8a800c479155488fce'
+										}, {
+											user: '56a7886405ab050a54d4eaa6'
+										}, {
+											user: '56c86c25099777e930372eb5'
+										}, {
+											user: '56c86c25099777e930372eb7'
+										}, {
+											user: '56c86c25099777e930372eb6'
+										}, {
+											user: '56a7afd3259ef46f559880c9'
+										}, {
+											user: '56c86c25099777e930372eb4'
+										}, {
+											user: '56a7886405ab050a54d4eaa5'
+										}],
+										questions: [{
+											'asker': '56a7886405ab050a54d4eaa6',
+											'request': 'How do I do this?',
+											'time': moment.utc([2016, 1, 29, 20, 35, 0]),
+										}, {
+											'asker': '56c86c25099777e930372eb7',
+											'request': 'more questions...',
+											'time': moment.utc([2016, 1, 29, 20, 40, 0]),
+										}, {
+											'asker': '56a7afd3259ef46f559880c9',
+											'request': 'Ridiculously stupidly incredibily long comment to test out how it looks',
+											'time': moment.utc([2016, 1, 29, 20, 50, 0]),
+										}],
+										groups: [{
+											group: '56cb7c2e7bbe028ebfbe56a2'
+										}, {
+											group: '56cb7c2e7bbe028ebfbe56a3'
+										}]
 									}, {
-										user: '56a7886405ab050a54d4eaa6'
+										lecture: '56d1ca2e4f6973280ce025e6',
+										startTime: moment.utc([2016, 1, 23, 12, 0, 0]),
+										endTime: moment.utc([2016, 1, 23, 14, 0, 0]),
+										timeAllowance: 20,
+										qr: {
+											url: 'String',
+											svg: 'String'
+										},
+										altAccess: '',
+										groups: [{
+											group: '56cb7c2e7bbe028ebfbe56a2'
+										}, {
+											group: '56cb7c2e7bbe028ebfbe56a3'
+										}]
 									}, {
-										user: '56c86c25099777e930372eb5'
+										lecture: '56d1ca2e4f6973280ce025e7',
+										startTime: moment.utc([2016, 1, 23, 12, 0, 0]),
+										endTime: moment.utc([2016, 1, 23, 14, 0, 0]),
+										timeAllowance: 20,
+										qr: {
+											url: 'String',
+											svg: 'String'
+										},
+										altAccess: '',
+										groups: [{
+											group: '56cb7c2e7bbe028ebfbe56a2'
+										}, {
+											group: '56cb7c2e7bbe028ebfbe56a3'
+										}]
 									}, {
-										user: '56c86c25099777e930372eb7'
+										lecture: '56d1ca2e4f6973280ce025e8',
+										startTime: moment.utc([2016, 1, 24, 12, 0, 0]),
+										endTime: moment.utc([2016, 1, 24, 14, 0, 0]),
+										timeAllowance: 20,
+										qr: {
+											url: 'String',
+											svg: 'String'
+										},
+										altAccess: '',
+										groups: [{
+											group: '56cb7c2e7bbe028ebfbe56a2'
+										}, {
+											group: '56cb7c2e7bbe028ebfbe56a3'
+										}]
 									}, {
-										user: '56c86c25099777e930372eb6'
+										lecture: '56d1ca2e4f6973280ce025e9',
+										startTime: moment.utc([2016, 1, 26, 12, 0, 0]),
+										endTime: moment.utc([2016, 1, 26, 14, 0, 0]),
+										timeAllowance: 20,
+										qr: {
+											url: 'String',
+											svg: 'String'
+										},
+										altAccess: '',
+										groups: [{
+											group: '56cb7c2e7bbe028ebfbe56a2'
+										}, {
+											group: '56cb7c2e7bbe028ebfbe56a3'
+										}]
 									}, {
-										user: '56a7afd3259ef46f559880c9'
+										lecture: '56d1ca2e4f6973280ce025ea',
+										startTime: moment.utc([2016, 1, 26, 12, 0, 0]),
+										endTime: moment.utc([2016, 1, 26, 14, 0, 0]),
+										timeAllowance: 20,
+										qr: {
+											url: 'String',
+											svg: 'String'
+										},
+										altAccess: '',
+										groups: [{
+											group: '56cb7c2e7bbe028ebfbe56a2'
+										}, {
+											group: '56cb7c2e7bbe028ebfbe56a3'
+										}]
 									}, {
-										user: '56c86c25099777e930372eb4'
-									}, {
-										user: '56a7886405ab050a54d4eaa5'
-									}],
-									questions: [{
-										'asker': '56a7886405ab050a54d4eaa6',
-										'request': 'How do I do this?',
-										'time': moment.utc([2016, 2, 29, 20, 35, 0]),
-									}, {
-										'asker': '56c86c25099777e930372eb7',
-										'request': 'more questions...',
-										'time': moment.utc([2016, 2, 29, 20, 40, 0]),
-									}, {
-										'asker': '56a7afd3259ef46f559880c9',
-										'request': 'Ridiculously stupidly incredibily long comment to test out how it looks',
-										'time': moment.utc([2016, 2, 29, 20, 50, 0]),
-									}],
-									groups: [{
-										group: '56cb7c2e7bbe028ebfbe56a2'
-									}, {
-										group: '56cb7c2e7bbe028ebfbe56a3'
-									}]
-								}, {
-									lecture: '56d1ca2e4f6973280ce025e6',
-									startTime: moment.utc([2016, 1, 29, 22, 0, 0]),
-									endTime: moment.utc([2016, 1, 29, 23, 59, 0]),
-									timeAllowance: 20,
-									qr: {
-										url: 'String',
-										svg: 'String'
-									},
-									altAccess: '',
-									groups: [{
-										group: '56cb7c2e7bbe028ebfbe56a2'
-									}, {
-										group: '56cb7c2e7bbe028ebfbe56a3'
-									}]
-								}, {
-									lecture: '56d1ca2e4f6973280ce025e7',
-									startTime: moment.utc([2016, 2, 1, 18, 0, 0]),
-									endTime: moment.utc([2016, 2, 1, 20, 0, 0]),
-									timeAllowance: 10,
-									qr: {
-										url: 'String',
-										svg: 'String'
-									},
-									altAccess: ''
-								}, {
-									lecture: '56d1ca2e4f6973280ce025e8',
-									startTime: moment.utc([2016, 2, 2, 11, 0, 0]),
-									endTime: moment.utc([2016, 2, 2, 12, 0, 0]),
-									timeAllowance: 10,
-									qr: {
-										url: 'String',
-										svg: 'String'
-									},
-									altAccess: ''
-								}, {
-									lecture: '56d1ca2e4f6973280ce025e9',
-									startTime: moment.utc([2016, 2, 2, 13, 0, 0]),
-									endTime: moment.utc([2016, 2, 2, 14, 0, 0]),
-									timeAllowance: 10,
-									qr: {
-										url: 'String',
-										svg: 'String'
-									},
-									altAccess: '',
-									groups: [{
-										group: '56cb7c2e7bbe028ebfbe56a2'
-									}, {
-										group: '56cb7c2e7bbe028ebfbe56a3'
-									}]
-								}, {
-									lecture: '56d1ca2e4f6973280ce025ea',
-									startTime: moment.utc([2016, 2, 5, 12, 0, 0]),
-									endTime: moment.utc([2016, 2, 5, 14, 0, 0]),
-									timeAllowance: 10,
-									qr: {
-										url: 'String',
-										svg: 'String'
-									},
-									altAccess: ''
-								}, {
-									lecture: '56d1ca2e4f6973280ce025eb',
-									startTime: moment.utc([2016, 2, 6, 16, 0, 0]),
-									endTime: moment.utc([2016, 2, 6, 18, 0, 0]),
-									timeAllowance: 10,
-									qr: {
-										url: 'String',
-										svg: 'String'
-									},
-									altAccess: '',
-									groups: [{
-										group: '56cb7c2e7bbe028ebfbe56a2'
-									}, {
-										group: '56cb7c2e7bbe028ebfbe56a3'
-									}]
-								}, function(err, sessions) {
-									if (err)
-										console.log(err);
-									// sessions.forEach(function(session) {
-									// 	.create({
-									// 		lecture: lecture._id,
-									// 		createdBy: lecture.createdBy
-									// 	}, function(err, qr) {
-									// 		if (err) {
-									// 			console.info(err);
-									// 		} else {
-									// 			Thing.find({
-									// 				name: 'qrBaseURL'
-									// 			}, function(err, thing) {
-									// 				//   console.log(lecture.name);
-									// 				var serverBase = thing[0].content; // just the one
-									// 				Thing.find({
-									// 					name: 'accessCodeLen'
-									// 				}, function(err, thing) {
-									// 					var altAccKeyLen = thing[0].content; // just the one
-									// 					createUniqueAccKey(altAccKeyLen, function(altAccessKey) {
-									// 						lecture.altAccess = altAccessKey;
-									// 						var url = String(serverBase + '/' + qr._id + '/group/' + 'temp' + '/register');
-									//
-									// 						// currently in Sync...? :(
-									// 						var qrSvgString = qrEncoder.imageSync(url, {
-									// 							type: 'svg',
-									// 							ec_level: 'Q',
-									// 							parse_url: false,
-									// 							margin: 1,
-									// 							size: 4
-									// 						});
-									// 						// REMOVE Inject elements on svg, problem with plugin
-									// 						qrSvgString = qrSvgString.replace('<svg xmlns="http://www.w3.org/2000/svg" width="172" height="172" viewBox="0 0 43 43">', "");
-									// 						qrSvgString = qrSvgString.replace('</svg>', "");
-									// 						qrSvgString = qrSvgString.replace('\"', "\'");
-									// 						qrSvgString = qrSvgString.replace('\"/', "\'/");
-									//
-									// 						Qr.findById(qr._id).exec(function(err, uQr) {
-									// 							if (err) {
-									// 								console.info(err);
-									// 							} else if (!uQr) {
-									//
-									// 							} else {
-									// 								lecture.qr = qr._id;
-									// 								uQr.url = url;
-									// 								uQr.svg = qrSvgString;
-									// 								uQr.save(function(err) {
-									// 									if (err) {
-									// 										console.info(err);
-									// 									}
-									// 									lecture.qr = qr._id;
-									// 									lecture.save(function(err, lecture) {
-									// 										if (err) {
-									// 											console.info(err);
-									// 										} else {
-									// 											console.log('populated qr for ' + lecture.name);
-									// 										}
-									// 									});
-									// 								});
-									// 							}
-									// 						});
-									// 					});
-									// 				});
-									// 			});
-									// 		}
-									// 	});
-									// });
-									console.log('finished populating Sessions');
-								});
+										lecture: '56d1ca2e4f6973280ce025eb',
+										startTime: moment.utc([2016, 1, 28, 12, 0, 0]),
+										endTime: moment.utc([2016, 1, 28, 14, 0, 0]),
+										timeAllowance: 20,
+										qr: {
+											url: 'String',
+											svg: 'String'
+										},
+										altAccess: '',
+										groups: [{
+											group: '56cb7c2e7bbe028ebfbe56a2'
+										}, {
+											group: '56cb7c2e7bbe028ebfbe56a3'
+										}]
+									}
+									// , {
+									// 	lecture: '56d1ca2e4f6973280ce025e6',
+									// 	startTime: moment.utc([2016, 1, 29, 22, 0, 0]),
+									// 	endTime: moment.utc([2016, 1, 29, 23, 59, 0]),
+									// 	timeAllowance: 20,
+									// 	qr: {
+									// 		url: 'String',
+									// 		svg: 'String'
+									// 	},
+									// 	altAccess: '',
+									// 	groups: [{
+									// 		group: '56cb7c2e7bbe028ebfbe56a2'
+									// 	}, {
+									// 		group: '56cb7c2e7bbe028ebfbe56a3'
+									// 	}]
+									// }, {
+									// 	lecture: '56d1ca2e4f6973280ce025e7',
+									// 	startTime: moment.utc([2016, 2, 1, 18, 0, 0]),
+									// 	endTime: moment.utc([2016, 2, 1, 20, 0, 0]),
+									// 	timeAllowance: 10,
+									// 	qr: {
+									// 		url: 'String',
+									// 		svg: 'String'
+									// 	},
+									// 	altAccess: ''
+									// }, {
+									// 	lecture: '56d1ca2e4f6973280ce025e8',
+									// 	startTime: moment.utc([2016, 2, 2, 11, 0, 0]),
+									// 	endTime: moment.utc([2016, 2, 2, 12, 0, 0]),
+									// 	timeAllowance: 10,
+									// 	qr: {
+									// 		url: 'String',
+									// 		svg: 'String'
+									// 	},
+									// 	altAccess: ''
+									// }, {
+									// 	lecture: '56d1ca2e4f6973280ce025e9',
+									// 	startTime: moment.utc([2016, 2, 2, 13, 0, 0]),
+									// 	endTime: moment.utc([2016, 2, 2, 14, 0, 0]),
+									// 	timeAllowance: 10,
+									// 	qr: {
+									// 		url: 'String',
+									// 		svg: 'String'
+									// 	},
+									// 	altAccess: '',
+									// 	groups: [{
+									// 		group: '56cb7c2e7bbe028ebfbe56a2'
+									// 	}, {
+									// 		group: '56cb7c2e7bbe028ebfbe56a3'
+									// 	}]
+									// }, {
+									// 	lecture: '56d1ca2e4f6973280ce025ea',
+									// 	startTime: moment.utc([2016, 2, 5, 12, 0, 0]),
+									// 	endTime: moment.utc([2016, 2, 5, 14, 0, 0]),
+									// 	timeAllowance: 10,
+									// 	qr: {
+									// 		url: 'String',
+									// 		svg: 'String'
+									// 	},
+									// 	altAccess: ''
+									// }, {
+									// 	lecture: '56d1ca2e4f6973280ce025eb',
+									// 	startTime: moment.utc([2016, 2, 6, 16, 0, 0]),
+									// 	endTime: moment.utc([2016, 2, 6, 18, 0, 0]),
+									// 	timeAllowance: 10,
+									// 	qr: {
+									// 		url: 'String',
+									// 		svg: 'String'
+									// 	},
+									// 	altAccess: '',
+									// 	groups: [{
+									// 		group: '56cb7c2e7bbe028ebfbe56a2'
+									// 	}, {
+									// 		group: '56cb7c2e7bbe028ebfbe56a3'
+									// 	}]
+									// }
+									,
+									function(err, sessions) {
+										if (err)
+											console.log(err);
+										// sessions.forEach(function(session) {
+										// 	.create({
+										// 		lecture: lecture._id,
+										// 		createdBy: lecture.createdBy
+										// 	}, function(err, qr) {
+										// 		if (err) {
+										// 			console.info(err);
+										// 		} else {
+										// 			Thing.find({
+										// 				name: 'qrBaseURL'
+										// 			}, function(err, thing) {
+										// 				//   console.log(lecture.name);
+										// 				var serverBase = thing[0].content; // just the one
+										// 				Thing.find({
+										// 					name: 'accessCodeLen'
+										// 				}, function(err, thing) {
+										// 					var altAccKeyLen = thing[0].content; // just the one
+										// 					createUniqueAccKey(altAccKeyLen, function(altAccessKey) {
+										// 						lecture.altAccess = altAccessKey;
+										// 						var url = String(serverBase + '/' + qr._id + '/group/' + 'temp' + '/register');
+										//
+										// 						// currently in Sync...? :(
+										// 						var qrSvgString = qrEncoder.imageSync(url, {
+										// 							type: 'svg',
+										// 							ec_level: 'Q',
+										// 							parse_url: false,
+										// 							margin: 1,
+										// 							size: 4
+										// 						});
+										// 						// REMOVE Inject elements on svg, problem with plugin
+										// 						qrSvgString = qrSvgString.replace('<svg xmlns="http://www.w3.org/2000/svg" width="172" height="172" viewBox="0 0 43 43">', "");
+										// 						qrSvgString = qrSvgString.replace('</svg>', "");
+										// 						qrSvgString = qrSvgString.replace('\"', "\'");
+										// 						qrSvgString = qrSvgString.replace('\"/', "\'/");
+										//
+										// 						Qr.findById(qr._id).exec(function(err, uQr) {
+										// 							if (err) {
+										// 								console.info(err);
+										// 							} else if (!uQr) {
+										//
+										// 							} else {
+										// 								lecture.qr = qr._id;
+										// 								uQr.url = url;
+										// 								uQr.svg = qrSvgString;
+										// 								uQr.save(function(err) {
+										// 									if (err) {
+										// 										console.info(err);
+										// 									}
+										// 									lecture.qr = qr._id;
+										// 									lecture.save(function(err, lecture) {
+										// 										if (err) {
+										// 											console.info(err);
+										// 										} else {
+										// 											console.log('populated qr for ' + lecture.name);
+										// 										}
+										// 									});
+										// 								});
+										// 							}
+										// 						});
+										// 					});
+										// 				});
+										// 			});
+										// 		}
+										// 	});
+										// });
+										console.log('finished populating Sessions');
+									});
 							});
 							// populate QRs for these lectures
 							// Lecture.find({}, function(err, lectures) {

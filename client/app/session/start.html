@@ -45,15 +45,15 @@
               <i ng-if="nextLecture.preview" class="fa fa-search-plus fa-5x" style="width:100%;text-align:center;margin:1.27em 0;" ng-if="preview"></i>
             </div>
 
-            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 lecture-start-info">
-              <p style="font-size:1.4em;margin:0;">{{nextLecture.desc}}</p>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 lecture-start-info" style="margin-top:.6em;">
+              <p style="font-size:1.1em;margin:0;">{{nextLecture.desc}}</p>
             </div>
 
-            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 lecture-start-info">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 lecture-start-info">
               <i class="fa fa-clock-o fa-3x"></i>
               <h2 style="padding:0; margin:0; padding-left:.4em; display:inline-block; color:#343D48;">{{nextLecture.runTime}}</h2>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 lecture-start-info">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 lecture-start-info">
               <i class="fa fa-graduation-cap fa-3x"></i>
               <div style="padding-left:.4em;display:inline-block;">
                 <div ng-repeat="user in nextLecture.collaborators" style="display:inline-block;">
@@ -63,11 +63,11 @@
                 </div>
               </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 lecture-start-info">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 lecture-start-info">
               <i class="fa fa-users fa-3x"></i>
               <h2 style="padding:0; margin:0; padding-left:.4em; display:inline-block; color:#343D48;">32</h2>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 lecture-start-info" style="margin-top:2em;">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 lecture-start-info" style="margin-top:2em;">
               <h5 ng-repeat="item in nextLecture.attachments" target="_blank" href="{{item.loc}}" style="margin:0 .3em;padding:.5em .3em .3em;text-decoration:none;color:#343D48;display:inline-block;">
                 <i class="fa fa-file-{{item.type}}-o fa-4x"></i>
               </h5>
