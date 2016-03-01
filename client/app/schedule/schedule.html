@@ -58,8 +58,29 @@
           <img src="assets/images/placeholders/uniqa-qr.png" style="border:2px solid #343D48;border-radius:2px;width:100%;" alt="QR Example" class="img-responsive"/>
         </div>
         <div class="form-group" style="clear:left;" ng-class="{ 'has-success': form.createdBy.$valid && submitted,'has-error': form.createdBy.$invalid && submitted }">
-          <label>Alternate Access Code</label>
-          <input type="text" name="createdBy" class="form-control" ng-model="lecture.createdBy" disabled read-only mongoose-error>
+          <label>Lecture</label>
+          <div class="form-control dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              Dropdown
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+              <li>
+                <a href="#">Action</a>
+              </li>
+              <li>
+                <a href="#">Another action</a>
+              </li>
+              <li>
+                <a href="#">Something else here</a>
+              </li>
+              <li role="separator" class="divider"></li>
+              <li>
+                <a href="#">Separated link</a>
+              </li>
+            </ul>
+          </div>
+          <input type="text" name="createdBy" class="form-control" ng-model="lecture.createdBy" mongoose-error>
           <p class="help-block" ng-show="form.createdBy.$error.required && submitted">Something was not right there.</p>
           <p class="help-block" name="createdByVal" ng-show="form.createdBy.$error.mongoose">{{ errors.createdBy }}</p>
         </div>

@@ -25,6 +25,6 @@ angular.module('uniQaApp')
 			$scope.totalPages = Math.ceil(res.count / $scope.resultsPerPage);
 
 			// if theres no more results, this needs setting, end of the road....?
-			$scope.timelineLoading = 'fa fa-road';
+			// $scope.timelineLoading = 'fa fa-road';
 		});
 	});
