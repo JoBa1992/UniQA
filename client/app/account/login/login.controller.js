@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uniQaApp')
-	.controller('LoginCtrl', function($scope, Auth, Thing, $location) {
+	.controller('LoginCtrl', function($scope, $location, Auth, Thing) {
 		$scope.user = {};
 		// for quicker access, remove once finished
 		$scope.user.email = 'joba@uniqa.co.uk';
@@ -10,6 +10,8 @@ angular.module('uniQaApp')
 		$scope.password = {};
 		$scope.password.inputType = 'password';
 		$scope.password.icon = 'glyphicon glyphicon-eye-close';
+
+		console.log($location.search());
 
 		Thing.getByName('uniEmail').then(function(val) {
 			// only returns one element

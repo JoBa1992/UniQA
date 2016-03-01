@@ -117,6 +117,42 @@ angular.module('uniQaApp')
 						});
 					};
 				},
+				feedback: function(cb) {
+					cb = cb || angular.noop;
+
+					return function() {
+						var args = Array.prototype.slice.call(arguments);
+						var session = args.shift();
+
+						console.info(session);
+
+						var readModal;
+						var me = Auth.getCurrentUser();
+
+						Lecture.getForMe({
+							createdBy: me._id,
+							page: 1,
+							paginate: 10
+						}).then(function(res) {
+							$rootScope.lecture = res[0]; // need to elaborate on this
+							readModal = openModal({
+								modal: {
+									name: 'createrUserForm',
+									dismissable: true,
+									form: 'components/modal/views/feedback/read.html',
+									title: 'Feedback',
+									buttons: [{
+										classes: 'btn-primary',
+										text: 'Dismiss',
+										click: function(e) {
+											readModal.dismiss(e);
+										}
+									}]
+								}
+							}, 'modal-primary', 'lg');
+						});
+					};
+				},
 			},
 			create: {
 				user: function(cb) {

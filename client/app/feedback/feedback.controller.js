@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uniQaApp')
-	.controller('FeedbackCtrl', function($scope, Auth, Session) {
+	.controller('FeedbackCtrl', function($scope, Auth, Session, Modal) {
 		// attach lodash to scope
 		$scope._ = _;
 		// attach moment to scope
@@ -26,5 +26,11 @@ angular.module('uniQaApp')
 
 			// if theres no more results, this needs setting, end of the road....?
 			// $scope.timelineLoading = 'fa fa-road';
+		});
+
+		$scope.viewFeedback = Modal.read.feedback(function() {
+			// callback when modal is confirmed
+			// refreshUserStats();
+			// $scope.refreshUserList();
 		});
 	});

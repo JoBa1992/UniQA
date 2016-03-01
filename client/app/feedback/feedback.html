@@ -42,11 +42,11 @@
         <div class="timeline-badge primary">
           <i class="fa fa-graduation-cap"></i>
         </div>
-        <div class="timeline-panel">
+        <a class="timeline-panel" ng-click="viewFeedback(feedback._id)">
           <div class="timeline-heading" style="position:relative;">
-            <a class="timeline-title" style="position:relative;white-space:nowrap;width:auto;font-size:1.4em;">
+            <h1 class="timeline-title" style="position:relative;white-space:nowrap;width:auto;font-size:1.4em;">
               <strong>{{feedback.lecture.title}}</strong>
-            </a>
+            </h1>
             <div class="timeline-rating" style="">
               <!-- Attach Avg rating here, served by server -->
               <div style="display:inline-block;" class="timeline-stars" star-rating rating-value=".5" data-max="5"></div>
@@ -65,12 +65,14 @@
                 <span style="padding:0;margin:0;" ng-if="!$last">,&nbsp;</span>
               </span>
             </p>
-            <p>Attendance: 14/40</p>
+            <p>Attendance:
+              <span style="color:red;">Needs Sorting / 40</span>
+            </p>
             <p>Questions Asked:
               {{feedback.questions.length}}</p>
           </div>
 
-        </div>
+        </a>
       </li>
 
       <li>

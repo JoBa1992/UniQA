@@ -81,8 +81,43 @@
         </div>
       </div>
     </div>
+    <div ng-if="!nextSession" class="row" style="margin:0;padding:0;height:{{lectureHeight + 'px'}}" id="lectureView">
+      <div class="col-xs-8 col-sm-10 col-md-10 col-lg-8 col-xs-offset-2 col-sm-offset-1 col-md-offset-1 col-lg-offset-2 presentation-view" style="display:inline-block;padding:0;position:relative;">
+        <h1 class="col-md-12" style="margin:5em 0 3em;text-align:center;color:#343D48;">Looks like theres nothing to start.</h1>
+        <h3 class="col-md-12" style="margin:2em 0 2em;color:#343D48;">
+          <a href="/my/schedule" style="color:#FFA700;">Click here</a>
+          to get started with adding some more lectures to your schedule.</h3>
+        <div class="col-md-3">
+          <div class="countdown-circle">
+            0
+          </div>
+          <h1 style="color:#343D48;width:100%;text-align:center;">{{days==1?'Day':'Days'}}</h1>
+        </div>
+        <div class="col-md-3">
+          <div class="countdown-circle">
+            0
+          </div>
+          <h1 style="color:#343D48;width:100%;text-align:center;">{{hours==1?'Hour':'Hours'}}</h1>
+        </div>
+        <div class="col-md-3">
+          <div class="countdown-circle">
+            0
+          </div>
+          <h1 style="color:#343D48;width:100%;text-align:center;">{{minutes==1?'Minute':'Minutes'}}</h1>
+        </div>
+        <div class="col-md-3">
+          <div class="countdown-circle">
+            0
+          </div>
+          <h1 style="color:#343D48;width:100%;text-align:center;">Seconds</h1>
+        </div>
+
+      </div>
+
+    </div>
   </div>
-  <div class="container" style="margin-top: 2em;">
+
+  <div ng-if="!_.isEmpty(upcomingSessions)" class="container" style="margin-top: 2em;">
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 presentation-view" style="padding:0;position:relative;">
         <h3 class="" style="padding-left:4px;">Next lectures scheduled...</h3>
