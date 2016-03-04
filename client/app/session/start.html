@@ -3,7 +3,7 @@
   <div class="container-full" id="lecture-fullscreen" style="margin-top:{{lectureHeightMarginTop}}background-color:#8DB7D2;border-bottom:4px solid #343D48;">
     <div ng-if="timeUntil>0" class="row" style="margin:0;padding:0;height:{{lectureHeight + 'px'}}" id="lectureView">
       <div class="col-xs-8 col-sm-10 col-md-10 col-lg-8 col-xs-offset-2 col-sm-offset-1 col-md-offset-1 col-lg-offset-2 presentation-view" style="display:inline-block;padding:0;position:relative;">
-        <h1 class="col-md-12" style="margin:5em 0 3em;text-align:center;color:#343D48;">Looks like theres nothing to start.</h1>
+        <h1 class="col-md-12" style="margin:5em 0 3em;text-align:center;color:#343D48;">There's nothing to start yet</h1>
         <h3 class="col-md-12" style="margin:2em 0 2em;color:#343D48;">Your next lecture,
           <strong>{{nextLecture.title}}</strong>, will be accessible in...</h3>
         <div class="col-md-3">
@@ -81,7 +81,7 @@
         </div>
       </div>
     </div>
-    <div ng-if="!nextSession" class="row" style="margin:0;padding:0;height:{{lectureHeight + 'px'}}" id="lectureView">
+    <div ng-if="_.isEmpty(nextLecture)" class="row" style="margin:0;padding:0;height:{{lectureHeight + 'px'}}" id="lectureView">
       <div class="col-xs-8 col-sm-10 col-md-10 col-lg-8 col-xs-offset-2 col-sm-offset-1 col-md-offset-1 col-lg-offset-2 presentation-view" style="display:inline-block;padding:0;position:relative;">
         <h1 class="col-md-12" style="margin:5em 0 3em;text-align:center;color:#343D48;">Looks like theres nothing to start.</h1>
         <h3 class="col-md-12" style="margin:2em 0 2em;color:#343D48;">
@@ -91,19 +91,19 @@
           <div class="countdown-circle">
             0
           </div>
-          <h1 style="color:#343D48;width:100%;text-align:center;">{{days==1?'Day':'Days'}}</h1>
+          <h1 style="color:#343D48;width:100%;text-align:center;">Days</h1>
         </div>
         <div class="col-md-3">
           <div class="countdown-circle">
             0
           </div>
-          <h1 style="color:#343D48;width:100%;text-align:center;">{{hours==1?'Hour':'Hours'}}</h1>
+          <h1 style="color:#343D48;width:100%;text-align:center;">Hours</h1>
         </div>
         <div class="col-md-3">
           <div class="countdown-circle">
             0
           </div>
-          <h1 style="color:#343D48;width:100%;text-align:center;">{{minutes==1?'Minute':'Minutes'}}</h1>
+          <h1 style="color:#343D48;width:100%;text-align:center;">Minutes</h1>
         </div>
         <div class="col-md-3">
           <div class="countdown-circle">

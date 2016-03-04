@@ -34,7 +34,7 @@ module.exports = function(grunt) {
 		},
 		express: {
 			options: {
-				port: process.env.PORT || 8080
+				port: process.env.PORT || 9000
 			},
 			dev: {
 				options: {
@@ -214,7 +214,7 @@ module.exports = function(grunt) {
 				options: {
 					nodeArgs: ['--debug-brk'],
 					env: {
-						PORT: process.env.PORT || 8080
+						PORT: process.env.PORT || 9000
 					},
 					callback: function(nodemon) {
 						nodemon.on('log', function(event) {
@@ -224,7 +224,7 @@ module.exports = function(grunt) {
 						// opens browser on initial server start
 						nodemon.on('config:update', function() {
 							setTimeout(function() {
-								require('open')('http://uniqa.shu.ac.uk:8080/debug?port=5858');
+								require('open')('http://uniqa.shu.ac.uk:9000/debug?port=5858');
 							}, 500);
 						});
 					}

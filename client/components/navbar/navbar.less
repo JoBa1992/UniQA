@@ -1,54 +1,34 @@
 .navbar-content {
+  margin: 0;
+  padding: 0;
   cursor: default;
   background-color: lighten(#343D48,6%);
-  width: 320px;
-  padding: 1em 1em 0;
 }
-.navbar-content:before,
-.navbar-content:after {
-  display: table;
-  content: "";
-  line-height: 0;
+.navbar-content > li {
+  padding: 0;
+  margin: 0;
 }
-.navbar-change-picture {
-  margin: 0.5em 0 !important;
+.navbar-content > li.divider {
+  background-color: lighten(#343D48,20%);
 }
-.navbar-prof-submenu {
-  width: 100%;
-  margin: 1em 0;
+.navbar-content > li > a {
+  padding: 0.4em 1em;
+  margin: 0;
+  color: white;
 }
-.navbar-prof-submenu a {
-  border: 2px solid #82AECC;
-  font-size: 1.1em;
-  margin: 0.3em 0.34em;
+.navbar-content > li > a:hover {
+  color: #8DB7D2;
+  background-color: lighten(#343D48,12%);
 }
 .nav-notification {
   position: relative;
 }
-.nav-notification-badge {
-  text-align: center;
-  display: block;
-  color: black;
-  font-size: 1em;
-  overflow: hidden;
-  background: #8DB7D2;
-  border-color: #8DB7D2;
-  background-image: -webkit-linear-gradient(top, #8DB7D2, #87B0C9);
-  background-image: -moz-linear-gradient(top, #8DB7D2, #87B0C9);
-  background-image: -o-linear-gradient(top, #8DB7D2, #87B0C9);
-  background-image: linear-gradient(to bottom, #8DB7D2, #87B0C9);
+.custom-logout-btn:hover {
+  background-color: #d9534f !important;
+  color: black !important;
+  border-color: #d9534f !important;
 }
-.navbar-footer {
-  cursor: default;
-  background-color: #82AECC;
-}
-.navbar-footer-content {
-  padding: 0.6em;
-}
-.dropdown-menu {
-  padding: 0;
-  overflow: hidden;
-}
+// Nav active state
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus,
 .navbar-default .navbar-nav > .active > a,
@@ -63,9 +43,9 @@
   -kthtml-transition: all 0.1s linear;
   transition: all 0.1s linear;
 }
-.uniqa-logo.active,
-.uniqa-logo.active:hover {
-  // cursor: pointer;
-  // background-color: @body-custom-blue;
-  // color: @body-custom-gray;
-}
+// .uniqa-logo.active,
+// .uniqa-logo.active:hover {
+//   cursor: pointer;
+//   background-color: @body-custom-blue;
+//   color: @body-custom-gray;
+// }

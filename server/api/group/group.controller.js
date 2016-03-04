@@ -36,6 +36,82 @@ exports.index = function(req, res) {
 		});
 };
 
+// Get list of groups with association to user
+exports.getForMe = function(req, res) {
+	var result = {};
+	Group
+		.find({
+			'tutors': {
+				'$elemMatch': {
+					'user': req.params.userid
+				}
+			}
+		})
+		.populate('students.user')
+		.populate('tutors.user')
+		.lean()
+		.exec(function(err, groups) {
+			if (err) {
+				return handleError(res, err);
+			}
+			if (_.isEmpty(groups)) {
+				return res.status(404).send('Not Found');
+			}
+			result.groups = groups;
+			Group.count({
+				'tutors': {
+					'$elemMatch': {
+						'user': req.params.userid
+					}
+				}
+			}, function(err, count) {
+				if (err) {
+					return handleError(res, err);
+				}
+				result.count = count;
+				return res.status(200).json(result);
+			});
+
+		});
+
+
+};
+
+// Get list of groups with association to user
+exports.getNotForMe = function(req, res) {
+	var result = {};
+	Group
+		.find({
+			'tutors.user': {
+				'$ne': req.params.userid
+			}
+		})
+		.populate('students.user')
+		.populate('tutors.user')
+		.lean()
+		.exec(function(err, groups) {
+			if (err) {
+				return handleError(res, err);
+			}
+			if (_.isEmpty(groups)) {
+				return res.status(404).send('Not Found');
+			}
+			result.groups = groups;
+			Group.count({
+				'tutors.user': {
+					'$ne': req.params.userid
+				}
+
+			}, function(err, count) {
+				if (err) {
+					return handleError(res, err);
+				}
+				result.count = count;
+				return res.status(200).json(result);
+			});
+		});
+};
+
 // Get a single group
 exports.show = function(req, res) {
 	Group.findById(req.params.id)

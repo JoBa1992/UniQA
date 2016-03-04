@@ -7,6 +7,9 @@ angular.module('uniQaApp')
 		// attach moment to scope
 		$scope.moment = moment;
 
+		$scope.isAdmin = Auth.isAdmin;
+		$scope.isStudent = Auth.isStudent;
+
 		var _second = 1000;
 		var _minute = _second * 60;
 		var _hour = _minute * 60;
@@ -337,5 +340,107 @@ angular.module('uniQaApp')
 			}
 
 		});
+
+	})
+	.controller('SessionRegisterCtrl', function($scope, $window, $timeout, $sce, $interval, socket, Auth, Lecture, Session, Modal) {
+		// attach lodash to scope
+		$scope._ = _;
+
+		// attach moment to scope
+		$scope.moment = moment;
+
+		$scope.lectureHeightMarginTop = '-1.4em;';
+
+
+		// $scope.lectureHeight = '760';
+		// $scope.lectureHeightMarginTop = '-1.4em;';
+		//
+		// $scope.lecture = {
+		// 	title: 'Lecture Example',
+		// 	id: 0
+		// };
+		//
+		// var me = Auth.getCurrentUser();
+		//
+		// // variables used by countdown...
+		//
+		// $scope.now = moment.utc();
+		//
+		// var _second = 1000;
+		// var _minute = _second * 60;
+		// var _hour = _minute * 60;
+		// var _day = _hour * 24;
+		// var interval = 100;
+		//
+		// // need to set this id by what gets passed through
+		// Session.getNextFour(me._id).then(function(res) {
+		// 	if (!_.isEmpty(res)) {
+		// 		// take next lecture ordered by mongoose
+		// 		var nextSession = res.shift();
+		//
+		// 		$scope.nextLecture = nextSession.lecture;
+		//
+		// 		var authorCollabs = [];
+		// 		var runtime = moment(nextSession.startTime).utc().format('HH:mm') + ' - ' + moment(nextSession.endTime).utc().format('HH:mm');;
+		//
+		// 		authorCollabs.push($scope.nextLecture.author.name); // push author in first
+		// 		// push in collabs
+		// 		for (var i = 0; i < $scope.nextLecture.collaborators.length; i++) {
+		// 			authorCollabs.push($scope.nextLecture.collaborators[i].user.name);
+		// 		}
+		//
+		// 		$scope.nextLecture.sessionId = nextSession._id;
+		// 		// $scope.lecture.title = $scope.nextLecture.title;
+		// 		// $scope.lecture.desc = $scope.nextLecture.desc;
+		// 		// $scope.lecture.questions = questions;
+		// 		$scope.nextLecture.runTime = runtime;
+		// 		$scope.nextLecture.collaborators = authorCollabs;
+		// 		// $scope.lecture.registered = ['This bit still needs sorting', 'John Bloomer', 'Fred Durst', 'Bob Ross', 'Jack McClone', 'Chadwick Simpson', 'Jonathon Dickson', 'Alexis Parks', 'Sandra Bates', 'Steve Bates', 'Bob the Dog'];
+		// 		// $scope.lecture.expected = 15;
+		// 		$scope.nextLecture.attachments = $scope.nextLecture.attachments;
+		//
+		// 		// $scope.lectureStart = moment.utc('27/02/2016 13:44:00', 'DD/MM/YYYY HH:mm:ss');
+		//
+		// 		// subtract and add the time allowance given either side of the lecture
+		// 		$scope.lectureStart = moment(moment(nextSession.startTime).utc() - (nextSession.timeAllowance * _minute)).utc();
+		// 		$scope.lectureEnd = moment(moment(nextSession.endTime).utc() + (nextSession.timeAllowance * _minute)).utc();
+		//
+		// 		// $scope.timeUntil = ($scope.lectureStart.getMinutes() - res.timeAllowance) - $scope.now;
+		// 		$scope.timeUntil = $scope.lectureStart - $scope.now;
+		//
+		// 		// console.info($scope.timeUntil);
+		//
+		// 		var timeUntilTimer = $interval(function() {
+		// 			// needed to move the following in so that its always calced,
+		// 			// as tab changing doesn't allow the interval to carry on
+		// 			$scope.now = moment.utc();
+		// 			$scope.timeUntil = $scope.lectureStart - $scope.now;
+		//
+		// 			$scope.timeUntil = $scope.timeUntil - interval; // does a check every 1/10 of a second, more accurate
+		//
+		// 			$scope.days = Math.floor($scope.timeUntil / _day); // gets days
+		// 			$scope.hours = Math.floor(($scope.timeUntil % _day) / _hour); // gets hours
+		// 			$scope.minutes = Math.floor(($scope.timeUntil % _hour) / _minute); // gets mins
+		// 			$scope.seconds = Math.floor(($scope.timeUntil % _minute) / _second); // gets seconds
+		//
+		// 			if ($scope.timeUntil < 0) {
+		// 				$interval.cancel(timeUntilTimer);
+		// 				timeUntilTimer = undefined;
+		// 			}
+		// 		}, interval);
+		//
+		// 		// kill timer on scope destroy, doesn't implicitly happen.
+		// 		$scope.$on('$destroy', function() {
+		// 			$interval.cancel(timeUntilTimer);
+		// 			timeUntilTimer = undefined;
+		// 		});
+		//
+		// 		// allows up to 3 sessions to be shown on screen
+		// 		$scope.upcomingSessions = res;
+		// 	} else {
+		//
+		// 	}
+		//
+		// });
 
 	});

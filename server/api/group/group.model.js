@@ -5,7 +5,8 @@ var mongoose = require('mongoose'),
 
 var GroupSchema = new Schema({
 	course: {
-		type: String
+		type: String,
+		required: true
 	},
 	students: [{
 		user: {

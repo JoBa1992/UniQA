@@ -5,6 +5,7 @@ angular.module('uniQaApp', [
 		'ngResource',
 		'ngSanitize',
 		'ngAnimate',
+		'ngDropzone',
 		'ui.router',
 		'ui.bootstrap',
 		'btford.socket-io'
@@ -47,6 +48,12 @@ angular.module('uniQaApp', [
 				templateUrl: 'app/stats/statistics.html',
 				controller: 'AdminStatsCtrl',
 				authenticate: true
+			})
+			.state('registerSession', {
+				url: '/session/register',
+				templateUrl: 'app/session/register.html',
+				controller: 'SessionRegisterCtrl',
+				authenticate: true
 			});
 		$urlRouterProvider
 			.otherwise('/');
@@ -78,6 +85,7 @@ angular.module('uniQaApp', [
 		};
 	})
 	.run(function($rootScope, $location, socket, Auth, Session) {
+
 		// check for scope state changes
 		//next, current
 		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
@@ -104,7 +112,7 @@ angular.module('uniQaApp', [
 				});
 			}
 			// don't want users going to 'homepage' if logged in
-			if (toState.url === '/') {
+			if (toState.url === '/' || toState.url === '/login' || toState.url === '/register') {
 				Auth.isLoggedInAsync(function(loggedIn) {
 					if (loggedIn) {
 						$location.path('/profile');

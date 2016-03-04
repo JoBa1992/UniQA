@@ -15,6 +15,7 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(client) app/vendor.css -->
     <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/dropzone/downloads/css/dropzone.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
@@ -88,6 +89,8 @@
     <script src="bower_components/angular-socket-io/socket.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/dropzone/downloads/dropzone.min.js"></script>
+    <script src="bower_components/angular-dropzone/lib/angular-dropzone.js"></script>
     <!-- endbower -->
     <script src="socket.io-client/socket.io.js"></script>
     <!-- endbuild -->
@@ -105,12 +108,9 @@
     <script src="app/account/register/register.controller.js"></script>
     <script src="app/account/request-new/request-new.controller.js"></script>
     <script src="app/admin/admin.js"></script>
-    <script src="app/admin/departments/departments.controller.js"></script>
     <script src="app/admin/general/general.controller.js"></script>
     <script src="app/admin/groups/groups.controller.js"></script>
     <script src="app/admin/users/users.controller.js"></script>
-    <script src="app/dev/dev.controller.js"></script>
-    <script src="app/dev/dev.js"></script>
     <script src="app/feedback/feedback.controller.js"></script>
     <script src="app/index/index.controller.js"></script>
     <script src="app/index/index.js"></script>
@@ -121,8 +121,8 @@
     <script src="components/auth/auth.service.js"></script>
     <script src="components/auth/user.service.js"></script>
     <script src="components/coming-soon/coming-soon.directive.js"></script>
-    <script src="components/department/department.service.js"></script>
-    <script src="components/footer/department/department.service.js"></script>
+    <script src="components/dropzone/dropzone.controller.js"></script>
+    <script src="components/dropzone/dropzone.directive.js"></script>
     <script src="components/footer/footer.controller.js"></script>
     <script src="components/group/group.service.js"></script>
     <script src="components/lecture/lecture.service.js"></script>

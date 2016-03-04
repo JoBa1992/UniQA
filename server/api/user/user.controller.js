@@ -57,7 +57,7 @@ exports.index = function(req, res) {
 				//   group: req.query.group
 			}, function(err, count) {
 				users.forEach(function(user) {
-					user.createdOn = convertISOTime(user._id.getTimestamp(), "datetime");
+					user.createdOn = user._id.getTimestamp();
 				});
 				res.status(200).json({
 					result: users,
@@ -75,32 +75,32 @@ exports.count = function(req, res) {
 };
 
 
-function convertISOTime(timeStamp, convertType) {
-	// function takes a timestamp and converts to the requested type
-	// datetime is the default return
-	var day = timeStamp.getDate().toString().length <= 1 ?
-		'0' + timeStamp.getDate().toString() : timeStamp.getDate(),
-		// month is stored as a zero-indexed array, so needs 1 adding
-		month = (timeStamp.getMonth() + 1).toString().length <= 1 ?
-		'0' + (timeStamp.getMonth() + 1).toString() : (timeStamp.getMonth() + 1),
-		year = timeStamp.getFullYear(),
-		second = timeStamp.getSeconds().toString().length <= 1 ?
-		'0' + timeStamp.getSeconds().toString() : timeStamp.getSeconds(),
-		minute = timeStamp.getMinutes().toString().length <= 1 ?
-		'0' + timeStamp.getMinutes().toString() : timeStamp.getMinutes(),
-		hour = timeStamp.getHours().toString().length <= 1 ?
-		'0' + timeStamp.getHours().toString() : timeStamp.getHours();
-	switch (convertType) {
-		case "date":
-			return day + '/' + month + '/' + year;
-		case "time":
-			return hour + ':' + minute + ':' + second;
-		case "dateISO":
-			return year + '-' + month + '-' + day;
-		default: //datetime
-			return day + '/' + month + '/' + year + ' ' + hour + ':' + minute + ':' + second;
-	}
-}
+// function convertISOTime(timeStamp, convertType) {
+// 	// function takes a timestamp and converts to the requested type
+// 	// datetime is the default return
+// 	var day = timeStamp.getDate().toString().length <= 1 ?
+// 		'0' + timeStamp.getDate().toString() : timeStamp.getDate(),
+// 		// month is stored as a zero-indexed array, so needs 1 adding
+// 		month = (timeStamp.getMonth() + 1).toString().length <= 1 ?
+// 		'0' + (timeStamp.getMonth() + 1).toString() : (timeStamp.getMonth() + 1),
+// 		year = timeStamp.getFullYear(),
+// 		second = timeStamp.getSeconds().toString().length <= 1 ?
+// 		'0' + timeStamp.getSeconds().toString() : timeStamp.getSeconds(),
+// 		minute = timeStamp.getMinutes().toString().length <= 1 ?
+// 		'0' + timeStamp.getMinutes().toString() : timeStamp.getMinutes(),
+// 		hour = timeStamp.getHours().toString().length <= 1 ?
+// 		'0' + timeStamp.getHours().toString() : timeStamp.getHours();
+// 	switch (convertType) {
+// 		case "date":
+// 			return day + '/' + month + '/' + year;
+// 		case "time":
+// 			return hour + ':' + minute + ':' + second;
+// 		case "dateISO":
+// 			return year + '-' + month + '-' + day;
+// 		default: //datetime
+// 			return day + '/' + month + '/' + year + ' ' + hour + ':' + minute + ':' + second;
+// 	}
+// }
 
 function isEmpty(obj) {
 	for (var i in obj)

@@ -1,5 +1,80 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
-<div>
+<div ng-if="isStudent()" id="lectureView">
+  <div class="container">
+    <div class="row" style="position:relative;">
+      <div class="col-xs-12 col-sm-12-col-md-12 user-question-feed" style="height:{{(lectureHeight - 111) + 'px'}};padding-bottom:80px;margin-top:-1.4em;position:absolute;top:0;overflow-y:scroll;overflow-x:hidden;" scroll-bottom="lecture.questions" ng-class="{'question-feed-blur': !init}">
+        <h4 class="col-xs-12" style="color:#FFA700;text-align:center;margin:1em 0;">
+          <strong>Welcome to
+            {{lecture.title}}</strong>
+        </h4>
+        <div ng-repeat="item in lecture.questions">
+          <span ng-if="item.asker.role=='admin' && !item.anon" class="">
+            <i class="fa fa-graduation-cap text-warning pull-left" style="padding-top:.65em;"></i>
+          </span>
+          <h5 ng-if="!item.anon" class="" style="display:inline-block;">
+            <strong>{{item.asker.name}}:</strong>
+            <span ng-click="something()">{{item.request}}</span>
+          </h5>
+          <h5 ng-if="item.anon" style="display:inline-block;">
+            anon:
+            <span ng-click="something()">{{item.request}}</span>
+          </h5>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<div ng-if="isStudent()" id="footer">
+  <div class="col-xs-12 navbar-inverse navbar-fixed-bottom" style="border-top:4px solid #8DB7D2;background-color:#414C5B;">
+    <div class="row" id="bottomNav">
+      <div class="col-xs-3 text-center" style="margin:1em 0;">
+        <a class="student-session-foot-tab" ng-click="showMsgBox">
+          <i class="fa fa-comment fa-2x"></i>
+          <h5 style="margin:.4em 0 0">Ask</h5>
+        </a>
+      </div>
+      <div class="col-xs-3 text-center" style="margin:1em 0;">
+        <a class="student-session-foot-tab" ng-click="showContent">
+          <i class="fa fa-archive fa-2x"></i>
+          <h5 style="margin:.4em 0 0">Content</h5>
+        </a>
+      </div>
+      <div class="col-xs-3 text-center" style="margin:1em 0;">
+        <a class="student-session-foot-tab" ng-click="showFeedbackModal()">
+          <i class="fa fa-star fa-2x"></i>
+          <h5 style="margin:.4em 0 0">Feedback</h5>
+        </a>
+      </div>
+      <div class="col-xs-3 text-center" style="margin:1em 0;">
+        <a class="student-session-foot-tab" ng-click="checkLeave()">
+          <i class="fa fa-sign-out fa-2x"></i>
+          <h5 style="margin:.4em 0 0">Leave</h5>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <div ng-if="isStudent()" class="navbar navbar-fixed-bottom">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-3">
+
+      </div>
+      <div class="col-md-3">
+
+      </div>
+      <div class="col-md-3">
+
+      </div>
+      <div class="col-md-3">
+
+      </div>
+    </div>
+  </div>
+</div> -->
+<div ng-if="isAdmin()">
   <div class="container-full" id="lecture-fullscreen" style="margin-top:{{lectureHeightMarginTop}};background-color:#8DB7D2;">
     <div class="row" style="margin:0;padding:0;height:{{lectureHeight + 'px'}}" id="lectureView">
       <div class="col-xs-12 col-sm-12 {{presViewSizeMd}} {{presViewSizeLg}} presentation-view" style="display:inline-block;padding:0;position:relative;">
@@ -130,5 +205,5 @@
 </div>
 
 <!-- FOOTER -->
-<div ng-include="'components/footer/footer.html'"></div>
+<div ng-if="isAdmin()" ng-include="'components/footer/footer.html'"></div>
 <!-- /FOOTER -->

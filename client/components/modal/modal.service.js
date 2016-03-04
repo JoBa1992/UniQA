@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uniQaApp')
-	.factory('Modal', function($rootScope, $modal, Auth, Department, Thing, Lecture) {
+	.factory('Modal', function($rootScope, $modal, Auth, Thing, Lecture) {
 
 		// Use the User $resource to fetch all users
 		$rootScope.user = {};
@@ -154,6 +154,78 @@ angular.module('uniQaApp')
 					};
 				},
 			},
+			import: {
+				user: function(cb) {
+					cb = cb || angular.noop;
+					return function() {
+						var importModal;
+						var me = Auth.getCurrentUser();
+						$rootScope.importViewData = false;
+						$rootScope.importBtnText = 'Next...';
+
+						importModal = openModal({
+							modal: {
+								name: 'createrUserForm',
+								dismissable: true,
+								form: 'components/modal/views/user/import.html',
+								title: 'Import Users',
+								buttons: [{
+									classes: 'btn-default',
+									text: 'Cancel',
+									click: function(e) {
+										importModal.dismiss(e);
+									}
+								}, {
+									classes: 'btn-success',
+									text: '{{importBtnText}}',
+									click: function(e, form) {
+										// if first btn click, data has been dropped into zone
+
+										// when importing via csv, data just needs to be attached into a json object, the user can then look through it and make any ammendments, and then when they click save the second time, it'll send it off to the server as a multiple creation.
+										if (!$rootScope.importViewData) {
+											$rootScope.importViewData = true;
+											$rootScope.importBtnText = 'Save';
+											console.info("Importing Data");
+										} else {
+											console.info("Ammending & Saving");
+											importModal.dismiss(e);
+										}
+
+
+
+										// importModal.dismiss(e);
+										// $rootScope.submitted = true;
+										// // form.$setPristine();
+										// // form.$setValidity();
+										// // form.$setUntouched();
+										// if ($rootScope.user.role !== 'Select Role' && $rootScope.user.department !== 'Select Department' && $rootScope.user.name && $rootScope.user.email && $rootScope.user.passcode) {
+										//
+										// 	Auth.createUser({
+										// 			user: $rootScope.user
+										// 		})
+										// 		.then(function(res) {
+										// 			createdUser = res.user;
+										// 			// user created, close the modal
+										// 			createModal.close(e);
+										// 		})
+										// 		.catch(function(err) {
+										// 			$rootScope.errors = {};
+										//
+										// 			// Update validity of form fields that match the mongoose errors
+										// 			angular.forEach(err.errors, function(error, field) {
+										// 				//console.info(form[field]);
+										// 				form[field].$setValidity('mongoose', false);
+										// 				$rootScope.errors[field] = error.message;
+										// 			});
+										// 		});
+										// }
+									}
+								}]
+							}
+						}, 'modal-success', 'lg');
+					};
+				}
+			},
 			create: {
 				user: function(cb) {
 					cb = cb || angular.noop;
@@ -165,7 +237,7 @@ angular.module('uniQaApp')
 							email: ''
 						};
 						$rootScope.roles = {};
-						$rootScope.departments = {};
+						// $rootScope.departments = {};
 
 						$rootScope.depDropdownSel = function(target) {
 							$rootScope.user.department = target;
@@ -179,17 +251,17 @@ angular.module('uniQaApp')
 							$rootScope.roles = val.content;
 							$rootScope.user.role = 'Select Role';
 						});
-						Department.get().then(function(val) {
-							val.forEach(function(dep) {
-								var subs = [];
-								dep.subdepartment.forEach(function(subdep) {
-									subs.push(subdep.name);
-								});
-								$rootScope.departments[dep.name] = subs;
-							});
-							// add to start of array
-							$rootScope.user.department = 'Select Department';
-						});
+						// Department.get().then(function(val) {
+						// 	val.forEach(function(dep) {
+						// 		var subs = [];
+						// 		dep.subdepartment.forEach(function(subdep) {
+						// 			subs.push(subdep.name);
+						// 		});
+						// 		$rootScope.departments[dep.name] = subs;
+						// 	});
+						// 	// add to start of array
+						// 	$rootScope.user.department = 'Select Department';
+						// });
 
 						Thing.getByName('uniEmail').then(function(val) {
 							// add Any to start of array
@@ -254,13 +326,21 @@ angular.module('uniQaApp')
 					return function() {
 						var createModal, createdUser;
 						// refresh validation on new modal open - remove details
-						$rootScope.group = {
-							name: '',
-							email: ''
+						$rootScope.me = Auth.getCurrentUser();
+						$rootScope.lecture = {
+							startTime: new Date(),
+							endTime: new Date(new Date().getTime() + 60 * 60000),
+							createdBy: $rootScope.me.name,
+							qActAllowance: 10,
 						};
 
-						// creates a unique access code everytime the modal is opened.
-						createUniqueAccessCode();
+						$rootScope.groupLevels = [4, 5, 6, 7];
+
+						// $rootScope.group = {
+						// 	name: '',
+						// 	email: ''
+						// };
+
 						createModal = openModal({
 							modal: {
 								name: 'createrUserForm',
@@ -401,19 +481,19 @@ angular.module('uniQaApp')
 						Thing.getByName('userRoles').then(function(val) {
 							$rootScope.roles = val.content;
 						});
-						Department.get().then(function(val) {
-							// loop through, and create key pairs to pass on scope variable
-							val.forEach(function(dep) {
-								var subs = [];
-								dep.subdepartment.forEach(function(subdep) {
-									subs.push(subdep.name);
-								});
-								$rootScope.departments[dep.name] = subs;
-							});
-
-							// add to start of array
-							$rootScope.updatedUser.department = user.department;
-						});
+						// Department.get().then(function(val) {
+						// 	// loop through, and create key pairs to pass on scope variable
+						// 	val.forEach(function(dep) {
+						// 		var subs = [];
+						// 		dep.subdepartment.forEach(function(subdep) {
+						// 			subs.push(subdep.name);
+						// 		});
+						// 		$rootScope.departments[dep.name] = subs;
+						// 	});
+						//
+						// 	// add to start of array
+						// 	$rootScope.updatedUser.department = user.department;
+						// });
 
 						Thing.getByName('uniEmail').then(function(val) {
 							// add Any to start of array
@@ -494,19 +574,19 @@ angular.module('uniQaApp')
 						Thing.getByName('userRoles').then(function(val) {
 							$rootScope.roles = val.content;
 						});
-						Department.get().then(function(val) {
-							// loop through, and create key pairs to pass on scope variable
-							val.forEach(function(dep) {
-								var subs = [];
-								dep.subdepartment.forEach(function(subdep) {
-									subs.push(subdep.name);
-								});
-								$rootScope.departments[dep.name] = subs;
-							});
-
-							// add to start of array
-							$rootScope.updatedUser.department = user.department;
-						});
+						// Department.get().then(function(val) {
+						// 	// loop through, and create key pairs to pass on scope variable
+						// 	val.forEach(function(dep) {
+						// 		var subs = [];
+						// 		dep.subdepartment.forEach(function(subdep) {
+						// 			subs.push(subdep.name);
+						// 		});
+						// 		$rootScope.departments[dep.name] = subs;
+						// 	});
+						//
+						// 	// add to start of array
+						// 	$rootScope.updatedUser.department = user.department;
+						// });
 
 						Thing.getByName('uniEmail').then(function(val) {
 							// add Any to start of array

@@ -2,6 +2,11 @@
 
 angular.module('uniQaApp')
 	.controller('AdminUserCtrl', function($scope, $http, Auth, User, Thing, Modal, Group) {
+		// attach lodash to scope
+		$scope._ = _;
+		// attach moment to scope
+		$scope.moment = moment;
+
 		$scope.title = 'User Management';
 		// filtered users, different from original object.
 		$scope.filter = {};
@@ -156,6 +161,11 @@ angular.module('uniQaApp')
 		$scope.openUpdateUserModal = Modal.update.user(function() { // callback when modal is confirmed
 			$scope.refreshUserList();
 		});
+
+		$scope.openImportUserModal = Modal.import.user(function() { // callback when modal is confirmed
+			// $scope.refreshUserList();
+		});
+
 		$scope.openDeleteUserModal = Modal.delete.user(function(user) {
 			// when modal is confirmed, callback
 			if (user) {

@@ -27,9 +27,10 @@ angular.module('uniQaApp')
 			$scope.groups.push(group);
 		});
 
-		// $scope.openUpdateGroupModal = Modal.update.group(function(group) { // callback when modal is confirmed
-		// 	//   $scope.refreshUserList();
-		// });
+		$scope.openUpdateGroupModal = Modal.update.group(function(group) { // callback when modal is confirmed
+			//   $scope.refreshUserList();
+		});
+
 		$scope.openDeleteGroupModal = Modal.delete.group(function(group) {
 			//   // when modal is confirmed, callback
 			if (group) {

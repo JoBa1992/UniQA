@@ -10,6 +10,6 @@
     <!-- <div ng-if="modal.form" bind-unsafe-html="modal.form"></div> -->
   </div>
   <div class="modal-footer">
-    <button ng-repeat="button in modal.buttons" ng-class="button.classes" ng-click="button.click($event, form)" ng-bind="button.text" class="btn"></button>
+    <button ng-repeat="button in modal.buttons" ng-class="button.classes" ng-click="button.click($event, form)" bind-unsafe-html="button.text" class="btn"></button>
   </div>
 </form>

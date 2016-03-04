@@ -1,0 +1,18 @@
+<div ng-controller="DropZoneController as dzc">
+  <div ng-if="!importViewData">
+    <button action="/file/upload/" class="dropzone" drop-zone call-back="myCallBackMethod(response)" data-max="5" mimetypes="'.csv, .txt, .xlsx, .xls'" id="file-dropzone" style="width:100%;border:2px solid #8DB7D2;">
+      <div class="dz-message" style="font-size:1.4em;color:#343D48;">Drop files here or click to upload.
+        <br>
+        <span class="note" style="font-size:.6em;">
+          <strong>(Allowed file types: .csv, .txt, .xlsx, .xls)</strong>
+        </span>
+
+      </div>
+    </button>
+  </div>
+  <div ng-if="importViewData">
+    <!-- OUTPUT RESULTS ON THIS PAGE -->
+
+  </div>
+
+</div>

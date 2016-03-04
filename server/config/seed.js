@@ -659,14 +659,14 @@ User.find({}).remove(function() {
 								Session.create({
 										_id: '56c87667bcd6f3c431cb8681',
 										lecture: '56c868096bd3f7b730a051f4',
-										startTime: moment.utc([2016, 1, 29, 10, 0, 0]),
-										endTime: moment.utc([2016, 1, 29, 12, 30, 0]),
+										startTime: moment.utc([2016, 2, 4, 21, 0, 0]),
+										endTime: moment.utc([2016, 2, 4, 23, 0, 0]),
 										timeAllowance: 30,
 										qr: {
 											url: 'String',
 											svg: 'String'
 										},
-										altAccess: '',
+										altAccess: '1gX4Bq',
 										register: [{
 											user: '56a7bf8a800c479155488fce'
 										}, {
@@ -687,15 +687,15 @@ User.find({}).remove(function() {
 										questions: [{
 											'asker': '56a7886405ab050a54d4eaa6',
 											'request': 'How do I do this?',
-											'time': moment.utc([2016, 1, 29, 20, 35, 0]),
+											'time': moment.utc([2016, 1, 12, 13, 35, 0]),
 										}, {
 											'asker': '56c86c25099777e930372eb7',
 											'request': 'more questions...',
-											'time': moment.utc([2016, 1, 29, 20, 40, 0]),
+											'time': moment.utc([2016, 1, 12, 13, 40, 0]),
 										}, {
 											'asker': '56a7afd3259ef46f559880c9',
 											'request': 'Ridiculously stupidly incredibily long comment to test out how it looks',
-											'time': moment.utc([2016, 1, 29, 20, 50, 0]),
+											'time': moment.utc([2016, 1, 12, 13, 50, 0]),
 										}],
 										groups: [{
 											group: '56cb7c2e7bbe028ebfbe56a2'
@@ -704,8 +704,8 @@ User.find({}).remove(function() {
 										}]
 									}, {
 										lecture: '56d1ca2e4f6973280ce025e6',
-										startTime: moment.utc([2016, 1, 23, 12, 0, 0]),
-										endTime: moment.utc([2016, 1, 23, 14, 0, 0]),
+										startTime: moment.utc([2016, 2, 13, 12, 0, 0]),
+										endTime: moment.utc([2016, 2, 13, 14, 0, 0]),
 										timeAllowance: 20,
 										qr: {
 											url: 'String',
@@ -719,9 +719,9 @@ User.find({}).remove(function() {
 										}]
 									}, {
 										lecture: '56d1ca2e4f6973280ce025e7',
-										startTime: moment.utc([2016, 1, 23, 12, 0, 0]),
-										endTime: moment.utc([2016, 1, 23, 14, 0, 0]),
-										timeAllowance: 20,
+										startTime: moment.utc([2016, 2, 13, 14, 0, 0]),
+										endTime: moment.utc([2016, 2, 13, 16, 0, 0]),
+										timeAllowance: 30,
 										qr: {
 											url: 'String',
 											svg: 'String'
@@ -734,8 +734,8 @@ User.find({}).remove(function() {
 										}]
 									}, {
 										lecture: '56d1ca2e4f6973280ce025e8',
-										startTime: moment.utc([2016, 1, 24, 12, 0, 0]),
-										endTime: moment.utc([2016, 1, 24, 14, 0, 0]),
+										startTime: moment.utc([2016, 2, 15, 12, 0, 0]),
+										endTime: moment.utc([2016, 2, 15, 14, 0, 0]),
 										timeAllowance: 20,
 										qr: {
 											url: 'String',

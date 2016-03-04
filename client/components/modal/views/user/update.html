@@ -3,7 +3,7 @@
   <input type="text" name="name" class="form-control" ng-model="updatedUser.name" required/>
   <p class="help-block" ng-show="form.name.$error.required && submitted">A name is required</p>
 </div>
-<div class="form-group" ng-class="{ 'has-success': updatedUser.role!='Select Role' && submitted,'has-error': updatedUser.role=='Select Role' && submitted }">
+<!-- <div class="form-group" ng-class="{ 'has-success': updatedUser.role!='Select Role' && submitted,'has-error': updatedUser.role=='Select Role' && submitted }">
   <label>Account Type</label>
   <div class="dropdown reg-dropdown">
     <button class="btn btn-inverse dropdown-toggle form-control" style="text-transform: capitalize;" name="type" ng-model="roles" type="button" data-toggle="dropdown">{{updatedUser.role}}
@@ -17,8 +17,8 @@
   </div>
   <p class="help-block" ng-show="updatedUser.role=='Select Role' && submitted">Please select a user type</p>
   <p class="help-block" ng-show="form.roles.$error.mongoose">{{ errors.roles }}</p>
-</div>
-<div class="form-group" ng-class="{ 'has-success': updatedUser.department!='Select Department' && submitted,'has-error': updatedUser.department=='Select Department' && submitted }">
+</div> -->
+<!-- <div class="form-group" ng-class="{ 'has-success': updatedUser.department!='Select Department' && submitted,'has-error': updatedUser.department=='Select Department' && submitted }">
   <label>Department</label>
   <div class="dropdown reg-dropdown">
     <button class="btn btn-inverse dropdown-toggle form-control" name="department" type="button" data-toggle="dropdown">{{updatedUser.department}}
@@ -33,11 +33,12 @@
   </div>
   <p class="help-block" ng-show="updatedUser.department=='Select Department' && submitted">Please select a department</p>
   <p class="help-block" ng-show="form.updatedUser.department.$error.mongoose">{{ errors.updatedUser.department }}</p>
-</div>
+</div> -->
 <div class="form-group" ng-class="{ 'has-success': form.email.$valid && submitted,'has-error': form.email.$invalid && submitted }">
   <label>Email</label>
   <div class="input-group">
-    <input type="text" name="email" class="form-control" aria-describedby="basic-addon2" ng-model="userTempEmail" required mongoose-error disabled>
+    <input type="text" name="email" class="form-control" ng-if="!updatedUser.passcode" aria-describedby="basic-addon2" ng-model="userTempEmail" required mongoose-error disabled>
+    <input type="text" name="email" class="form-control" ng-if="updatedUser.passcode" aria-describedby="basic-addon2" ng-model="userTempEmail" required mongoose-error>
     <span class="input-group-addon" id="basic-addon2">{{uniEmail}}</span>
   </div>
   <p class="help-block" ng-show="form.email.$error.email && submitted">Email address provided does not match the department format</p>

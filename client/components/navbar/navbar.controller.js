@@ -46,7 +46,7 @@ angular.module('uniQaApp')
 				student: false
 			}, {
 				title: 'Lecture Reg',
-				link: '/lecture/register',
+				link: '/session/register',
 				//   link: '#',
 				login: true,
 				admin: false,
@@ -58,7 +58,7 @@ angular.module('uniQaApp')
 				login: true,
 				admin: false,
 				student: true
-			},
+			} //,
 			/* {
 						title: 'Stats',
 						link: '/my/stats',
@@ -66,14 +66,14 @@ angular.module('uniQaApp')
 						admin: true,
 						student: false
 					},*/
-			{
-				title: 'Modal Dev',
-				//   link: '/my/questions/',
-				link: '/dev',
-				login: true,
-				admin: true,
-				student: true
-			}
+			// {
+			// 	title: 'Modal Dev',
+			// 	//   link: '/my/questions/',
+			// 	link: '/dev',
+			// 	login: true,
+			// 	admin: true,
+			// 	student: true
+			// }
 		];
 		$scope.rightMenu = [{
 			title: 'Register',
