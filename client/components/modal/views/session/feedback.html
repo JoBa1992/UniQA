@@ -1,0 +1,13 @@
+<div class="container-fluid">
+  <div class="row">
+    <div>
+      <h4>Rate this lecture</h4>
+      <div style="display:block;font-size:3em;text-align:center;margin-left:-1em;" class="timeline-stars" star-rating-click rating-value="feedback.rating" data-max="5"></div>
+      <h4 style="margin-top:1em;">Comments
+        <span style="color:#CCC;">(optional)</span>
+      </h4>
+      <textarea name="feedback" style="min-width:100%;max-width:100%;min-height:140px;max-height:140px;border:2px solid #343D48;margin:.4em 0;padding:.4em;" ng-model="feedback.comment" placeholder="Try to be constructive with feedback!" maxlength="255"></textarea>
+      <h5 class="text-warning pull-right" ng-class="{'full-input' : feedback.comment.length >= 255}">{{feedback.comment.length}}/255</h5>
+    </div>
+  </div>
+</div>

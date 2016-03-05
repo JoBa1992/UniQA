@@ -116,7 +116,7 @@ exports.index = function(req, res) {
 			path: 'lecture',
 			match: getAuthor
 		})
-		.populate('register')
+		.populate('registered.user')
 		.populate('questions.asker')
 		.populate('groups.group')
 		.sort(order)
@@ -199,7 +199,7 @@ exports.getNextFour = function(req, res) {
 				author: req.params.userid
 			}
 		})
-		.populate('register')
+		.populate('registered.user')
 		.populate('questions.asker')
 		.populate('groups.group')
 		.sort('startTime')
@@ -262,9 +262,10 @@ exports.getNextFour = function(req, res) {
 
 // Get a single session
 exports.show = function(req, res) {
+	console.info(req.params);
 	Session.findById(req.params.id)
 		.populate('lecture')
-		.populate('register')
+		.populate('registered.user')
 		.populate('questions.asker')
 		.populate('groups.group')
 		.exec(function(err, session) {
@@ -417,23 +418,79 @@ exports.getQuestions = function(req, res) {
 
 
 exports.addQuestion = function(req, res) {
-	var questionToAdd = JSON.parse(JSON.stringify(req.body)); // deep copy
+	var questionToAdd = JSON.parse(JSON.stringify(req.body.params)); // deep copy
 	questionToAdd.time = new Date(moment.utc().format());
-	var requestArr = questionToAdd.request.split(' ');
+	console.info(questionToAdd);
+	if (questionToAdd.question) {
+		console.info(questionToAdd.question);
+		var requestArr = questionToAdd.question.split(' ');
+		var expWords = [];
 
-	var expWords = [];
+		Thing.findOne({
+			name: 'explicitWords'
+		}, function(err, thing) {
+			expWords = thing.content;
+			// profanity filtering, if array contains anything,
+			// bad words have been caught
+			if (_.isEmpty(requestArr.diff(expWords))) {
+				Session.findOne({
+					_id: req.params.id
+				}, function(err, session) {
+					session.questions.push(questionToAdd);
+					session.save(function(err) {
+						if (err) {
+							return handleError(res, err);
+						}
+						if (!session)
+							return res.status(404).send('Session does not exist');
+						return res.status(200).json(session);
+					});
+				});
+			} else {
+				return res.status(400).send('No explicit words allowed');
+			}
+		});
+	} else {
+		return res.status(400).send('No Question sent');
+	}
+};
 
-	Thing.findOne({
-		name: 'explicitWords'
-	}, function(err, thing) {
-		expWords = thing.content;
-		// profanity filtering, if array contains anything,
-		// bad words have been caught
-		if (_.isEmpty(requestArr.diff(expWords))) {
-			Session.findOne({
-				_id: req.params.id
-			}, function(err, session) {
-				session.questions.push(questionToAdd);
+exports.registerUser = function(req, res) {
+	var user = {
+		user: req.params.userid
+	}
+
+	Session.findOne({
+			_id: req.params.id
+		})
+		.populate('groups.group')
+		.exec(function(err, session) {
+			var checkSession = session.toObject();
+			var expected = false;
+
+			// need to check that user is supposed to be registering to this lecture
+			for (var i = 0; i < checkSession.groups.length; i++) {
+				for (var x = 0; x < checkSession.groups[i].group.students.length; x++) {
+					if (String(checkSession.groups[i].group.students[x].user) === String(user.user)) {
+						expected = true;
+					}
+				}
+				for (var x = 0; x < checkSession.groups[i].group.tutors.length; x++) {
+					if (String(checkSession.groups[i].group.tutors[x].user) === String(user.user)) {
+						expected = 'tutor';
+					}
+				}
+			}
+
+			// check if user is already registered, if they are, don't update
+			var exists = checkSession.registered.some(function(regUser) {
+				return String(regUser.user) === String(user.user);
+			});
+
+			if (expected) {
+				if (!exists && expected != 'tutor') {
+					session.registered.push(user);
+				}
 				session.save(function(err) {
 					if (err) {
 						return handleError(res, err);
@@ -442,12 +499,75 @@ exports.addQuestion = function(req, res) {
 						return res.status(404).send('Session does not exist');
 					return res.status(200).json(session);
 				});
-			});
-		} else {
-			return res.status(400).send('No explicit words allowed');
-		}
-	});
+			} else {
+				return res.status(400).send('User is not authorized to register into this lecture');
+			}
+		});
 };
+
+exports.addFeedback = function(req, res) {
+	var feedbackToAdd = JSON.parse(JSON.stringify(req.body.params)); // deep copy
+	console.info(feedbackToAdd);
+	if (!_.isEmpty(feedbackToAdd)) {
+		Session.findOneAndUpdate({
+			_id: req.params.id
+		}, {
+			'$addToSet': {
+				'feedback': {
+					'user': feedbackToAdd.user,
+					'rating': feedbackToAdd.rating,
+					'comment': feedbackToAdd.comment
+				}
+			}
+		}, {
+			new: true, // returns updated doc
+			runValidators: true
+		}, function(err, session) {
+			// session.feedback.push(feedbackToAdd);
+			// session.save(function(err) {
+			if (err) {
+				return handleError(res, err);
+			}
+			if (!session) {
+				return res.status(404).send('Session does not exist');
+			}
+			return res.status(200).json(session);
+			// });
+		});
+	} else {
+		return res.status(400).send('No Feedback sent');
+	}
+};
+
+exports.getFeedback = function(req, res) {
+
+};
+
+exports.updateFeedback = function(req, res) {
+	var feedbackToAdd = JSON.parse(JSON.stringify(req.body.params)); // deep copy
+	console.info(feedbackToAdd);
+	if (!_.isEmpty(feedbackToAdd)) {
+		Session.findOne({
+			_id: req.params.id,
+			'feedback.user': req.params.userid
+		}, function(err, session) {
+			console.info(session);
+			return res.status(404).send('Session does not exist');
+			// session.feedback.push(questionToAdd);
+			// session.save(function(err) {
+			// 	if (err) {
+			// 		return handleError(res, err);
+			// 	}
+			// 	if (!session)
+			// 		return res.status(404).send('Session does not exist');
+			// 	return res.status(200).json(session);
+			// });
+		});
+	} else {
+		return res.status(400).send('No Feedback sent');
+	}
+};
+
 
 
 

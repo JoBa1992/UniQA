@@ -6,6 +6,7 @@ angular.module('uniQaApp', [
 		'ngSanitize',
 		'ngAnimate',
 		'ngDropzone',
+		'ngToast',
 		'ui.router',
 		'ui.bootstrap',
 		'btford.socket-io'
@@ -59,6 +60,15 @@ angular.module('uniQaApp', [
 			.otherwise('/');
 		$locationProvider.html5Mode(true);
 		$httpProvider.interceptors.push('authInterceptor');
+
+	})
+	.config(function(ngToastProvider) {
+		ngToastProvider.configure({
+			// animation: 'slide', // or 'fade'
+			verticalPosition: 'bottom',
+			horizontalPosition: 'left',
+			maxNumber: 1
+		});
 	})
 	.factory('authInterceptor', function($rootScope, $q, $cookieStore, $location) {
 		return {

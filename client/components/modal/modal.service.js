@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uniQaApp')
-	.factory('Modal', function($rootScope, $modal, Auth, Thing, Lecture) {
+	.factory('Modal', function($rootScope, $modal, Auth, Thing, Lecture, Session) {
 
 		// Use the User $resource to fetch all users
 		$rootScope.user = {};
@@ -114,6 +114,36 @@ angular.module('uniQaApp')
 									}]
 								}
 							}, 'modal-primary', null);
+						});
+					};
+				},
+				sessionContent: function(cb) {
+					cb = cb || angular.noop;
+					var args = Array.prototype.slice.call(arguments);
+					var session = args.shift();
+					return function() {
+						var readModal;
+
+						Session.getOne(session).then(function(res) {
+							var lecture = res.lecture._id;
+							Lecture.getOne(lecture).then(function(res) {
+								$rootScope.lecture = res; // need to elaborate on this
+								readModal = openModal({
+									modal: {
+										name: 'showSessionContent',
+										dismissable: true,
+										form: 'components/modal/views/session/content.html',
+										title: 'Lecture Content',
+										buttons: [{
+											classes: 'btn-primary',
+											text: 'Dismiss',
+											click: function(e) {
+												readModal.dismiss(e);
+											}
+										}]
+									}
+								}, 'modal-primary', 'md');
+							});
 						});
 					};
 				},
@@ -318,6 +348,59 @@ angular.module('uniQaApp')
 
 						createModal.result.then(function() {
 							cb(createdUser);
+						});
+					};
+				},
+				feedback: function(id, cb) {
+					cb = cb || angular.noop;
+					return function() {
+						var args = Array.prototype.slice.call(arguments);
+						var session = id;
+
+						var createModal;
+						$rootScope.feedback = {
+							rating: 0,
+							comment: ''
+						};
+
+						Session.getOne(session).then(function(res) {
+							var lecture = res.lecture._id;
+							Lecture.getOne(lecture).then(function(res) {
+								$rootScope.lecture = res; // need to elaborate on this
+								createModal = openModal({
+									modal: {
+										name: 'showSessionContent',
+										dismissable: true,
+										form: 'components/modal/views/session/feedback.html',
+										title: 'Session Feedback',
+										buttons: [{
+											classes: 'btn-primary',
+											text: 'Dismiss',
+											click: function(e) {
+												createModal.dismiss(e);
+											}
+										}, {
+											classes: 'btn-success',
+											text: 'Send',
+											click: function(e) {
+												var feedback = $rootScope.feedback;
+												feedback.session = session; // attach session id to object
+												feedback.user = Auth.getCurrentUser()._id; // attach user 
+												if (feedback.rating != 0) {
+													// send feedback to server here
+													Session.sendFeedback(feedback, function() {
+														createModal.close(e);
+													})
+												}
+											}
+										}]
+									}
+								}, 'modal-primary', 'md');
+
+								createModal.result.then(function() {
+									cb();
+								});
+							});
 						});
 					};
 				},

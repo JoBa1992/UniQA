@@ -55,7 +55,7 @@
             </div>
             <p>
               <small class="text-muted" style="color:white;">
-                <i class="glyphicon glyphicon-time" style="margin-right:.4em;"></i>{{moment.utc(feedback.startTime).format('dddd Do MMMM, YYYY') === moment.utc().format('dddd Do MMMM, YYYY')? moment.utc(feedback.startTime).fromNow():moment.utc(feedback.startTime).format('HH:mm') + ' - ' + moment.utc(feedback.endTime).format('HH:mm')}}
+                <i class="glyphicon glyphicon-time" style="margin-right:.4em;"></i>{{moment.utc(feedback.startTime).format('dddd Do MMMM, YYYY') === moment.utc().format('dddd Do MMMM, YYYY')? moment.utc(feedback.endTime).fromNow():moment.utc(feedback.startTime).format('HH:mm') + ' - ' + moment.utc(feedback.endTime).format('HH:mm')}}
               </small>
             </p>
           </div>

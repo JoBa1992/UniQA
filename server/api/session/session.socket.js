@@ -12,7 +12,12 @@ exports.register = function(socket) {
 			path: 'questions.asker',
 			model: 'User'
 		}, function(err, doc) {
-			onSave(socket, doc);
+			Session.populate(doc, {
+				path: 'registered.user',
+				model: 'User'
+			}, function(err, doc) {
+				onSave(socket, doc);
+			});
 		});
 	});
 	Session.schema.post('remove', function(doc) {

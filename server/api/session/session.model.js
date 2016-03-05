@@ -50,7 +50,7 @@ var SessionSchema = new Schema({
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'User'
 		},
-		request: {
+		question: {
 			type: String
 		},
 		time: {
@@ -74,14 +74,17 @@ var SessionSchema = new Schema({
 	feedback: [{
 		user: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User'
+			ref: 'User',
+			unique: true
 		},
 		rating: {
-			type: String
+			type: String,
+			required: true
 		},
 		comment: {
-			type: Date
-		}
+			type: String
+		},
+		_id: false
 	}],
 });
 

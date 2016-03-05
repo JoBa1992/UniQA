@@ -7,8 +7,6 @@ var auth = require('../../auth/auth.service');
 
 var router = express.Router();
 
-
-
 router.get('/', auth.isAuthenticated(), controller.index);
 router.get('/count', auth.isAuthenticated(), controller.count);
 router.put('/:id', auth.isAuthenticated(), controller.update);
@@ -18,7 +16,11 @@ router.get('/:userid/getnextfour', auth.isAuthenticated(), controller.getNextFou
 router.post('/', auth.isAuthenticated(), controller.create);
 router.get('/:id/question', auth.isAuthenticated(), controller.getQuestions);
 router.post('/:id/question' /*, auth.isAuthenticated()*/ , controller.addQuestion);
-// router.patch('/:id', controller.update);
+
+router.post('/:id/feedback' /*, auth.isAuthenticated()*/ , controller.addFeedback);
+router.get('/:id/feedback/:userid' /*, auth.isAuthenticated()*/ , controller.getFeedback);
+router.put('/:id/register/:userid' /*, auth.isAuthenticated()*/ , controller.registerUser);
+// router.put('/:id/feedback/:userid' /*, auth.isAuthenticated()*/ , controller.updateFeedback);
 
 
 module.exports = router;

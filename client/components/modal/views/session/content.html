@@ -1,0 +1,13 @@
+<div class="container-fluid">
+  <div class="row">
+    <div ng-repeat="item in lecture.attachments">
+      <a class="col-xs-12" href="{{item.loc}}" target="_blank" style="text-decoration:none;margin:.8em 0;" download>
+        <i class="fa fa-file-{{item.type}}-o fa-2x col-xs-3"></i>
+        <h5 class="col-xs-9 text-warning" style="margin:.5em 0;">
+          {{item.desc}}
+        </h5>
+      </a>
+      <hr class="col-xs-10 resource-hr" style="margin:0;" ng-if="!$last">
+    </div>
+  </div>
+</div>

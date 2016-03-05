@@ -14,6 +14,7 @@ angular.module('uniQaApp')
 			getOne: function(id, callback) {
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();
+
 				$http.get('/api/sessions/' + id).success(function(data) {
 					deferred.resolve(data);
 					return cb();
@@ -79,6 +80,47 @@ angular.module('uniQaApp')
 				$http.get('/api/lectures/count', {
 					params: {
 						createdBy: obj.createdBy
+					}
+				}).success(function(data) {
+					deferred.resolve(data);
+					return cb();
+				}).error(function(err) {
+					deferred.reject(err);
+					return cb(err);
+				}.bind(this));
+				return deferred.promise;
+			},
+			sendMsg: function(obj, callback) {
+				var cb = callback || angular.noop;
+				var deferred = $q.defer();
+				var sessionid = obj.session;
+				var anon = obj.anon || null;
+
+				$http.post('/api/sessions/' + sessionid + '/question', {
+					params: {
+						question: obj.question,
+						asker: obj.asker,
+						anon: anon,
+					}
+				}).success(function(data) {
+					deferred.resolve(data);
+					return cb();
+				}).error(function(err) {
+					deferred.reject(err);
+					return cb(err);
+				}.bind(this));
+				return deferred.promise;
+			},
+			sendFeedback: function(obj, callback) {
+				var cb = callback || angular.noop;
+				var deferred = $q.defer();
+				var sessionid = obj.session;
+
+				$http.post('/api/sessions/' + sessionid + '/feedback', {
+					params: {
+						user: obj.user,
+						rating: obj.rating,
+						comment: obj.comment
 					}
 				}).success(function(data) {
 					deferred.resolve(data);

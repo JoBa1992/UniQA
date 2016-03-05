@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uniQaApp')
-	.controller('SessionActiveCtrl', function($scope, $stateParams, $window, $timeout, $location, $sce, socket, Auth, Lecture, Session, Modal) {
+	.controller('SessionActiveCtrl', function($scope, $stateParams, $window, $timeout, $location, $sce, ngToast, socket, Auth, Lecture, Session, Modal) {
 		// attach lodash to scope
 		$scope._ = _;
 		// attach moment to scope
@@ -9,6 +9,12 @@ angular.module('uniQaApp')
 
 		$scope.isAdmin = Auth.isAdmin;
 		$scope.isStudent = Auth.isStudent;
+
+
+		// question sent from user
+		$scope.user = {
+			question: ''
+		}
 
 		var _second = 1000;
 		var _minute = _second * 60;
@@ -21,6 +27,7 @@ angular.module('uniQaApp')
 
 		// url parameter passed through
 		var sessionid = $stateParams.sessionid;
+		var me = Auth.getCurrentUser();
 
 		$scope.trustSrc = function(src) {
 			return $sce.trustAsResourceUrl(src);
@@ -40,8 +47,14 @@ angular.module('uniQaApp')
 
 		// $scope.now = moment.utc();
 
-		// scope load for lecture
-		$scope.lectureHeight = '760';
+		// scope load for user
+		$scope.showQuestionSubmit = false;
+		$scope.fedback = true;
+
+		$scope.session = {};
+
+		// scope load for lecture/tutor
+		$scope.lectureHeight = $window.innerHeight;
 		$scope.lectureHeightMarginTop = '-1.4em;';
 		$scope.fullScreenToggle = false;
 		$scope.hideQuestions = false;
@@ -56,63 +69,63 @@ angular.module('uniQaApp')
 				'asker': {
 					'name': 'Joshua Bates'
 				},
-				'request': 'They say that nothing is true, everything is permitted',
+				'question': 'They say that nothing is true, everything is permitted',
 				'time': '2016-03-20T20:35:00Z',
 				'anon': false
 			}, {
 				'asker': {
 					'name': '56c86c25099777e930372eb7'
 				},
-				'request': 'I have been doing this development far too long',
+				'question': 'I have been doing this development far too long',
 				'time': '2016-03-20T20:40:00Z',
 				'anon': false
 			}, {
 				'asker': {
 					'name': '56c86c25099777e930372eb7'
 				},
-				'request': 'Infact, it took me like 4 hours to even start on sockets',
+				'question': 'Infact, it took me like 4 hours to even start on sockets',
 				'time': '2016-03-20T20:50:00Z',
 				'anon': false
 			}, {
 				'asker': {
 					'name': '56a7d95746b9e7db57417309'
 				},
-				'request': 'SOCKETS!',
+				'question': 'SOCKETS!',
 				'time': '2016-02-20T21:16:35Z',
 				'anon': false
 			}, {
 				'asker': {
 					'name': '56a7d95746b9e7db57417309'
 				},
-				'request': 'And the best thing is, they were built into the framework.',
+				'question': 'And the best thing is, they were built into the framework.',
 				'time': '2016-02-20T21:16:36Z',
 				'anon': false
 			}, {
 				'asker': {
 					'name': '56a7d95746b9e7db57417309'
 				},
-				'request': 'I mean...',
+				'question': 'I mean...',
 				'time': '2016-02-20T21:16:36Z',
 				'anon': false
 			}, {
 				'asker': {
 					'name': '56a7d95746b9e7db57417309'
 				},
-				'request': 'Anyway, if you ever feel like your degree was a pain, its because it most likely was.',
+				'question': 'Anyway, if you ever feel like your degree was a pain, its because it most likely was.',
 				'time': '2016-02-20T21:16:36Z',
 				'anon': false
 			}, {
 				'asker': {
 					'name': '56a7d95746b9e7db57417309'
 				},
-				'request': 'And as for this blur, I just needed some content filled in behind it. ',
+				'question': 'And as for this blur, I just needed some content filled in behind it. ',
 				'time': '2016-02-20T21:16:36Z',
 				'anon': false
 			}, {
 				'asker': {
 					'name': '56a7d95746b9e7db57417309'
 				},
-				'request': 'Anyway, thanks for taking your time to read this.',
+				'question': 'Anyway, thanks for taking your time to read this.',
 				'time': '2016-02-20T21:16:36Z',
 				'anon': false
 			}], // needs declaring for use in socket updates
@@ -144,7 +157,27 @@ angular.module('uniQaApp')
 
 			runtime = moment(res.startTime).utc().format('HH:mm') + ' - ' + moment(res.endTime).utc().format('HH:mm');
 
+			// used for user questions
+			$scope.session.startTime = res.startTime;
+			$scope.session.endTime = res.endTime;
 
+			console.info(res);
+
+			// check if user has given feedback already
+			$scope.fedback = _.some(res.feedback, function(feedback) {
+				return feedback.user === me._id;
+			});
+
+			// get total users expected to register into lecture
+			var expected = 0;
+			_.some(res.groups, function(group) {
+				// bad nesting due to dodgy model, needs checking
+				expected += group.group.students.length;
+			});
+
+			/*
+			['This bit still needs sorting', 'John Bloomer', 'Fred Durst', 'Bob Ross', 'Jack McClone', 'Chadwick Simpson', 'Jonathon Dickson', 'Alexis Parks', 'Sandra Bates', 'Steve Bates', 'Bob the Dog']
+			*/
 			// for animated loading
 			$timeout(function() {
 				$scope.lecture.title = lecture.title;
@@ -153,8 +186,8 @@ angular.module('uniQaApp')
 				$scope.lecture.questions = questions;
 				$scope.lecture.runTime = runtime;
 				$scope.lecture.collaborators = authorCollabs;
-				$scope.lecture.registered = ['This bit still needs sorting', 'John Bloomer', 'Fred Durst', 'Bob Ross', 'Jack McClone', 'Chadwick Simpson', 'Jonathon Dickson', 'Alexis Parks', 'Sandra Bates', 'Steve Bates', 'Bob the Dog'];
-				$scope.lecture.expected = 15;
+				$scope.lecture.registered = res.registered;
+				$scope.lecture.expected = expected;
 				$scope.lecture.attachments = lecture.attachments;
 				$scope.init = true;
 			}, 500);
@@ -165,9 +198,18 @@ angular.module('uniQaApp')
 
 		// live socket updates for questions
 		socket.syncUpdates('session', $scope.lecture.questions, function(event, item) {
-			$scope.questionIconNumber = item.questions.length;
-			$scope.lecture.questions = item.questions;
-			ping.play();
+			// if they don't equal the same, somethings changed
+			// stops feedback from triggering noise
+			if ($scope.lecture.questions.length !== item.questions.length) {
+				$scope.questionIconNumber = item.questions.length;
+				$scope.lecture.questions = item.questions;
+				ping.play();
+			}
+
+			// if registered values have changed, update scope
+			if ($scope.lecture.registered !== item.registered.length) {
+				$scope.lecture.registered = item.registered;
+			}
 		});
 
 		$scope.showQrModal = function() {
@@ -202,17 +244,104 @@ angular.module('uniQaApp')
 			}
 		};
 
-		function onkeydownFS() {
-			console.info(document.getElementById('lecture'));
-			// e.preventDefault();
-			// console.info("hit");
-			// switch (e.keyCode) {
-			// 	case 27: // KeyEvent.DOM_VK_ESC
-			// 		e.preventDefault();
-			// 		break;
-			// }
+		$scope.sendMsg = function() {
+			console.info($scope.user.question);
+			if ($scope.user.question) {
+				Session.sendMsg({
+					session: sessionid,
+					asker: me._id,
+					question: $scope.user.question
+				}).then(function() {
+					$scope.user.error = false;
+					$scope.user.question = '';
+
+				}).catch(function(err) {
+					$scope.user.error = true;
+				});
+			}
 		}
-		$window.addEventListener('keydown', onkeydownFS, true);
+
+		$scope.sendMsgAnon = function() {
+			if ($scope.user.question) {
+				Session.sendMsg({
+					session: sessionid,
+					asker: me,
+					question: $scope.user.question,
+					anon: true
+				}).then(function() {
+					$scope.user.error = false;
+					$scope.user.question = '';
+				}).catch(function(err) {
+					$scope.user.error = true;
+				});
+			}
+		}
+
+		$scope.toggleMsgBox = function() {
+			$scope.showQuestionSubmit = !$scope.showQuestionSubmit;
+			if ($scope.lectureHeight == $window.innerHeight) {
+				$scope.lectureHeight = $window.innerHeight - 95;
+				// if opening msgbox scroll to bottom of container;
+				$timeout(function() {
+					var scroller = document.getElementById("questionFeed");
+					scroller.scrollTop = scroller.scrollHeight;
+				}, 0, false);
+			} else {
+				$scope.lectureHeight = $window.innerHeight;
+			}
+		}
+
+		$scope.showSessionContent = Modal.read.sessionContent(sessionid, function() {
+			// $scope.refreshUserList();
+		});
+
+		// for feedback modal
+		var createFeedbackModal = Modal.create.feedback(sessionid, function() {
+			// refreshUserStats();
+			// $scope.refreshUserList();
+			$scope.fedback = true;
+			ngToast.create({
+				className: 'success',
+				timeout: 3000,
+				content: 'Thankyou for giving us feedback!'
+			});
+		});
+
+		// var updateFeedbackModal = Modal.create.feedback(sessionid, function() {
+		// 	// refreshUserStats();
+		// 	// $scope.refreshUserList();
+		// 	console.info('thanks');
+		// });
+
+		$scope.showFeedbackModal = function() {
+			// time until feedback can be given, halfway through a session
+			var timeUntil = moment.utc(moment.utc($scope.session.endTime) - ((moment.utc($scope.session.endTime) - moment.utc($scope.session.startTime)) / 2));
+
+			// check if we can give feedback yet
+
+			if (moment.utc() >= timeUntil) {
+				if (!$scope.fedback) {
+					createFeedbackModal();
+				} else {
+					// throw a notification telling user how long until feedback can be given
+					ngToast.create({
+						className: 'success',
+						timeout: 3000,
+						content: 'Feedback already given for session!'
+					});
+				}
+			} else {
+				// throw a notification telling user how long until feedback can be given
+				ngToast.create({
+					className: 'danger',
+					timeout: 3000,
+					content: 'Feedback can be given ' + moment.utc(timeUntil).fromNow()
+				});
+			}
+
+		};
+
+
 
 		$scope.toggleFullScreen = function() {
 			if (!$scope.fullScreenToggle) { // Launch fullscreen for browsers that support it!

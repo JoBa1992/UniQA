@@ -546,25 +546,32 @@ User.find({}).remove(function() {
 						url: 'http://www.mustbebuilt.co.uk/SHU/WAD/wad-wk8-lecture16.html#/step-1',
 						attachments: [{
 							'loc': '/storage/56c868096bd3f7b730a051f4/1.ppt',
-							'type': 'powerpoint'
+							'type': 'powerpoint',
+							'desc': 'This Slideshow'
 						}, {
 							'loc': '/storage/56c868096bd3f7b730a051f4/2.html',
-							'type': 'code'
+							'type': 'code',
+							'desc': 'Some code'
 						}, {
 							'loc': '/storage/56c868096bd3f7b730a051f4/3.docx',
-							'type': 'word'
+							'type': 'word',
+							'desc': 'This weeks work'
 						}, {
 							'loc': '/storage/56c868096bd3f7b730a051f4/4.pdf',
-							'type': 'pdf'
+							'type': 'pdf',
+							'desc': 'An Article'
 						}, {
 							'loc': '/storage/56c868096bd3f7b730a051f4/5.xlsx',
-							'type': 'excel'
+							'type': 'excel',
+							'desc': 'Some data'
 						}, {
 							'loc': '/storage/56c868096bd3f7b730a051f4/6.txt',
-							'type': 'text'
+							'type': 'text',
+							'desc': 'Some more data'
 						}, {
 							'loc': '/storage/56c868096bd3f7b730a051f4/7.zip',
-							'type': 'zip'
+							'type': 'zip',
+							'desc': 'A random zip'
 						}]
 					}, {
 						author: '56a7d95746b9e7db57417309',
@@ -659,8 +666,8 @@ User.find({}).remove(function() {
 								Session.create({
 										_id: '56c87667bcd6f3c431cb8681',
 										lecture: '56c868096bd3f7b730a051f4',
-										startTime: moment.utc([2016, 2, 4, 21, 0, 0]),
-										endTime: moment.utc([2016, 2, 4, 23, 0, 0]),
+										startTime: moment.utc([2016, 2, 5, 19, 0, 0]),
+										endTime: moment.utc([2016, 2, 5, 23, 0, 0]),
 										timeAllowance: 30,
 										qr: {
 											url: 'String',
@@ -686,15 +693,15 @@ User.find({}).remove(function() {
 										}],
 										questions: [{
 											'asker': '56a7886405ab050a54d4eaa6',
-											'request': 'How do I do this?',
+											'question': 'How do I do this?',
 											'time': moment.utc([2016, 1, 12, 13, 35, 0]),
 										}, {
 											'asker': '56c86c25099777e930372eb7',
-											'request': 'more questions...',
+											'question': 'more questions...',
 											'time': moment.utc([2016, 1, 12, 13, 40, 0]),
 										}, {
 											'asker': '56a7afd3259ef46f559880c9',
-											'request': 'Ridiculously stupidly incredibily long comment to test out how it looks',
+											'question': 'Ridiculously stupidly incredibily long comment to test out how it looks',
 											'time': moment.utc([2016, 1, 12, 13, 50, 0]),
 										}],
 										groups: [{

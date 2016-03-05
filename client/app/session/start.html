@@ -1,7 +1,7 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 <div>
   <div class="container-full" id="lecture-fullscreen" style="margin-top:{{lectureHeightMarginTop}}background-color:#8DB7D2;border-bottom:4px solid #343D48;">
-    <div ng-if="timeUntil>0" class="row" style="margin:0;padding:0;height:{{lectureHeight + 'px'}}" id="lectureView">
+    <div ng-if="timeUntil>0" class="row" style="margin:0;padding:1em 0;" id="lectureView">
       <div class="col-xs-8 col-sm-10 col-md-10 col-lg-8 col-xs-offset-2 col-sm-offset-1 col-md-offset-1 col-lg-offset-2 presentation-view" style="display:inline-block;padding:0;position:relative;">
         <h1 class="col-md-12" style="margin:5em 0 3em;text-align:center;color:#343D48;">There's nothing to start yet</h1>
         <h3 class="col-md-12" style="margin:2em 0 2em;color:#343D48;">Your next lecture,
@@ -30,7 +30,7 @@
       </div>
 
     </div>
-    <div class="container col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1" ng-if="timeUntil<=0" style="height:{{lectureHeight + 'px'}}; margin-top:4em;">
+    <div class="container col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1" ng-if="timeUntil<=0" style="margin-top:4em;padding:1em 0;">
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <h1 class="" style="padding-left:4px;">{{nextLecture.title}}</h1>
@@ -38,7 +38,7 @@
 
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top:2em;">
 
-            <div href="#" class="col-xs-3 col-sm-3 col-md-2 col-lg-2 visible-sm visible-md visible-lg lecture-start-preview">
+            <div href="#" class="hidden-xs hidden-sm col-md-2 col-lg-2 visible-sm visible-md visible-lg lecture-start-preview">
               <h4 ng-if="!nextLecture.preview">No Preview Available
                 <i style="display:block;margin-top:.4em;" class="fa fa-frown-o fa-2x"></i>
               </h4>
@@ -81,7 +81,7 @@
         </div>
       </div>
     </div>
-    <div ng-if="_.isEmpty(nextLecture)" class="row" style="margin:0;padding:0;height:{{lectureHeight + 'px'}}" id="lectureView">
+    <div ng-if="_.isEmpty(nextLecture)" class="row" style="margin:0;padding:1em 0;" id="lectureView">
       <div class="col-xs-8 col-sm-10 col-md-10 col-lg-8 col-xs-offset-2 col-sm-offset-1 col-md-offset-1 col-lg-offset-2 presentation-view" style="display:inline-block;padding:0;position:relative;">
         <h1 class="col-md-12" style="margin:5em 0 3em;text-align:center;color:#343D48;">Looks like theres nothing to start.</h1>
         <h3 class="col-md-12" style="margin:2em 0 2em;color:#343D48;">

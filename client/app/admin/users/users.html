@@ -3,10 +3,10 @@
 <div class="page-sub-header">
   <div class="container">
     <div class="row">
-      <div class="col-sm-4 col-med-4 col-lg-2 ">
+      <div class="col-sm-4 col-med-2 col-lg-2 ">
         <h1>User Management</h1>
       </div>
-      <div class="col-sm-3 col-med-3 col-lg-3 ">
+      <div class="col-sm-3 col-med-4 col-lg-3 ">
         <form id="search-form" class="form-inline" role="form" method="post">
           <div class="input-group">
             <input type="text" class="form-control search-form" placeholder="Search" ng-keyup="searchStrFilter($event)" ng-model="filter.searchStr">
@@ -20,11 +20,11 @@
         </form>
       </div>
       <div class="col-sm-4 col-med-4 col-lg-4 pull-right text-center">
-        <div class="col-sm-4 col-med-4 col-lg-4 pull-right">
+        <div class="col-sm-3 col-med-2 col-lg-4 pull-right">
           <button type="button" class="btn btn-success dropdown-toggle page-sub-header-btn" ng-click="openCreateUserModal()">Create User</button>
         </div>
         <div class="sub-menu-divider-vertical pull-right"></div>
-        <div class="col-sm-4 col-med-4 col-lg-4 pull-right">
+        <div class="col-sm-5 col-med-4 col-lg-4 pull-right">
           <h2>
             <span>{{userCount}}</span><br>
             System User(s)
