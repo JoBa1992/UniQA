@@ -84,7 +84,14 @@ angular.module('uniQaApp', [
 			// Intercept 401s and redirect you to login
 			responseError: function(response) {
 				if (response.status === 401) {
-					$location.path('/login');
+					var loc = $location.path().substring(1, $location.path().length).split('/');
+					// check to see if req is coming from qr login
+					if (loc[0] == 'qr') {
+						// $location.path('$loca');
+					} else {
+						$location.path('/login');
+					}
+
 					// remove any stale tokens
 					$cookieStore.remove('token');
 					return $q.reject(response);
@@ -104,7 +111,12 @@ angular.module('uniQaApp', [
 				socket.unsyncUpdates('session');
 			} else {
 				if (!toParams.sessionid) {
-					return $location.url('/session/start');
+					event.preventDefault();
+					if (Auth.isAdmin()) {
+						return $location.path('/session/start?m=notReady');
+					} else {
+						return $location.path('/session/register?m=notReady');
+					}
 				}
 				var sessionid = toParams.sessionid;
 				var now = moment.utc();
@@ -112,12 +124,26 @@ angular.module('uniQaApp', [
 				var _minute = _second * 60;
 				// don't want user accessing page if session isn't valid
 				Session.getOne(sessionid).then(function(res) {
+					if (!res) {
+						event.preventDefault();
+						if (Auth.isAdmin()) {
+
+							return $location.path('/session/start?m=notExist');
+						} else {
+							return $location.path('/session/register?m=notExist');
+						}
+					}
 					var start = moment(moment(res.startTime).utc() - (res.timeAllowance * _minute)).utc();
 					var end = moment(moment(res.endTime).utc() + (res.timeAllowance * _minute)).utc();
 
 					// if session isn't between goalposts kick back to session start
 					if (!(now >= start && now <= end)) {
-						return $location.url('/session/start');
+						console.info(Auth.isAdmin());
+						if (Auth.isAdmin()) {
+							return $location.path('/session/start?m=notReady');
+						} else {
+							return $location.path('/session/register?m=notReady');
+						}
 					}
 				});
 			}
@@ -125,6 +151,7 @@ angular.module('uniQaApp', [
 			if (toState.url === '/' || toState.url === '/login' || toState.url === '/register') {
 				Auth.isLoggedInAsync(function(loggedIn) {
 					if (loggedIn) {
+						event.preventDefault();
 						$location.path('/profile');
 					}
 				});
@@ -134,11 +161,12 @@ angular.module('uniQaApp', [
 	})
 	.run(function($rootScope, $location, Auth) {
 		// Redirect to login if route requires auth and you're not logged in
-		$rootScope.$on('$stateChangeStart', function(event, next) {
+		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
 			Auth.isLoggedInAsync(function(loggedIn) {
-				if (next.authenticate && !loggedIn) {
+				if ((toState.authenticate && !loggedIn)) {
 					event.preventDefault();
 					$location.path('/login');
+
 				}
 			});
 		});

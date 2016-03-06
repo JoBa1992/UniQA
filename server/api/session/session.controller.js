@@ -186,7 +186,7 @@ exports.count = function(req, res) {
 	});
 };
 
-exports.getNextFour = function(req, res) {
+exports.getNextFourTutor = function(req, res) {
 	// console.info(req.params);
 	Session.find({
 			endTime: {
@@ -230,39 +230,56 @@ exports.getNextFour = function(req, res) {
 			});
 
 		});
-	/*
-	Session.find({})
-		.populate('lecture', null, {
-			author: req.params.id
-		})
-		.populate('register')
-		.populate('questions.asker')
-		.exec(function(err, sessions) {
-			if (err) {
-				return handleError(res, err);
-			}
-			if (!sessions) {
-				return res.status(404).send('Not Found');
-			}
-			console.info(sessions);
-			Session.populate(sessions, {
-				path: 'lecture.author',
-				model: 'User'
-			}, function(err) {
-				Session.populate(sessions, {
-					path: 'lecture.collaborators.user',
-					model: 'User'
-				}, function(err) {
-					return res.json(sessions);
-				});
-			});
-
-		});*/
 };
+// exports.getNextStudent = function(req, res) {
+// 	// console.info(req.params);
+// 	Session.find({
+// 			endTime: {
+// 				$gt: new Date()
+// 			}
+// 		}) // order by startDate asc
+// 		.populate('lecture')
+// 		.populate('registered.user')
+// 		.populate('questions.asker')
+// 		.populate({
+// 			path: 'groups.group',
+// 			match: {
+// 				'students.user': req.params.userid
+// 			}
+// 		})
+// 		.sort('startTime')
+// 		.exec(function(err, sessions) {
+// 			// console.info(sessionss);
+// 			if (err) {
+// 				return handleError(res, err);
+// 			}
+// 			if (!sessions) {
+// 				return res.status(404).send('Not Found');
+// 			}
+// 			console.info(sessions);
+// 			// rip out any null lectures
+// 			sessions = sessions.filter(function(session) {
+// 				return session.group;
+// 			});
+//
+// 			Session.populate(sessions, {
+// 				path: 'lecture.author',
+// 				model: 'User'
+// 			}, function(err) {
+// 				Session.populate(sessions, {
+// 					path: 'lecture.collaborators.user',
+// 					model: 'User'
+// 				}, function(err) {
+// 					return res.json(sessions);
+// 				});
+// 			});
+//
+// 		});
+// };
 
 // Get a single session
 exports.show = function(req, res) {
-	console.info(req.params);
+
 	Session.findById(req.params.id)
 		.populate('lecture')
 		.populate('registered.user')
@@ -420,9 +437,8 @@ exports.getQuestions = function(req, res) {
 exports.addQuestion = function(req, res) {
 	var questionToAdd = JSON.parse(JSON.stringify(req.body.params)); // deep copy
 	questionToAdd.time = new Date(moment.utc().format());
-	console.info(questionToAdd);
+
 	if (questionToAdd.question) {
-		console.info(questionToAdd.question);
 		var requestArr = questionToAdd.question.split(' ');
 		var expWords = [];
 
@@ -460,11 +476,30 @@ exports.registerUser = function(req, res) {
 		user: req.params.userid
 	}
 
-	Session.findOne({
-			_id: req.params.id
-		})
+	if (_.isEmpty(req.body)) {
+		return res.status(400).send('No Method of registering supplied');
+	}
+
+
+	var query = {
+		// find the session with the url or alt access code
+		'$or': [{
+			'qr.url': req.body.params.url
+		}, {
+			'altAccess': req.body.params.altAccess
+		}]
+	};
+
+	Session.findOne(query)
 		.populate('groups.group')
 		.exec(function(err, session) {
+			if (err) {
+				return handleError(res, err);
+			}
+			if (!session) {
+				return res.status(404).send('Session does not exist');
+			}
+
 			var checkSession = session.toObject();
 			var expected = false;
 
@@ -507,7 +542,7 @@ exports.registerUser = function(req, res) {
 
 exports.addFeedback = function(req, res) {
 	var feedbackToAdd = JSON.parse(JSON.stringify(req.body.params)); // deep copy
-	console.info(feedbackToAdd);
+
 	if (!_.isEmpty(feedbackToAdd)) {
 		Session.findOneAndUpdate({
 			_id: req.params.id
@@ -545,13 +580,13 @@ exports.getFeedback = function(req, res) {
 
 exports.updateFeedback = function(req, res) {
 	var feedbackToAdd = JSON.parse(JSON.stringify(req.body.params)); // deep copy
-	console.info(feedbackToAdd);
+
 	if (!_.isEmpty(feedbackToAdd)) {
 		Session.findOne({
 			_id: req.params.id,
 			'feedback.user': req.params.userid
 		}, function(err, session) {
-			console.info(session);
+
 			return res.status(404).send('Session does not exist');
 			// session.feedback.push(questionToAdd);
 			// session.save(function(err) {

@@ -17,12 +17,15 @@
                 {{session.timeAllowance}}
                 minutes</span>
             </h3>
-            <div class="media" style="padding:.4em 0;">
-              <div class="media-left media-top">
-                <!-- <ext-svg width="100px" height="100px" data-content="session.qr.svg"></ext-svg> -->
-                <img class="pull-left media-object" src="/assets/images/placeholders/uniqa-qr.png" width="128px;" alt="...">
+            <div class="media" style="padding:.4em 0;display:inline-block;">
+              <div class="media-left media-top pull-left" style="width:128px;height:128px;">
+                <div class="media-object">
+                  <ext-svg data-content="session.qr.svg"></ext-svg>
+                </div>
+
+                <!-- <img class="pull-left media-object" src="/assets/images/placeholders/uniqa-qr.png" width="128px;" alt="..."> -->
               </div>
-              <div class="media-body" style="padding-left:1em;">
+              <div class="media-body" style="padding-left:1em;display:inline-block;width:70%;">
                 <div>
                   <h5 style="display:inline-block;">{{session.lecture.title}}
                     -

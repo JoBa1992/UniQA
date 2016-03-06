@@ -89,16 +89,16 @@ angular.module('uniQaApp')
 			read: {
 				qr: function(cb) {
 					cb = cb || angular.noop;
+					var args = Array.prototype.slice.call(arguments);
+					var session = args.shift();
+
 					return function() {
 						var readModal;
 						var me = Auth.getCurrentUser();
-
-						Lecture.getForMe({
-							createdBy: me._id,
-							page: 1,
-							paginate: 10
-						}).then(function(res) {
-							$rootScope.lecture = res[0]; // need to elaborate on this
+						console.info(session);
+						Session.getOne(session).then(function(res) {
+							$rootScope.session = res;
+							console.info(res);
 							readModal = openModal({
 								modal: {
 									name: 'createrUserForm',
@@ -385,7 +385,7 @@ angular.module('uniQaApp')
 											click: function(e) {
 												var feedback = $rootScope.feedback;
 												feedback.session = session; // attach session id to object
-												feedback.user = Auth.getCurrentUser()._id; // attach user 
+												feedback.user = Auth.getCurrentUser()._id; // attach user
 												if (feedback.rating != 0) {
 													// send feedback to server here
 													Session.sendFeedback(feedback, function() {

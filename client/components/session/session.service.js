@@ -24,10 +24,10 @@ angular.module('uniQaApp')
 				}.bind(this));
 				return deferred.promise;
 			},
-			getNextFour: function(id, callback) {
+			getNextFourTutor: function(id, callback) {
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();
-				$http.get('/api/sessions/' + id + '/getnextfour').success(function(data) {
+				$http.get('/api/sessions/' + id + '/getnextfour/tutor').success(function(data) {
 					deferred.resolve(data);
 					return cb();
 				}).error(function(err) {
@@ -36,6 +36,18 @@ angular.module('uniQaApp')
 				}.bind(this));
 				return deferred.promise;
 			},
+			// getNextForStudent: function(id, callback) {
+			// 	var cb = callback || angular.noop;
+			// 	var deferred = $q.defer();
+			// 	$http.get('/api/sessions/' + id + '/getnext/student').success(function(data) {
+			// 		deferred.resolve(data);
+			// 		return cb();
+			// 	}).error(function(err) {
+			// 		deferred.reject(err);
+			// 		return cb(err);
+			// 	}.bind(this));
+			// 	return deferred.promise;
+			// },
 			createSession: function(obj, callback) {
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();
@@ -76,10 +88,31 @@ angular.module('uniQaApp')
 			getMyTotal: function(obj, callback) {
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();
-				// console.info(obj.createdBy);
+
 				$http.get('/api/lectures/count', {
 					params: {
 						createdBy: obj.createdBy
+					}
+				}).success(function(data) {
+					deferred.resolve(data);
+					return cb();
+				}).error(function(err) {
+					deferred.reject(err);
+					return cb(err);
+				}.bind(this));
+				return deferred.promise;
+			},
+			register: function(obj, callback) {
+				var cb = callback || angular.noop;
+				var deferred = $q.defer();
+				var userid = obj.user;
+				var url = obj.url || null;
+				var altAccess = obj.altAccess || null;
+
+				$http.put('/api/sessions/register/' + userid, {
+					params: {
+						url: url,
+						altAccess: altAccess
 					}
 				}).success(function(data) {
 					deferred.resolve(data);

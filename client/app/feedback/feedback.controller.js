@@ -18,7 +18,16 @@ angular.module('uniQaApp')
 			historic: true,
 			order: '-startTime'
 		}).then(function(res) {
-			console.info(res);
+
+			// attach expected number to each object inside response
+			_.some(res, function(session) {
+				session.expected = 0;
+				_.some(session.groups, function(group) {
+					// bad nesting due to dodgy model, needs checking
+					session.expected += group.group.students.length;
+				});
+
+			});
 
 			$scope.myFeedback = res;
 			$scope.myFeedbackCount = res.count === 0 ? 0 : res.count;

@@ -13,6 +13,11 @@ angular.module('uniQaApp')
 				templateUrl: 'app/account/register/register.html',
 				controller: 'RegisterCtrl'
 			})
+			.state('qrListener', {
+				url: '/qr/register/:sessionid',
+				templateUrl: 'app/account/login/login.html',
+				controller: 'QrRegistrationCtrl'
+			})
 			.state('notifications', {
 				url: '/profile/notifications',
 				templateUrl: 'app/account/profile/notifications/notifications.html',

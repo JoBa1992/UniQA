@@ -31,33 +31,15 @@ angular.module('uniQaApp')
 		};
 	}])
 	// Custom directive for inserting path into SVG
-	.directive('extSvg', ['$compile', function($compile) {
-		return {
-			restrict: 'E',
-			scope: {
 
-				/**
-				 * @doc property
-				 * @propertyOf extSvg
-				 * @name content
-				 * @description
-				 * Contains a SVG string.
-				 */
-				content: '='
-			},
-			link: function($scope, $element) {
-				$element.replaceWith($compile('<svg xmlns="http://www.w3.org/2000/svg" style="width:100%;" alt="Alternate Text" class="img-responsive" viewBox="0 0 43 43">' + $scope.content + '</svg>')($scope.$parent));
-			}
-		};
-	}])
-	// .run(function($rootScope, $modalStack) {
-	//   $rootScope.$on('$routeChangeSuccess', function(newVal, oldVal) {
-	//     if (oldVal !== newVal) {
-	//       $modalStack.dismissAll();
-	//     }
-	//   });
-	// })
-	// .run(function($rootScope, $modalStack) {
-	//   $modalStack.dismissAll();
-	// })
+// .run(function($rootScope, $modalStack) {
+//   $rootScope.$on('$routeChangeSuccess', function(newVal, oldVal) {
+//     if (oldVal !== newVal) {
+//       $modalStack.dismissAll();
+//     }
+//   });
+// })
+// .run(function($rootScope, $modalStack) {
+//   $modalStack.dismissAll();
+// })
 ;
