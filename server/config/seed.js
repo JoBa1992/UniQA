@@ -783,7 +783,9 @@ User.find({}).remove(function() {
 														createUniqueAccKey(altAccKeyLen, function(altAccessKey) {
 															session.altAccess = altAccessKey;
 															console.info(process.env.DOMAIN);
-															var url = String('http://' + process.env.DOMAIN + '/qr/register/' + session._id);
+															// var url = String('http://' + process.env.DOMAIN + '/qr/register/' + session._id);
+															var url = String('http://uniqa-shu.herokuapp.com/qr/register/' + session._id);
+
 
 															// currently in Sync...? :(
 															var qrSvgString = qrEncoder.imageSync(url, {
@@ -795,7 +797,7 @@ User.find({}).remove(function() {
 															});
 															// REMOVE Inject elements on svg, problem with plugin
 
-															qrSvgString = qrSvgString.replace('<svg xmlns="http://www.w3.org/2000/svg" width="156" height="156" viewBox="0 0 39 39">', "");
+															qrSvgString = qrSvgString.replace('<svg xmlns="http://www.w3.org/2000/svg" width="172" height="172" viewBox="0 0 43 43">', "");
 															qrSvgString = qrSvgString.replace('</svg>', "");
 															qrSvgString = qrSvgString.replace('\"', "\'");
 															qrSvgString = qrSvgString.replace('\"/', "\'/");
