@@ -10,15 +10,16 @@
           <hr ng-if="$index == 0 || moment.utc(mySessions[$index-1].startTime).format('dddd Do MMMM, YYYY')!==moment.utc(session.startTime).format('dddd Do MMMM, YYYY')" class="resource-hr">
 
           <div class="scheduled-session" style="padding:.5em;">
-            <h3 style="margin:.6em 0 .2em; display:inline-block; position:relative; text-decoration:underline;">{{moment.utc(session.startTime).format("HH:mm")}}
+            <h3 class="" style="margin:.6em 0 .2em; position:relative; text-decoration:underline;">
+              {{moment.utc(session.startTime).format("HH:mm")}}
               -
               {{moment.utc(session.endTime).format("HH:mm")}}
-              <span ng-if="session.timeAllowance!=0" class="label label-primary" style="font-size:.5em;position:absolute;top:.3em;padding-top:.3em;right:-10em;display:inline-block;">+/-
+              <span ng-if="session.timeAllowance!=0" class="label label-primary" style="font-size:.5em;position:absolute;top:.3em;padding-top:.3em;left:14em;display:inline-block;">+/-
                 {{session.timeAllowance}}
                 minutes</span>
             </h3>
-            <div class="media" style="padding:.4em 0;display:inline-block;">
-              <div class="media-left media-top pull-left" style="width:128px;height:128px;">
+            <div class="media" style="padding:.4em 0;">
+              <div class="media-left media-top pull-left" style="width:128px;height:128px;clear:left;">
                 <div class="media-object">
                   <ext-svg data-content="session.qr.svg"></ext-svg>
                 </div>

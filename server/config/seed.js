@@ -156,7 +156,7 @@ User.find({}).remove(function() {
 		name: 'Martin Cooper',
 		email: 'maco@shu.ac.uk',
 		teachingArea: 'Software Engineering',
-		password: 'tutor'
+		password: 'mcooper'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7ddc',
 		role: 'admin',
@@ -660,40 +660,9 @@ User.find({}).remove(function() {
 								Session.create({
 										_id: '56c87667bcd6f3c431cb8681',
 										lecture: '56c868096bd3f7b730a051f4',
-										startTime: moment.utc([2016, 2, 6, 7, 0, 0]),
-										endTime: moment.utc([2016, 2, 6, 23, 0, 0]),
+										startTime: moment.utc([2016, 2, 7, 13, 0, 0]),
+										endTime: moment.utc([2016, 2, 7, 15, 0, 0]),
 										timeAllowance: 30,
-										altAccess: '1gX4Bq',
-										register: [{
-											user: '56a7bf8a800c479155488fce'
-										}, {
-											user: '56a7886405ab050a54d4eaa6'
-										}, {
-											user: '56c86c25099777e930372eb5'
-										}, {
-											user: '56c86c25099777e930372eb7'
-										}, {
-											user: '56c86c25099777e930372eb6'
-										}, {
-											user: '56a7afd3259ef46f559880c9'
-										}, {
-											user: '56c86c25099777e930372eb4'
-										}, {
-											user: '56a7886405ab050a54d4eaa5'
-										}],
-										questions: [{
-											'asker': '56a7886405ab050a54d4eaa6',
-											'question': 'How do I do this?',
-											'time': moment.utc([2016, 1, 12, 13, 35, 0]),
-										}, {
-											'asker': '56c86c25099777e930372eb7',
-											'question': 'more questions...',
-											'time': moment.utc([2016, 1, 12, 13, 40, 0]),
-										}, {
-											'asker': '56a7afd3259ef46f559880c9',
-											'question': 'Ridiculously stupidly incredibily long comment to test out how it looks',
-											'time': moment.utc([2016, 1, 12, 13, 50, 0]),
-										}],
 										groups: [{
 											group: '56cb7c2e7bbe028ebfbe56a2'
 										}, {
@@ -704,7 +673,6 @@ User.find({}).remove(function() {
 										startTime: moment.utc([2016, 2, 13, 12, 0, 0]),
 										endTime: moment.utc([2016, 2, 13, 14, 0, 0]),
 										timeAllowance: 20,
-										altAccess: '1g4Slz',
 										groups: [{
 											group: '56cb7c2e7bbe028ebfbe56a2'
 										}, {
@@ -715,10 +683,7 @@ User.find({}).remove(function() {
 										startTime: moment.utc([2016, 2, 13, 14, 0, 0]),
 										endTime: moment.utc([2016, 2, 13, 16, 0, 0]),
 										timeAllowance: 30,
-										altAccess: '',
 										groups: [{
-											group: '56cb7c2e7bbe028ebfbe56a2'
-										}, {
 											group: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
@@ -726,18 +691,119 @@ User.find({}).remove(function() {
 										startTime: moment.utc([2016, 2, 15, 12, 0, 0]),
 										endTime: moment.utc([2016, 2, 15, 14, 0, 0]),
 										timeAllowance: 20,
-										altAccess: '',
 										groups: [{
 											group: '56cb7c2e7bbe028ebfbe56a2'
-										}, {
-											group: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
 										lecture: '56d1ca2e4f6973280ce025e9',
 										startTime: moment.utc([2016, 1, 26, 12, 0, 0]),
 										endTime: moment.utc([2016, 1, 26, 14, 0, 0]),
 										timeAllowance: 20,
-										altAccess: '',
+										feedback: [{
+											comment: "Lovely",
+											rating: "3",
+											user: "56cb76ecd5b3f4b6be5d7df0"
+										}, {
+											comment: "JoBa",
+											rating: "3",
+											user: "56a7bf8a800c479155488fcb"
+										}],
+										questions: [{
+											asker: "56a7886405ab050a54d4eaa6",
+											question: "How do I do this?",
+											time: "2016-02-12T13:35:00Z",
+											_id: "56dc84edd4357803006a440d",
+											anon: false
+										}, {
+											asker: "56c86c25099777e930372eb7",
+											question: "more questions...",
+											time: "2016-02-12T13:40:00Z",
+											_id: "56dc84edd4357803006a440c",
+											anon: false
+										}, {
+											asker: "56a7afd3259ef46f559880c9",
+											question: "Ridiculously stupidly incredibily long comment to test out how it looks",
+											time: "2016-02-12T13:50:00Z",
+											_id: "56dc84edd4357803006a440b",
+											anon: false
+										}, {
+											question: "Send message",
+											asker: "56a7bf8a800c479155488fcb",
+											time: "2016-03-06T19:30:13Z",
+											_id: "56dc8545d4357803006a4414",
+											anon: null
+										}, {
+											question: "lexiva",
+											asker: "56a7bf8a800c479155488fcb",
+											time: "2016-03-06T19:30:40Z",
+											_id: "56dc8560d4357803006a4415",
+											anon: null
+										}, {
+											question: "Hey you guys",
+											asker: "56a7bf8a800c479155488fcb",
+											time: "2016-03-06T19:35:52Z",
+											_id: "56dc8698d4357803006a4416",
+											anon: null
+										}, {
+											question: "Loving the live action",
+											asker: "56a7bf8a800c479155488fcb",
+											time: "2016-03-06T19:35:59Z",
+											_id: "56dc869fd4357803006a4417",
+											anon: null
+										}, {
+											question: "Anon aswell",
+											asker: "56a7bf8a800c479155488fcb",
+											time: "2016-03-06T19:36:04Z",
+											_id: "56dc86a4d4357803006a4418",
+											anon: true
+										}, {
+											question: "Different",
+											asker: "56cb76ecd5b3f4b6be5d7df0",
+											time: "2016-03-06T19:38:42Z",
+											_id: "56dc8742d4357803006a4419",
+											anon: null
+										}, {
+											question: "Try something else",
+											asker: "56cb76ecd5b3f4b6be5d7df0",
+											time: "2016-03-06T19:40:42Z",
+											_id: "56dc87bad4357803006a441a",
+											anon: true
+										}],
+										registered: [{
+											user: '56a7bf8a800c479155488fcb'
+										}, {
+											user: '56a7bf8a800c479155488fce'
+										}, {
+											user: '56cb76ecd5b3f4b6be5d7ddf'
+										}, {
+											user: '56cb76ecd5b3f4b6be5d7de0'
+										}, {
+											user: '56cb76ecd5b3f4b6be5d7de1'
+										}, {
+											user: '56cb76ecd5b3f4b6be5d7de2'
+										}, {
+											user: '56cb76ecd5b3f4b6be5d7de3'
+										}, {
+											user: '56cb76ecd5b3f4b6be5d7de4'
+										}, {
+											user: '56cb76ecd5b3f4b6be5d7de5'
+										}, {
+											user: '56cb76ecd5b3f4b6be5d7de6'
+										}, {
+											user: '56cb76ecd5b3f4b6be5d7de7'
+										}, {
+											user: '56cb76ecd5b3f4b6be5d7de8'
+										}, {
+											user: '56cb76ecd5b3f4b6be5d7de9'
+										}, {
+											user: '56cb76ecd5b3f4b6be5d7dea'
+										}, {
+											user: '56cb76ecd5b3f4b6be5d7deb'
+										}, {
+											user: '56cb76ecd5b3f4b6be5d7dec'
+										}, {
+											user: '56cb76ecd5b3f4b6be5d7ded'
+										}],
 										groups: [{
 											group: '56cb7c2e7bbe028ebfbe56a2'
 										}, {
@@ -748,7 +814,32 @@ User.find({}).remove(function() {
 										startTime: moment.utc([2016, 1, 26, 12, 0, 0]),
 										endTime: moment.utc([2016, 1, 26, 14, 0, 0]),
 										timeAllowance: 20,
-										altAccess: '',
+										registered: [{
+											user: '56cb76ecd5b3f4b6be5d7def'
+										}, {
+											user: '56cb76ecd5b3f4b6be5d7df0'
+										}, {
+											user: '56cb76ecd5b3f4b6be5d7df1'
+										}, {
+											user: '56cb76ecd5b3f4b6be5d7df2'
+										}, {
+											user: '56cb76ecd5b3f4b6be5d7df3'
+										}, {
+											user: '56cb76ecd5b3f4b6be5d7df4'
+										}, {
+											user: '56cb76ecd5b3f4b6be5d7df5'
+										}, {
+											user: '56cb76edd5b3f4b6be5d7df6'
+										}],
+										feedback: [{
+											comment: "Lovely",
+											rating: "4",
+											user: "56cb76ecd5b3f4b6be5d7df0"
+										}, {
+											comment: "JoBa",
+											rating: "5",
+											user: "56a7bf8a800c479155488fcb"
+										}],
 										groups: [{
 											group: '56cb7c2e7bbe028ebfbe56a2'
 										}, {
@@ -782,7 +873,7 @@ User.find({}).remove(function() {
 														var altAccKeyLen = thing[0].content; // just the one
 														createUniqueAccKey(altAccKeyLen, function(altAccessKey) {
 															session.altAccess = altAccessKey;
-															console.info(process.env.DOMAIN);
+
 															// var url = String('http://' + process.env.DOMAIN + '/qr/register/' + session._id);
 															var url = String('http://uniqa-shu.herokuapp.com/qr/register/' + session._id);
 
@@ -802,7 +893,7 @@ User.find({}).remove(function() {
 															qrSvgString = qrSvgString.replace('\"', "\'");
 															qrSvgString = qrSvgString.replace('\"/', "\'/");
 
-															session.qr.url = url;
+															session.qr.url = '/qr/register/' + session._id;
 															session.qr.svg = qrSvgString;
 
 															session.save(function(err) {

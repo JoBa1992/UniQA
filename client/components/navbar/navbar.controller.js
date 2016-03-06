@@ -51,14 +51,16 @@ angular.module('uniQaApp')
 				login: true,
 				admin: false,
 				student: true
-			}, {
-				title: 'My Questions',
-				link: '/my/questions/',
-				//   link: '#',
-				login: true,
-				admin: false,
-				student: true
-			} //,
+			}
+			// , {
+			// 	title: 'My Questions',
+			// 	link: '/my/questions/',
+			// 	//   link: '#',
+			// 	login: true,
+			// 	admin: false,
+			// 	student: true
+			// }
+			//  //,
 			/* {
 						title: 'Stats',
 						link: '/my/stats',

@@ -51,7 +51,7 @@ angular.module('uniQaApp')
 						var me;
 						Auth.getCurrentUser().$promise.then(function(res) {
 							me = res;
-							console.info(me);
+
 							Session.register({
 								'user': me._id,
 								'url': $location.path()
