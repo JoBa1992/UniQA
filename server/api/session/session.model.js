@@ -74,8 +74,7 @@ var SessionSchema = new Schema({
 	feedback: [{
 		user: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User',
-			unique: true
+			ref: 'User'
 		},
 		rating: {
 			type: String,

@@ -6,7 +6,7 @@
 // You will need to set these on the server you deploy to.
 
 module.exports = {
-	DOMAIN: 'http://localhost:8080',
+	DOMAIN: 'localhost:9000',
 	SESSION_SECRET: 'uniqa-secret',
 
 	// Control debug level for modules using visionmedia/debug

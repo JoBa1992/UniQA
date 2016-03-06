@@ -782,7 +782,8 @@ User.find({}).remove(function() {
 														var altAccKeyLen = thing[0].content; // just the one
 														createUniqueAccKey(altAccKeyLen, function(altAccessKey) {
 															session.altAccess = altAccessKey;
-															var url = String(process.env.DOMAIN + '/qr/register/' + session._id);
+															console.info(process.env.DOMAIN);
+															var url = String('http://' + process.env.DOMAIN + '/qr/register/' + session._id);
 
 															// currently in Sync...? :(
 															var qrSvgString = qrEncoder.imageSync(url, {
