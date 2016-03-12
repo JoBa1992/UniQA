@@ -3,12 +3,64 @@
 var User = require('./user.model');
 var passport = require('passport');
 var config = require('../../config/environment');
-var jwt = require('jsonwebtoken');
 var Thing = require('../thing/thing.model');
+
+
+var Parse = require('csv-parse');
+var jwt = require('jsonwebtoken');
+var multer = require('multer');
+var fs = require('fs')
 
 var validationError = function(res, err) {
 	return res.status(422).json(err);
 };
+
+function genAccessCode(length) {
+	var key = '';
+	var randomchar = function() {
+		var num = Math.floor(Math.random() * 62);
+		if (num < 10) {
+			return num; //1-10
+		}
+		if (num < 36) {
+			return String.fromCharCode(num + 55); //A-Z
+		}
+		return String.fromCharCode(num + 61); //a-z
+	};
+	while (length--) {
+		key += randomchar();
+	}
+	return key;
+}
+//
+function isAccessCodeUnique(key, callback) {
+	// User.find({
+	// 	passcode: key
+	// }, function(err, user) {
+	// 	// if user exists (find returns back an empty set,
+	// 	// so check to see if it has any elements)
+	// 	if (!user[0]) {
+	// 		// if it does, go to next middleware
+	// 		callback(true);
+	// 		return true;
+	// 	} else {
+	// 		// if it doesn't, send back error
+	// 		callback(false);
+	// 	}
+	// });
+	callback(true);
+}
+
+function createUniqueAccessCode(length, cb) {
+	var accessCode = genAccessCode(length);
+	isAccessCodeUnique(accessCode, function(unique) {
+		if (unique) {
+			cb(accessCode);
+		} else {
+			createUniqueAccessCode();
+		}
+	});
+}
 
 /**
  * Get list of users
@@ -74,34 +126,6 @@ exports.count = function(req, res) {
 	});
 };
 
-
-// function convertISOTime(timeStamp, convertType) {
-// 	// function takes a timestamp and converts to the requested type
-// 	// datetime is the default return
-// 	var day = timeStamp.getDate().toString().length <= 1 ?
-// 		'0' + timeStamp.getDate().toString() : timeStamp.getDate(),
-// 		// month is stored as a zero-indexed array, so needs 1 adding
-// 		month = (timeStamp.getMonth() + 1).toString().length <= 1 ?
-// 		'0' + (timeStamp.getMonth() + 1).toString() : (timeStamp.getMonth() + 1),
-// 		year = timeStamp.getFullYear(),
-// 		second = timeStamp.getSeconds().toString().length <= 1 ?
-// 		'0' + timeStamp.getSeconds().toString() : timeStamp.getSeconds(),
-// 		minute = timeStamp.getMinutes().toString().length <= 1 ?
-// 		'0' + timeStamp.getMinutes().toString() : timeStamp.getMinutes(),
-// 		hour = timeStamp.getHours().toString().length <= 1 ?
-// 		'0' + timeStamp.getHours().toString() : timeStamp.getHours();
-// 	switch (convertType) {
-// 		case "date":
-// 			return day + '/' + month + '/' + year;
-// 		case "time":
-// 			return hour + ':' + minute + ':' + second;
-// 		case "dateISO":
-// 			return year + '-' + month + '-' + day;
-// 		default: //datetime
-// 			return day + '/' + month + '/' + year + ' ' + hour + ':' + minute + ':' + second;
-// 	}
-// }
-
 function isEmpty(obj) {
 	for (var i in obj)
 		if (obj.hasOwnProperty(i)) return false;
@@ -113,15 +137,69 @@ function isEmpty(obj) {
  *  This function is to create a user with a access code, for users using the "register page" to "register" please refer to userRegistration.
  */
 exports.create = function(req, res, next) {
-	var newUser = new User(req.body);
+	// get access code length
+	Thing.findOne({
+		'name': 'accessCodeLen'
+	}, function(err, thing) {
+		// set as final
+		var ACC_CODE_LENGTH = thing.content;
+		if (req.body instanceof Array) {
+			for (var i = 0; i < req.body.length; i++) {
+				// not sure why this stage has to be done
+				if (req.body[i]) {
+					createUniqueAccessCode(ACC_CODE_LENGTH, function(key) {
+						req.body[i].passcode = key;
+						req.body[i].email = req.body[i].email + '@shu.ac.uk';
 
-	//append uni onto end, can be pulled from db
-	newUser.email = newUser.email + '@shu.ac.uk';
-	newUser.save(function(err, user) {
-		if (err) return validationError(res, err);
-		res.json({
-			user: user
-		});
+						var newUser = new User(req.body[i]);
+
+						newUser.save(function(err, nUser) {
+							// fails silently if any problems occur, needs feedback
+							if (newUser.email == req.body[i - 1].email) {
+								return res.status(200).send("finished inserting users");
+							}
+
+						});
+					});
+				}
+			}
+			// req.body.forEach(function(user) {
+			// 	createUniqueAccessCode(ACC_CODE_LENGTH, function(key) {
+			// 		var newUser = new User(user);
+			//
+			// 		console.info(newUser.email);
+			//
+			// 		newUser.passcode = key;
+			// 		newUser.email = newUser.email + '@shu.ac.uk';
+			//
+			// 		newUser.save(function(err, nUser) {
+			// 			if (err) console.log(err);
+			// 			// if (err) return validationError(res, err);
+			// 			//console.info(nUser);
+			// 			// if user is last one
+			// 			if (req.body[req.body.length - 1].email == user.email + '@shu.ac.uk') {
+			// 				console.info("trying to send res");
+			// 				res.status(200).send("finished inserting users");
+			// 			}
+			//
+			// 		});
+			// 	});
+			// });
+		} else {
+			var newUser = new User(req.body);
+
+			createUniqueAccessCode(ACC_CODE_LENGTH, function(key) {
+				newUser.passcode = key;
+				//append uni onto end, can be pulled from db
+				newUser.email = newUser.email + '@shu.ac.uk';
+				newUser.save(function(err, user) {
+					if (err) return validationError(res, err);
+					res.json({
+						user: user
+					});
+				});
+			});
+		}
 	});
 };
 

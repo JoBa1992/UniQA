@@ -660,8 +660,8 @@ User.find({}).remove(function() {
 								Session.create({
 										_id: '56c87667bcd6f3c431cb8681',
 										lecture: '56c868096bd3f7b730a051f4',
-										startTime: moment.utc([2016, 2, 7, 13, 0, 0]),
-										endTime: moment.utc([2016, 2, 7, 15, 0, 0]),
+										startTime: moment.utc([2016, 2, 8, 15, 40, 0]),
+										endTime: moment.utc([2016, 2, 8, 17, 0, 0]),
 										timeAllowance: 30,
 										groups: [{
 											group: '56cb7c2e7bbe028ebfbe56a2'

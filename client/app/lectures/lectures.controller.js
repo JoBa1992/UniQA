@@ -1,22 +1,15 @@
 'use strict';
 
 angular.module('uniQaApp')
-	.controller('LectureTutCtrl', function($scope, $http, Auth, Lecture) {
-		$scope.title = 'My Lectures';
+	.controller('LectureTutCtrl', function($scope, $http, Auth, Lecture, Modal) {
+		// attach lodash to scope
+		$scope._ = _;
 
-		// Error handling for when query returns no users
-		$scope.isEmpty = function(obj) {
-			for (var i in obj) {
-				if (obj.hasOwnProperty(i)) {
-					return false;
-				}
-			}
-			return true;
-		};
+		$scope.title = 'My Lectures';
 
 		var me = Auth.getCurrentUser();
 		$scope.currentPage = 1;
-		$scope.paginate = 15;
+		$scope.paginate = 50;
 
 		Lecture.getForMe({
 			createdBy: me._id,
@@ -30,7 +23,12 @@ angular.module('uniQaApp')
 				$scope.noQueryResults = true;
 			} else {
 				$scope.lectures = res;
+				$scope.myLectureCount = res.length;
 			}
+		});
+
+		$scope.openCreateLectureModal = Modal.create.lecture(function() {
+
 		});
 		//
 		// Lecture.getForMe({

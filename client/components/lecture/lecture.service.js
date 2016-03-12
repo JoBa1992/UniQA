@@ -25,6 +25,22 @@ angular.module('uniQaApp')
 				}.bind(this));
 				return deferred.promise;
 			},
+			generatePreview: function(obj, callback) {
+				var cb = callback || angular.noop;
+				var deferred = $q.defer();
+				var url = obj.url;
+
+				$http.post('/api/lectures/preview', {
+					url: url
+				}).success(function(data) {
+					deferred.resolve(data);
+					return cb();
+				}).error(function(err) {
+					deferred.reject(err);
+					return cb(err);
+				}.bind(this));
+				return deferred.promise;
+			},
 			getOne: function(id, callback) {
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();

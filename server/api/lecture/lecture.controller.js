@@ -11,9 +11,11 @@
 'use strict';
 
 var _ = require('lodash');
-var moment = require('moment'); // date handling
 var Lecture = require('./lecture.model');
 var Thing = require('../thing/thing.model');
+
+var Screenshot = require('url-to-screenshot');
+var fs = require('fs');
 
 // Get list of lectures (or limit by querystring)
 exports.index = function(req, res) {
@@ -37,6 +39,36 @@ exports.index = function(req, res) {
 			}
 
 		});
+};
+
+exports.generatePreview = function(req, res) {
+	if (req.body.url) {
+		Screenshot('http://' + req.body.url)
+			.width(968)
+			.height(968)
+			.clip()
+			.capture(function(err, img) {
+				if (err) throw err;
+				res.contentType('image/jpeg');
+				res.end(img.toString('base64'), 'binary');
+			});
+	} else {
+		res.status(400).send('no url sent');
+	}
+
+
+	// Screenshot(req.body.url, {
+	// 	width: 800
+	// 	height: 600
+	// }).capture(function(err, img) {
+	// 	console.info(img);
+	// 	if (err) console.info(err);
+	// 	// if (err) throw err;
+	// 	res.sendFile(img);
+	// });
+	// res.sendFile(Screenshot(req.body.url, {
+	// 	width: 800
+	// }));
 };
 
 exports.count = function(req, res) {

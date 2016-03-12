@@ -1,18 +1,41 @@
 <div ng-controller="DropZoneController as dzc">
   <div ng-if="!importViewData">
-    <button action="/file/upload/" class="dropzone" drop-zone call-back="myCallBackMethod(response)" data-max="5" mimetypes="'.csv, .txt, .xlsx, .xls'" id="file-dropzone" style="width:100%;border:2px solid #8DB7D2;">
+    <button autoprocessdz="'false'" dz-type="'csvImport'" class="dropzone" drop-zone call-back="showCsvData(response)" name="csvUserData" data-max="5" mimetypes="'.csv, .txt'" id="csv-dropzone" style="width:100%;border:2px solid #8DB7D2;">
       <div class="dz-message" style="font-size:1.4em;color:#343D48;">Drop files here or click to upload.
         <br>
         <span class="note" style="font-size:.6em;">
-          <strong>(Allowed file types: .csv, .txt, .xlsx, .xls)</strong>
+          <strong>(Allowed file types: .csv, .txt)</strong>
         </span>
 
       </div>
     </button>
   </div>
   <div ng-if="importViewData">
-    <!-- OUTPUT RESULTS ON THIS PAGE -->
+    <div id="table" class="table-editable">
+      <table class="table">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Course</th>
+          <th>Group</th>
+          <th></th>
+        </tr>
+        <tr ng-repeat="user in importUsers">
+          <td contenteditable="true" ng-model="user.id">{{user.id}}</td>
+          <td contenteditable="true" ng-model="user.name">{{user.name}}</td>
 
+          <td contenteditable="true" ng-model="user.email">{{user.email + uniEmail}}</td>
+          <td contenteditable="true" ng-model="user.role">Student</td>
+          <td contenteditable="true" ng-model="user.course">{{user.course}}</td>
+          <td contenteditable="true" ng-model="user.group">{{user.group}}</td>
+          <td>
+            <span class="table-remove glyphicon glyphicon-remove trash" ng-click="deleteImportableUser(user.id)"></span>
+          </td>
+        </tr>
+      </table>
+    </div>
   </div>
 
 </div>

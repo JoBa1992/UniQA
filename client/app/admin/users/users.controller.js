@@ -158,12 +158,14 @@ angular.module('uniQaApp')
 			refreshUserStats();
 			$scope.refreshUserList();
 		});
+
 		$scope.openUpdateUserModal = Modal.update.user(function() { // callback when modal is confirmed
 			$scope.refreshUserList();
 		});
 
 		$scope.openImportUserModal = Modal.import.user(function() { // callback when modal is confirmed
-			// $scope.refreshUserList();
+			refreshUserStats();
+			$scope.refreshUserList();
 		});
 
 		$scope.openDeleteUserModal = Modal.delete.user(function(user) {

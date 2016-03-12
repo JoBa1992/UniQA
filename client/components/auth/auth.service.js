@@ -87,6 +87,21 @@ angular.module('uniQaApp')
 				return deferred.promise;
 			},
 
+			createUsers: function(obj, callback) {
+				var cb = callback || angular.noop;
+				var deferred = $q.defer();
+				var users = obj.users;
+
+				$http.post('/api/users', users).success(function(data) {
+					deferred.resolve(data);
+					return cb();
+				}).error(function(err) {
+					deferred.reject(err);
+					return cb(err);
+				}.bind(this));
+				return deferred.promise;
+			},
+
 			updateUser: function(obj, callback) {
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();

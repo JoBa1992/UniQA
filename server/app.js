@@ -24,6 +24,10 @@ if (config.seedDB) {
 
 // Setup server
 var app = express();
+
+// app.use(express.methodOverride());
+// app.use(express.multipart());
+
 var server = require('http').createServer(app);
 var socketio = require('socket.io')(server, {
 	serveClient: config.env !== 'production',

@@ -1,65 +1,12 @@
 'use strict';
 
 angular.module('uniQaApp')
-	.factory('Modal', function($rootScope, $modal, Auth, Thing, Lecture, Session) {
+	.factory('Modal', function($rootScope, $modal, $parse, Auth, Thing, Lecture, Session) {
 
 		// Use the User $resource to fetch all users
 		$rootScope.user = {};
 		$rootScope.errors = {};
 		$rootScope.form = {};
-
-		// Thing.getByName('accessCodeLen').then(function(val) {
-		// 	// only returns one element
-		// 	$rootScope.accessCodeLen = val.content[0];
-		// });
-		//
-		// //
-		// function genAccessCode(length) {
-		// 	var key = '';
-		// 	var randomchar = function() {
-		// 		var num = Math.floor(Math.random() * 62);
-		// 		if (num < 10) {
-		// 			return num; //1-10
-		// 		}
-		// 		if (num < 36) {
-		// 			return String.fromCharCode(num + 55); //A-Z
-		// 		}
-		// 		return String.fromCharCode(num + 61); //a-z
-		// 	};
-		// 	while (length--) {
-		// 		key += randomchar();
-		// 	}
-		// 	return key;
-		// }
-		// //
-		// function isAccessCodeUnique(key, callback) {
-		// 	// ApiUser.find({
-		// 	//     key: key
-		// 	// }, function(err, authUser) {
-		// 	//     // if authenticated user exists (find returns back an empty set,
-		// 	//     // so check to see if it has any elements)
-		// 	//     if (!authUser[0]) {
-		// 	//         // if it does, go to next middleware
-		// 	//         callback(true);
-		// 	//         return true;
-		// 	//     } else {
-		// 	//         // if it doesn't, send back error
-		// 	//         callback(false);
-		// 	//     }
-		// 	// });
-		// 	callback(true);
-		// }
-		//
-		// function createUniqueAccessCode() {
-		// 	var accessCode = genAccessCode($rootScope.accessCodeLen);
-		// 	isAccessCodeUnique(accessCode, function(unique) {
-		// 		if (unique) {
-		// 			$rootScope.user.passcode = accessCode;
-		// 		} else {
-		// 			createUniqueAccessCode();
-		// 		}
-		// 	});
-		// }
 
 		/**
 		 * Opens a modal
@@ -192,6 +139,99 @@ angular.module('uniQaApp')
 						var me = Auth.getCurrentUser();
 						$rootScope.importViewData = false;
 						$rootScope.importBtnText = 'Next...';
+						$rootScope.importCancelText = 'Cancel';
+						$rootScope.importUsers = [];
+
+						Thing.getByName('uniEmail').then(function(val) {
+							// add Any to start of array
+							$rootScope.uniEmail = val.content[0];
+						});
+
+
+						// $rootScope.showCsvData = function(res) {
+						// 	console.info(res);
+						// 	// console.info("hit success on file upload");
+						// };
+
+						function CSVToArray(strData, strDelimiter) {
+							// Check to see if the delimiter is defined. If not,
+							// then default to comma.
+							strDelimiter = (strDelimiter || ",");
+							// Create a regular expression to parse the CSV values.
+							var objPattern = new RegExp((
+								// Delimiters.
+								"(\\" + strDelimiter + "|\\r?\\n|\\r|^)" +
+								// Quoted fields.
+								"(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|" +
+								// Standard fields.
+								"([^\"\\" + strDelimiter + "\\r\\n]*))"), "gi");
+							// Create an array to hold our data. Give the array
+							// a default empty first row.
+							var arrData = [
+								[]
+							];
+							// Create an array to hold our individual pattern
+							// matching groups.
+							var arrMatches = null;
+							// Keep looping over the regular expression matches
+							// until we can no longer find a match.
+							while (arrMatches = objPattern.exec(strData)) {
+								// Get the delimiter that was found.
+								var strMatchedDelimiter = arrMatches[1];
+								// Check to see if the given delimiter has a length
+								// (is not the start of string) and if it matches
+								// field delimiter. If id does not, then we know
+								// that this delimiter is a row delimiter.
+								if (strMatchedDelimiter.length && (strMatchedDelimiter != strDelimiter)) {
+									// Since we have reached a new row of data,
+									// add an empty row to our data array.
+									arrData.push([]);
+								}
+								// Now that we have our delimiter out of the way,
+								// let's check to see which kind of value we
+								// captured (quoted or unquoted).
+								if (arrMatches[2]) {
+									// We found a quoted value. When we capture
+									// this value, unescape any double quotes.
+									var strMatchedValue = arrMatches[2].replace(
+										new RegExp("\"\"", "g"), "\"");
+								} else {
+									// We found a non-quoted value.
+									var strMatchedValue = arrMatches[3];
+								}
+								// Now that we have our value string, let's add
+								// it to the data array.
+								arrData[arrData.length - 1].push(strMatchedValue);
+							}
+							// Return the parsed data.
+							return (arrData);
+						}
+
+						function CSVToJSON(csv) {
+							var array = CSVToArray(csv);
+							var objArray = [];
+							for (var i = 1; i < array.length; i++) {
+								objArray[i - 1] = {};
+								for (var k = 0; k < array[0].length && k < array[i].length; k++) {
+									var key = array[0][k];
+									objArray[i - 1][key] = array[i][k]
+								}
+							}
+
+							var json = JSON.stringify(objArray);
+							var str = json.replace(/},/g, "},\r\n");
+
+							return str;
+						}
+
+						$rootScope.deleteImportableUser = function(userid) {
+							console.info(userid);
+							angular.forEach($rootScope.importUsers, function(u, i) {
+								if (u.id === userid) {
+									$rootScope.importUsers.splice(i, 1);
+								}
+							});
+						}
 
 						importModal = openModal({
 							modal: {
@@ -201,58 +241,97 @@ angular.module('uniQaApp')
 								title: 'Import Users',
 								buttons: [{
 									classes: 'btn-default',
-									text: 'Cancel',
+									text: '{{importCancelText}}',
 									click: function(e) {
-										importModal.dismiss(e);
+										if ($rootScope.importViewData) {
+											$rootScope.importBtnText = 'Next...';
+											$rootScope.importCancelText = 'Cancel';
+											$rootScope.importViewData = false;
+										} else {
+											importModal.dismiss(e);
+										}
+
 									}
 								}, {
 									classes: 'btn-success',
 									text: '{{importBtnText}}',
 									click: function(e, form) {
-										// if first btn click, data has been dropped into zone
+										if ($rootScope.dropzone[0].dropzone.files[0]) {
+											// if dropzone has files in it
 
-										// when importing via csv, data just needs to be attached into a json object, the user can then look through it and make any ammendments, and then when they click save the second time, it'll send it off to the server as a multiple creation.
-										if (!$rootScope.importViewData) {
-											$rootScope.importViewData = true;
-											$rootScope.importBtnText = 'Save';
-											console.info("Importing Data");
-										} else {
-											console.info("Ammending & Saving");
-											importModal.dismiss(e);
+											// when importing via csv, data just needs to be attached into a json object, the user can then look through it and make any ammendments, and then when they click save the second time, it'll send it off to the server as a multiple creation.
+
+											// only access if first success click on this modal
+											if (!$rootScope.importViewData) {
+												var input = $rootScope.dropzone[0].dropzone;
+
+												// if more than 1 file exists
+												if (input.files[1]) {
+													input.files.forEach(function(item) {
+														var reader = new FileReader();
+														reader.onload = function() {
+															var text = reader.result;
+
+															var usersToImport = JSON.parse(CSVToJSON(reader.result));
+															// $rootScope.importUsers = JSON.parse(CSVToJSON(reader.result));
+
+															// convert userid into email address
+															for (var user in usersToImport) {
+																usersToImport[user].email = String.fromCharCode(usersToImport[user].id.charCodeAt(0) + 48) + usersToImport[user].id.substring(1, usersToImport[user].id.length);
+																$rootScope.importUsers.push(usersToImport[user]);
+															}
+														};
+
+														reader.readAsText(item);
+													});
+												} else {
+													var reader = new FileReader();
+													reader.onload = function() {
+														var text = reader.result;
+
+														var usersToImport = JSON.parse(CSVToJSON(reader.result));
+
+														// convert userid into email address
+														for (var user in usersToImport) {
+															usersToImport[user].email = String.fromCharCode(usersToImport[user].id.charCodeAt(0) + 48) + usersToImport[user].id.substring(1, usersToImport[user].id.length);
+															$rootScope.importUsers.push(usersToImport[user]);
+														}
+													};
+
+													reader.readAsText(input.files[0]);
+												}
+												$rootScope.importViewData = true;
+												$rootScope.importCancelText = 'Back';
+												$rootScope.importBtnText = 'Save';
+												console.info("Importing Data");
+											} else {
+												console.info("Ammending & Saving");
+												Auth.createUsers({
+														users: $rootScope.importUsers
+													})
+													.then(function(res) {
+														importModal.close(e);
+													})
+													.catch(function(err) {
+														$rootScope.errors = {};
+
+														// Update validity of form fields that match the mongoose errors
+														angular.forEach(err.errors, function(error, field) {
+															//console.info(form[field]);
+															form[field].$setValidity('mongoose', false);
+															$rootScope.errors[field] = error.message;
+														});
+													});
+											}
 										}
-
-
-
-										// importModal.dismiss(e);
-										// $rootScope.submitted = true;
-										// // form.$setPristine();
-										// // form.$setValidity();
-										// // form.$setUntouched();
-										// if ($rootScope.user.role !== 'Select Role' && $rootScope.user.department !== 'Select Department' && $rootScope.user.name && $rootScope.user.email && $rootScope.user.passcode) {
-										//
-										// 	Auth.createUser({
-										// 			user: $rootScope.user
-										// 		})
-										// 		.then(function(res) {
-										// 			createdUser = res.user;
-										// 			// user created, close the modal
-										// 			createModal.close(e);
-										// 		})
-										// 		.catch(function(err) {
-										// 			$rootScope.errors = {};
-										//
-										// 			// Update validity of form fields that match the mongoose errors
-										// 			angular.forEach(err.errors, function(error, field) {
-										// 				//console.info(form[field]);
-										// 				form[field].$setValidity('mongoose', false);
-										// 				$rootScope.errors[field] = error.message;
-										// 			});
-										// 		});
-										// }
 									}
 								}]
 							}
 						}, 'modal-success', 'lg');
+
+						importModal.result.then(function() {
+							cb();
+						});
 					};
 				}
 			},
@@ -481,10 +560,43 @@ angular.module('uniQaApp')
 						var createModal, createdLecture;
 						$rootScope.me = Auth.getCurrentUser();
 						$rootScope.lecture = {
-							startTime: new Date(),
-							endTime: new Date(new Date().getTime() + 60 * 60000),
-							createdBy: $rootScope.me.name,
-							qActAllowance: 10,
+							title: '',
+							url: '',
+							preview: '',
+							desc: '',
+							collaborators: [],
+							files: []
+						};
+						$rootScope.preview = {
+							loading: false
+						}
+
+						$rootScope.genPreview = function() {
+							$rootScope.preview.loading = true;
+							// if http is present, rip it out, server adds it
+							if ($rootScope.lecture.url.indexOf('http://') > -1) {
+								// take anything after http
+								$rootScope.lecture.url = $rootScope.lecture.url.split('http://')[1];
+							}
+							Lecture.generatePreview({
+								url: $rootScope.lecture.url
+							}).then(function(res) {
+								// only returns one element
+								if (_.isEmpty(res)) {
+									$rootScope.lecture.preview = {
+										err: true
+									}
+								}
+
+								// console.info(res);
+								// attach with base64 tag
+								$rootScope.lecture.preview = 'data:image/png;base64,' + res;
+								$rootScope.preview = {
+									loading: false
+								}
+							});
+
+							console.info($rootScope.lecture.url);
 						};
 						// refresh validation on new modal open - remove details
 

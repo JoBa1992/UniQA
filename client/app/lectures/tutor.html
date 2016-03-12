@@ -60,12 +60,12 @@
         </h5>
         <p>Description:
           {{lecture.desc}}</p>
-        <h5 class="" ng-if="!isEmpty(lecture.collaborators)">Collaborators:
+        <h5 class="" ng-if="!_.isEmpty(lecture.collaborators)">Collaborators:
           <a href="#" class="text-primary" ng-repeat="collab in lecture.collaborators">{{collab.user.name}}
             <span ng-if="!$last">,</span>
           </a>
         </h5>
-        <div style="position:absolute;bottom:-3em;left:.8em;" ng-if="!isEmpty(lecture.attachments)">
+        <div style="position:absolute;bottom:-3em;left:.8em;" ng-if="!_.isEmpty(lecture.attachments)">
           <h5 ng-repeat="item in lecture.attachments" class="" style="margin:0 .4em;text-decoration:none;display:inline-block;">
             <i class="fa fa-file-{{item.type}}-o fa-2x"></i>
           </h5>

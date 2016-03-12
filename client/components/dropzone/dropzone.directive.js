@@ -1,24 +1,25 @@
 'use strict';
 
 angular.module('uniQaApp')
-	.directive('dropZone', function() {
+	.directive('dropZone', function($rootScope) {
 		return {
 			scope: {
 				action: "@",
-				autoProcess: "=?",
+				autoprocessdz: "=?",
+				dzType: "=?",
 				callBack: "&?",
 				dataMax: "=?",
 				mimetypes: "=?",
 				message: "@?",
 			},
 			link: function(scope, element, attrs) {
+				var iconType = '';
 				// console.log("Creating dropzone");
-
 				// Autoprocess the form
-				if (scope.autoProcess != null && scope.autoProcess == "false") {
-					scope.autoProcess = false;
-				} else {
+				if (scope.autoprocessdz == "true") {
 					scope.autoProcess = true;
+				} else {
+					scope.autoProcess = false;
 				}
 
 				// Max file size
@@ -33,15 +34,29 @@ angular.module('uniQaApp')
 					scope.message = Dropzone.prototype.defaultOptions.dictDefaultMessage;
 				}
 
-				element.dropzone({
-					url: scope.action,
+				//sort out which icon should be used in template
+				if (scope.dzType == "csvImport") {
+					iconType = "fa-file-text-o";
+				}
+
+				var previewTemp = "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\" style=\"width:100%;\"><span style=\"width:100%;\" data-dz-name> </span>\n<i style=\"color:#bbb;margin-top:.3em;width:100%;\" class=\"fa " + iconType + " fa-3x\"></i></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div>\n  <div class=\"dz-success-mark\"><span>✔</span></div>\n  <div class=\"dz-error-mark\"><span>✘</span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>";
+
+
+
+
+				$rootScope.dropzone = element.dropzone({
+					url: '/',
 					maxFilesize: scope.dataMax,
 					paramName: "file",
+
 					acceptedFiles: scope.mimetypes,
 					maxThumbnailFilesize: scope.dataMax,
 					dictDefaultMessage: scope.message,
 					autoProcessQueue: scope.autoProcess,
+					previewTemplate: previewTemp,
+					// autoProcessQueue: scope.autoProcess,
 					success: function(file, response) {
+						console.info(file);
 						if (scope.callBack != null) {
 							scope.callBack({
 								response: response
@@ -51,22 +66,4 @@ angular.module('uniQaApp')
 				});
 			}
 		}
-
-		// return function(scope, element, attrs) {
-		// 	var config, dropzone;
-		//
-		// 	// angular.forEach(attrs, function(value, key) {
-		// 	// 	config = config[value];
-		// 	// });
-		//
-		// 	config = scope[attrs.dropzone];
-		//
-		// 	// create a Dropzone for the element with the given options
-		// 	dropzone = new Dropzone(element[0], config.options);
-		//
-		// 	// bind the given event handlers
-		// 	angular.forEach(config.eventHandlers, function(handler, event) {
-		// 		dropzone.on(event, handler);
-		// 	});
-		// };
 	});

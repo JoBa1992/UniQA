@@ -28,6 +28,7 @@ var LectureSchema = new Schema({
 		type: String
 	},
 	preview: {
+		// screenshot file location on server
 		type: String,
 		default: null
 	},
