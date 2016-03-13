@@ -20,9 +20,9 @@
     </div> -->
     <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6 pull-right" ng-class="{ 'has-success': form.name.$valid && submitted,'has-error': form.name.$invalid && submitted }">
       <label>Title</label>
-      <input type="text" name="name" class="form-control" ng-model="lecture.name" placeholder="My Lecture" required mongoose-error>
+      <input type="text" name="name" class="form-control" ng-model="lecture.title" placeholder="My Lecture" autofocus="true" required mongoose-error>
       <p class="help-block" ng-show="form.name.$error.required && submitted">Lecture must have a name</p>
-      <p class="help-block" name="nameVal" ng-show="form.name.$error.mongoose">{{ errors.name }}</p>
+      <p class="help-block" name="titleVal" ng-show="form.name.$error.mongoose">{{ errors.name }}</p>
     </div>
     <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6 pull-right" ng-class="{ 'has-success': form.createdBy.$valid && submitted,'has-error': form.createdBy.$invalid && submitted }">
       <label>Type</label>
@@ -35,29 +35,7 @@
             <a ng-repeat="type in lectureTypes" ng-click="lectureTypeDropdownSel(type)" style="text-transform: capitalize;">{{type}}</a>
           </li>
         </ul>
-        <!-- <ul class="dropdown-menu">
-          <li>
-            <a ng-click="lectureTypeDropdownSel()" style="text-transform: capitalize;">Select Type</a>
-          </li>
-          <li>
-            <a ng-click="lectureTypeDropdownSel()" style="text-transform: capitalize;">Powerpoint</a>
-          </li>
-          <li>
-            <a ng-click="lectureTypeDropdownSel()" style="text-transform: capitalize;">URL</a>
-          </li>
-          <li>
-            <a ng-click="lectureTypeDropdownSel()" style="text-transform: capitalize;">PDF</a>
-          </li>
-          <li>
-            <a ng-click="lectureTypeDropdownSel()" style="text-transform: capitalize;">Video</a>
-          </li>
-        </ul> -->
       </div>
-      <!-- <div class="input-group input-group-md">
-        <span class="input-group-addon" id="sizing-addon1">http://</span>
-        <input type="text" class="form-control" placeholder="www.myslideshow.com" aria-describedby="sizing-addon1" ng-model="lecture.type" mongoose-error>
-      </div> -->
-      <!-- <input type="text" name="createdBy" class="form-control"> -->
       <p class="help-block" ng-show="form.createdBy.$error.required && submitted">Something was not right there.</p>
       <p class="help-block" name="createdByVal" ng-show="form.createdBy.$error.mongoose">{{ errors.createdBy }}</p>
     </div>
@@ -67,57 +45,49 @@
         <span class="input-group-addon" id="sizing-addon1">http://</span>
         <input type="text" class="form-control" placeholder="www.myslideshow.com" aria-describedby="sizing-addon1" ng-model="lecture.url" ng-blur="genPreview()" mongoose-error>
       </div>
-      <!-- <input type="text" name="createdBy" class="form-control"> -->
       <p class="help-block" ng-show="form.createdBy.$error.required && submitted">Something was not right there.</p>
       <p class="help-block" name="createdByVal" ng-show="form.createdBy.$error.mongoose">{{ errors.createdBy }}</p>
     </div>
     <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6 pull-right" ng-class="{ 'has-success': form.desc.$valid && submitted,'has-error': form.desc.$invalid && submitted }">
       <label>Description</label>
-      <textarea class="form-control" name="desc" rows="2" ng-model="lecture.desc" style="height:{{lectureDescHeight + 'px'}};min-width:100%;max-width:100%;resize: none;" placeholder="An interesting encounter with lecture presentations, looking into the ability to ask questions without interrupting flow." required mongoose-error></textarea>
+      <textarea class="form-control" name="desc" rows="2" ng-model="lecture.desc" style="height:{{lectureDescHeight + 'px'}};min-width:100%;max-width:100%;resize: none;" placeholder="An interesting encounter with lecture presentations, looking into the ability to ask questions without interrupting the speakers flow." required mongoose-error></textarea>
       <p class="help-block" ng-show="form.desc.$error.required && submitted">Lecture must have a description</p>
       <p class="help-block" name="descVal" ng-show="form.desc.$error.mongoose">{{ errors.desc }}</p>
     </div>
     <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right" style="margin-top:.8em;" ng-class="{ 'has-success': form.qActAllowance.$valid && submitted,'has-error': (form.qActAllowance.$invalid && submitted) || (form.qActAllowance < 0) || (form.qActAllowance > 60) }">
       <label>Collaborators</label>
       <div class="input-group">
-        <input type="text" class="form-control" placeholder="e.g. Brian Smith" data-ng-model="lecture.collaborators" ng-keyup="searchPossibleCollaborators()">
+        <input type="text" class="form-control" placeholder="e.g. Brian Smith" ng-model="lecture.collaborator" typeahead="tutor as tutor.name for tutor in possibleCollaborators | filter:{name:$viewValue} | limitTo:10" ng-keyup="searchPossibleCollaborators($event)">
         <div class="input-group-btn">
-          <button type="button" class="btn btn-default" style="border-color:#cccccc;">
-            <i class="fa fa-search"></i>
+          <button type="button" class="btn btn-default" style="border-color:#cccccc;" ng-click="searchPossibleCollaborators('Search')">
+            <i class="fa fa-plus"></i>
           </button>
         </div>
       </div>
       <div style="margin-top:.4em;">
-        <h4 class="label label-warning" style="display:inline-block;font-size:.9em;margin:.2em .4em .2em 0;">Martin Cooper
+        <h3 ng-repeat="user in selectedCollaborators" class="label label-warning" style="display:inline-block;font-size:.9em;margin:.2em .4em .2em 0;padding:.6em;">
+          {{user.name}}
           <a style="color:#343D48;" href="#">
-            <i class="fa fa-times" style="margin-left:.4em;"></i>
+            <i class="fa fa-times" style="margin-left:.4em;" ng-click="removeCollaborator(user)"></i>
           </a>
-        </h4>
-        <h4 class="label label-warning" style="display:inline-block;font-size:.9em;margin:.2em .4em .2em 0;">Andy Dearden
-          <a style="color:#343D48;" href="#">
-            <i class="fa fa-times" style="margin-left:.4em;"></i>
-          </a>
-        </h4>
-        <h4 class="label label-warning" style="display:inline-block;font-size:.9em;margin:.2em .4em .2em 0;">Ivan Phelan
-          <a style="color:#343D48;" href="#">
-            <i class="fa fa-times" style="margin-left:.4em;"></i>
-          </a>
-        </h4>
+        </h3>
       </div>
       <p class="help-block" ng-show="(form.qActAllowance.$error.minlength || form.qActAllowance.$error.required) && (form.qActAllowance < 0) || (form.qActAllowance > 60) && submitted">Must be between 0 and 60</p>
       <p class="help-block" ng-show="form.qActAllowance.$error.mongoose">{{ errors.qActAllowance }}</p>
     </div>
-    <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right" ng-class="{ 'has-success': form.qActAllowance.$valid && submitted,'has-error': (form.qActAllowance.$invalid && submitted) || (form.qActAllowance < 0) || (form.qActAllowance > 60) }">
-      <label>Attachments</label>
-      <button autoprocessdz="'false'" dz-type="'lecture'" class="dropzone" drop-zone call-back="showCsvData(response)" name="csvUserData" data-max="5" mimetypes="'.ppt, .html, .docx, .pdf, .xlsx, .txt, .zip, .jpg, .png'" id="csv-dropzone" style="width:100%;border:2px solid #8DB7D2;">
-        <div class="dz-message" style="font-size:1.4em;color:#343D48;">Drop files here or click to upload.
-          <br>
-          <span class="note" style="font-size:.6em;">
-            <strong>(Allowed file types: .ppt, .jpg, .png, .html, .docx, .pdf, .xlsx, .txt, .zip)</strong>
-          </span>
+    <form>
+      <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right" ng-class="{ 'has-success': form.qActAllowance.$valid && submitted,'has-error': (form.qActAllowance.$invalid && submitted) || (form.qActAllowance < 0) || (form.qActAllowance > 60) }">
+        <label>Attachments</label>
+        <button autoprocessdz="'false'" dz-type="'lecture'" class="dropzone" drop-zone call-back="showCsvData(response)" name="csvUserData" data-max="5" mimetypes="'.ppt, .html, .docx, .pdf, .xlsx, .txt, .zip, .jpg, .png'" id="csv-dropzone" style="width:100%;border:2px solid #8DB7D2;">
+          <div class="dz-message" style="font-size:1.4em;color:#343D48;">Drop files here or click to upload.
+            <br>
+            <span class="note" style="font-size:.6em;">
+              <strong>(Allowed file types: .ppt, .jpg, .png, .html, .docx, .pdf, .xlsx, .txt, .zip)</strong>
+            </span>
 
-        </div>
-      </button>
-    </div>
+          </div>
+        </button>
+      </div>
+    </form>
   </div>
 </div>

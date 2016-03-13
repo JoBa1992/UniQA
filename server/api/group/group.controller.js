@@ -39,7 +39,12 @@ exports.index = function(req, res) {
 // used to return possible collaborators for specific user, rips out already
 // used client side
 exports.getAssocUsers = function(req, res) {
-	var result = {};
+	var query = {
+		name: new RegExp(req.query.name, 'i')
+	};
+	var result = {
+		collaborators: []
+	};
 	Group
 		.find({
 			'tutors': {
@@ -48,7 +53,10 @@ exports.getAssocUsers = function(req, res) {
 				}
 			}
 		})
-		.populate('tutors.user')
+		.populate({
+			path: 'tutors.user',
+			match: query
+		})
 		.lean()
 		.exec(function(err, groups) {
 			if (err) {
@@ -57,7 +65,17 @@ exports.getAssocUsers = function(req, res) {
 			if (_.isEmpty(groups)) {
 				return res.status(404).send('Not Found');
 			}
-			result.groups = groups;
+			//push into single arr
+			for (var a = 0; a < groups.length; a++) {
+				for (var b = 0; b < groups[a].tutors.length; b++) {
+					// check that not null from elemMatch,
+					// and user isn't same as logged in user
+					if (groups[a].tutors[b].user && groups[a].tutors[b].user._id != req.params.userid) {
+						result.collaborators.push(groups[a].tutors[b].user);
+					}
+				}
+			}
+
 			return res.status(200).json(result);
 
 		});

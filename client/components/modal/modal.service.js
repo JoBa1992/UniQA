@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uniQaApp')
-	.factory('Modal', function($rootScope, $modal, $parse, Auth, Thing, Group, Lecture, Session) {
+	.factory('Modal', function($rootScope, $modal, $parse, $window, Auth, Thing, Group, Lecture, Session) {
 
 		// Use the User $resource to fetch all users
 		$rootScope.user = {};
@@ -29,6 +29,11 @@ angular.module('uniQaApp')
 				scope: modalScope,
 				size: modalSize
 			});
+		}
+
+		var isUrl = function(string) {
+			var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+			return regexp.test(string);
 		}
 
 		// Public API here
@@ -562,11 +567,11 @@ angular.module('uniQaApp')
 						var me = Auth.getCurrentUser();
 						$rootScope.lecture = {
 							title: '',
-							type: '',
+							type: 'Select Type',
 							url: '',
 							preview: '',
 							desc: '',
-							collaborators: [],
+							collaborator: '',
 							files: []
 						};
 						$rootScope.preview = {
@@ -574,13 +579,12 @@ angular.module('uniQaApp')
 						}
 						$rootScope.lectureTypes = [];
 						$rootScope.lectureDescHeight = 220;
+						$rootScope.possibleCollaborators = [];
+						$rootScope.selectedCollaborators = [];
 
 						// get back types of lectures available
 						Thing.getByName('lectureTypes').then(function(val) {
-							val.content.unshift("Select Type");
 							$rootScope.lectureTypes = val.content;
-							// set first value
-							$rootScope.lecture.type = val.content[0];
 						});
 
 						$rootScope.lectureTypeDropdownSel = function(type) {
@@ -596,13 +600,13 @@ angular.module('uniQaApp')
 						};
 
 						$rootScope.genPreview = function() {
-
 							// if http is present, rip it out, server adds it
 							if ($rootScope.lecture.url.indexOf('http://') > -1) {
 								// take anything after http
 								$rootScope.lecture.url = $rootScope.lecture.url.split('http://')[1];
 							}
-							if ($rootScope.lecture.url) {
+
+							if ($rootScope.lecture.url && isUrl('http://' + $rootScope.lecture.url)) {
 								$rootScope.preview.loading = true;
 
 								Lecture.generatePreview({
@@ -620,15 +624,68 @@ angular.module('uniQaApp')
 										loading: false
 									}
 								});
+							} else {
+								if (!isUrl('http://' + $rootScope.lecture.url)) {
+									//throw error
+								}
 							}
 						};
 
-						$rootScope.searchPossibleCollaborators = function() {
-							Group.getPossibleCollabs({
-								user: me._id
-							}).then(function(res) {
-								console.info(res);
-							});
+						// stop enter key triggering DropzoneJS
+						angular.element($window).on('keydown', function(e) {
+							if (e.keyCode == 13) {
+								e.preventDefault();
+							}
+						});
+
+						$rootScope.removeCollaborator = function(user) {
+							for (var tutor in $rootScope.selectedCollaborators) {
+								if ($rootScope.selectedCollaborators[tutor] == user) {
+									$rootScope.selectedCollaborators.splice(tutor, 1);
+								}
+							}
+						};
+
+						$rootScope.searchPossibleCollaborators = function(e) {
+							// if presses enter, add them
+							if (e.keyCode == 13 || e == 'Search') {
+								// if name isn't on the list, break out of function
+								if ($rootScope.possibleCollaborators.length == 0) {
+									return;
+								} else {
+									// set to equal first value in list
+									// forces first item selection programmatically
+									$rootScope.lecture.collaborator = $rootScope.possibleCollaborators[0]
+								}
+
+								// need to add user to collaborators
+								if ($rootScope.lecture.collaborator) {
+									$rootScope.selectedCollaborators.push($rootScope.lecture.collaborator)
+								}
+								$rootScope.possibleCollaborators = [];
+								$rootScope.lecture.collaborator = '';
+							} else {
+								Group.getPossibleCollabs({
+									user: me._id,
+									search: $rootScope.lecture.collaborator
+								}).then(function(res) {
+									// reset before continuing
+									$rootScope.possibleCollaborators = [];
+									// filter through possibleCollaborators here, check against already existing collaborators and only allow them to stay if they don't exist
+									for (var x = 0; x < res.collaborators.length; x++) {
+										var isIn = false;
+										for (var y = 0; y < $rootScope.selectedCollaborators.length; y++) {
+											if (res.collaborators[x]._id == $rootScope.selectedCollaborators[y]._id) {
+												isIn = true;
+											}
+										}
+										if (!isIn) {
+											$rootScope.possibleCollaborators.push(res.collaborators[x]);
+										}
+									}
+								});
+							}
+
 						};
 
 						createModal = openModal({
@@ -648,14 +705,30 @@ angular.module('uniQaApp')
 									text: 'Create',
 									click: function(e, form) {
 										$rootScope.submitted = true;
-										// form.$setPristine();
-										// form.$setValidity();
-										// form.$setUntouched();
-										if ($rootScope.lecture.name && $rootScope.lecture.desc) {
+										if ($rootScope.lecture.title && $rootScope.lecture.desc) {
+
+											// setup vars to be sent across to API
+											var collabs = [];
+											// push each selected collaborator into array
+											for (var i = 0; i < $rootScope.selectedCollaborators.length; i++) {
+												collabs.push({
+													user: $rootScope.selectedCollaborators[i]._id
+												})
+											}
+
 											// set createdBy to the ID for model
-											$rootScope.lecture.createdBy = $rootScope.me._id;
+											$rootScope.lecture.author = me._id;
+
+											//don't need this anymore, it will be regenerated server side from the url
+											delete $rootScope.lecture.preview;
+
+											// remove this entry, and add the array collection
+											delete $rootScope.lecture.collaborator;
+											$rootScope.lecture.collaborators = collabs;
+
 											Lecture.createLecture({
 													lecture: $rootScope.lecture
+														//files: files
 												})
 												.then(function(res) {
 													createdLecture = res.lecture;

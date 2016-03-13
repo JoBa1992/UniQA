@@ -39,10 +39,10 @@ var LectureSchema = new Schema({
 		type: {
 			type: String,
 			default: 'code'
-		},
-		desc: {
-			type: String
-		}
+		} //,
+		// desc: {
+		// 	type: String
+		// }
 	}]
 });
 

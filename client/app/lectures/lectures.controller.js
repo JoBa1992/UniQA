@@ -11,24 +11,32 @@ angular.module('uniQaApp')
 		$scope.currentPage = 1;
 		$scope.paginate = 50;
 
-		Lecture.getForMe({
-			createdBy: me._id,
-			page: $scope.currentPage,
-			paginate: $scope.resultsPerPage
-		}).then(function(res) {
-			console.info(res);
-			// reset this once filters are used. Need to look at removing this object altogether
-			if (res.count === 0) {
-				//no results
-				$scope.noQueryResults = true;
-			} else {
-				$scope.lectures = res;
-				$scope.myLectureCount = res.length;
-			}
-		});
+		var refreshLectures = function() {
+			Lecture.getForMe({
+				createdBy: me._id,
+				page: $scope.currentPage,
+				paginate: $scope.resultsPerPage
+			}).then(function(res) {
+				// console.info(res);
+				// reset this once filters are used. Need to look at removing this object altogether
+				if (res.count === 0) {
+					//no results
+					$scope.noQueryResults = true;
+				} else {
+					// set init state of hover event on each lecture
+					for (var lecture in res) {
+						res[lecture].preHover = false;
+					}
+					$scope.lectures = res;
+					$scope.myLectureCount = res.length;
+				}
+			});
+		};
+
+		refreshLectures();
 
 		$scope.openCreateLectureModal = Modal.create.lecture(function() {
-
+			refreshLectures();
 		});
 		//
 		// Lecture.getForMe({
