@@ -36,6 +36,33 @@ exports.index = function(req, res) {
 		});
 };
 
+// used to return possible collaborators for specific user, rips out already
+// used client side
+exports.getAssocUsers = function(req, res) {
+	var result = {};
+	Group
+		.find({
+			'tutors': {
+				'$elemMatch': {
+					'user': req.params.userid
+				}
+			}
+		})
+		.populate('tutors.user')
+		.lean()
+		.exec(function(err, groups) {
+			if (err) {
+				return handleError(res, err);
+			}
+			if (_.isEmpty(groups)) {
+				return res.status(404).send('Not Found');
+			}
+			result.groups = groups;
+			return res.status(200).json(result);
+
+		});
+};
+
 // Get list of groups with association to user
 exports.getForMe = function(req, res) {
 	var result = {};

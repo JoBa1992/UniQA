@@ -55,20 +55,6 @@ exports.generatePreview = function(req, res) {
 	} else {
 		res.status(400).send('no url sent');
 	}
-
-
-	// Screenshot(req.body.url, {
-	// 	width: 800
-	// 	height: 600
-	// }).capture(function(err, img) {
-	// 	console.info(img);
-	// 	if (err) console.info(err);
-	// 	// if (err) throw err;
-	// 	res.sendFile(img);
-	// });
-	// res.sendFile(Screenshot(req.body.url, {
-	// 	width: 800
-	// }));
 };
 
 exports.count = function(req, res) {

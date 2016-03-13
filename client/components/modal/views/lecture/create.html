@@ -2,14 +2,14 @@
   <div class="row">
     <div href="#" class="hidden-xs hidden-sm col-md-2 col-lg-2 lecture-modal-preview" style="padding:0;">
       <h4 ng-if="!lecture.preview && !preview.loading && !lecture.preview.err">
-        <strong>Insert URL To Preview</strong>
+        <strong>Insert URL for preview</strong>
         <i style="display:block;margin-top:.4em;" class="fa fa-desktop fa-2x"></i>
       </h4>
       <h4 ng-if="preview.loading">
         <i style="display:block;margin-top:.4em;" class="fa fa-refresh fa-3x fa-spin text-warning"></i>
       </h4>
       <h4 ng-if="!preview.loading && lecture.preview.err">
-        <strong>Could not Generate preview</strong>
+        <strong>Could not generate preview</strong>
         <i style="display:block;margin-top:.4em;" class="fa fa-frown-o fa-2x"></i>
       </h4>
       <!-- PUT IMG HERE -->
@@ -20,11 +20,48 @@
     </div> -->
     <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6 pull-right" ng-class="{ 'has-success': form.name.$valid && submitted,'has-error': form.name.$invalid && submitted }">
       <label>Title</label>
-      <input type="text" name="name" class="form-control" ng-model="lecture.name" required mongoose-error>
+      <input type="text" name="name" class="form-control" ng-model="lecture.name" placeholder="My Lecture" required mongoose-error>
       <p class="help-block" ng-show="form.name.$error.required && submitted">Lecture must have a name</p>
       <p class="help-block" name="nameVal" ng-show="form.name.$error.mongoose">{{ errors.name }}</p>
     </div>
     <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6 pull-right" ng-class="{ 'has-success': form.createdBy.$valid && submitted,'has-error': form.createdBy.$invalid && submitted }">
+      <label>Type</label>
+      <div class="dropdown reg-dropdown">
+        <button class="btn btn-inverse dropdown-toggle form-control" style="text-transform: capitalize;" name="type" ng-model="lecture.type" type="button" data-toggle="dropdown">{{lecture.type}}
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <a ng-repeat="type in lectureTypes" ng-click="lectureTypeDropdownSel(type)" style="text-transform: capitalize;">{{type}}</a>
+          </li>
+        </ul>
+        <!-- <ul class="dropdown-menu">
+          <li>
+            <a ng-click="lectureTypeDropdownSel()" style="text-transform: capitalize;">Select Type</a>
+          </li>
+          <li>
+            <a ng-click="lectureTypeDropdownSel()" style="text-transform: capitalize;">Powerpoint</a>
+          </li>
+          <li>
+            <a ng-click="lectureTypeDropdownSel()" style="text-transform: capitalize;">URL</a>
+          </li>
+          <li>
+            <a ng-click="lectureTypeDropdownSel()" style="text-transform: capitalize;">PDF</a>
+          </li>
+          <li>
+            <a ng-click="lectureTypeDropdownSel()" style="text-transform: capitalize;">Video</a>
+          </li>
+        </ul> -->
+      </div>
+      <!-- <div class="input-group input-group-md">
+        <span class="input-group-addon" id="sizing-addon1">http://</span>
+        <input type="text" class="form-control" placeholder="www.myslideshow.com" aria-describedby="sizing-addon1" ng-model="lecture.type" mongoose-error>
+      </div> -->
+      <!-- <input type="text" name="createdBy" class="form-control"> -->
+      <p class="help-block" ng-show="form.createdBy.$error.required && submitted">Something was not right there.</p>
+      <p class="help-block" name="createdByVal" ng-show="form.createdBy.$error.mongoose">{{ errors.createdBy }}</p>
+    </div>
+    <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6 pull-right" ng-if="lecture.type == 'URL'" ng-class="{ 'has-success': form.createdBy.$valid && submitted,'has-error': form.createdBy.$invalid && submitted }">
       <label>URL</label>
       <div class="input-group input-group-md">
         <span class="input-group-addon" id="sizing-addon1">http://</span>
@@ -36,14 +73,14 @@
     </div>
     <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6 pull-right" ng-class="{ 'has-success': form.desc.$valid && submitted,'has-error': form.desc.$invalid && submitted }">
       <label>Description</label>
-      <textarea class="form-control" name="desc" rows="2" ng-model="lecture.desc" style="height:220px;min-width:100%;max-width:100%;resize: none;" required mongoose-error></textarea>
+      <textarea class="form-control" name="desc" rows="2" ng-model="lecture.desc" style="height:{{lectureDescHeight + 'px'}};min-width:100%;max-width:100%;resize: none;" placeholder="An interesting encounter with lecture presentations, looking into the ability to ask questions without interrupting flow." required mongoose-error></textarea>
       <p class="help-block" ng-show="form.desc.$error.required && submitted">Lecture must have a description</p>
       <p class="help-block" name="descVal" ng-show="form.desc.$error.mongoose">{{ errors.desc }}</p>
     </div>
     <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right" style="margin-top:.8em;" ng-class="{ 'has-success': form.qActAllowance.$valid && submitted,'has-error': (form.qActAllowance.$invalid && submitted) || (form.qActAllowance < 0) || (form.qActAllowance > 60) }">
       <label>Collaborators</label>
       <div class="input-group">
-        <input type="text" class="form-control" data-ng-model="lecture.collaborators">
+        <input type="text" class="form-control" placeholder="e.g. Brian Smith" data-ng-model="lecture.collaborators" ng-keyup="searchPossibleCollaborators()">
         <div class="input-group-btn">
           <button type="button" class="btn btn-default" style="border-color:#cccccc;">
             <i class="fa fa-search"></i>

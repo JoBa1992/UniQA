@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uniQaApp')
-	.factory('Modal', function($rootScope, $modal, $parse, Auth, Thing, Lecture, Session) {
+	.factory('Modal', function($rootScope, $modal, $parse, Auth, Thing, Group, Lecture, Session) {
 
 		// Use the User $resource to fetch all users
 		$rootScope.user = {};
@@ -556,11 +556,13 @@ angular.module('uniQaApp')
 				},
 				lecture: function(cb) {
 					cb = cb || angular.noop;
+
 					return function() {
 						var createModal, createdLecture;
-						$rootScope.me = Auth.getCurrentUser();
+						var me = Auth.getCurrentUser();
 						$rootScope.lecture = {
 							title: '',
+							type: '',
 							url: '',
 							preview: '',
 							desc: '',
@@ -570,35 +572,64 @@ angular.module('uniQaApp')
 						$rootScope.preview = {
 							loading: false
 						}
+						$rootScope.lectureTypes = [];
+						$rootScope.lectureDescHeight = 220;
+
+						// get back types of lectures available
+						Thing.getByName('lectureTypes').then(function(val) {
+							val.content.unshift("Select Type");
+							$rootScope.lectureTypes = val.content;
+							// set first value
+							$rootScope.lecture.type = val.content[0];
+						});
+
+						$rootScope.lectureTypeDropdownSel = function(type) {
+							if (type === 'URL') {
+								$rootScope.lectureDescHeight = 150;
+							} else {
+								$rootScope.lectureDescHeight = 220;
+								// reset url/prev vars
+								$rootScope.lecture.url = '';
+								$rootScope.lecture.preview = '';
+							}
+							$rootScope.lecture.type = type;
+						};
 
 						$rootScope.genPreview = function() {
-							$rootScope.preview.loading = true;
+
 							// if http is present, rip it out, server adds it
 							if ($rootScope.lecture.url.indexOf('http://') > -1) {
 								// take anything after http
 								$rootScope.lecture.url = $rootScope.lecture.url.split('http://')[1];
 							}
-							Lecture.generatePreview({
-								url: $rootScope.lecture.url
-							}).then(function(res) {
-								// only returns one element
-								if (_.isEmpty(res)) {
-									$rootScope.lecture.preview = {
-										err: true
+							if ($rootScope.lecture.url) {
+								$rootScope.preview.loading = true;
+
+								Lecture.generatePreview({
+									url: $rootScope.lecture.url
+								}).then(function(res) {
+									// only returns one element
+									if (_.isEmpty(res)) {
+										$rootScope.lecture.preview = {
+											err: true
+										}
 									}
-								}
-
-								// console.info(res);
-								// attach with base64 tag
-								$rootScope.lecture.preview = 'data:image/png;base64,' + res;
-								$rootScope.preview = {
-									loading: false
-								}
-							});
-
-							console.info($rootScope.lecture.url);
+									// attach with base64 tag
+									$rootScope.lecture.preview = 'data:image/png;base64,' + res;
+									$rootScope.preview = {
+										loading: false
+									}
+								});
+							}
 						};
-						// refresh validation on new modal open - remove details
+
+						$rootScope.searchPossibleCollaborators = function() {
+							Group.getPossibleCollabs({
+								user: me._id
+							}).then(function(res) {
+								console.info(res);
+							});
+						};
 
 						createModal = openModal({
 							modal: {
