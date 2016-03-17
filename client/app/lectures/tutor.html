@@ -47,19 +47,26 @@
       </a>
       <div class="col-xs-12 col-sm-6 col-md-8 col-lg-9" style="position:relative;">
         <h3 class="" style="margin:.2em 0 0;">{{lecture.title}}
-          <a href="#" ng-click="openUpdateGroupModal(group._id)" class="text-warning">
+          <a href="#" ng-click="openUpdateLectureModal(lecture._id)" class="text-warning">
             <i class="fa fa-pencil fa"></i>
           </a>
-          <a href="#" ng-click="openDeleteGroupModal(group._id)" class="trash">
+          <a href="#" ng-if="isMyLecture(lecture.author._id)" ng-click="openDeleteLectureModal(lecture)" class="trash">
             <i class="fa fa-trash pull-right"></i>
           </a>
+          <!-- <a href="#" ng-if="!isMyLecture(lecture.author._id)" ng-click="openRequestDeleteLectureModal(lecture)" class="trash">
+            <span class="fa-stack pull-right">
+              <i class="fa fa-circle fa-stack-2x"></i>
+              <i class="fa fa-flag fa-stack-1x fa-inverse"></i>
+            </span>
+            <i class="fa fa-chain-broken pull-right"></i>
+          </a> -->
         </h3>
 
         <hr class="lecture-title-hr">
         <h5 class="">Author:
           <a href="#" class="text-primary">{{lecture.author.name}}</a>
         </h5>
-        <p>Description:
+        <p style="word-wrap:break-word;">Description:
           {{lecture.desc}}</p>
         <h5 class="" ng-if="!_.isEmpty(lecture.collaborators)">Collaborators:
           <a href="#" class="text-primary" ng-repeat="collab in lecture.collaborators">{{collab.user.name}}
@@ -67,8 +74,8 @@
           </a>
         </h5>
         <div style="position:absolute;bottom:-3em;left:.8em;" ng-if="!_.isEmpty(lecture.attachments)">
-          <h5 ng-repeat="item in lecture.attachments" class="" style="margin:0 .4em;text-decoration:none;display:inline-block;">
-            <i class="fa fa-file-{{item.type}}-o fa-2x"></i>
+          <h5 ng-repeat="item in lecture.attachments" tooltip="{{item.filename}}" tooltip-trigger tooltip-animation="false" tooltip-placement="top" style="margin:0 .4em;text-decoration:none;display:inline-block;">
+            <i class="fa fa-{{item.type}}-o fa-2x"></i>
           </h5>
         </div>
       </div>

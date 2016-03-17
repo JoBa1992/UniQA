@@ -14,9 +14,14 @@ angular.module('uniQaApp')
 			createLecture: function(obj, callback) {
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();
-				var lecture = obj.lecture;
+				var data = angular.copy(obj.data);
 
-				$http.post('/api/lectures', lecture).success(function(data) {
+				// remove
+				delete data.tempPreview;
+
+				$http.post('/api/lectures', {
+					data: data
+				}).success(function(data) {
 					deferred.resolve(data);
 					return cb();
 				}).error(function(err) {
@@ -60,6 +65,7 @@ angular.module('uniQaApp')
 
 				$http.get('/api/lectures', {
 					params: {
+						title: obj.title,
 						createdBy: obj.createdBy,
 						page: obj.page,
 						paginate: obj.paginate
@@ -90,11 +96,10 @@ angular.module('uniQaApp')
 				}.bind(this));
 				return deferred.promise;
 			},
-			remove: function(id, callback) {
+			remove: function(lecture, callback) {
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();
-				id = id._id;
-				$http.delete('/api/lectures/' + id).success(function(data) {
+				$http.delete('/api/lectures/' + lecture).success(function(data) {
 					deferred.resolve(data);
 					return cb();
 				}).error(function(err) {

@@ -31,6 +31,21 @@ angular.module('uniQaApp')
 				}.bind(this));
 				return deferred.promise;
 			},
+			getMyAssocGroups: function(obj, callback) {
+				var cb = callback || angular.noop;
+				var deferred = $q.defer();
+				var userid = obj.user;
+				var collab = obj.search;
+
+				$http.get('/api/groups/assoc/' + userid).success(function(data) {
+					deferred.resolve(data);
+					return cb;
+				}).error(function(err) {
+					deferred.reject(err);
+					return cb(err);
+				}.bind(this));
+				return deferred.promise;
+			},
 			getByName: function(query, callback) {
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();

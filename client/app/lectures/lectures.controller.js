@@ -7,12 +7,17 @@ angular.module('uniQaApp')
 
 		$scope.title = 'My Lectures';
 
+		$scope.filter = {
+			searchStr: ''
+		};
+
 		var me = Auth.getCurrentUser();
 		$scope.currentPage = 1;
 		$scope.paginate = 50;
 
 		var refreshLectures = function() {
 			Lecture.getForMe({
+				title: $scope.filter.searchStr,
 				createdBy: me._id,
 				page: $scope.currentPage,
 				paginate: $scope.resultsPerPage
@@ -24,20 +29,43 @@ angular.module('uniQaApp')
 					$scope.noQueryResults = true;
 				} else {
 					// set init state of hover event on each lecture
-					for (var lecture in res) {
-						res[lecture].preHover = false;
+					for (var lecture in res.result) {
+						res.result[lecture].preHover = false;
+
+						for (var files in res.result[lecture].attachments) {
+							res.result[lecture].attachments[files].filename = res.result[lecture].attachments[files].loc.split('/').pop();
+						}
 					}
-					$scope.lectures = res;
-					$scope.myLectureCount = res.length;
+
+					$scope.lectures = res.result;
+					$scope.myLectureCount = res.count;
 				}
 			});
 		};
 
 		refreshLectures();
 
+		$scope.searchStrFilter = function() {
+			refreshLectures();
+		};
+
 		$scope.openCreateLectureModal = Modal.create.lecture(function() {
 			refreshLectures();
 		});
+
+		$scope.openDeleteLectureModal = Modal.delete.lecture(function(lecture) {
+			// when modal is confirmed, callback
+			if (lecture) {
+				Lecture.remove(lecture._id).then(function(res) {
+					refreshLectures();
+				});
+			}
+		});
+
+		$scope.isMyLecture = function(lectAuthor) {
+			return me._id === lectAuthor;
+		};
+
 		//
 		// Lecture.getForMe({
 		//     createdBy: me._id,

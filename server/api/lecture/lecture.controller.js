@@ -10,17 +10,18 @@
 // need to convert png image when its created/stored into base64 String, store it in QR collection, and can use this to decode on html side (hopefully!)
 'use strict';
 
-var _ = require('lodash');
 var Lecture = require('./lecture.model');
 var Thing = require('../thing/thing.model');
 
-var Screenshot = require('url-to-screenshot');
+var _ = require('lodash');
+var async = require('async');
+var rmdir = require('rimraf');
 var fs = require('fs');
 var path = require('path');
 var mkdirp = require('mkdirp');
+var Screenshot = require('url-to-screenshot');
 
 function storeFile(id, name, file, cb) {
-	//'localhost:' + String(process.env.PORT),
 	var apiRoute = path.join('/api/storage/lectures/', String(id), '/', name);
 	var dir = path.join(__dirname, '../../storage/lectures/', String(id), '/');
 	var loc = path.join(__dirname, '../../storage/lectures/', String(id), '/', name);
@@ -31,10 +32,28 @@ function storeFile(id, name, file, cb) {
 	});
 };
 
+// moves uploaded files from temporary to associated folder created
+function moveFromTempToAssoc(tempLoc, newLoc, cb) {
+	fs.rename(tempLoc, newLoc, function(err) {
+		cb();
+	});
+};
+
 // Get list of lectures (or limit by querystring)
 exports.index = function(req, res) {
+	// name checking
+	if (req.query.title)
+		req.query.title = new RegExp(req.query.title, "i");
+	else
+		req.query.title = new RegExp('', "i");
+
 	Lecture.find({
-			author: req.query.createdBy
+			title: req.query.title,
+			$or: [{
+				author: req.query.createdBy
+			}, {
+				'collaborators.user': req.query.createdBy
+			}]
 		})
 		.skip((req.query.page - 1) * req.query.paginate)
 		.limit(req.query.paginate)
@@ -49,7 +68,19 @@ exports.index = function(req, res) {
 			if (!lectures[0]) {
 				return res.status(404).send('Not Found');
 			} else {
-				res.status(200).json(lectures);
+				Lecture.count({
+					$or: [{
+						author: req.query.createdBy
+					}, {
+						'collaborators.user': req.query.createdBy
+					}]
+				}, function(err, count) {
+					res.status(200).json({
+						result: lectures,
+						count: count
+					});
+				});
+
 			}
 
 		});
@@ -99,9 +130,75 @@ exports.show = function(req, res) {
 	});
 };
 
+// gets anything after file extension (.) on file dir
+function getFileType(fileLoc, cb) {
+	// split file on full stop and pop the last entry off of stack
+	var extension = fileLoc.split('.').pop();
+	// default blank file
+	var fileType = 'file';
+
+	if (extension === 'pdf') {
+		fileType = 'file-pdf';
+	} else if (extension === 'zip') {
+		fileType = 'file-archive';
+	} else if (extension === 'html' || extension === 'cpp' || extension === 'cs' || extension === 'php' || extension === 'css' || extension === 'less' || extension === 'scss') {
+		fileType = 'file-code';
+	} else if (extension === 'txt') {
+		fileType = 'file-text';
+	} else if (extension === 'docx' || extension === 'doc') {
+		fileType = 'file-word';
+	} else if (extension === 'ppt' || extension === 'pptx' || extension === 'pps' || extension === 'ppsx') {
+		fileType = 'file-powerpoint';
+	} else if (extension === 'xls' || extension === 'xlsx' || extension === 'xlsm') {
+		fileType = 'file-excel';
+	} else if (extension === 'jpg' || extension === 'jpeg' || extension === 'png' || extension === 'gif' || extension === 'bmp' || extension === 'psd') {
+		fileType = 'file-image';
+	}
+	cb(fileType);
+}
+exports.attachFiles = function(req, res) {
+	var lectureId = req.params.id;
+	var filesInfo = [];
+	var tempLocation = path.join(__dirname, '../../storage/lectures/temp/');
+	var dir = path.join(__dirname, '../../storage/lectures/', String(lectureId), '/');
+	var apiRoute = path.join('/api/storage/lectures/', String(lectureId), '/');
+
+	mkdirp(dir, function(err) {
+
+		async.each(req.files, function iteratee(file, callback) {
+			var collectionFileInfo = {};
+			var tempFileLocation = tempLocation + file.originalname;
+			var newFileDir = dir + file.originalname.replace(/ /g, '_');
+			var newApiRoute = apiRoute + file.originalname.replace(/ /g, '_');
+			collectionFileInfo.loc = newFileDir;
+			collectionFileInfo.url = newApiRoute;
+			// function determines which fa font from passed through file
+			getFileType(collectionFileInfo.loc, function(fileType) {
+				collectionFileInfo.type = fileType;
+				filesInfo.push(collectionFileInfo);
+				moveFromTempToAssoc(tempFileLocation, newFileDir, function() {
+					if (file.fieldname === req.files[req.files.length - 1].fieldname) {
+						Lecture.findById(lectureId, function(err, lecture) {
+							lecture.attachments = filesInfo;
+							lecture.save(function(err) {
+								if (err) {
+									return handleError(res, err);
+								} else {
+									return res.json(lecture);
+								}
+							})
+						});
+					}
+				});
+			});
+		});
+
+	});
+};
+
 // Creates a new lecture in the DB.
 exports.create = function(req, res) {
-	Lecture.create(req.body, function(err, lecture) {
+	Lecture.create(req.body.data, function(err, lecture) {
 		if (err) {
 			console.log(err);
 			return handleError(res, err);
@@ -115,6 +212,7 @@ exports.create = function(req, res) {
 					.clip()
 					.capture(function(err, img) {
 						if (err) throw err;
+						// store other files here
 						storeFile(lecture._id, 'preview.png', img, function(loc) {
 							lecture.preview = loc;
 							lecture.save(function(err) {
@@ -169,7 +267,16 @@ exports.destroy = function(req, res) {
 			if (err) {
 				return handleError(res, err);
 			}
-			return res.status(204).send('No Content');
+			// directory for lecture files storage
+			var dir = path.join(__dirname, '../../storage/lectures/', String(lecture._id), '/');
+			// remove files & folder associated with this lecture
+			rmdir(dir, function(error) {
+				if (error) {
+					return handleError(res, err);
+				} else {
+					return res.status(204).send('No Content');
+				}
+			});
 		});
 	});
 };

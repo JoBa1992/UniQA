@@ -33,12 +33,15 @@ var LectureSchema = new Schema({
 		default: null
 	},
 	attachments: [{
+		url: {
+			type: String
+		},
 		loc: {
 			type: String
 		},
 		type: {
 			type: String,
-			default: 'code'
+			default: 'fa-file-o'
 		} //,
 		// desc: {
 		// 	type: String

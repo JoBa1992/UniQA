@@ -9,7 +9,8 @@ angular.module('uniQaApp', [
 		'ngToast',
 		'ui.router',
 		'ui.bootstrap',
-		'btford.socket-io'
+		'btford.socket-io',
+		'ui.bootstrap.datetimepicker'
 	])
 	.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
 		// root level routes

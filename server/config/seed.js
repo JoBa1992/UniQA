@@ -482,54 +482,66 @@ User.find({}).remove(function() {
 				Lecture.find({}).remove(function() {
 					Lecture.create({
 						_id: '56d1ca2e4f6973280ce025e6',
-						author: '56a7d95746b9e7db57417309', // 56a7bf8a800c479155488fce
+						author: '56cb76ecd5b3f4b6be5d7ddb', // 56a7bf8a800c479155488fce
 						title: "WAD Week 1",
 						desc: "Descriptive element for WAD no1",
-						collaborators: [],
+						collaborators: [{
+							user: '56a7d95746b9e7db57417309'
+						}],
 						url: '',
 						attachments: []
 					}, {
 						_id: '56d1ca2e4f6973280ce025e7',
-						author: '56a7d95746b9e7db57417309',
+						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "WAD Week 2",
 						desc: "Descriptive element for WAD no2",
-						collaborators: [],
+						collaborators: [{
+							user: '56a7d95746b9e7db57417309'
+						}],
 						url: '',
 						attachments: []
 					}, {
 						_id: '56d1ca2e4f6973280ce025e8',
-						author: '56a7d95746b9e7db57417309',
+						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "WAD Week 3",
 						desc: "Descriptive element for WAD no3",
-						collaborators: [],
+						collaborators: [{
+							user: '56a7d95746b9e7db57417309'
+						}],
 						url: '',
 						attachments: []
 					}, {
 						_id: '56d1ca2e4f6973280ce025e9',
-						author: '56a7d95746b9e7db57417309',
+						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "WAD Week 4",
 						desc: "Descriptive element for WAD no4",
-						collaborators: [],
+						collaborators: [{
+							user: '56a7d95746b9e7db57417309'
+						}],
 						url: '',
 						attachments: []
 					}, {
 						_id: '56d1ca2e4f6973280ce025ea',
-						author: '56a7d95746b9e7db57417309',
+						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "WAD Week 5",
 						desc: "Descriptive element for WAD no5",
-						collaborators: [],
+						collaborators: [{
+							user: '56a7d95746b9e7db57417309'
+						}],
 						url: '',
 						attachments: []
 					}, {
 						_id: '56d1ca2e4f6973280ce025eb',
-						author: '56a7d95746b9e7db57417309',
+						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "WAD Week 6",
 						desc: "Descriptive element for WAD no6",
-						collaborators: [],
+						collaborators: [{
+							user: '56a7d95746b9e7db57417309'
+						}],
 						url: '',
 						attachments: []
 					}, {
-						author: '56a7d95746b9e7db57417309',
+						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "WAD Week 7",
 						desc: "Descriptive element for WAD no7",
 					}, {
@@ -538,7 +550,7 @@ User.find({}).remove(function() {
 						title: "WAD Week 8",
 						desc: "Basic Information about this lecture, including the description, runtime, collaborators & live registration. This place here is reserved for a description of the lecture itself. Continuing text to see what it would look like when the word wrap is active.",
 						collaborators: [{
-							user: "56c86c25099777e930372eb7"
+							user: "56cb76ecd5b3f4b6be5d7ddb"
 						}],
 						url: 'http://www.mustbebuilt.co.uk/SHU/WAD/wad-wk8-lecture16.html#/step-1',
 						attachments: [{
@@ -571,49 +583,61 @@ User.find({}).remove(function() {
 							'desc': 'A random zip'
 						}]
 					}, {
-						author: '56a7d95746b9e7db57417309',
+						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "WAD Week 9",
 						desc: "Descriptive element for WAD no9",
-						collaborators: [],
+						collaborators: [{
+							user: '56a7d95746b9e7db57417309'
+						}],
 						url: '',
 						attachments: []
 					}, {
-						author: '56a7d95746b9e7db57417309',
+						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "MAD No1",
 						desc: "Descriptive element for MAD no2",
-						collaborators: [],
+						collaborators: [{
+							user: '56a7d95746b9e7db57417309'
+						}],
 						url: '',
 						attachments: []
 					}, {
-						author: '56a7d95746b9e7db57417309',
+						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "CSSD No1",
 						desc: "Descriptive element for Case Studies No1",
-						collaborators: [],
+						collaborators: [{
+							user: '56a7d95746b9e7db57417309'
+						}],
 						url: '',
 						attachments: []
 					}, {
-						author: '56a7d95746b9e7db57417309',
+						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "CSSD No2",
 						desc: "Descriptive element for Case Studies No2",
-						collaborators: [],
+						collaborators: [{
+							user: '56a7d95746b9e7db57417309'
+						}],
 						url: '',
 						attachments: []
 					}, {
-						author: '56a7d95746b9e7db57417309',
+						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "CSSD No3",
 						desc: "Descriptive element for Case Studies No3",
-						collaborators: [],
+						collaborators: [{
+							user: '56a7d95746b9e7db57417309'
+						}],
 						url: '',
 						attachments: []
 					}, {
-						author: '56a7d95746b9e7db57417309',
+						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "MAD No2",
 						desc: "Descriptive element for no3",
-						collaborators: [],
+						collaborators: [{
+							user: '56a7d95746b9e7db57417309'
+						}],
 						url: '',
 						attachments: []
 					}, {
-						author: '56a7d95746b9e7db57417309',
+						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "SEGM No1",
 						desc: "Descriptive element for SEGM No1",
 						collaborators: [],
@@ -621,34 +645,48 @@ User.find({}).remove(function() {
 						attachments: []
 					}, {
 						author: '56a7d95746b9e7db57417309',
+						title: "UniQA - Week 1",
+						desc: "Descriptive element for SEGM No1",
+						collaborators: [],
+						url: '',
+						attachments: []
+					}, {
+						author: '56a7d95746b9e7db57417309',
+						title: "UniQA - Week 2",
+						desc: "Descriptive element for SEGM No1",
+						collaborators: [],
+						url: '',
+						attachments: []
+					}, {
+						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "SEGM No2",
 						desc: "Descriptive element for SEGM No2",
 						collaborators: [],
 						url: '',
 						attachments: []
 					}, {
-						author: '56a7d95746b9e7db57417309',
+						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "AAF No1",
 						desc: "Descriptive element for AAF No1",
 						collaborators: [],
 						url: '',
 						attachments: []
 					}, {
-						author: '56a7d95746b9e7db57417309',
+						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "AAF No2",
 						desc: "Descriptive element for AAF No2",
 						collaborators: [],
 						url: '',
 						attachments: []
 					}, {
-						author: '56a7d95746b9e7db57417309',
+						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "AAF No3",
 						desc: "Descriptive element for AAF No3",
 						collaborators: [],
 						url: '',
 						attachments: []
 					}, {
-						author: '56a7d95746b9e7db57417309',
+						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "MAD No3",
 						desc: "Descriptive element for no12",
 						collaborators: [],
@@ -663,8 +701,8 @@ User.find({}).remove(function() {
 								Session.create({
 										_id: '56c87667bcd6f3c431cb8681',
 										lecture: '56c868096bd3f7b730a051f4',
-										startTime: moment.utc([2016, 2, 8, 15, 40, 0]),
-										endTime: moment.utc([2016, 2, 8, 17, 0, 0]),
+										startTime: moment.utc([2016, 2, 20, 15, 40, 0]),
+										endTime: moment.utc([2016, 2, 20, 17, 0, 0]),
 										timeAllowance: 30,
 										groups: [{
 											group: '56cb7c2e7bbe028ebfbe56a2'
@@ -673,8 +711,8 @@ User.find({}).remove(function() {
 										}]
 									}, {
 										lecture: '56d1ca2e4f6973280ce025e6',
-										startTime: moment.utc([2016, 2, 13, 12, 0, 0]),
-										endTime: moment.utc([2016, 2, 13, 14, 0, 0]),
+										startTime: moment.utc([2016, 2, 21, 12, 0, 0]),
+										endTime: moment.utc([2016, 2, 21, 14, 0, 0]),
 										timeAllowance: 20,
 										groups: [{
 											group: '56cb7c2e7bbe028ebfbe56a2'
@@ -683,8 +721,8 @@ User.find({}).remove(function() {
 										}]
 									}, {
 										lecture: '56d1ca2e4f6973280ce025e7',
-										startTime: moment.utc([2016, 2, 13, 14, 0, 0]),
-										endTime: moment.utc([2016, 2, 13, 16, 0, 0]),
+										startTime: moment.utc([2016, 2, 22, 14, 0, 0]),
+										endTime: moment.utc([2016, 2, 22, 16, 0, 0]),
 										timeAllowance: 30,
 										groups: [{
 											group: '56cb7c2e7bbe028ebfbe56a3'

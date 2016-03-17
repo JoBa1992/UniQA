@@ -196,7 +196,12 @@ exports.getNextFourTutor = function(req, res) {
 		.populate({
 			path: 'lecture',
 			match: {
-				author: req.params.userid
+				$or: [{
+					author: req.params.userid
+				}, {
+					'collaborators.user': req.params.userid
+				}]
+
 			}
 		})
 		.populate('registered.user')
@@ -212,6 +217,7 @@ exports.getNextFourTutor = function(req, res) {
 			if (!sessions) {
 				return res.status(404).send('Not Found');
 			}
+			console.info(sessions);
 			// rip out any null lectures
 			sessions = sessions.filter(function(session) {
 				return session.lecture;

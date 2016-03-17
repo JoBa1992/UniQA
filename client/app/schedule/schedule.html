@@ -2,7 +2,7 @@
 
 <div class="container">
   <div class="row schedule-container" style="margin-top:0em;">
-    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 schedule" style="height:{{windowHeight + 'px'}};margin-top:-1.34em;">
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 schedule" style="margin-top:-1.34em;">
       <ul ng-if="!_.isEmtpy(mySessions)" class="timeline">
         <li class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-repeat="session in mySessions" ng-class="{'sessionSchedule' : $index == 0 || moment.utc(mySessions[$index-1].startTime).format('dddd Do MMMM, YYYY')!==moment.utc(session.startTime).format('dddd Do MMMM, YYYY')}">
 
@@ -67,8 +67,8 @@
       </div>
     </div>
 
-    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 schedule-form" style="height:{{windowHeight + 'px'}};" style="position:relative;">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 schedule-form" style="" style="position:relative;">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 schedule-form-fix">
         <h2 style="margin:.2em 0;width:100%;text-align:center;">Schedule Planner</h2>
 
         <div class="form-group col-xs-8 col-sm-6 col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2" style="margin-top:1em;margin-bottom:1em;">
@@ -76,14 +76,16 @@
         </div>
         <div class="form-group" style="clear:left;" ng-class="{ 'has-success': form.createdBy.$valid && submitted,'has-error': form.createdBy.$invalid && submitted }">
           <label>Lecture</label>
-          <div class="input-group">
-            <input type="text" class="form-control" data-ng-model="session.groups">
+          <input type="text" class="form-control" placeholder="Lecture Name" ng-model="sForm.lecture" typeahead="lecture as lecture.title for lecture in myLectures | filter:{title:$viewValue} | limitTo:10" typeahead-on-select="searchForMyLectures($item)" ng-keyup="searchForMyLectures($event)">
+
+          <!-- <div class="input-group">
+            <input type="text" class="form-control" placeholder="Lecture Name" ng-model="form.lecture" typeahead="lecture as lecture.title for lecture in myLectures | filter:{title:$viewValue} | limitTo:10" typeahead-on-select="searchForMyLectures($item)" ng-keyup="searchForMyLectures($event)">
             <div class="input-group-btn">
               <button type="button" class="btn btn-default" style="border-color:#cccccc;">
                 <i class="fa fa-search"></i>
               </button>
             </div>
-          </div>
+          </div> -->
           <!-- <input type="text" name="createdBy" class="form-control" ng-model="lecture.createdBy" mongoose-error> -->
           <p class="help-block" ng-show="form.createdBy.$error.required && submitted">Something was not right there.</p>
           <p class="help-block" name="createdByVal" ng-show="form.createdBy.$error.mongoose">{{ errors.createdBy }}</p>
@@ -91,7 +93,7 @@
         <div class="form-group" ng-class="{ 'has-success': form.startTime.$valid && submitted,'has-error': form.startTime.$invalid && submitted }">
           <label>Start Time</label>
           <div class="input-group">
-            <input type="text" class="form-control" data-ng-model="lecture.startTime">
+            <input type="text" class="form-control" data-ng-model="session.startTime">
             <div class="input-group-btn">
               <button type="button" class="btn btn-default" style="border-color:#cccccc;">
                 <span class="glyphicon glyphicon-calendar"></span>
@@ -105,7 +107,7 @@
         <div class="form-group" ng-class="{ 'has-success': form.endTime.$valid && submitted,'has-error': form.endTime.$invalid && submitted }">
           <label>End Time</label>
           <div class="input-group">
-            <input type="text" class="form-control" data-ng-model="lecture.endTime">
+            <input type="text" class="form-control" data-ng-model="session.endTime">
             <div class="input-group-btn">
               <button type="button" class="btn btn-default" style="border-color:#cccccc;">
                 <span class="glyphicon glyphicon-calendar"></span>
@@ -118,23 +120,29 @@
         </div>
         <div class="form-group" ng-class="{ 'has-success': form.qActAllowance.$valid && submitted,'has-error': (form.qActAllowance.$invalid && submitted) || (form.qActAllowance < 0) || (form.qActAllowance > 60) }">
           <label>Lecture Time Allowance</label>
-          <input type="number" name="qActAllowance" class="form-control" ng-model="session.timeAllowance" max="60" min="0" required mongoose-error/>
+          <input type="number" name="qActAllowance" placeholder="default: 30 minutes" class="form-control" ng-model="sForm.allowance" step="5" max="60" min="0" required mongoose-error/>
           <p class="help-block" ng-show="(form.qActAllowance.$error.minlength || form.qActAllowance.$error.required) && (form.qActAllowance < 0) || (form.qActAllowance > 60) && submitted">Must be between 0 and 60</p>
           <p class="help-block" ng-show="form.qActAllowance.$error.mongoose">{{ errors.qActAllowance }}</p>
         </div>
         <div class="form-group" ng-class="{ 'has-success': form.qActAllowance.$valid && submitted,'has-error': (form.qActAllowance.$invalid && submitted) || (form.qActAllowance < 0) || (form.qActAllowance > 60) }">
           <label>Present To</label>
           <div class="input-group">
-            <input type="text" class="form-control" data-ng-model="session.groups">
+            <input type="text" class="form-control" ng-model="sForm.group" placeholder="Group Name" ng-model="sForm.lecture" typeahead="group as group.course for lecture in myGroups | filter:{title:$viewValue} | limitTo:10" typeahead-on-select="searchForMyGroups($item)" ng-keyup="searchForMyGroups($event)">
             <div class="input-group-btn">
               <button type="button" class="btn btn-default" style="border-color:#cccccc;">
-                <i class="fa fa-search"></i>
+                <i class="fa fa-plus"></i>
               </button>
             </div>
           </div>
           <!-- <input type="text" name="groups" class="form-control" ng-model="session.group" max="60" min="0" required mongoose-error/> -->
           <div style="margin-top:.4em;">
-            <h4 class="label label-warning" style="display:inline-block;font-size:.9em;margin:.2em .4em .2em 0;">Software Engineering
+            <h3 ng-repeat="group in selectedGroups" class="label label-warning" style="display:inline-block;font-size:.9em;margin:.2em .4em .2em 0;padding:.6em;">
+              {{group.course}}
+              <a style="color:#343D48;" href="#" ng-click="removeGroup(group)">
+                <i class="fa fa-times" style="margin-left:.4em;"></i>
+              </a>
+            </h3>
+            <!-- <h4 class="label label-warning" style="display:inline-block;font-size:.9em;margin:.2em .4em .2em 0;">Software Engineering
               <a style="color:#343D48;" href="#">
                 <i class="fa fa-times" style="margin-left:.4em;"></i>
               </a>
@@ -158,13 +166,13 @@
               <a style="color:#343D48;" href="#">
                 <i class="fa fa-times" style="margin-left:.4em;"></i>
               </a>
-            </h4>
+            </h4> -->
           </div>
           <p class="help-block" ng-show="(form.qActAllowance.$error.minlength || form.qActAllowance.$error.required) && (form.qActAllowance < 0) || (form.qActAllowance > 60) && submitted">Must be between 0 and 60</p>
           <p class="help-block" ng-show="form.qActAllowance.$error.mongoose">{{ errors.qActAllowance }}</p>
         </div>
       </div>
-      <div class="form-group" style="position:absolute;bottom:-1em;right:1.4em;">
+      <div class="form-group pull-right" style="margin-top:1em;">
         <button class="btn btn-primary btn-md" type="button">Cancel</button>
         <button class="btn btn-success btn-md" type="button" ng-click="addSaveSchedule()">{{formAddSaveBtn}}</button>
       </div>

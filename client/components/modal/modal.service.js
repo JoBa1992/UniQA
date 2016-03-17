@@ -8,6 +8,10 @@ angular.module('uniQaApp')
 		$rootScope.errors = {};
 		$rootScope.form = {};
 
+		$rootScope.res = {
+			received: true
+		}
+
 		/**
 		 * Opens a modal
 		 * @param  {Object} scope      - an object to be merged with modal's scope
@@ -268,6 +272,7 @@ angular.module('uniQaApp')
 
 											// only access if first success click on this modal
 											if (!$rootScope.importViewData) {
+												$rootScope.res.received = false;
 												var input = $rootScope.dropzone[0].dropzone;
 
 												// if more than 1 file exists
@@ -308,16 +313,20 @@ angular.module('uniQaApp')
 												$rootScope.importViewData = true;
 												$rootScope.importCancelText = 'Back';
 												$rootScope.importBtnText = 'Save';
+												$rootScope.res.received = true;
 												console.info("Importing Data");
 											} else {
 												console.info("Ammending & Saving");
+												$rootScope.res.received = false;
 												Auth.createUsers({
 														users: $rootScope.importUsers
 													})
 													.then(function(res) {
+														$rootScope.res.received = true;
 														importModal.close(e);
 													})
 													.catch(function(err) {
+														$rootScope.res.received = true;
 														$rootScope.errors = {};
 
 														// Update validity of form fields that match the mongoose errors
@@ -406,15 +415,19 @@ angular.module('uniQaApp')
 										// form.$setUntouched();
 										if ($rootScope.user.role !== 'Select Role' && $rootScope.user.department !== 'Select Department' && $rootScope.user.name && $rootScope.user.email && $rootScope.user.passcode) {
 
+											$rootScope.res.received = false;
+
 											Auth.createUser({
 													user: $rootScope.user
 												})
 												.then(function(res) {
+													$rootScope.res.received = true;
 													createdUser = res.user;
 													// user created, close the modal
 													createModal.close(e);
 												})
 												.catch(function(err) {
+													$rootScope.res.received = true;
 													$rootScope.errors = {};
 
 													// Update validity of form fields that match the mongoose errors
@@ -569,7 +582,7 @@ angular.module('uniQaApp')
 							title: '',
 							type: 'Select Type',
 							url: '',
-							preview: '',
+							tempPreview: '',
 							desc: '',
 							collaborator: '',
 							files: []
@@ -577,6 +590,7 @@ angular.module('uniQaApp')
 						$rootScope.preview = {
 							loading: false
 						}
+
 						$rootScope.lectureTypes = [];
 						$rootScope.lectureDescHeight = 220;
 						$rootScope.possibleCollaborators = [];
@@ -594,7 +608,7 @@ angular.module('uniQaApp')
 								$rootScope.lectureDescHeight = 220;
 								// reset url/prev vars
 								$rootScope.lecture.url = '';
-								$rootScope.lecture.preview = '';
+								$rootScope.lecture.tempPreview = '';
 							}
 							$rootScope.lecture.type = type;
 						};
@@ -614,12 +628,12 @@ angular.module('uniQaApp')
 								}).then(function(res) {
 									// only returns one element
 									if (_.isEmpty(res)) {
-										$rootScope.lecture.preview = {
+										$rootScope.lecture.tempPreview = {
 											err: true
 										}
 									}
 									// attach with base64 tag
-									$rootScope.lecture.preview = 'data:image/png;base64,' + res;
+									$rootScope.lecture.tempPreview = 'data:image/png;base64,' + res;
 									$rootScope.preview = {
 										loading: false
 									}
@@ -647,19 +661,23 @@ angular.module('uniQaApp')
 						};
 
 						$rootScope.searchPossibleCollaborators = function(e) {
-							// if presses enter, add them
-							if (e.keyCode == 13 || e == 'Search') {
+							// checking length to see if id has been sent through
+							if (e.keyCode == 13 || e == 'Submit' || e._id) {
 								// if name isn't on the list, break out of function
 								if ($rootScope.possibleCollaborators.length == 0) {
 									return;
 								} else {
-									// set to equal first value in list
-									// forces first item selection programmatically
-									$rootScope.lecture.collaborator = $rootScope.possibleCollaborators[0]
+									// need to either get selected here, or select first
+									if (!($rootScope.lecture.collaborator instanceof Object)) {
+										if (e == 'Submit') {
+											// gets index of child with active class from typeahead property
+											$rootScope.lecture.collaborator = $rootScope.possibleCollaborators[angular.element(document.querySelector("[id*='typeahead']")).find('.active').index()];
+										}
+									}
 								}
 
-								// need to add user to collaborators
-								if ($rootScope.lecture.collaborator) {
+								// only add if we have a collaborator
+								if ($rootScope.lecture.collaborator instanceof Object) {
 									$rootScope.selectedCollaborators.push($rootScope.lecture.collaborator)
 								}
 								$rootScope.possibleCollaborators = [];
@@ -706,7 +724,6 @@ angular.module('uniQaApp')
 									click: function(e, form) {
 										$rootScope.submitted = true;
 										if ($rootScope.lecture.title && $rootScope.lecture.desc) {
-
 											// setup vars to be sent across to API
 											var collabs = [];
 											// push each selected collaborator into array
@@ -719,24 +736,32 @@ angular.module('uniQaApp')
 											// set createdBy to the ID for model
 											$rootScope.lecture.author = me._id;
 
-											//don't need this anymore, it will be regenerated server side from the url
-											delete $rootScope.lecture.preview;
-
 											// remove this entry, and add the array collection
 											delete $rootScope.lecture.collaborator;
 											$rootScope.lecture.collaborators = collabs;
 
+											$rootScope.res.received = false;
+
 											Lecture.createLecture({
-													lecture: $rootScope.lecture
-														//files: files
+													data: $rootScope.lecture
 												})
 												.then(function(res) {
-													createdLecture = res.lecture;
-													// lecture created, close the modal
-													createModal.close(e);
+													$rootScope.res.received = true;
+													createdLecture = res;
+
+													$rootScope.dropzone[0].dropzone.options.url += createdLecture._id;
+
+													if (!_.isEmpty($rootScope.dropzone[0].dropzone.getAcceptedFiles())) {
+														$rootScope.dropzone[0].dropzone.processQueue();
+													} else {
+														// lecture created with no files, close the modal
+														createModal.close(e);
+													}
 												})
 												.catch(function(err) {
 													$rootScope.errors = {};
+
+													$rootScope.res.received = true;
 
 													// Update validity of form fields that match the mongoose errors
 													angular.forEach(err.errors, function(error, field) {
@@ -750,6 +775,10 @@ angular.module('uniQaApp')
 								}]
 							}
 						}, 'modal-success', 'lg');
+
+						$rootScope.uploadSuccess = function(response) {
+							createModal.close();
+						}
 
 						createModal.result.then(function() {
 							cb(createdLecture);
@@ -1135,6 +1164,8 @@ angular.module('uniQaApp')
 						var args = Array.prototype.slice.call(arguments),
 							lecture = args.shift(),
 							deleteModal;
+
+						$rootScope.lectureToDelete = angular.copy(lecture);
 						deleteModal = openModal({
 							modal: {
 								name: 'deleteConf',
