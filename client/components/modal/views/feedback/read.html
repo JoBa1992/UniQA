@@ -1,0 +1,185 @@
+<div class="container-fluid">
+  <div class="row">
+    <h2 style="padding:0em 0 .4em .4em;margin-top:0;">Lecture Statistics</h2>
+    <div class="col-md-8 pull-left">
+      <h4 style="margin:.4em 0 1.4em;">Avg. Rating:
+        <span style="display:inline-block;font-size:1em;" class="timeline-stars" star-rating rating-value="feedback.avgRating" data-max="5"></span>
+      </h4>
+      <h4 style="margin:1.8em 0;">Attendance:
+        <span ng-class="{'text-danger': ((feedback.registered.length/feedback.expected)*100 < 50), 'text-warning': ((feedback.registered.length/feedback.expected)*100 >= 50 && (feedback.registered.length/feedback.expected)*100 < 75), 'text-success': ({{(feedback.registered.length/feedback.expected)*100}} >= 75)}" style="padding-left:.4em;">{{(feedback.registered.length/feedback.expected)*100 | number:2}}%</span>
+      </h4>
+      <h4 style="margin:1.8em 0;">Feedback Keywords:
+        <span class="label label-primary" style="display:inline-block;font-size:.9em;margin:0 .4em 0 .4em;padding:.3em .4em;">
+          Feature
+        </span>
+        <span class="label label-primary" style="display:inline-block;font-size:.9em;margin:0 .4em 0 0;padding:.3em .4em;">
+          Coming
+        </span>
+        <span class="label label-primary" style="display:inline-block;font-size:.9em;margin:0 .4em 0 0;padding:.3em .4em;">
+          Soon
+        </span>
+      </h4>
+      <h4 style="margin:1.8em 0;">Highest Attachment Download:
+        <span ng-if="feedback.mostDownloaded == null" class="text-danger">No downloads recorded</span>
+        <span ng-if="feedback.mostDownloaded">{{feedback.mostDownloaded}}</span>
+      </h4>
+      <h4 style="margin:1.8em 0;">Questions Asked:
+        <span ng-if="feedback.questions.length == 0" class="text-danger">0</span>
+        <a ng-if="feedback.questions.length !=0 && !showQuestions" href="#" ng-click="toggleQuestions()" class="text-warning">{{feedback.questions.length}}
+          <span style="color:#AAA;">(click to view)</span>
+        </a>
+        <a ng-if="feedback.questions.length !=0 && showQuestions" href="#" ng-click="toggleQuestions()" class="text-warning">{{feedback.questions.length}}
+          <span style="color:#AAA;">(click to hide)</span>
+        </a>
+      </h4>
+
+    </div>
+    <div class="col-md-4 pull-right">
+      <div class="col-md-12">
+        <div class="row rating-desc">
+          <div class="feedback-breakdown">
+            <div class="col-xs-8 col-md-9" style="padding:0;" style="padding:0;">
+              <div class="progress feedback-bar" style="cursor:pointer;">
+                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{(feedback.ratings.five/feedback.feedback.length)*100}}" aria-valuemin="0" aria-valuemax="100" style="width: {{(feedback.ratings.five/feedback.feedback.length)*100}}%">
+                  <span class="rating-percentage">{{feedback.feedback.length!=0?(feedback.ratings.five/feedback.feedback.length)*100:0}}%</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-3 col-md-3" style="margin:.2em 0;">
+              <span class="glyphicon glyphicon-star" style="color:#FFDC00;margin-right:.4em;"></span>5
+            </div>
+          </div>
+
+          <div class="feedback-breakdown">
+            <!-- end 5 -->
+            <div class="col-xs-8 col-md-9" style="padding:0;">
+              <div class="progress feedback-bar" style="cursor:pointer;">
+                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="{{(feedback.ratings.four/feedback.feedback.length)*100}}" aria-valuemin="0" aria-valuemax="100" style="width: {{(feedback.ratings.four/feedback.feedback.length)*100}}%">
+                  <span class="rating-percentage">{{feedback.feedback.length!=0?(feedback.ratings.four/feedback.feedback.length)*100:0}}%</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-3 col-md-3" style="margin:.2em 0;">
+              <span class="glyphicon glyphicon-star" style="color:#FFDC00;margin-right:.4em;"></span>4
+            </div>
+          </div>
+          <!-- end 4 -->
+          <div class="feedback-breakdown">
+
+            <div class="col-xs-8 col-md-9" style="padding:0;">
+              <div class="progress feedback-bar" style="cursor:pointer;">
+                <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="{{(feedback.ratings.three/feedback.feedback.length)*100}}" aria-valuemin="0" aria-valuemax="100" style="width: {{(feedback.ratings.three/feedback.feedback.length)*100}}%">
+                  <span class="rating-percentage">{{feedback.feedback.length!=0?(feedback.ratings.three/feedback.feedback.length)*100:0}}%</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-3 col-md-3" style="margin:.2em 0;">
+              <span class="glyphicon glyphicon-star" style="color:#FFDC00;margin-right:.4em;"></span>3
+            </div>
+          </div>
+          <!-- end 3 -->
+          <div class="feedback-breakdown">
+            <div class="col-xs-8 col-md-9" style="padding:0;">
+              <div class="progress feedback-bar" style="cursor:pointer;">
+                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{(feedback.ratings.two/feedback.feedback.length)*100}}" aria-valuemin="0" aria-valuemax="100" style="width: {{(feedback.ratings.two/feedback.feedback.length)*100}}%">
+                  <span class="rating-percentage">{{feedback.feedback.length!=0?(feedback.ratings.two/feedback.feedback.length)*100:0}}%</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-3 col-md-3" style="margin:.2em 0;">
+              <span class="glyphicon glyphicon-star" style="color:#FFDC00;margin-right:.4em;"></span>2
+            </div>
+          </div>
+          <!-- end 2 -->
+
+          <div class="feedback-breakdown">
+            <div class="col-xs-8 col-md-9" style="padding:0;">
+              <div class="progress feedback-bar" style="cursor:pointer;">
+                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{(feedback.ratings.one/feedback.feedback.length)*100}}" aria-valuemin="0" aria-valuemax="100" style="width: {{(feedback.ratings.one/feedback.feedback.length)*100}}%">
+                  <span class="rating-percentage">{{feedback.feedback.length!=0?(feedback.ratings.one/feedback.feedback.length)*100:0}}%</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-3 col-md-3" style="margin:.2em 0;">
+              <span class="glyphicon glyphicon-star" style="color:#FFDC00;margin-right:.4em;"></span>1
+            </div>
+          </div>
+          <!-- end 1 -->
+        </div>
+        <!-- end row -->
+      </div>
+    </div>
+    <hr ng-if="showQuestions" class="resource-hr" style="display:block; width:100%;margin:2em 0;">
+    <div ng-if="showQuestions">
+      <h2 style="padding:0em 0 .4em .4em;">Questions</h2>
+      <div ng-repeat="item in feedback.questions" class="row feedback-row">
+        <div class="col-md-2 col-sm-2 hidden-xs" style="margin:.4em 0;">
+          <!-- <img class="img-responsive img-circle" src="/assets/images/placeholders/profile.jpg"/> -->
+          <h5 class="text-right text-primary">
+            <strong>{{item.asker.name}}</strong>
+          </h5>
+        </div>
+        <div class="col-md-8 col-sm-8" style="position:relative;">
+          <div class="panel panel-default" style="padding:1em .6em 0;">
+            <p>
+              {{item.question}}
+            </p>
+
+          </div>
+        </div>
+        <div class="col-md-2 col-sm-2 hidden-xs" style="display:inline-block;margin-top:.8em;">
+          <a class="text-success" style="font-size:.75em;margin:0em .8em;text-decoration:none;" href="#">
+            <i class="fa fa-reply fa-2x"></i>
+          </a>
+          <a class="text-warning" style="font-size:.75em;margin:0em .8em;text-decoration:none;" href="#">
+            <i class="fa fa-flag fa-2x"></i>
+          </a>
+          <a class="text-danger" style="font-size:.75em;margin:0em .8em;text-decoration:none;" href="#">
+            <i class="fa fa-trash fa-2x"></i>
+          </a>
+
+        </div>
+      </div>
+
+    </div>
+    <hr class="resource-hr" style="display:block; width:100%;margin:2em 0;">
+    <div ng-if="!feedback.feedback[0]">
+      <h3 class="text-default" style="width:100%; text-align:center;">No Feedback Received</h3>
+    </div>
+    <div>
+      <h2 ng-if="feedback.feedback[0]" style="padding:0em 0 .4em .4em;">Feedback</h2>
+      <div ng-repeat="item in feedback.feedback" class="row feedback-row">
+        <div ng-if="$even" class="col-md-2 col-sm-2 hidden-xs">
+
+          <img class="img-responsive img-circle" src="/assets/images/placeholders/profile.jpg"/>
+          <h5 class="text-center">{{item.user.name}}</h5>
+
+        </div>
+        <div class="col-md-10 col-sm-10">
+          <div ng-class="{'left':$even,'right':$odd}" class="panel panel-default arrow ">
+            <div class="panel-body">
+              <header ng-class-even="text-left" ng-class-even="text-right">
+                <div class="comment-user"></div>
+              </header>
+              <div class="comment-post">
+                <h3 style="margin:0 .1em .4em -.5em;" ng-class="{'text-left':$even,'text-right':$odd}">
+                  <span style="display:inline-block;font-size:1em;" class="timeline-stars" star-rating rating-value="item.rating" data-max="5"></span>
+                </h3>
+                <p ng-class="{'text-left':$even,'text-right':$odd}">
+                  {{item.comment}}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div ng-if="$odd" class="col-md-2 col-sm-2 hidden-xs">
+
+          <img class="img-responsive img-circle" src="/assets/images/placeholders/profile.jpg"/>
+          <h5 class="text-center">{{item.user.name}}</h5>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

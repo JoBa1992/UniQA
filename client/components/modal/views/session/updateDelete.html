@@ -1,0 +1,73 @@
+<div class="row">
+  <div class="form-group col-md-4 col-md-offset-4">
+    <ext-svg data-content="updatedSession.qr.svg"></ext-svg>
+    <label style="margin:.4em 0;width:100%;text-align:center;">Alt:
+      {{updatedSession.altAccess}}</label>
+    <button class="btn btn-primary" style="width:100%;" ng-click="downloadQR()">Download QR</button>
+  </div>
+</div>
+<div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,'has-error': form.name.$invalid && submitted }">
+  <label>Lecture</label>
+  <input type="text" name="name" class="form-control" ng-model="updatedSession.lecture.title" required/>
+  <p class="help-block" ng-show="form.lecture.title.$error.required && submitted">A lecture is required</p>
+</div>
+<div class="form-group col-md-6" style="padding:0;padding-right:.6em;" ng-class="{ 'has-success': user.role!='Select Role' && submitted,'has-error': user.role=='Select Role' && submitted }">
+  <label>Starts:</label>
+  <div class="dropdown" id="startTimeDropdown">
+    <a class="dropdown-toggle input-group" role="button" href="#">
+
+      <input type="text" class="form-control" id="startTime" ng-model="updatedSession.startTime">
+      <div class="input-group-btn">
+        <span class="btn btn-default" style="border-color:#cccccc;">
+          <i class="glyphicon glyphicon-calendar"></i>
+        </span>
+      </div>
+    </a>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+      <datetimepicker ng-model="dateConfig" datetimepicker-config="dateConfig" data-before-render="beforeRenderConfig($view, $dates, $leftDate, $upDate, $rightDate)" data-on-set-time="startTimeSelect(newDate, oldDate)"/>
+    </ul>
+  </div>
+  <p class="help-block" ng-show="user.role=='Select Role' && submitted">Please select a user type</p>
+  <p class="help-block" ng-show="form.roles.$error.mongoose">{{ errors.roles }}</p>
+</div>
+<div class="form-group col-md-6" style="padding:0;padding-left:.6em;" ng-class="{ 'has-success': form.email.$valid && submitted,'has-error': form.email.$invalid && submitted }">
+  <label>Ends:</label>
+  <div class="dropdown" id="endTimeDropdown">
+    <a class="dropdown-toggle input-group" role="button" href="#">
+
+      <input type="text" class="form-control" id="endTime" ng-model="updatedSession.endTime">
+      <div class="input-group-btn">
+        <span class="btn btn-default" style="border-color:#cccccc;">
+          <i class="glyphicon glyphicon-calendar"></i>
+        </span>
+      </div>
+    </a>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+      <datetimepicker ng-model="dateConfig" datetimepicker-config="dateConfig" data-before-render="beforeRenderConfig($view, $dates, $leftDate, $upDate, $rightDate)" data-on-set-time="endTimeSelect(newDate, oldDate)"/>
+    </ul>
+  </div>
+  <p class="help-block" ng-show="form.email.$error.email && submitted">Email address provided does not match the department format</p>
+  <p class="help-block" ng-show="form.email.$error.required && submitted">Please enter your email address</p>
+  <p class="help-block" name="emailVal" ng-show="form.email.$error.mongoose">{{ errors.email }}</p>
+</div>
+<div class="form-group" ng-class="{ 'has-success': user.department!='Select Department' && submitted,'has-error': user.department=='Select Department' && submitted }">
+  <label>Present to</label>
+  <div class="input-group">
+    <input type="text" name="email" class="form-control" aria-describedby="basic-addon2" ng-model="user.group" required mongoose-error>
+    <div class="input-group-btn">
+      <button type="button" class="btn btn-default" style="border-color:#cccccc;">
+        <i class="fa fa-search"></i>
+      </button>
+    </div>
+  </div>
+  <div style="margin-top:.4em;">
+    <h3 ng-repeat="group in selectedGroups" class="label label-warning" style="display:inline-block;font-size:.9em;margin:.2em .4em .2em 0;padding:.6em;">
+      {{group.course}}
+      <a style="color:#343D48;" href="#" ng-click="removeGroup(group)">
+        <i class="fa fa-times" style="margin-left:.4em;"></i>
+      </a>
+    </h3>
+  </div>
+  <p class="help-block" ng-show="user.department=='Select Department' && submitted">Please select a department</p>
+  <p class="help-block" ng-show="form.user.department.$error.mongoose">{{ errors.user.department }}</p>
+</div>

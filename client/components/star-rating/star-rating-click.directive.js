@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Removes server error when user updates input
+ * Star clicking functionality for lecture session feedback
  */
 angular.module('uniQaApp')
 	.directive('starRatingClick', function() {

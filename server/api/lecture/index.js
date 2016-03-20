@@ -3,12 +3,19 @@
 var express = require('express');
 var path = require('path');
 var multer = require('multer');
+var mkdirp = require('mkdirp');
 
 // attaches files into temp folder, on route these are redirected into
 // their associated folder
 var storage = multer.diskStorage({
 	destination: function(req, file, cb) {
-		cb(null, path.join(__dirname, '../../storage/lectures/temp'));
+		var tempLocation = path.join(__dirname, '../../storage/lectures/temp/');
+		mkdirp(tempLocation, function(err) {
+			if (err) {
+				console.log(err);
+			}
+			cb(null, path.join(__dirname, '../../storage/lectures/temp'));
+		});
 	},
 	filename: function(req, file, cb) {
 		cb(null, file.originalname);

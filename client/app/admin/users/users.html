@@ -104,7 +104,7 @@
         <tbody>
           <tr ng-if="!isEmpty(users.result)" ng-repeat="user in users.result">
             <td>
-              <a href="#" class="text-muted" ng-click="openUpdateUserModal(user)">{{user.name}}</a>
+              <a href="#" class="text-primary" ng-click="openUpdateUserModal(user)">{{user.name}}</a>
             </td>
             <td>{{user.email}}</td>
             <td style="text-transform: capitalize;">{{user.role}}</td>

@@ -37,7 +37,7 @@ angular.module('uniQaApp')
 				var userid = obj.user;
 				var collab = obj.search;
 
-				$http.get('/api/groups/assoc/' + userid).success(function(data) {
+				$http.get('/api/groups/user/' + userid).success(function(data) {
 					deferred.resolve(data);
 					return cb;
 				}).error(function(err) {

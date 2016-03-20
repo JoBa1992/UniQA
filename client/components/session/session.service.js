@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uniQaApp')
-	.factory('Session', function Lecture($http, $q) {
+	.factory('Session', function Lecture($http, $q, $window) {
 		return {
 
 			/**
@@ -51,9 +51,27 @@ angular.module('uniQaApp')
 			createSession: function(obj, callback) {
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();
-				var lecture = obj.lecture;
+				var session = obj.data;
 
-				$http.post('/api/session', lecture).success(function(data) {
+				$http.post('/api/sessions', session).success(function(data) {
+					deferred.resolve(data);
+					return cb();
+				}).error(function(err) {
+					deferred.reject(err);
+					return cb(err);
+				}.bind(this));
+				return deferred.promise;
+			},
+			getFile: function(obj, callback) {
+				var cb = callback || angular.noop;
+				var deferred = $q.defer();
+				var fileId = obj.file._id || null;
+				var lectureId = obj.lecture || null;
+				var sessionId = obj.session || null;
+				var userId = obj.user || null;
+
+				$http.get('/api/sessions/download/' + sessionId + '/' + userId + '/' + lectureId + '/' + fileId).success(function(data) {
+					$window.open('/api/sessions/download/' + sessionId + '/' + userId + '/' + lectureId + '/' + fileId); //does the download
 					deferred.resolve(data);
 					return cb();
 				}).error(function(err) {
@@ -72,9 +90,9 @@ angular.module('uniQaApp')
 					params: {
 						author: obj.createdBy,
 						history: history,
-						order: order
-							// page: obj.page,
-							// paginate: obj.paginate
+						order: order,
+						page: obj.page,
+						paginate: obj.paginate
 					}
 				}).success(function(data) {
 					deferred.resolve(data);

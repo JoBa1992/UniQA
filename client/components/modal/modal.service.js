@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uniQaApp')
-	.factory('Modal', function($rootScope, $modal, $parse, $window, Auth, Thing, Group, Lecture, Session) {
+	.factory('Modal', function($rootScope, $modal, $parse, $window, $location, Auth, Thing, Group, Lecture, Session) {
 
 		// Use the User $resource to fetch all users
 		$rootScope.user = {};
@@ -65,7 +65,7 @@ angular.module('uniQaApp')
 										classes: 'btn-primary',
 										text: 'Dismiss',
 										click: function(e) {
-											readModal.dismiss(e);
+											readModal.close(e);
 										}
 									}]
 								}
@@ -76,14 +76,34 @@ angular.module('uniQaApp')
 				sessionContent: function(cb) {
 					cb = cb || angular.noop;
 					var args = Array.prototype.slice.call(arguments);
-					var session = args.shift();
+					var lecture = args.shift();
+					var sessionid = args.shift();
+					var me = Auth.getCurrentUser();
+
 					return function() {
 						var readModal;
 
-						Session.getOne(session).then(function(res) {
+						console.info(lecture);
+
+						$rootScope.getFile = function(file) {
+							Session.getFile({
+								lecture: lecture._id,
+								user: me._id,
+								file: file,
+								session: sessionid
+							}).then(function(res) {
+								// console.info(res);
+							});
+						};
+
+						Session.getOne(sessionid).then(function(res) {
 							var lecture = res.lecture._id;
 							Lecture.getOne(lecture).then(function(res) {
+								for (var item in res.attachments) {
+									res.attachments[item].name = res.attachments[item].loc.split('/').pop();
+								}
 								$rootScope.lecture = res; // need to elaborate on this
+
 								readModal = openModal({
 									modal: {
 										name: 'showSessionContent',
@@ -94,7 +114,7 @@ angular.module('uniQaApp')
 											classes: 'btn-primary',
 											text: 'Dismiss',
 											click: function(e) {
-												readModal.dismiss(e);
+												readModal.close(e);
 											}
 										}]
 									}
@@ -108,37 +128,100 @@ angular.module('uniQaApp')
 
 					return function() {
 						var args = Array.prototype.slice.call(arguments);
-						var session = args.shift();
+						// attach momentJS to scope
+						$rootScope.moment = moment;
 
-						console.info(session);
+						$rootScope.feedback = args.shift(); // gets feedback passed through from main view
 
 						var readModal;
 						var me = Auth.getCurrentUser();
 
-						Lecture.getForMe({
-							createdBy: me._id,
-							page: 1,
-							paginate: 10
-						}).then(function(res) {
-							$rootScope.lecture = res[0]; // need to elaborate on this
-							readModal = openModal({
-								modal: {
-									name: 'createrUserForm',
-									dismissable: true,
-									form: 'components/modal/views/feedback/read.html',
-									title: 'Feedback',
-									buttons: [{
-										classes: 'btn-primary',
-										text: 'Dismiss',
-										click: function(e) {
-											readModal.dismiss(e);
-										}
-									}]
-								}
-							}, 'modal-primary', 'lg');
+						$rootScope.showQuestions = false;
+
+						$rootScope.toggleQuestions = function() {
+							$rootScope.showQuestions = !$rootScope.showQuestions;
+						}
+
+
+
+						console.info($rootScope.feedback);
+
+						$rootScope.feedback.ratings = {
+							one: 0,
+							two: 0,
+							three: 0,
+							four: 0,
+							five: 0
+						}
+
+						// get each users feedback and put into band
+						_.some($rootScope.feedback.feedback, function(user) {
+							// get each amount
+							if (user.rating == 1) {
+								$rootScope.feedback.ratings.one++;
+							} else if (user.rating == 2) {
+								$rootScope.feedback.ratings.two++;
+							} else if (user.rating == 3) {
+								$rootScope.feedback.ratings.three++;
+							} else if (user.rating == 4) {
+								$rootScope.feedback.ratings.four++;
+							} else {
+								$rootScope.feedback.ratings.five++;
+							}
 						});
+
+						readModal = openModal({
+							modal: {
+								name: 'FeedbackForm',
+								dismissable: true,
+								form: 'components/modal/views/feedback/read.html',
+								title: '{{feedback.lecture.title}}: {{feedback.startTime| date:\'HH:mm\'}} - {{feedback.endTime| date:\'HH:mm\'}}, {{moment.utc(feedback.startTime).format("dddd Do MMMM YYYY")}}',
+								buttons: [{
+									classes: 'btn-primary',
+									text: 'Close',
+									click: function(e) {
+										readModal.close(e);
+									}
+								}]
+							}
+						}, 'modal-primary', 'lg');
+						// });
 					};
 				},
+			},
+			confirm: {
+				leaveSession: function(cb) {
+					cb = cb || angular.noop;
+					return function() {
+						var confirmModal;
+
+						confirmModal = openModal({
+							modal: {
+								name: 'leaveSessionForm',
+								dismissable: true,
+								form: 'components/modal/views/session/leave.html',
+								title: 'Leaving Session',
+								buttons: [{
+									classes: 'btn-default',
+									text: 'Cancel',
+									click: function(e) {
+										confirmModal.dismiss(e);
+									}
+								}, {
+									classes: 'btn-danger',
+									text: 'Leave',
+									click: function(e, form) {
+										confirmModal.close(e);
+									}
+								}]
+							}
+						}, 'modal-danger', 'md');
+
+						confirmModal.result.then(function() {
+							cb();
+						});
+					};
+				}
 			},
 			import: {
 				user: function(cb) {
@@ -617,7 +700,11 @@ angular.module('uniQaApp')
 							// if http is present, rip it out, server adds it
 							if ($rootScope.lecture.url.indexOf('http://') > -1) {
 								// take anything after http
-								$rootScope.lecture.url = $rootScope.lecture.url.split('http://')[1];
+								$rootScope.lecture.url = $rootScope.lecture.url.split('http://').pop();
+							}
+							if ($rootScope.lecture.url.indexOf('https://') > -1) {
+								// take anything after http
+								$rootScope.lecture.url = $rootScope.lecture.url.split('https://').pop();
 							}
 
 							if ($rootScope.lecture.url && isUrl('http://' + $rootScope.lecture.url)) {
@@ -746,7 +833,6 @@ angular.module('uniQaApp')
 													data: $rootScope.lecture
 												})
 												.then(function(res) {
-													$rootScope.res.received = true;
 													createdLecture = res;
 
 													$rootScope.dropzone[0].dropzone.options.url += createdLecture._id;
@@ -777,6 +863,7 @@ angular.module('uniQaApp')
 						}, 'modal-success', 'lg');
 
 						$rootScope.uploadSuccess = function(response) {
+							$rootScope.res.received = true;
 							createModal.close();
 						}
 
@@ -1042,6 +1129,82 @@ angular.module('uniQaApp')
 
 						updateModal.result.then(function() {
 							cb(updatedLecture);
+						});
+					};
+				},
+				session: function(cb) {
+					cb = cb || angular.noop;
+					return function() {
+						var args = Array.prototype.slice.call(arguments),
+							updateModal, updatedSession;
+						var session = args.shift();
+
+						$rootScope.updatedSession = angular.copy(session);
+
+						$rootScope.selectedGroups = [];
+
+						$rootScope.updatedSession.startTime = moment.utc(session.startTime).format("DD/MM/YYYY HH:mm");
+						$rootScope.updatedSession.endTime = moment.utc(session.endTime).format("DD/MM/YYYY HH:mm");
+
+
+						for (var group in session.groups) {
+							$rootScope.selectedGroups.push(session.groups[group].group)
+						}
+
+						console.info(session);
+
+						updateModal = openModal({
+							modal: {
+								name: 'updateDeleteForm',
+								dismissable: true,
+								title: 'Update Session',
+								form: 'components/modal/views/session/updateDelete.html',
+								buttons: [{
+									classes: 'btn-danger pull-left',
+									text: 'Delete',
+									click: function(e) {
+										updateModal.dismiss(e);
+									}
+								}, {
+									classes: 'btn-default',
+									text: 'Cancel',
+									click: function(e) {
+										updateModal.dismiss(e);
+									}
+								}, {
+									classes: 'btn-warning',
+									text: 'Update',
+									click: function(e, form) {
+										$rootScope.submitted = true;
+
+										if ($rootScope.updatedUser.role !== 'Select Role' && $rootScope.updatedUser.department !== 'Select Department' && $rootScope.updatedUser.name) {
+
+											Auth.updateUser({
+													user: $rootScope.updatedUser
+												})
+												.then(function(res) {
+													updatedUser = res.user;
+													// user created, close the modal
+													updateModal.close(e);
+												})
+												.catch(function(err) {
+													$rootScope.errors = {};
+
+													// Update validity of form fields that match the mongoose errors
+													angular.forEach(err.errors, function(error, field) {
+														//console.info(form[field]);
+														form[field].$setValidity('mongoose', false);
+														$rootScope.errors[field] = error.message;
+													});
+												});
+										}
+									}
+								}]
+							}
+						}, 'modal-warning', 'md');
+
+						updateModal.result.then(function() {
+							cb(updatedUser);
 						});
 					};
 				}

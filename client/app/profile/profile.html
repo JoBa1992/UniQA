@@ -1,15 +1,59 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 <div class="container">
   <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <h1 style="width:100%;text-align:center">Feedback Timeline</h1>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top:2em;">
+
+      <div href="#" class="hidden-xs hidden-sm col-md-3 col-lg-3 visible-md visible-lg" style="padding:0;">
+        <!-- <h4 ng-if="!nextLecture.preview">No Preview Available
+            <i style="display:block;margin-top:.4em;" class="fa fa-frown-o fa-2x"></i>
+          </h4> -->
+        <img class="img-responsive" style="border:2px solid #2E3540;" src="/assets/images/placeholders/profile.jpg"/>
+      </div>
+
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="margin-top:.6em;">
+        <h1 class="text-primary" style="margin:0 0 .3em;">Joshua Bates</h1>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="margin-top:.6em;">
+        <h3 style="margin:.4em 0;">Avg Lecture Rating:
+          <div style="display:inline-block;margin-right: .4em;" class="timeline-stars" star-rating rating-value="4.3" data-max="5"></div>
+          <span class="text-warning">(4.3)</span>
+        </h3>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="margin-top:.6em;">
+        <h3 style="margin:.4em 0;">Avg Attendance:
+          <span class="text-warning">77.00%</span>
+        </h3>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="margin-top:.6em;">
+        <h3 style="margin:.4em 0;">Sessions Held (2015-2016):
+          <span class="text-warning">112</span>
+        </h3>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="margin-top:.6em;">
+        <h3 style="margin:.4em 0;">Questions (2015-2016):
+          <span class="text-warning">942</span>
+        </h3>
+      </div>
     </div>
 
+  </div>
+  <div class="row" infinite-scroll="loadMoreFeedback()" distance="140" can-load="{{canLoadMore}}">
+
     <ul class="timeline" style="margin:2em 0 6em;">
+      <li style="margin-bottom:6em;">
+        <div class="timeline-title" style="">
+          <div style="margin:.6em 0;">
+            <h5 style="margin:.2em 0;">
+              <strong>Feedback Timeline</strong>
+            </h5>
+          </div>
+        </div>
+        <div class="timeline-panel timeline-date-padding invisible"></div>
+      </li>
 
       <li ng-if="moment.utc(myFeedback[0].startTime).format('dddd Do MMMM, YYYY')
                     === moment.utc().format('dddd Do MMMM, YYYY')">
-
         <div class="timeline-date" style="height:32px;">
           <h5 style="margin:.4em 0;">
             <strong>Today</strong>
@@ -42,7 +86,7 @@
         <div class="timeline-badge primary">
           <i class="fa fa-graduation-cap"></i>
         </div>
-        <a class="timeline-panel" ng-click="viewFeedback(feedback._id)">
+        <a class="timeline-panel" ng-click="viewFeedback(feedback)">
           <div class="timeline-heading" style="position:relative;">
             <h1 class="timeline-title" style="position:relative;white-space:nowrap;width:auto;font-size:1.4em;">
               <strong>{{feedback.lecture.title}}</strong>
@@ -79,7 +123,7 @@
 
       <li>
         <div class="timeline-badge primary">
-          <i class="{{timelineLoading}}"></i>
+          <i class="{{timelineIcon}}"></i>
         </div>
       </li>
     </ul>

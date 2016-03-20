@@ -1,6 +1,6 @@
 <div class="modal-header">
   <button ng-if="modal.dismissable" type="button" ng-click="$dismiss()" class="close">&times;</button>
-  <h4 ng-if="modal.title" ng-bind="modal.title" class="modal-title"></h4>
+  <h4 ng-if="modal.title" bind-unsafe-html="modal.title" class="modal-title"></h4>
 </div>
 <form class="form" name="form" novalidate>
   <div ng-if="!res.received">

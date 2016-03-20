@@ -159,6 +159,7 @@ function getFileType(fileLoc, cb) {
 exports.attachFiles = function(req, res) {
 	var lectureId = req.params.id;
 	var filesInfo = [];
+
 	var tempLocation = path.join(__dirname, '../../storage/lectures/temp/');
 	var dir = path.join(__dirname, '../../storage/lectures/', String(lectureId), '/');
 	var apiRoute = path.join('/api/storage/lectures/', String(lectureId), '/');
@@ -194,10 +195,19 @@ exports.attachFiles = function(req, res) {
 		});
 
 	});
+
+
+
 };
 
 // Creates a new lecture in the DB.
 exports.create = function(req, res) {
+	if (req.body.data) {
+		if (req.body.data.url) {
+			// strip out http and http from request, and re-add just http
+			req.body.data.url = 'http://' + req.body.data.url.split('http://').pop().split('https://').pop();
+		}
+	}
 	Lecture.create(req.body.data, function(err, lecture) {
 		if (err) {
 			console.log(err);
@@ -206,7 +216,7 @@ exports.create = function(req, res) {
 			// create preview, save server side, update lecture with preview
 			// if lecture has a url, generate a preview
 			if (lecture.url) {
-				Screenshot('http://' + lecture.url)
+				Screenshot(lecture.url)
 					.width(968)
 					.height(968)
 					.clip()

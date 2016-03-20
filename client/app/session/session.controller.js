@@ -133,6 +133,17 @@ angular.module('uniQaApp')
 		};
 		$scope.init = false; // just used for loading screen
 
+		$scope.getFile = function(file) {
+			Session.getFile({
+				lecture: $scope.lecture._id,
+				user: me._id,
+				file: file,
+				session: sessionid
+			}).then(function(res) {
+				// console.info(res);
+			});
+		};
+
 		// need to set this id by what gets passed through
 		Session.getOne(sessionid).then(function(res) {
 			// var start = moment(moment(res.startTime).utc() - (res.timeAllowance * _minute)).utc();
@@ -180,6 +191,7 @@ angular.module('uniQaApp')
 			*/
 			// for animated loading
 			$timeout(function() {
+				$scope.lecture._id = lecture._id;
 				$scope.lecture.title = lecture.title;
 				$scope.lecture.desc = lecture.desc;
 				$scope.lecture.url = lecture.url;
@@ -307,7 +319,25 @@ angular.module('uniQaApp')
 			}
 		}
 
-		$scope.showSessionContent = Modal.read.sessionContent(sessionid, function() {
+		$scope.checkLeave = function() {
+			// check times here, if there is still at least 10 minutes of time
+			// left, open up modal asking user for confirmation
+			var timeUntil = moment.utc($scope.session.endTime).subtract(10, 'minutes');
+
+			// if use is admin, redirect them to correct page
+			var path = $scope.isAdmin() ? '/session/start' : '/session/register';
+
+			if (moment.utc() <= timeUntil) {
+				var confirmModal = Modal.confirm.leaveSession(function() {
+					$location.path(path);
+				});
+				confirmModal();
+			} else {
+				$location.path(path);
+			}
+		};
+
+		$scope.showSessionContent = Modal.read.sessionContent($scope.lecture, sessionid, function() {
 			// $scope.refreshUserList();
 		});
 

@@ -24,12 +24,6 @@ angular.module('uniQaApp')
 				controller: 'NotificationCtrl',
 				authenticate: true
 			})
-			.state('profile', {
-				url: '/profile',
-				templateUrl: 'app/account/profile/profile.html',
-				controller: 'ProfileCtrl',
-				authenticate: true
-			})
 			.state('messages', {
 				url: '/profile/messages',
 				templateUrl: 'app/account/profile/messages/messages.html',

@@ -39,12 +39,6 @@ angular.module('uniQaApp')
 				admin: true,
 				student: false
 			}, {
-				title: 'Feedback',
-				link: '/my/feedback',
-				login: true,
-				admin: true,
-				student: false
-			}, {
 				title: 'Lecture Reg',
 				link: '/session/register',
 				//   link: '#',

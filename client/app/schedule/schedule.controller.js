@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uniQaApp')
-	.controller('ScheduleCtrl', function($scope, $http, $window, Auth, Session, Lecture, Group) {
+	.controller('ScheduleCtrl', function($scope, $http, $window, Auth, Session, Lecture, Group, Modal) {
 
 		// attach lodash to scope
 		$scope._ = _;
@@ -10,43 +10,52 @@ angular.module('uniQaApp')
 
 		$scope.sForm = {
 			lecture: '',
-			start: '',
-			end: '',
+			startTime: '',
+			endTime: '',
 			allowance: '',
-			group: '',
-			presTo: []
+			group: ''
 		}
 
-		$scope.windowHeight = $window.innerHeight - 52; // navbar + margin
+		// disabled states for buttons on ui
+		// $scope.schDelDisableBtn = 'disabled';
+		// $scope.schCancelDisableBtn = 'disabled';
+		// $scope.schAddSaveDisableBtn = 'disabled';
 
-		$scope.formAddSaveBtn = 'Add';
+		$scope.dateConfig = {
+			minuteStep: 5,
+			startView: "day",
+			minView: "minute"
+		};
+
+		// $scope.dpAria = false;
+
+		$scope.windowHeight = $window.innerHeight - 52; // navbar + margin
 
 		// $scope.cTime = new Date(); // get current date
 		$scope.noQueryResults = false;
 
-		$scope.mySessions = {};
+		$scope.myLectures = [];
+		$scope.myGroups = [];
+		$scope.selectedGroups = [];
+
 		$scope.resultsPerPage = 10;
 		$scope.currentPage = 1;
 		// $scope.totalPages = 8;
 
 		var me = Auth.getCurrentUser();
 
-		Session.getForMe({
-			author: me._id
-		}).then(function(res) {
-			$scope.mySessions = res;
-			$scope.mySessionCount = res.count === 0 ? 0 : res.count;
-			$scope.totalPages = Math.ceil(res.count / $scope.resultsPerPage);
-		});
+		var refreshSessions = function() {
+			Session.getForMe({
+				author: me._id
+			}).then(function(res) {
+				$scope.mySessions = res;
+				$scope.mySessionCount = res.count === 0 ? 0 : res.count;
+				$scope.totalPages = Math.ceil(res.count / $scope.resultsPerPage);
+			});
+		};
 
-		// Lecture.getForMe({
-		// 	createdBy: me._id,
-		// 	page: 1,
-		// 	paginate: 50
-		// }).then(function(res) {
-		// 	console.info(res);
-		// 	$scope.myLectures = res.result;
-		// });
+		refreshSessions();
+
 
 		$scope.searchForMyGroup = function(e) {
 			// checking length to see if id has been sent through
@@ -54,9 +63,6 @@ angular.module('uniQaApp')
 				// form lecture contains the object that can be used when saving
 				console.info($scope.sForm.lecture);
 			} else {
-				// for no value
-				// $scope.sForm.lecture = $scope.sForm.lecture || '';
-				// console.info($scope.sForm.lecture);
 				Group.getMyAssocGroups({
 					title: $scope.sForm.lecture,
 					createdBy: me._id,
@@ -64,24 +70,92 @@ angular.module('uniQaApp')
 					paginate: 50
 				}).then(function(res) {
 					console.info(res.result);
-					// reset before continuing
 					$scope.myLectures = res.result;
-					// filter through possibleCollaborators here, check against already existing collaborators and only allow them to stay if they don't exist
-
-					// for (var x = 0; x < res.collaborators.length; x++) {
-					// 	var isIn = false;
-					// 	for (var y = 0; y < $scope.myLectures.length; y++) {
-					// 		if (res.collaborators[x]._id == $rootScope.selectedCollaborators[y]._id) {
-					// 			isIn = true;
-					// 		}
-					// 	}
-					// 	if (!isIn) {
-					// 		$rootScope.possibleCollaborators.push(res.collaborators[x]);
-					// 	}
-					// }
 				});
 			}
 		};
+
+
+		$scope.beforeRenderConfig = function($view, $dates, $leftDate, $upDate, $rightDate) {
+
+			var currentDate = new Date();
+			var currentDateValue = currentDate.getTime();
+
+			var yearViewDate = new Date(currentDate.getFullYear(), 0);
+			var yearViewDateValue = yearViewDate.getTime();
+
+			var monthViewDate = new Date(currentDate.getFullYear(), currentDate.getMonth());
+			var monthViewDateValue = monthViewDate.getTime();
+
+			var dayViewDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+			var dayViewDateValue = dayViewDate.getTime();
+
+			var hourViewDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), currentDate.getHours());
+			var hourViewDateValue = hourViewDate.getTime();
+
+			var minuteViewDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), currentDate.getHours(), currentDate.getMinutes());
+			var minuteViewDateValue = minuteViewDate.getTime();
+
+			for (var index = 0; index < $dates.length; index++) {
+				var date = $dates[index];
+				// Disable if it's in the past
+				var dateValue = date.localDateValue();
+
+				switch ($view) {
+					case 'year':
+						if (dateValue < yearViewDateValue) {
+							date.selectable = false;
+						}
+						break;
+
+					case 'month':
+						if (dateValue < monthViewDateValue) {
+							date.selectable = false;
+						}
+						break;
+
+					case 'day':
+						if (dateValue < dayViewDateValue) {
+							date.selectable = false;
+						}
+						break;
+
+					case 'hour':
+						if (dateValue < hourViewDateValue) {
+							date.selectable = false;
+						}
+						break;
+
+					case 'minute':
+						if (dateValue < minuteViewDateValue) {
+							date.selectable = false;
+						}
+						break;
+				}
+			}
+		};
+
+		$scope.startTimeSelect = function(newDate, oldDate) {
+			$scope.sForm.startTimeMoment = moment.utc(newDate);
+			$scope.sForm.startTime = moment.utc(newDate).format('DD/MM/YYYY HH:mm');
+			// set endtime for convenience
+			$scope.sForm.endTimeMoment = moment.utc(moment(newDate).add(1, 'hours'));
+			$scope.sForm.endTime = moment.utc(moment(newDate).add(1, 'hours')).format('DD/MM/YYYY HH:mm');
+
+			angular.element(document.querySelector('#startTimeDropdown')).removeClass('open');
+			// doesn't work
+			angular.element(document.querySelector('a.dropdown-toggle')).attr('aria-expanded', 'false');
+		};
+
+		$scope.endTimeSelect = function(newDate, oldDate) {
+			$scope.sForm.endTime = moment.utc(newDate).format('DD/MM/YYYY HH:mm');
+
+			angular.element(document.querySelector('#endTimeDropdown')).removeClass('open');
+			// doesn't work
+			angular.element(document.querySelector('a.dropdown-toggle')).attr('aria-expanded', 'false');
+		};
+
+		// $scope.startTimeSelect(moment.utc());
 
 
 		$scope.searchForMyLectures = function(e) {
@@ -99,104 +173,150 @@ angular.module('uniQaApp')
 					page: 1,
 					paginate: 50
 				}).then(function(res) {
-					console.info(res.result);
-					// reset before continuing
 					$scope.myLectures = res.result;
-					// filter through possibleCollaborators here, check against already existing collaborators and only allow them to stay if they don't exist
-
-					// for (var x = 0; x < res.collaborators.length; x++) {
-					// 	var isIn = false;
-					// 	for (var y = 0; y < $scope.myLectures.length; y++) {
-					// 		if (res.collaborators[x]._id == $rootScope.selectedCollaborators[y]._id) {
-					// 			isIn = true;
-					// 		}
-					// 	}
-					// 	if (!isIn) {
-					// 		$rootScope.possibleCollaborators.push(res.collaborators[x]);
-					// 	}
-					// }
 				});
 			}
 		};
 
-		// need a function thats smart enough to tell wether the user wants to save or add a scheduled item
+		$scope.addSaveSchedule = function() {
+			if (formAddSaveBtn === 'Add') {
+				// begin creation
 
-		// addSaveSchedule
-		/*
-
-		$scope.refreshLectures = function(pageRequest) {
-			if ($scope.currentPage > 1 && !pageRequest) {
-				$scope.currentPage = 1;
-			}
-			Lecture.getForMe({
-				createdBy: me._id,
-				page: $scope.currentPage,
-				paginate: $scope.resultsPerPage
-			}).then(function(res) {
-				// reset this once filters are used. Need to look at removing this object altogether
-				if (res.count === 0) {
-					//no results
-					$scope.noQueryResults = true;
-				} else {
-					$scope.myLectures = res;
-					//   console.info(res);
-				}
-			});
-		};
-		var refreshLectureStats = function() {
-			Lecture.getMyTotal({
-				createdBy: me._id
-			}).then(function(res) {
-				$scope.myLectureCount = res.count === 0 ? 0 : res.count;
-				$scope.totalPages = Math.ceil(res.count / $scope.resultsPerPage);
-			});
-		};
-
-		$scope.changePaginationPage = function(page) {
-			if (page !== $scope.currentPage && page > 0 && page <= $scope.totalPages) {
-				$scope.currentPage = page;
-				$scope.refreshLectures(true);
-			}
-		};
-
-		Lecture.getForMe({
-			createdBy: me._id,
-			page: $scope.currentPage,
-			paginate: $scope.resultsPerPage
-		}).then(function(res) {
-			// reset this once filters are used. Need to look at removing this object altogether
-			if (res.count === 0) {
-				//no results
-				$scope.noQueryResults = true;
 			} else {
-				$scope.myLectures = res;
-				console.info(res);
+				// else update
 			}
-		});
-		//
-		// $scope.isDisabledDate = function(currentDate, mode) {
-		//   return mode === 'day' && (currentDate.getDay() === 0 || currentDate.getDay() === 6);
-		// };
+		}
 
-		$scope.openCreateLectureModal = Modal.create.lecture(function() { // callback when modal is confirmed
-			$scope.refreshLectures();
-			refreshLectureStats();
-		});
-		$scope.openUpdateLectureModal = Modal.update.lecture(function() { // callback when modal is confirmed
-			$scope.refreshLectures();
-		});
-		$scope.openDeleteLectureModal = Modal.delete.lecture(function(lecture) {
+		$scope.removeGroup = function(group) {
+			// console.info(group);
+			for (var item in $scope.selectedGroups) {
+				if ($scope.selectedGroups[item] == group) {
+					$scope.selectedGroups.splice(group, 1);
+				}
+			}
+		};
+
+		$scope.searchForMyGroups = function(e) {
+			console.info(e);
+			// checking length to see if id has been sent through
+			if (e.keyCode == 13 || e == 'Submit' || e._id) {
+				console.info($scope.myGroups);
+				// if name isn't on the list, break out of function
+				if ($scope.myGroups.length == 0) {
+					return;
+				} else {
+					// need to either get selected here, or select first
+					if (!($scope.sForm.group instanceof Object)) {
+						if (e == 'Submit') {
+							// gets index of child with active class from typeahead property
+							$scope.sForm.group = $scope.myGroups[angular.element(document.querySelector("[id*='typeahead']")).find('.active').index()];
+						}
+					}
+				}
+
+				// only add if we have a collaborator
+				if ($scope.sForm.group instanceof Object) {
+					$scope.selectedGroups.push($scope.sForm.group)
+				}
+				$scope.myGroups = [];
+				$scope.sForm.group = '';
+			} else {
+				Group.getMyAssocGroups({
+					user: me._id,
+					search: $scope.sForm.group
+				}).then(function(res) {
+					// reset before continuing
+					$scope.myGroups = [];
+					// filter through myGroups here, check against already existing collaborators and only allow them to stay if they don't exist
+					for (var x = 0; x < res.groups.length; x++) {
+						var isIn = false;
+						for (var y = 0; y < $scope.selectedGroups.length; y++) {
+							if (res.groups[x]._id == $scope.selectedGroups[y]._id) {
+								isIn = true;
+							}
+						}
+						if (!isIn) {
+							$scope.myGroups.push(res.groups[x]);
+						}
+					}
+					console.info($scope.myGroups);
+				});
+			}
+
+		};
+
+		$scope.clearSchedForm = function() {
+			$scope.sForm = {
+				lecture: '',
+				startTime: '',
+				endTime: '',
+				allowance: '',
+				group: ''
+			}
+			$scope.selectedGroups = [];
+		};
+		$scope.openUpdateDelSessionModal = Modal.update.session(function(session) {
 			// when modal is confirmed, callback
 			if (lecture) {
-				Lecture.remove({
-					_id: lecture._id
+				Lecture.remove(lecture._id).then(function(res) {
+					refreshLectures();
 				});
-				$scope.refreshLectures();
-				refreshLectureStats();
 			}
 		});
 
-		$scope.editMinutes = function(datetime, minutes) {
-			return new Date(datetime).getTime() + minutes * 60000;
-		};*/
+		// $scope.openUpdateDelSessionModal = Modal.update.session() {
+		// 	$scope.sForm = {
+		// 		lecture: '',
+		// 		startTime: '',
+		// 		endTime: '',
+		// 		allowance: '',
+		// 		group: ''
+		// 	}
+		// 	$scope.selectedGroups = [];
+		// };
+
+		$scope.addSchedule = function() {
+			console.info($scope.sForm);
+			console.info($scope.selectedGroups);
+			$scope.submitted = true;
+			if ($scope.sForm.lecture && $scope.sForm.startTime && $scope.sForm.endTime && !_.isEmpty($scope.selectedGroups)) {
+				// setup vars to be sent across to API
+				var presGroups = [];
+				// push each selected collaborator into array
+				for (var i = 0; i < $scope.selectedGroups.length; i++) {
+					presGroups.push({
+						group: $scope.selectedGroups[i]._id
+					})
+				}
+
+				var data = {
+					lecture: $scope.sForm.lecture._id,
+					startTime: moment.utc($scope.sForm.startTimeMoment).toISOString(),
+					endTime: moment.utc($scope.sForm.endTimeMoment).toISOString(),
+					groups: presGroups,
+					timeAllowance: $scope.sForm.allowance
+				};
+
+				Session.createSession({
+						data: data
+					})
+					.then(function(res) {
+						refreshSessions();
+						$scope.clearSchedForm();
+					})
+					.catch(function(err) {
+						$scope.errors = {};
+
+						console.info(err);
+
+						// Update validity of form fields that match the mongoose errors
+						// angular.forEach(err.errors, function(error, field) {
+						// 	//console.info(form[field]);
+						// 	form[field].$setValidity('mongoose', false);
+						// 	$scope.errors[field] = error.message;
+						// });
+					});
+			}
+		};
+
 	});

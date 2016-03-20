@@ -2,53 +2,53 @@
 
 <div class="container">
   <div class="row schedule-container" style="margin-top:0em;">
-    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 schedule" style="margin-top:-1.34em;">
-      <ul ng-if="!_.isEmtpy(mySessions)" class="timeline">
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 schedule" style="margin-top:-1.34em;padding-bottom:8em;">
+      <ul ng-if="!_.isEmpty(mySessions)" class="timeline" style="">
         <li class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-repeat="session in mySessions" ng-class="{'sessionSchedule' : $index == 0 || moment.utc(mySessions[$index-1].startTime).format('dddd Do MMMM, YYYY')!==moment.utc(session.startTime).format('dddd Do MMMM, YYYY')}">
 
           <h3 ng-if="$index == 0 || moment.utc(mySessions[$index-1].startTime).format('dddd Do MMMM, YYYY')!==moment.utc(session.startTime).format('dddd Do MMMM, YYYY')">{{moment.utc(session.startTime).format("dddd Do MMMM, YYYY")}}</h3>
           <hr ng-if="$index == 0 || moment.utc(mySessions[$index-1].startTime).format('dddd Do MMMM, YYYY')!==moment.utc(session.startTime).format('dddd Do MMMM, YYYY')" class="resource-hr">
+          <a ng-click="openUpdateDelSessionModal(session)" style="text-decoration:none;color:#2E3540;">
+            <div class="scheduled-session" style="padding:.5em;">
+              <h3 class="" style="margin:.6em 0 .2em; position:relative; text-decoration:underline;">
+                {{moment.utc(session.startTime).format("HH:mm")}}
+                -
+                {{moment.utc(session.endTime).format("HH:mm")}}
+                <span ng-if="session.timeAllowance!=0" class="label label-primary" style="font-size:.5em;position:absolute;top:.3em;padding-top:.3em;left:14em;display:inline-block;">+/-
+                  {{session.timeAllowance}}
+                  minutes</span>
+              </h3>
+              <div class="media" style="padding:.4em 0;">
+                <div class="media-left media-top pull-left" style="width:128px;height:128px;clear:left;">
+                  <div class="media-object">
+                    <ext-svg data-content="session.qr.svg"></ext-svg>
+                  </div>
 
-          <div class="scheduled-session" style="padding:.5em;">
-            <h3 class="" style="margin:.6em 0 .2em; position:relative; text-decoration:underline;">
-              {{moment.utc(session.startTime).format("HH:mm")}}
-              -
-              {{moment.utc(session.endTime).format("HH:mm")}}
-              <span ng-if="session.timeAllowance!=0" class="label label-primary" style="font-size:.5em;position:absolute;top:.3em;padding-top:.3em;left:14em;display:inline-block;">+/-
-                {{session.timeAllowance}}
-                minutes</span>
-            </h3>
-            <div class="media" style="padding:.4em 0;">
-              <div class="media-left media-top pull-left" style="width:128px;height:128px;clear:left;">
-                <div class="media-object">
-                  <ext-svg data-content="session.qr.svg"></ext-svg>
+                  <!-- <img class="pull-left media-object" src="/assets/images/placeholders/uniqa-qr.png" width="128px;" alt="..."> -->
                 </div>
-
-                <!-- <img class="pull-left media-object" src="/assets/images/placeholders/uniqa-qr.png" width="128px;" alt="..."> -->
-              </div>
-              <div class="media-body" style="padding-left:1em;display:inline-block;width:70%;">
-                <div>
-                  <h5 style="display:inline-block;">{{session.lecture.title}}
-                    -
-                  </h5>
-                  <h5 style="display:inline-block;">{{session.lecture.desc}}</h5>
-                </div>
-                <div>
-                  <h5 style="display:inline-block;">Audience:
-                  </h5>
-                  <h5 ng-if="_.isEmpty(session.groups)" style="display:inline-block;" class="text-danger">No groups set.</h5>
-                  <h5 ng-if="!_.isEmpty(session.groups)" style="display:inline-block;" ng-repeat="group in session.groups">{{group.group.course}}
-                    <span style="padding:0;margin:0;" ng-if="!$last">,&nbsp;</span>
+                <div class="media-body" style="padding-left:1em;display:inline-block;width:70%;">
+                  <div>
+                    <h5 style="display:inline-block;">{{session.lecture.title}}
+                      -
+                    </h5>
+                    <h5 style="display:inline-block;">{{session.lecture.desc}}</h5>
+                  </div>
+                  <div>
+                    <h5 style="display:inline-block;">Audience:
+                    </h5>
+                    <h5 ng-if="_.isEmpty(session.groups)" style="display:inline-block;" class="text-danger">No groups set.</h5>
+                    <h5 ng-if="!_.isEmpty(session.groups)" style="display:inline-block;" ng-repeat="group in session.groups">{{group.group.course}}
+                      <span style="padding:0;margin:0;" ng-if="!$last">,&nbsp;</span>
+                    </h5>
+                  </div>
+                  <h5 ng-if="session.started" style="display:inline-block;">Feedback:
+                    <!-- OPEN UP MODAL ON CLICK HERE WITH ALL THE RATINGS/COMMENTS MADE -->
+                    <div style="display:inline-block;" class="star-rating" star-rating rating-value="4.5" data-max="5"></div>
                   </h5>
                 </div>
-                <h5 ng-if="session.started" style="display:inline-block;">Feedback:
-                  <!-- OPEN UP MODAL ON CLICK HERE WITH ALL THE RATINGS/COMMENTS MADE -->
-                  <div style="display:inline-block;" class="star-rating" star-rating rating-value="4.5" data-max="5"></div>
-                </h5>
               </div>
             </div>
-          </div>
-
+          </a>
           <!-- <hr class="mini-resource-hr" ng-if="moment.utc(mySessions[$index+1].startTime).format('dddd Do MMMM, YYYY')===moment.utc(session.startTime).format('dddd Do MMMM, YYYY') "> -->
         </li>
       </ul>
@@ -67,114 +67,100 @@
       </div>
     </div>
 
-    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 schedule-form" style="" style="position:relative;">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 schedule-form-fix">
-        <h2 style="margin:.2em 0;width:100%;text-align:center;">Schedule Planner</h2>
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 schedule-form" style="position:relative;">
+      <div sticky offset="0" bottom-class="footer">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 schedule-form-fix">
+          <div class="form-group col-xs-8 col-sm-6 col-md-6 col-lg-6 col-md-offset-3 col-lg-offset-3" style="margin-top:1em;margin-bottom:1em;">
+            <img src="assets/images/placeholders/uniqa-qr.png" style="border:2px solid #343D48;border-radius:2px;width:100%;" alt="QR Example" class="img-responsive"/>
+          </div>
+          <h3 style="margin:.2em 0 .8em;width:100%;text-align:center;clear:both;">Add Session</h3>
+          <div class="form-group" style="clear:left;" ng-class="{ 'has-success': form.createdBy.$valid && submitted,'has-error': form.createdBy.$invalid && submitted }">
+            <label>Lecture</label>
+            <input type="text" class="form-control" placeholder="Lecture Name" ng-model="sForm.lecture" typeahead="lecture as lecture.title for lecture in myLectures | filter:{title:$viewValue} | limitTo:10" typeahead-on-select="searchForMyLectures($item)" ng-keyup="searchForMyLectures($event)">
 
-        <div class="form-group col-xs-8 col-sm-6 col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2" style="margin-top:1em;margin-bottom:1em;">
-          <img src="assets/images/placeholders/uniqa-qr.png" style="border:2px solid #343D48;border-radius:2px;width:100%;" alt="QR Example" class="img-responsive"/>
-        </div>
-        <div class="form-group" style="clear:left;" ng-class="{ 'has-success': form.createdBy.$valid && submitted,'has-error': form.createdBy.$invalid && submitted }">
-          <label>Lecture</label>
-          <input type="text" class="form-control" placeholder="Lecture Name" ng-model="sForm.lecture" typeahead="lecture as lecture.title for lecture in myLectures | filter:{title:$viewValue} | limitTo:10" typeahead-on-select="searchForMyLectures($item)" ng-keyup="searchForMyLectures($event)">
+            <p class="help-block" ng-show="form.createdBy.$error.required && submitted">Something was not right there.</p>
+            <p class="help-block" name="createdByVal" ng-show="form.createdBy.$error.mongoose">{{ errors.createdBy }}</p>
+          </div>
+          <div class="form-group" ng-class="{ 'has-success': form.startTime.$valid && submitted,'has-error': form.startTime.$invalid && submitted }">
+            <label>Start Time</label>
+            <div class="dropdown" id="startTimeDropdown">
+              <a class="dropdown-toggle input-group" role="button" href="#">
 
-          <!-- <div class="input-group">
-            <input type="text" class="form-control" placeholder="Lecture Name" ng-model="form.lecture" typeahead="lecture as lecture.title for lecture in myLectures | filter:{title:$viewValue} | limitTo:10" typeahead-on-select="searchForMyLectures($item)" ng-keyup="searchForMyLectures($event)">
-            <div class="input-group-btn">
-              <button type="button" class="btn btn-default" style="border-color:#cccccc;">
-                <i class="fa fa-search"></i>
-              </button>
+                <input type="text" class="form-control" id="startTime" ng-model="sForm.startTime">
+                <div class="input-group-btn">
+                  <span class="btn btn-default" style="border-color:#cccccc;">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                  </span>
+                </div>
+              </a>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                <datetimepicker ng-model="dateConfig" datetimepicker-config="dateConfig" data-before-render="beforeRenderConfig($view, $dates, $leftDate, $upDate, $rightDate)" data-on-set-time="startTimeSelect(newDate, oldDate)"/>
+              </ul>
             </div>
-          </div> -->
-          <!-- <input type="text" name="createdBy" class="form-control" ng-model="lecture.createdBy" mongoose-error> -->
-          <p class="help-block" ng-show="form.createdBy.$error.required && submitted">Something was not right there.</p>
-          <p class="help-block" name="createdByVal" ng-show="form.createdBy.$error.mongoose">{{ errors.createdBy }}</p>
-        </div>
-        <div class="form-group" ng-class="{ 'has-success': form.startTime.$valid && submitted,'has-error': form.startTime.$invalid && submitted }">
-          <label>Start Time</label>
-          <div class="input-group">
-            <input type="text" class="form-control" data-ng-model="session.startTime">
-            <div class="input-group-btn">
-              <button type="button" class="btn btn-default" style="border-color:#cccccc;">
-                <span class="glyphicon glyphicon-calendar"></span>
-              </button>
+            <p class="help-block" ng-show="form.startTime.$error.startTime && submitted">Add some validation here</p>
+            <p class="help-block" ng-show="form.startTime.$error.required && submitted">Add some validation here</p>
+            <p class="help-block" name="startTimeVal" ng-show="form.startTime.$error.mongoose">{{ errors.startTime }}</p>
+          </div>
+          <div class="form-group" ng-class="{ 'has-success': form.endTime.$valid && submitted,'has-error': form.endTime.$invalid && submitted }">
+            <label>End Time</label>
+            <div class="dropdown" id="endTimeDropdown">
+              <a class="dropdown-toggle input-group" role="button" href="#">
+
+                <input type="text" class="form-control" id="endTime" ng-model="sForm.endTime">
+                <div class="input-group-btn">
+                  <span class="btn btn-default" style="border-color:#cccccc;">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                  </span>
+                </div>
+              </a>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                <datetimepicker ng-model="dateConfig" datetimepicker-config="dateConfig" data-before-render="beforeRenderConfig($view, $dates, $leftDate, $upDate, $rightDate)" data-on-set-time="endTimeSelect(newDate, oldDate)"/>
+              </ul>
             </div>
+            <!-- <div class="input-group">
+                  <input type="text" class="form-control" ng-model="session.endTime">
+                  <div class="input-group-btn">
+                    <button type="button" class="btn btn-default" style="border-color:#cccccc;">
+                      <span class="glyphicon glyphicon-calendar"></span>
+                    </button>
+                  </div>
+                </div> -->
+            <p class="help-block" ng-show="form.endTime.$error.endTime && submitted">Add some validation here</p>
+            <p class="help-block" ng-show="form.endTime.$error.required && submitted">Add some validation here</p>
+            <p class="help-block" name="endTimeVal" ng-show="form.endTime.$error.mongoose">{{ errors.endTime }}</p>
           </div>
-          <p class="help-block" ng-show="form.startTime.$error.startTime && submitted">Add some validation here</p>
-          <p class="help-block" ng-show="form.startTime.$error.required && submitted">Add some validation here</p>
-          <p class="help-block" name="startTimeVal" ng-show="form.startTime.$error.mongoose">{{ errors.startTime }}</p>
-        </div>
-        <div class="form-group" ng-class="{ 'has-success': form.endTime.$valid && submitted,'has-error': form.endTime.$invalid && submitted }">
-          <label>End Time</label>
-          <div class="input-group">
-            <input type="text" class="form-control" data-ng-model="session.endTime">
-            <div class="input-group-btn">
-              <button type="button" class="btn btn-default" style="border-color:#cccccc;">
-                <span class="glyphicon glyphicon-calendar"></span>
-              </button>
+          <div class="form-group" ng-class="{ 'has-success': form.qActAllowance.$valid && submitted,'has-error': (form.qActAllowance.$invalid && submitted) || (form.qActAllowance < 0) || (form.qActAllowance > 60) }">
+            <label>Lecture Time Allowance</label>
+            <input type="number" name="qActAllowance" placeholder="default: 30 minutes" class="form-control" ng-model="sForm.allowance" step="5" max="60" min="0" required mongoose-error/>
+            <p class="help-block" ng-show="(form.qActAllowance.$error.minlength || form.qActAllowance.$error.required) && (form.qActAllowance < 0) || (form.qActAllowance > 60) && submitted">Must be between 0 and 60</p>
+            <p class="help-block" ng-show="form.qActAllowance.$error.mongoose">{{ errors.qActAllowance }}</p>
+          </div>
+          <div class="form-group" ng-class="{ 'has-success': form.qActAllowance.$valid && submitted,'has-error': (form.qActAllowance.$invalid && submitted) || (form.qActAllowance < 0) || (form.qActAllowance > 60) }">
+            <label>Present To</label>
+            <div class="input-group">
+              <input type="text" class="form-control" ng-model="sForm.group" placeholder="Group Name" typeahead="group as group.course for group in myGroups | filter:{course:$viewValue} | limitTo:10" typeahead-on-select="searchForMyGroups($item)" ng-keyup="searchForMyGroups($event)">
+              <div class="input-group-btn">
+                <button type="button" ng-click="searchForMyGroups('Submit')" class="btn btn-default" style="border-color:#cccccc;">
+                  <i class="fa fa-plus"></i>
+                </button>
+              </div>
             </div>
-          </div>
-          <p class="help-block" ng-show="form.endTime.$error.endTime && submitted">Add some validation here</p>
-          <p class="help-block" ng-show="form.endTime.$error.required && submitted">Add some validation here</p>
-          <p class="help-block" name="endTimeVal" ng-show="form.endTime.$error.mongoose">{{ errors.endTime }}</p>
-        </div>
-        <div class="form-group" ng-class="{ 'has-success': form.qActAllowance.$valid && submitted,'has-error': (form.qActAllowance.$invalid && submitted) || (form.qActAllowance < 0) || (form.qActAllowance > 60) }">
-          <label>Lecture Time Allowance</label>
-          <input type="number" name="qActAllowance" placeholder="default: 30 minutes" class="form-control" ng-model="sForm.allowance" step="5" max="60" min="0" required mongoose-error/>
-          <p class="help-block" ng-show="(form.qActAllowance.$error.minlength || form.qActAllowance.$error.required) && (form.qActAllowance < 0) || (form.qActAllowance > 60) && submitted">Must be between 0 and 60</p>
-          <p class="help-block" ng-show="form.qActAllowance.$error.mongoose">{{ errors.qActAllowance }}</p>
-        </div>
-        <div class="form-group" ng-class="{ 'has-success': form.qActAllowance.$valid && submitted,'has-error': (form.qActAllowance.$invalid && submitted) || (form.qActAllowance < 0) || (form.qActAllowance > 60) }">
-          <label>Present To</label>
-          <div class="input-group">
-            <input type="text" class="form-control" ng-model="sForm.group" placeholder="Group Name" ng-model="sForm.lecture" typeahead="group as group.course for lecture in myGroups | filter:{title:$viewValue} | limitTo:10" typeahead-on-select="searchForMyGroups($item)" ng-keyup="searchForMyGroups($event)">
-            <div class="input-group-btn">
-              <button type="button" class="btn btn-default" style="border-color:#cccccc;">
-                <i class="fa fa-plus"></i>
-              </button>
+            <div style="margin-top:.4em;">
+              <h3 ng-repeat="group in selectedGroups" class="label label-warning" style="display:inline-block;font-size:.9em;margin:.2em .4em .2em 0;padding:.6em;">
+                {{group.course}}
+                <a style="color:#343D48;" href="#" ng-click="removeGroup(group)">
+                  <i class="fa fa-times" style="margin-left:.4em;"></i>
+                </a>
+              </h3>
             </div>
+            <p class="help-block" ng-show="(form.qActAllowance.$error.minlength || form.qActAllowance.$error.required) && (form.qActAllowance < 0) || (form.qActAllowance > 60) && submitted">Must be between 0 and 60</p>
+            <p class="help-block" ng-show="form.qActAllowance.$error.mongoose">{{ errors.qActAllowance }}</p>
           </div>
-          <!-- <input type="text" name="groups" class="form-control" ng-model="session.group" max="60" min="0" required mongoose-error/> -->
-          <div style="margin-top:.4em;">
-            <h3 ng-repeat="group in selectedGroups" class="label label-warning" style="display:inline-block;font-size:.9em;margin:.2em .4em .2em 0;padding:.6em;">
-              {{group.course}}
-              <a style="color:#343D48;" href="#" ng-click="removeGroup(group)">
-                <i class="fa fa-times" style="margin-left:.4em;"></i>
-              </a>
-            </h3>
-            <!-- <h4 class="label label-warning" style="display:inline-block;font-size:.9em;margin:.2em .4em .2em 0;">Software Engineering
-              <a style="color:#343D48;" href="#">
-                <i class="fa fa-times" style="margin-left:.4em;"></i>
-              </a>
-            </h4>
-            <h4 class="label label-warning" style="display:inline-block;font-size:.9em;margin:.2em .4em .2em 0;">Computer Science
-              <a style="color:#343D48;" href="#">
-                <i class="fa fa-times" style="margin-left:.4em;"></i>
-              </a>
-            </h4>
-            <h4 class="label label-warning" style="display:inline-block;font-size:.9em;margin:.2em .4em .2em 0;">Web Security
-              <a style="color:#343D48;" href="#">
-                <i class="fa fa-times" style="margin-left:.4em;"></i>
-              </a>
-            </h4>
-            <h4 class="label label-warning" style="display:inline-block;font-size:.9em;margin:.2em .4em .2em 0;">Computing
-              <a style="color:#343D48;" href="#">
-                <i class="fa fa-times" style="margin-left:.4em;"></i>
-              </a>
-            </h4>
-            <h4 class="label label-warning" style="display:inline-block;font-size:.9em;margin:.2em .4em .2em 0;">Media
-              <a style="color:#343D48;" href="#">
-                <i class="fa fa-times" style="margin-left:.4em;"></i>
-              </a>
-            </h4> -->
-          </div>
-          <p class="help-block" ng-show="(form.qActAllowance.$error.minlength || form.qActAllowance.$error.required) && (form.qActAllowance < 0) || (form.qActAllowance > 60) && submitted">Must be between 0 and 60</p>
-          <p class="help-block" ng-show="form.qActAllowance.$error.mongoose">{{ errors.qActAllowance }}</p>
         </div>
-      </div>
-      <div class="form-group pull-right" style="margin-top:1em;">
-        <button class="btn btn-primary btn-md" type="button">Cancel</button>
-        <button class="btn btn-success btn-md" type="button" ng-click="addSaveSchedule()">{{formAddSaveBtn}}</button>
+        <div class="form-group pull-right" style="margin-top:1em;">
+          <button class="btn btn-default btn-md" ng-click="clearSchedForm()" ng-class="{'disabled': (!sForm.startTime && !sForm.lecture && !sForm.endTime && !sForm.allowance && _.isEmpty(selectedGroups))}" type="button">Clear</button>
+          <button class="btn btn-success btn-md" type="button" ng-class="{'disabled': (!sForm.startTime || !sForm.lecture || !sForm.endTime || !sForm.allowance || _.isEmpty(selectedGroups))}" ng-click="addSchedule()">Add</button>
+        </div>
       </div>
     </div>
   </div>

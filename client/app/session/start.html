@@ -38,11 +38,13 @@
 
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top:2em;">
 
-            <div href="#" class="hidden-xs hidden-sm col-md-2 col-lg-2 visible-sm visible-md visible-lg lecture-start-preview">
+            <div href="#" class="hidden-xs hidden-sm col-md-2 col-lg-2 visible-sm visible-md visible-lg lecture-start-preview" style="padding:0;">
               <h4 ng-if="!nextLecture.preview">No Preview Available
                 <i style="display:block;margin-top:.4em;" class="fa fa-frown-o fa-2x"></i>
               </h4>
-              <i ng-if="nextLecture.preview" class="fa fa-search-plus fa-5x" style="width:100%;text-align:center;margin:1.27em 0;" ng-if="preview"></i>
+              <img ng-if="nextLecture.preview" src="{{nextLecture.preview}}" style="width:100%;">
+              <!-- <i ng-if="nextLecture.preview && nextLecture.preHover" class="fa fa-search-plus fa-5x" style="background-color:rgba(0,0,0,.2);height:100%;width:100%;text-align:center;padding:1.27em 0;top:0;position:absolute;"></i> -->
+              <!-- <i ng-if="nextLecture.preview" class="fa fa-search-plus fa-5x" style="width:100%;text-align:center;margin:1.27em 0;" ng-if="preview"></i> -->
             </div>
 
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 lecture-start-info" style="margin-top:.6em;">
@@ -123,12 +125,12 @@
         <h3 class="" style="padding-left:4px;">Next lectures scheduled...</h3>
         <hr class="resource-hr">
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" style="margin:0 0 2em;text-align:center;" ng-repeat="session in upcomingSessions">
-          <div class="col-xs-12 col-sm-8 col-md-10 col-lg-8 col-sm-offset-2 col-md-offset-1 col-lg-offset-2 visible-sm visible-md visible-lg">
+          <div class="col-xs-12 col-sm-8 col-md-10 col-lg-8 col-sm-offset-2 col-md-offset-1 col-lg-offset-2 visible-sm visible-md visible-lg" style="padding:0;">
             <div class="lecture-start-preview-mini">
-              <h4 ng-if="!nextLecture.preview" style="margin:4.45em 0">No Preview Available
+              <h4 ng-if="!session.preview" style="margin:4.45em 0">No Preview Available
                 <i style="display:block;" class="fa fa-frown-o"></i>
               </h4>
-              <i ng-if="nextLecture.preview" class="fa fa-search-plus fa-5x" style="margin:.91em 0;width:100%;text-align:center;" ng-if="preview"></i>
+              <img ng-if="session.preview" src="{{nextLecture.preview}}" style="width:100%;">
             </div>
           </div>
           <h2>

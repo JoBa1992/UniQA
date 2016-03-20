@@ -10,7 +10,8 @@ angular.module('uniQaApp', [
 		'ui.router',
 		'ui.bootstrap',
 		'btford.socket-io',
-		'ui.bootstrap.datetimepicker'
+		'ui.bootstrap.datetimepicker',
+		'sticky'
 	])
 	.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
 		// root level routes
@@ -39,10 +40,10 @@ angular.module('uniQaApp', [
 				controller: 'ScheduleCtrl',
 				authenticate: true
 			})
-			.state('feedback', {
-				url: '/my/feedback',
-				templateUrl: 'app/feedback/feedback.html',
-				controller: 'FeedbackCtrl',
+			.state('profile', {
+				url: '/profile',
+				templateUrl: 'app/profile/profile.html',
+				controller: 'ProfileCtrl',
 				authenticate: true
 			})
 			.state('statMgr', {

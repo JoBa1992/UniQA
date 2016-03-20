@@ -6,8 +6,7 @@ var mongoose = require('mongoose'),
 var SessionSchema = new Schema({
 	lecture: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Lecture',
-		required: true
+		ref: 'Lecture'
 	},
 	startTime: Date,
 	endTime: Date,
@@ -28,8 +27,7 @@ var SessionSchema = new Schema({
 		type: Number,
 		min: 0,
 		max: 60,
-		default: 10,
-		required: true
+		default: 10
 	},
 	registered: [{
 		user: {
@@ -85,6 +83,15 @@ var SessionSchema = new Schema({
 		},
 		_id: false
 	}],
+	downloads: [{
+		user: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User'
+		},
+		file: {
+			type: mongoose.Schema.Types.ObjectId
+		}
+	}]
 });
 
 module.exports = mongoose.model('Session', SessionSchema);
