@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uniQaApp')
-	.factory('Modal', function($rootScope, $modal, $parse, $window, $location, Auth, Thing, Group, Lecture, Session) {
+	.factory('Modal', function($rootScope, $modal, $parse, $window, $location, $timeout, $interval, Auth, Thing, Group, Lecture, Session) {
 
 		// Use the User $resource to fetch all users
 		$rootScope.user = {};
@@ -24,12 +24,15 @@ angular.module('uniQaApp')
 			modalClass = modalClass || 'modal-default';
 			modalSize = modalSize || 'md';
 
-
 			angular.extend(modalScope, scope);
 
+			var modalTemplate = modalScope.modal.template || 'components/modal/views/modal.html'
+			var modalBackdrop = modalScope.modal.backdrop || true;
+
 			return $modal.open({
-				templateUrl: 'components/modal/views/modal.html',
+				templateUrl: modalTemplate,
 				windowClass: modalClass,
+				backdrop: modalBackdrop,
 				scope: modalScope,
 				size: modalSize
 			});
@@ -57,7 +60,7 @@ angular.module('uniQaApp')
 							console.info(res);
 							readModal = openModal({
 								modal: {
-									name: 'createrUserForm',
+									name: 'View QR',
 									dismissable: true,
 									form: 'components/modal/views/qr/read.html',
 									title: 'Show QR',
@@ -71,6 +74,164 @@ angular.module('uniQaApp')
 								}
 							}, 'modal-primary', null);
 						});
+					};
+				},
+				lecture: function(cb) {
+					cb = cb || angular.noop;
+					return function() {
+						var readModal;
+						var args = Array.prototype.slice.call(arguments);
+						var lecture = args.shift();
+
+						$rootScope._ = _;
+						// attach moment to rootScope
+						$rootScope.moment = moment;
+
+						$rootScope.isAdmin = Auth.isAdmin;
+						$rootScope.isStudent = Auth.isStudent;
+
+						var _second = 1000;
+						var _minute = _second * 60;
+						var _hour = _minute * 60;
+						var _day = _hour * 24;
+						var interval = 100; // for accuracy
+						var getTimer;
+						$rootScope.timer = '0:00:00';
+						$rootScope.timerRunning = false;
+						var timerReset = true;
+						var now, duration;
+
+						var counter = function() {
+							duration = moment.duration(moment.utc().diff(now));
+							$rootScope.timer = Math.floor(duration.asHours()) + moment.utc(duration.asMilliseconds()).format(":mm:ss");
+						};
+
+						$rootScope.startTimer = function() {
+							if (!$rootScope.timerRunning) {
+								if (timerReset) {
+									now = moment.utc();
+									timerReset = false;
+								}
+								$rootScope.timerRunning = true;
+								getTimer = $interval(counter, interval);
+							}
+						};
+
+						$rootScope.resetTimer = function() {
+							$rootScope.timerRunning = false;
+							$interval.cancel(getTimer);
+							$rootScope.timer = '0:00:00';
+							timerReset = true;
+						};
+
+
+						$rootScope.pauseTimer = function() {
+							if (!$rootScope.timerRunning) {
+								$rootScope.timerRunning = true;
+								getTimer = $interval(counter, interval);
+							} else {
+								$rootScope.timerRunning = false;
+								$interval.cancel(getTimer);
+							}
+
+						};
+
+						// url parameter passed through
+						// var sessionid = $stateParams.sessionid;
+						// console.info(lecture);
+
+						var me = Auth.getCurrentUser();
+
+						$rootScope.trustSrc = function(src) {
+							return $sce.trustAsResourceUrl(src);
+						};
+
+						// rootScope load for user
+						$rootScope.showQuestionSubmit = false;
+						$rootScope.fedback = true;
+
+						$rootScope.session = {};
+
+						// rootScope load for lecture/tutor
+						$rootScope.lectureHeight = $window.innerHeight - 10;
+						// $rootScope.lectureHeightMarginTop = '-1.4em;';
+						$rootScope.fullScreenToggle = false;
+						$rootScope.hideQuestions = false;
+						$rootScope.hideQuestionIcon = 'fa-arrow-right';
+						$rootScope.toggleBtnPosRight = 16;
+						$rootScope.toggleFullScreenIcon = 'fa-expand';
+						$rootScope.init = false;
+
+						$rootScope.toggleFullScreen = function() {
+							if (!$rootScope.fullScreenToggle) { // Launch fullscreen for browsers that support it!
+								var element = document.getElementById('lecture-fullscreen');
+								if (element.requestFullScreen) {
+									element.requestFullScreen();
+								} else if (element.mozRequestFullScreen) {
+									element.mozRequestFullScreen();
+								} else if (element.webkitRequestFullScreen) {
+									element.webkitRequestFullScreen();
+								}
+								// $rootScope.lectureHeightMarginTop = '0em;';
+								$rootScope.lectureHeight = '890';
+								$rootScope.toggleFullScreenIcon = 'fa-compress';
+								$rootScope.fullScreenToggle = true;
+							} else { // Cancel fullscreen for browsers that support it!
+								if (document.exitFullscreen) {
+									document.exitFullscreen();
+								} else if (document.mozCancelFullScreen) {
+									document.mozCancelFullScreen();
+								} else if (document.webkitExitFullscreen) {
+									document.webkitExitFullscreen();
+								}
+								// $rootScope.lectureHeightMarginTop = '-1.4em;';
+								$rootScope.lectureHeight = '760';
+								$rootScope.toggleFullScreenIcon = 'fa-expand';
+								$rootScope.fullScreenToggle = false;
+							}
+						};
+
+						$rootScope.toggleQuestions = function() {
+							if ($rootScope.hideQuestions) {
+								$rootScope.presViewSizeMd = 'col-md-9';
+								$rootScope.presViewSizeLg = 'col-lg-9';
+								$rootScope.hideQuestionIcon = 'fa-arrow-right';
+								$rootScope.hideQuestions = false;
+								$rootScope.toggleBtnPosRight = 16;
+
+							} else {
+								$rootScope.presViewSizeMd = 'col-md-12';
+								$rootScope.presViewSizeLg = 'col-lg-12';
+								$rootScope.questionIconNumber = $rootScope.lecture.questions.length;
+								$rootScope.hideQuestionIcon = '';
+								$rootScope.hideQuestions = true;
+								$rootScope.toggleBtnPosRight = 16;
+
+							}
+						};
+						$rootScope.lecture = lecture;
+
+						$timeout(function() {
+							$rootScope.init = true;
+						}, 5000);
+
+						readModal = openModal({
+							modal: {
+								name: 'createrUserForm',
+								dismissable: true,
+								template: 'components/modal/views/splash.html',
+								form: 'components/modal/views/lecture/preview.html',
+								title: '',
+								buttons: [{
+									classes: 'btn-primary',
+									text: 'Dismiss',
+									click: function(e) {
+										$rootScope.resetTimer();
+										readModal.close(e);
+									}
+								}]
+							}
+						}, 'modal-primary', 'fs');
 					};
 				},
 				sessionContent: function(cb) {
@@ -128,8 +289,9 @@ angular.module('uniQaApp')
 
 					return function() {
 						var args = Array.prototype.slice.call(arguments);
-						// attach momentJS to scope
+						// attach momentJS to rootScope
 						$rootScope.moment = moment;
+						$rootScope._ = _;
 
 						$rootScope.feedback = args.shift(); // gets feedback passed through from main view
 
@@ -137,14 +299,32 @@ angular.module('uniQaApp')
 						var me = Auth.getCurrentUser();
 
 						$rootScope.showQuestions = false;
+						$rootScope.showRegister = false;
 
 						$rootScope.toggleQuestions = function() {
 							$rootScope.showQuestions = !$rootScope.showQuestions;
 						}
 
+						$rootScope.toggleRegister = function() {
+							$rootScope.showRegister = !$rootScope.showRegister;
+						}
 
-
-						console.info($rootScope.feedback);
+						// cross check registered students against those expected,
+						$rootScope.feedback.notRegistered = [];
+						for (var group in $rootScope.feedback.groups) {
+							for (var student in $rootScope.feedback.groups[group].group.students) {
+								var registered = false;
+								for (var user in $rootScope.feedback.registered) {
+									if ($rootScope.feedback.registered[user].user._id === $rootScope.feedback.groups[group].group.students[student].user._id) {
+										registered = true;
+									}
+								}
+								// if user wasn't registered, push them into notRegistered array
+								if (!registered) {
+									$rootScope.feedback.notRegistered.push(angular.copy($rootScope.feedback.groups[group].group.students[student]));
+								}
+							}
+						}
 
 						$rootScope.feedback.ratings = {
 							one: 0,
@@ -678,6 +858,7 @@ angular.module('uniQaApp')
 						$rootScope.lectureDescHeight = 220;
 						$rootScope.possibleCollaborators = [];
 						$rootScope.selectedCollaborators = [];
+						$rootScope.formBackdrop = 'static';
 
 						// get back types of lectures available
 						Thing.getByName('lectureTypes').then(function(val) {
@@ -797,6 +978,7 @@ angular.module('uniQaApp')
 							modal: {
 								name: 'createrUserForm',
 								dismissable: true,
+								backdrop: $rootScope.formBackdrop,
 								form: 'components/modal/views/lecture/create.html',
 								title: 'Create Lecture',
 								buttons: [{

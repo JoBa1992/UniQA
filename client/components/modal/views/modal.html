@@ -2,7 +2,7 @@
   <button ng-if="modal.dismissable" type="button" ng-click="$dismiss()" class="close">&times;</button>
   <h4 ng-if="modal.title" bind-unsafe-html="modal.title" class="modal-title"></h4>
 </div>
-<form class="form" name="form" novalidate>
+<form class="form" name="form" novalidate data-backdrop="static">
   <div ng-if="!res.received">
     <div class="loading">
       <i class="fa fa-refresh fa-5x fa-spin"></i>

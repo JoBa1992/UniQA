@@ -145,7 +145,12 @@ exports.index = function(req, res) {
 					return session.lecture;
 				});
 
-				res.status(200).json(sessions);
+				Session.populate(sessions, {
+					path: 'groups.group.students.user',
+					model: 'User'
+				}, function(err) {
+					res.status(200).json(sessions);
+				});
 			}
 
 		});

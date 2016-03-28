@@ -1,0 +1,40 @@
+<div class="container-full" id="lecture-fullscreen" style="margin-top:{{lectureHeightMarginTop}};background-color:#8DB7D2;">
+  <div class="row" style="margin:0;padding:0;height:{{lectureHeight + 'px'}}" id="lectureView">
+    <div class="hidden-xs col-sm-8 col-md-9 col-lg-9 presentation-view" style="display:inline-block;padding:0;position:relative;">
+      <div ng-show="!init" style="width:100%;left:50%;margin-left:-50%;text-align:center;position:absolute;height:{{lectureHeight + 'px'}};top:50%;margin-top:-{{lectureHeight/8 + 'px'}}">
+        <div loading></div>
+      </div>
+      <a ng-click="toggleFullScreen()" class="btn btn-warning btn-sm" style="position:absolute;top:14px;right:{{toggleBtnPosRight+'px'}};">
+        <i class="fa {{toggleFullScreenIcon}}"></i>
+      </a>
+
+      <object id="lecture" type="text/html" data="{{lecture.url}}" style="width:100%;height:{{lectureHeight + 'px'}}"></object>
+    </div>
+
+    <div ng-class="{ 'hidden': hideQuestions }" class="col-xs-12 col-sm-4 col-md-3 col-lg-3 question-container" id="lectureQuestions" style="position:relative;">
+      <div class="question-head-container">
+        <div class="question-head">
+          <h3>Toolbox</h3>
+        </div>
+      </div>
+      <div class="col-xs-12" style="position:absolute;width:100%;bottom:1em;color:white;margin:0;">
+        <a class="btn btn-danger btn-lg" style="width:100%;margin:0;" ng-click="resetTimer();$dismiss();">Close</a>
+      </div>
+      <div class="question-feed" style="height:{{lectureHeight-70 + 'px'}};">
+        <div style="width:100%;text-align:center;">
+          <h1 style="display:inline-block;color:white;">{{timer}}</h1>
+        </div>
+        <div class="col-xs-6" style="padding:0 .4em;margin-top:1em;">
+          <a class="btn btn-danger btn-lg" style="color:white;width:100%;" ng-click="resetTimer()" ng-class="{'disabled':!timerRunning}">Reset</a>
+        </div>
+        <!-- <div class="col-xs-4" style="padding:0 .4em;margin-top:1em;">
+          <a class="btn btn-warning btn-lg" style="color:white;width:100%;" ng-click="pauseTimer()">Pause</a>
+        </div> -->
+        <div class="col-xs-6" style="padding:0 .4em;margin-top:1em;">
+          <a class="btn btn-success btn-lg" style="color:white;width:100%;" ng-click="startTimer()" ng-class="{'disabled':timerRunning}">Start</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -7,6 +7,12 @@
       </h4>
       <h4 style="margin:1.8em 0;">Attendance:
         <span ng-class="{'text-danger': ((feedback.registered.length/feedback.expected)*100 < 50), 'text-warning': ((feedback.registered.length/feedback.expected)*100 >= 50 && (feedback.registered.length/feedback.expected)*100 < 75), 'text-success': ({{(feedback.registered.length/feedback.expected)*100}} >= 75)}" style="padding-left:.4em;">{{(feedback.registered.length/feedback.expected)*100 | number:2}}%</span>
+        <a ng-if="!showRegister" href="#" ng-click="toggleRegister()" class="text-warning">
+          <span style="color:#AAA;">(click to view)</span>
+        </a>
+        <a ng-if="showRegister" href="#" ng-click="toggleRegister()" class="text-warning">
+          <span style="color:#AAA;">(click to hide)</span>
+        </a>
       </h4>
       <h4 style="margin:1.8em 0;">Feedback Keywords:
         <span class="label label-primary" style="display:inline-block;font-size:.9em;margin:0 .4em 0 .4em;padding:.3em .4em;">
@@ -109,6 +115,27 @@
         <!-- end row -->
       </div>
     </div>
+    <hr ng-if="showRegister" class="resource-hr" style="display:block; width:100%;margin:2em 0;">
+    <div ng-if="showRegister">
+      <h2 style="padding:0em 0 .4em .4em;margin:0;" ng-if="!_.isEmpty(feedback.registered)">Attended</h2>
+      <div class="row" ng-if="!_.isEmpty(feedback.registered)">
+        <div ng-repeat="item in feedback.registered" class="col-md-3 col-sm-3 hidden-xs" style="margin-top:.4em;text-align:center;">
+          <!-- <img class="img-responsive img-circle" src="/assets/images/placeholders/profile.jpg"/> -->
+          <a class="text-success" style="display:inline-block;" href="#">
+            <strong>{{item.user.name}}</strong>
+          </a>
+        </div>
+      </div>
+      <h2 style="padding:0em 0 .4em .4em;" ng-if="!_.isEmpty(feedback.notRegistered)">Absent</h2>
+      <div class="row" ng-if="!_.isEmpty(feedback.notRegistered)">
+        <div ng-repeat="item in feedback.notRegistered" class="col-md-3 col-sm-3 hidden-xs" style="margin-top:.4em;text-align:center;">
+          <!-- <img class="img-responsive img-circle" src="/assets/images/placeholders/profile.jpg"/> -->
+          <a class="text-danger" style="display:inline-block;" href="#">
+            <strong>{{item.user.name}}</strong>
+          </a>
+        </div>
+      </div>
+    </div>
     <hr ng-if="showQuestions" class="resource-hr" style="display:block; width:100%;margin:2em 0;">
     <div ng-if="showQuestions">
       <h2 style="padding:0em 0 .4em .4em;">Questions</h2>
@@ -157,7 +184,7 @@
         </div>
         <div class="col-md-10 col-sm-10">
           <div ng-class="{'left':$even,'right':$odd}" class="panel panel-default arrow ">
-            <div class="panel-body">
+            <div class="panel-body" style="background-color:#eee;">
               <header ng-class-even="text-left" ng-class-even="text-right">
                 <div class="comment-user"></div>
               </header>

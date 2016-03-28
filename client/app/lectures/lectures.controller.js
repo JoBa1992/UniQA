@@ -53,6 +53,10 @@ angular.module('uniQaApp')
 			refreshLectures();
 		});
 
+		$scope.openpreviewLectureModal = Modal.read.lecture(function() {
+			// refreshLectures();
+		});
+
 		$scope.openDeleteLectureModal = Modal.delete.lecture(function(lecture) {
 			// when modal is confirmed, callback
 			if (lecture) {

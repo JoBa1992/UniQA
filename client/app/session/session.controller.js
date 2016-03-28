@@ -10,6 +10,8 @@ angular.module('uniQaApp')
 		$scope.isAdmin = Auth.isAdmin;
 		$scope.isStudent = Auth.isStudent;
 
+		$scope.playSound = true;
+		$scope.sendingMsg = false;
 
 		// question sent from user
 		$scope.user = {
@@ -61,7 +63,7 @@ angular.module('uniQaApp')
 		$scope.presViewSizeMd = 'col-md-9';
 		$scope.presViewSizeLg = 'col-lg-9';
 		$scope.hideQuestionIcon = 'fa-arrow-right';
-		$scope.toggleBtnPosRight = '16px;';
+		$scope.toggleBtnPosRight = 16;
 		$scope.toggleFullScreenIcon = 'fa-expand';
 		$scope.lecture = {
 			registered: [],
@@ -223,7 +225,9 @@ angular.module('uniQaApp')
 				if ($scope.lecture.questions.length !== item.questions.length) {
 					$scope.questionIconNumber = item.questions.length;
 					$scope.lecture.questions = item.questions;
-					ping.play();
+					if ($scope.playSound) {
+						ping.play();
+					}
 				}
 				// if registered values have changed, update scope
 				if ($scope.lecture.registered !== item.registered.length) {
@@ -246,13 +250,17 @@ angular.module('uniQaApp')
 			openModal();
 		};
 
+		$scope.toggleSound = function() {
+			$scope.playSound = !$scope.playSound;
+		}
+
 		$scope.toggleQuestions = function() {
 			if ($scope.hideQuestions) {
 				$scope.presViewSizeMd = 'col-md-9';
 				$scope.presViewSizeLg = 'col-lg-9';
 				$scope.hideQuestionIcon = 'fa-arrow-right';
 				$scope.hideQuestions = false;
-				$scope.toggleBtnPosRight = '16px;';
+				$scope.toggleBtnPosRight = 16;
 
 			} else {
 				$scope.presViewSizeMd = 'col-md-12';
@@ -260,14 +268,14 @@ angular.module('uniQaApp')
 				$scope.questionIconNumber = $scope.lecture.questions.length;
 				$scope.hideQuestionIcon = '';
 				$scope.hideQuestions = true;
-				$scope.toggleBtnPosRight = '26px;';
+				$scope.toggleBtnPosRight = 16;
 
 			}
 		};
 
 		$scope.checkForEnterKey = function(e) {
 			// if user presses enter, send message
-			if (e.keyCode == 13) {
+			if (e.keyCode == 13 && !$scope.sendingMsg) {
 				$scope.sendMsg();
 			}
 		}
@@ -275,6 +283,7 @@ angular.module('uniQaApp')
 		$scope.sendMsg = function() {
 			// console.info($scope.user.question);
 			if ($scope.user.question) {
+				$scope.sendingMsg = true;
 				Session.sendMsg({
 					session: sessionid,
 					asker: me._id,
@@ -282,15 +291,22 @@ angular.module('uniQaApp')
 				}).then(function() {
 					$scope.user.error = false;
 					$scope.user.question = '';
-
+					$scope.sendingMsg = false;
 				}).catch(function(err) {
 					$scope.user.error = true;
+					$scope.sendingMsg = false;
+					ngToast.create({
+						className: 'danger',
+						timeout: 3000,
+						content: 'Warning: ' + err
+					});
 				});
 			}
 		}
 
 		$scope.sendMsgAnon = function() {
 			if ($scope.user.question) {
+				$scope.sendingMsg = true;
 				Session.sendMsg({
 					session: sessionid,
 					asker: me,
@@ -299,8 +315,15 @@ angular.module('uniQaApp')
 				}).then(function() {
 					$scope.user.error = false;
 					$scope.user.question = '';
+					$scope.sendingMsg = false;
 				}).catch(function(err) {
 					$scope.user.error = true;
+					$scope.sendingMsg = false;
+					ngToast.create({
+						className: 'danger',
+						timeout: 3000,
+						content: 'Warning: ' + err
+					});
 				});
 			}
 		}

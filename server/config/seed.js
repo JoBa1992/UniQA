@@ -701,8 +701,8 @@ User.find({}).remove(function() {
 								Session.create({
 										_id: '56c87667bcd6f3c431cb8681',
 										lecture: '56c868096bd3f7b730a051f4',
-										startTime: moment.utc([2016, 2, 20, 15, 40, 0]),
-										endTime: moment.utc([2016, 2, 20, 17, 0, 0]),
+										startTime: moment.utc(moment().subtract(1, 'hours')),
+										endTime: moment.utc(moment().add(1, 'hours')),
 										timeAllowance: 30,
 										groups: [{
 											group: '56cb7c2e7bbe028ebfbe56a2'
@@ -711,8 +711,8 @@ User.find({}).remove(function() {
 										}]
 									}, {
 										lecture: '56d1ca2e4f6973280ce025e6',
-										startTime: moment.utc([2016, 2, 21, 12, 0, 0]),
-										endTime: moment.utc([2016, 2, 21, 14, 0, 0]),
+										startTime: moment.utc(moment().add(2, 'hours')),
+										endTime: moment.utc(moment().add(3, 'hours')),
 										timeAllowance: 20,
 										groups: [{
 											group: '56cb7c2e7bbe028ebfbe56a2'
@@ -721,24 +721,24 @@ User.find({}).remove(function() {
 										}]
 									}, {
 										lecture: '56d1ca2e4f6973280ce025e7',
-										startTime: moment.utc([2016, 2, 22, 14, 0, 0]),
-										endTime: moment.utc([2016, 2, 22, 16, 0, 0]),
+										startTime: moment.utc(moment().add(4, 'hours')),
+										endTime: moment.utc(moment().add(5, 'hours')),
 										timeAllowance: 30,
 										groups: [{
 											group: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
 										lecture: '56d1ca2e4f6973280ce025e8',
-										startTime: moment.utc([2016, 2, 15, 12, 0, 0]),
-										endTime: moment.utc([2016, 2, 15, 14, 0, 0]),
+										startTime: moment.utc(moment().add(6, 'hours')),
+										endTime: moment.utc(moment().add(7, 'hours')),
 										timeAllowance: 20,
 										groups: [{
 											group: '56cb7c2e7bbe028ebfbe56a2'
 										}]
 									}, {
 										lecture: '56d1ca2e4f6973280ce025e9',
-										startTime: moment.utc([2016, 1, 26, 12, 0, 0]),
-										endTime: moment.utc([2016, 1, 26, 14, 0, 0]),
+										startTime: moment.utc(moment().add(8, 'hours')),
+										endTime: moment.utc(moment().add(9, 'hours')),
 										timeAllowance: 20,
 										feedback: [{
 											comment: "Lovely",
