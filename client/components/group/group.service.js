@@ -35,7 +35,7 @@ angular.module('uniQaApp')
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();
 				var userid = obj.user;
-				var collab = obj.search;
+				//var collab = obj.search;
 
 				$http.get('/api/groups/user/' + userid).success(function(data) {
 					deferred.resolve(data);

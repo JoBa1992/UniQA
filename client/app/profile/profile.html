@@ -1,5 +1,5 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
-<div class="container">
+<div class="container" ng-if="me.role=='admin'">
   <div class="row">
 
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top:2em;">
@@ -12,27 +12,28 @@
       </div>
 
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="margin-top:.6em;">
-        <h1 class="text-primary" style="margin:0 0 .3em;">Joshua Bates</h1>
+        <h1 class="text-primary" style="margin:0 0 .3em;">{{me.name}}</h1>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="margin-top:.6em;">
         <h3 style="margin:.4em 0;">Avg Lecture Rating:
-          <div style="display:inline-block;margin-right: .4em;" class="timeline-stars" star-rating rating-value="4.3" data-max="5"></div>
-          <span class="text-warning">(4.3)</span>
+          <div style="display:inline-block;margin-right: .4em;" class="timeline-stars" star-rating rating-value="5" data-max="5"></div>
+          <span class="text-warning">
+            placeholder</span>
         </h3>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="margin-top:.6em;">
         <h3 style="margin:.4em 0;">Avg Attendance:
-          <span class="text-warning">77.00%</span>
+          <span class="text-warning">placeholder</span>
         </h3>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="margin-top:.6em;">
         <h3 style="margin:.4em 0;">Sessions Held (2015-2016):
-          <span class="text-warning">112</span>
+          <span class="text-warning">placeholder</span>
         </h3>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="margin-top:.6em;">
         <h3 style="margin:.4em 0;">Questions (2015-2016):
-          <span class="text-warning">942</span>
+          <span class="text-warning">placeholder</span>
         </h3>
       </div>
     </div>

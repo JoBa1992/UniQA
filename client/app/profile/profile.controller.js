@@ -1,11 +1,18 @@
 'use strict';
 
 angular.module('uniQaApp')
-	.controller('ProfileCtrl', function($scope, Auth, Session, Modal) {
+	.controller('ProfileCtrl', function($scope, $location, Auth, Session, Modal) {
 		// attach lodash to scope
 		$scope._ = _;
 		// attach moment to scope
 		$scope.moment = moment;
+
+		$scope.me = Auth.getCurrentUser();
+		console.info(Auth.isStudent);
+		// temporary until student profile is sorted
+		if ($scope.me.role === 'student') {
+			$location.path('/session/register');
+		}
 
 		// used to swap sides on css
 		$scope.inverter = false;
@@ -24,14 +31,15 @@ angular.module('uniQaApp')
 			$scope.canLoadMore = false;
 			$scope.timelineIcon = 'fa fa-refresh rotating';
 			Session.getForMe({
-				author: me._id,
+				createdBy: me._id,
 				historic: true,
 				order: '-startTime',
 				page: page,
 				paginate: pag
 			}).then(function(res) {
+				console.info(res);
 				$scope.timelineIcon = 'fa fa-arrow-circle-o-down';
-				if (res.length == 0) {
+				if (res.length === 0) {
 					$scope.timelineIcon = 'fa fa-road';
 					$scope.canLoadMore = false;
 					return;
@@ -39,7 +47,7 @@ angular.module('uniQaApp')
 					// attach expected number to each object inside response
 					_.some(res, function(session) {
 						session.expected = 0;
-						session.mostDownloaded; // set to null;
+						//session.mostDownloaded; // set to null;
 						_.some(session.groups, function(group) {
 							// bad nesting due to dodgy model, needs checking
 							session.expected += group.group.students.length;
@@ -57,7 +65,7 @@ angular.module('uniQaApp')
 						$scope.myFeedback.push(res[i]);
 					}
 
-					if (res.length != pag) {
+					if (res.length !== pag) {
 						$scope.timelineIcon = 'fa fa-road';
 						$scope.canLoadMore = false;
 					} else {
@@ -68,6 +76,7 @@ angular.module('uniQaApp')
 
 				}
 			}).catch(function(err) {
+				console.info(err);
 				$scope.timelineIcon = 'fa fa-road';
 				$scope.canLoadMore = false;
 				return;
@@ -75,6 +84,7 @@ angular.module('uniQaApp')
 		};
 
 
+		$scope.loadMoreFeedback();
 
 		function avgFeedback(arr) {
 			return _.reduce(arr, function(num, memo) {

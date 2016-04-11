@@ -106,6 +106,10 @@ exports.index = function(req, res) {
 			}
 		}
 
+		if (req.query.createdBy) {
+			query.createdBy = req.query.createdBy;
+		}
+
 		if (req.query.order) {
 			order = req.query.order;
 		}
@@ -119,8 +123,9 @@ exports.index = function(req, res) {
 			delete req.query.paginate;
 		}
 	}
-
+	// console.info(query);
 	Session.find(query)
+		.populate('createdBy')
 		.populate({
 			path: 'lecture',
 			match: getAuthor
@@ -513,8 +518,8 @@ exports.registerUser = function(req, res) {
 						expected = true;
 					}
 				}
-				for (var x = 0; x < checkSession.groups[i].group.tutors.length; x++) {
-					if (String(checkSession.groups[i].group.tutors[x].user) === String(user.user)) {
+				for (var y = 0; y < checkSession.groups[i].group.tutors.length; y++) {
+					if (String(checkSession.groups[i].group.tutors[y].user) === String(user.user)) {
 						expected = 'tutor';
 					}
 				}
@@ -526,7 +531,7 @@ exports.registerUser = function(req, res) {
 			});
 
 			if (expected) {
-				if (!exists && expected != 'tutor') {
+				if (!exists && String(expected) !== 'tutor') {
 					session.registered.push(user);
 				}
 				session.save(function(err) {

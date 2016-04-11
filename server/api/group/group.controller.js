@@ -70,7 +70,7 @@ exports.getAssocUsers = function(req, res) {
 				for (var b = 0; b < groups[a].tutors.length; b++) {
 					// check that not null from elemMatch,
 					// and user isn't same as logged in user
-					if (groups[a].tutors[b].user && groups[a].tutors[b].user._id != req.params.userid) {
+					if (groups[a].tutors[b].user && String(groups[a].tutors[b].user._id) !== String(req.params.userid)) {
 						result.collaborators.push(groups[a].tutors[b].user);
 					}
 				}

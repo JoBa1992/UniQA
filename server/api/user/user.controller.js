@@ -147,6 +147,7 @@ exports.create = function(req, res, next) {
 			for (var i = 0; i < req.body.length; i++) {
 				// not sure why this stage has to be done
 				if (req.body[i]) {
+					/*jshint -W083 */
 					createUniqueAccessCode(ACC_CODE_LENGTH, function(key) {
 						req.body[i].passcode = key;
 						req.body[i].email = req.body[i].email + '@shu.ac.uk';
@@ -155,7 +156,7 @@ exports.create = function(req, res, next) {
 
 						newUser.save(function(err, nUser) {
 							// fails silently if any problems occur, needs feedback
-							if (newUser.email == req.body[i - 1].email) {
+							if (String(newUser.email) === String(req.body[i - 1].email)) {
 								return res.status(200).send("finished inserting users");
 							}
 
@@ -163,31 +164,9 @@ exports.create = function(req, res, next) {
 					});
 				}
 			}
-			// req.body.forEach(function(user) {
-			// 	createUniqueAccessCode(ACC_CODE_LENGTH, function(key) {
-			// 		var newUser = new User(user);
-			//
-			// 		console.info(newUser.email);
-			//
-			// 		newUser.passcode = key;
-			// 		newUser.email = newUser.email + '@shu.ac.uk';
-			//
-			// 		newUser.save(function(err, nUser) {
-			// 			if (err) console.log(err);
-			// 			// if (err) return validationError(res, err);
-			// 			//console.info(nUser);
-			// 			// if user is last one
-			// 			if (req.body[req.body.length - 1].email == user.email + '@shu.ac.uk') {
-			// 				console.info("trying to send res");
-			// 				res.status(200).send("finished inserting users");
-			// 			}
-			//
-			// 		});
-			// 	});
-			// });
 		} else {
 			var newUser = new User(req.body);
-
+			/*jshint -W083 */
 			createUniqueAccessCode(ACC_CODE_LENGTH, function(key) {
 				newUser.passcode = key;
 				//append uni onto end, can be pulled from db

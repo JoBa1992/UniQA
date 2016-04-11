@@ -60,7 +60,7 @@ angular.module('uniQaApp')
 		$scope.openDeleteLectureModal = Modal.delete.lecture(function(lecture) {
 			// when modal is confirmed, callback
 			if (lecture) {
-				Lecture.remove(lecture._id).then(function(res) {
+				Lecture.remove(lecture._id).then(function() {
 					refreshLectures();
 				});
 			}

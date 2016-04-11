@@ -1,13 +1,15 @@
+'use strict';
+
 angular.module('uniQaApp')
 	.controller('DropZoneController', function($scope) {
 		$scope.dropzoneConfig = {
 			'options': { // passed into the Dropzone constructor
 				'url': 'upload.php'
 			},
-			'eventHandlers': {
-				'sending': function(file, xhr, formData) {},
-				'success': function(file, response) {}
-			}
+			// 'eventHandlers': {
+			// 	'sending': function(file, xhr, formData) {},
+			// 	'success': function(file, response) {}
+			// }
 		};
 	});
 // .controller('DropZoneController', ['$log', function($log) {

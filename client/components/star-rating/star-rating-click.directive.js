@@ -17,7 +17,7 @@ angular.module('uniQaApp')
 				max: '=',
 				onRatingSelect: '&'
 			},
-			link: function(scope, elem, attrs) {
+			link: function(scope /*, elem, attrs*/ ) {
 				var updateStars = function() {
 					scope.stars = [];
 					var starIterations = [];
@@ -26,8 +26,8 @@ angular.module('uniQaApp')
 					// loop through and get each individual star/half
 					for (var x = 0; x < scope.ratingValue; x++) {
 						// if its got a decimal point
-						if (String(scope.ratingValue).split('.')[1] == '5') {
-							if (x == scope.ratingValue - 0.5) {
+						if (String(scope.ratingValue).split('.')[1] === '5') {
+							if (x === scope.ratingValue - 0.5) {
 								starIterations.push(0.5);
 							} else {
 								starIterations.push(1);
@@ -40,7 +40,8 @@ angular.module('uniQaApp')
 					// loop through previous array and setup scope val
 					for (var star in starIterations) {
 						// console.info(starIterations[star]);
-						starIterations[star] == 1 ? val = 'true' : starIterations[star] == 0.5 ? val = 'half' : val = 'false';
+						/*jshint -W030 */
+						starIterations[star] === 1 ? val = 'true' : starIterations[star] === 0.5 ? val = 'half' : val = 'false';
 						scope.stars.push({
 							filled: val
 						});
@@ -56,7 +57,7 @@ angular.module('uniQaApp')
 					}
 				};
 				scope.toggle = function(index) {
-					if (scope.readonly == undefined || scope.readonly === false) {
+					if (scope.readonly === undefined || scope.readonly === false) {
 						scope.ratingValue = index + 1;
 						scope.onRatingSelect({
 							rating: index + 1
@@ -65,7 +66,7 @@ angular.module('uniQaApp')
 				};
 				scope.$watch('ratingValue',
 					function(oldVal, newVal) {
-						if (newVal || newVal == 0) {
+						if (newVal || newVal === 0) {
 							updateStars();
 						}
 					}

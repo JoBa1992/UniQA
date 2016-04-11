@@ -74,6 +74,7 @@ angular.module('uniQaApp')
 
 								// will be booted back if session isn't ready yet
 							}).catch(function(err) {
+								console.info(err);
 								//display message on screen saying can't find
 								return $location.path('/session/register?m=notExist');
 							});

@@ -29,9 +29,9 @@
                 <div class="media-body" style="padding-left:1em;display:inline-block;width:70%;">
                   <div>
                     <h5 style="display:inline-block;">{{session.lecture.title}}
-                      -
+                      <!-- - -->
                     </h5>
-                    <h5 style="display:inline-block;">{{session.lecture.desc}}</h5>
+                    <!-- <h5 style="display:inline-block;">{{session.lecture.desc}}</h5> -->
                   </div>
                   <div>
                     <h5 style="display:inline-block;">Audience:
@@ -86,7 +86,7 @@
             <div class="dropdown" id="startTimeDropdown">
               <a class="dropdown-toggle input-group" role="button" href="#">
 
-                <input type="text" class="form-control" id="startTime" ng-model="sForm.startTime">
+                <input type="text" class="form-control" id="startTime" ng-model="sForm.startTime" disabled>
                 <div class="input-group-btn">
                   <span class="btn btn-default" style="border-color:#cccccc;">
                     <i class="glyphicon glyphicon-calendar"></i>
@@ -106,7 +106,7 @@
             <div class="dropdown" id="endTimeDropdown">
               <a class="dropdown-toggle input-group" role="button" href="#">
 
-                <input type="text" class="form-control" id="endTime" ng-model="sForm.endTime">
+                <input type="text" class="form-control" id="endTime" ng-model="sForm.endTime" readonly>
                 <div class="input-group-btn">
                   <span class="btn btn-default" style="border-color:#cccccc;">
                     <i class="glyphicon glyphicon-calendar"></i>

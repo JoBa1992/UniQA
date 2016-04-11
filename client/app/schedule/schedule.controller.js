@@ -14,7 +14,7 @@ angular.module('uniQaApp')
 			endTime: '',
 			allowance: '',
 			group: ''
-		}
+		};
 
 		// disabled states for buttons on ui
 		// $scope.schDelDisableBtn = 'disabled';
@@ -23,8 +23,8 @@ angular.module('uniQaApp')
 
 		$scope.dateConfig = {
 			minuteStep: 5,
-			startView: "day",
-			minView: "minute"
+			startView: 'day',
+			minView: 'minute'
 		};
 
 		// $scope.dpAria = false;
@@ -38,7 +38,7 @@ angular.module('uniQaApp')
 		$scope.myGroups = [];
 		$scope.selectedGroups = [];
 
-		$scope.resultsPerPage = 10;
+		$scope.resultsPerPage = 200;
 		$scope.currentPage = 1;
 		// $scope.totalPages = 8;
 
@@ -46,7 +46,9 @@ angular.module('uniQaApp')
 
 		var refreshSessions = function() {
 			Session.getForMe({
-				author: me._id
+				createdBy: me._id,
+				paginate: $scope.resultsPerPage,
+				page: $scope.currentPage
 			}).then(function(res) {
 				$scope.mySessions = res;
 				$scope.mySessionCount = res.count === 0 ? 0 : res.count;
@@ -59,7 +61,7 @@ angular.module('uniQaApp')
 
 		$scope.searchForMyGroup = function(e) {
 			// checking length to see if id has been sent through
-			if (e.keyCode == 13 || e == 'Submit' || e._id) {
+			if (e.keyCode === 13 || e === 'Submit' || e._id) {
 				// form lecture contains the object that can be used when saving
 				console.info($scope.sForm.lecture);
 			} else {
@@ -76,10 +78,10 @@ angular.module('uniQaApp')
 		};
 
 
-		$scope.beforeRenderConfig = function($view, $dates, $leftDate, $upDate, $rightDate) {
+		$scope.beforeRenderConfig = function($view, $dates /*, $leftDate, $upDate, $rightDate*/ ) {
 
 			var currentDate = new Date();
-			var currentDateValue = currentDate.getTime();
+			//var currentDateValue = currentDate.getTime();
 
 			var yearViewDate = new Date(currentDate.getFullYear(), 0);
 			var yearViewDateValue = yearViewDate.getTime();
@@ -135,20 +137,26 @@ angular.module('uniQaApp')
 			}
 		};
 
-		$scope.startTimeSelect = function(newDate, oldDate) {
-			$scope.sForm.startTimeMoment = moment.utc(newDate);
-			$scope.sForm.startTime = moment.utc(newDate).format('DD/MM/YYYY HH:mm');
+		$scope.startTimeSelect = function(newDate) {
+			var startDate = moment.utc([newDate.getFullYear(), newDate.getMonth(), newDate.getDate(), newDate.getHours(), newDate.getMinutes()]);
+			var endDate = moment.utc([newDate.getFullYear(), newDate.getMonth(), newDate.getDate(), newDate.getHours(), newDate.getMinutes()]);
+
+			$scope.sForm.startTimeMoment = startDate;
+			$scope.sForm.startTime = startDate.format('DD/MM/YYYY HH:mm');
+
 			// set endtime for convenience
-			$scope.sForm.endTimeMoment = moment.utc(moment(newDate).add(1, 'hours'));
-			$scope.sForm.endTime = moment.utc(moment(newDate).add(1, 'hours')).format('DD/MM/YYYY HH:mm');
+			$scope.sForm.endTimeMoment = moment.utc(endDate.add(1, 'hour'));
+			$scope.sForm.endTime = $scope.sForm.endTimeMoment.format('DD/MM/YYYY HH:mm');
 
 			angular.element(document.querySelector('#startTimeDropdown')).removeClass('open');
 			// doesn't work
 			angular.element(document.querySelector('a.dropdown-toggle')).attr('aria-expanded', 'false');
 		};
 
-		$scope.endTimeSelect = function(newDate, oldDate) {
-			$scope.sForm.endTime = moment.utc(newDate).format('DD/MM/YYYY HH:mm');
+		$scope.endTimeSelect = function(newDate) {
+			var endDate = moment.utc([newDate.getFullYear(), newDate.getMonth(), newDate.getDate(), newDate.getHours(), newDate.getMinutes()]);
+			$scope.sForm.endTimeMoment = endDate;
+			$scope.sForm.endTime = $scope.sForm.endTimeMoment.format('DD/MM/YYYY HH:mm');
 
 			angular.element(document.querySelector('#endTimeDropdown')).removeClass('open');
 			// doesn't work
@@ -160,7 +168,7 @@ angular.module('uniQaApp')
 
 		$scope.searchForMyLectures = function(e) {
 			// checking length to see if id has been sent through
-			if (e.keyCode == 13 || e == 'Submit' || e._id) {
+			if (e.keyCode === 13 || e === 'Submit' || e._id) {
 				// form lecture contains the object that can be used when saving
 				console.info($scope.sForm.lecture);
 			} else {
@@ -178,37 +186,38 @@ angular.module('uniQaApp')
 			}
 		};
 
-		$scope.addSaveSchedule = function() {
-			if (formAddSaveBtn === 'Add') {
-				// begin creation
-
-			} else {
-				// else update
-			}
-		}
+		// $scope.addSaveSchedule = function() {
+		// 	if (formAddSaveBtn === 'Add') {
+		// 		// begin creation
+		//
+		// 	} else {
+		// 		// else update
+		// 	}
+		// };
 
 		$scope.removeGroup = function(group) {
 			// console.info(group);
 			for (var item in $scope.selectedGroups) {
-				if ($scope.selectedGroups[item] == group) {
+				if ($scope.selectedGroups[item] === group) {
 					$scope.selectedGroups.splice(group, 1);
 				}
 			}
 		};
 
 		$scope.searchForMyGroups = function(e) {
-			console.info(e);
+			// console.info(e);
 			// checking length to see if id has been sent through
-			if (e.keyCode == 13 || e == 'Submit' || e._id) {
-				console.info($scope.myGroups);
+			if (e.keyCode === 13 || e === 'Submit' || e._id) {
+				// console.info($scope.myGroups);
 				// if name isn't on the list, break out of function
-				if ($scope.myGroups.length == 0) {
+				if ($scope.myGroups.length === 0) {
 					return;
 				} else {
 					// need to either get selected here, or select first
 					if (!($scope.sForm.group instanceof Object)) {
-						if (e == 'Submit') {
+						if (e === 'Submit') {
 							// gets index of child with active class from typeahead property
+							/*jshint -W109 */
 							$scope.sForm.group = $scope.myGroups[angular.element(document.querySelector("[id*='typeahead']")).find('.active').index()];
 						}
 					}
@@ -216,7 +225,7 @@ angular.module('uniQaApp')
 
 				// only add if we have a collaborator
 				if ($scope.sForm.group instanceof Object) {
-					$scope.selectedGroups.push($scope.sForm.group)
+					$scope.selectedGroups.push($scope.sForm.group);
 				}
 				$scope.myGroups = [];
 				$scope.sForm.group = '';
@@ -231,7 +240,7 @@ angular.module('uniQaApp')
 					for (var x = 0; x < res.groups.length; x++) {
 						var isIn = false;
 						for (var y = 0; y < $scope.selectedGroups.length; y++) {
-							if (res.groups[x]._id == $scope.selectedGroups[y]._id) {
+							if (res.groups[x]._id === $scope.selectedGroups[y]._id) {
 								isIn = true;
 							}
 						}
@@ -239,7 +248,7 @@ angular.module('uniQaApp')
 							$scope.myGroups.push(res.groups[x]);
 						}
 					}
-					console.info($scope.myGroups);
+					// console.info($scope.myGroups);
 				});
 			}
 
@@ -252,14 +261,15 @@ angular.module('uniQaApp')
 				endTime: '',
 				allowance: '',
 				group: ''
-			}
+			};
 			$scope.selectedGroups = [];
 		};
 		$scope.openUpdateDelSessionModal = Modal.update.session(function(session) {
 			// when modal is confirmed, callback
-			if (lecture) {
-				Lecture.remove(lecture._id).then(function(res) {
-					refreshLectures();
+			if (session) {
+				Session.remove(session._id).then(function(res) {
+					console.info(res);
+					refreshSessions();
 				});
 			}
 		});
@@ -276,8 +286,8 @@ angular.module('uniQaApp')
 		// };
 
 		$scope.addSchedule = function() {
-			console.info($scope.sForm);
-			console.info($scope.selectedGroups);
+			// console.info($scope.sForm);
+			// console.info($scope.selectedGroups);
 			$scope.submitted = true;
 			if ($scope.sForm.lecture && $scope.sForm.startTime && $scope.sForm.endTime && !_.isEmpty($scope.selectedGroups)) {
 				// setup vars to be sent across to API
@@ -286,10 +296,11 @@ angular.module('uniQaApp')
 				for (var i = 0; i < $scope.selectedGroups.length; i++) {
 					presGroups.push({
 						group: $scope.selectedGroups[i]._id
-					})
+					});
 				}
 
 				var data = {
+					createdBy: me._id,
 					lecture: $scope.sForm.lecture._id,
 					startTime: moment.utc($scope.sForm.startTimeMoment).toISOString(),
 					endTime: moment.utc($scope.sForm.endTimeMoment).toISOString(),
@@ -301,6 +312,7 @@ angular.module('uniQaApp')
 						data: data
 					})
 					.then(function(res) {
+						console.info(res);
 						refreshSessions();
 						$scope.clearSchedForm();
 					})

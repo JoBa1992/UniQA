@@ -30,14 +30,14 @@ function storeFile(id, name, file, cb) {
 		fs.writeFileSync(loc, file);
 		cb(apiRoute);
 	});
-};
+}
 
 // moves uploaded files from temporary to associated folder created
 function moveFromTempToAssoc(tempLoc, newLoc, cb) {
 	fs.rename(tempLoc, newLoc, function(err) {
 		cb();
 	});
-};
+}
 
 // Get list of lectures (or limit by querystring)
 exports.index = function(req, res) {
@@ -88,7 +88,7 @@ exports.index = function(req, res) {
 
 exports.generatePreview = function(req, res) {
 	if (req.body.url) {
-		Screenshot('http://' + req.body.url)
+		new Screenshot('http://' + req.body.url)
 			.width(968)
 			.height(968)
 			.clip()
@@ -216,7 +216,7 @@ exports.create = function(req, res) {
 			// create preview, save server side, update lecture with preview
 			// if lecture has a url, generate a preview
 			if (lecture.url) {
-				Screenshot(lecture.url)
+				new Screenshot(lecture.url)
 					.width(968)
 					.height(968)
 					.clip()

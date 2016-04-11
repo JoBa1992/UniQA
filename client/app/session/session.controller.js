@@ -16,13 +16,13 @@ angular.module('uniQaApp')
 		// question sent from user
 		$scope.user = {
 			question: ''
-		}
+		};
 
-		var _second = 1000;
-		var _minute = _second * 60;
-		var _hour = _minute * 60;
-		var _day = _hour * 24;
-		var interval = 100;
+		//var _second = 1000;
+		//var _minute = _second * 60;
+		// var _hour = _minute * 60;
+		//var _day = _hour * 24;
+		//var interval = 100;
 
 		// ping noise on new question
 		var ping = new Audio('assets/fx/drop.mp3');
@@ -142,7 +142,7 @@ angular.module('uniQaApp')
 				file: file,
 				session: sessionid
 			}).then(function(res) {
-				// console.info(res);
+				console.info(res);
 			});
 		};
 
@@ -207,6 +207,7 @@ angular.module('uniQaApp')
 				$scope.init = true;
 			}, 500);
 		}, function(err) {
+			console.info(err);
 			// session doesn't exist, kick users back
 			if (Auth.isAdmin()) {
 				return $location.url('/session/start?m=notExist');
@@ -252,7 +253,7 @@ angular.module('uniQaApp')
 
 		$scope.toggleSound = function() {
 			$scope.playSound = !$scope.playSound;
-		}
+		};
 
 		$scope.toggleQuestions = function() {
 			if ($scope.hideQuestions) {
@@ -275,10 +276,10 @@ angular.module('uniQaApp')
 
 		$scope.checkForEnterKey = function(e) {
 			// if user presses enter, send message
-			if (e.keyCode == 13 && !$scope.sendingMsg) {
+			if (e.keyCode === 13 && !$scope.sendingMsg) {
 				$scope.sendMsg();
 			}
-		}
+		};
 
 		$scope.sendMsg = function() {
 			// console.info($scope.user.question);
@@ -302,7 +303,7 @@ angular.module('uniQaApp')
 					});
 				});
 			}
-		}
+		};
 
 		$scope.sendMsgAnon = function() {
 			if ($scope.user.question) {
@@ -326,21 +327,21 @@ angular.module('uniQaApp')
 					});
 				});
 			}
-		}
+		};
 
 		$scope.toggleMsgBox = function() {
 			$scope.showQuestionSubmit = !$scope.showQuestionSubmit;
-			if ($scope.lectureHeight == $window.innerHeight) {
+			if ($scope.lectureHeight === $window.innerHeight) {
 				$scope.lectureHeight = $window.innerHeight - 95;
 				// if opening msgbox scroll to bottom of container;
 				$timeout(function() {
-					var scroller = document.getElementById("questionFeed");
+					var scroller = document.getElementById('questionFeed');
 					scroller.scrollTop = scroller.scrollHeight;
 				}, 0, false);
 			} else {
 				$scope.lectureHeight = $window.innerHeight;
 			}
-		}
+		};
 
 		$scope.checkLeave = function() {
 			// check times here, if there is still at least 10 minutes of time
@@ -441,7 +442,7 @@ angular.module('uniQaApp')
 			}
 		};
 	})
-	.controller('SessionStartCtrl', function($scope, $window, $timeout, $sce, $interval, socket, Auth, Lecture, Session, Modal) {
+	.controller('SessionStartCtrl', function($scope, $window, $timeout, $sce, $interval, socket, Auth, Lecture, Session) {
 		// attach lodash to scope
 		$scope._ = _;
 
@@ -475,9 +476,15 @@ angular.module('uniQaApp')
 				var nextSession = res.shift();
 
 				$scope.nextLecture = nextSession.lecture;
+				$scope.nextLectureStudentCount = 0;
+
+				_.some(nextSession.groups, function(group) {
+					// bad nesting due to dodgy model, needs checking
+					$scope.nextLectureStudentCount += group.group.students.length;
+				});
 
 				var authorCollabs = [];
-				var runtime = moment(nextSession.startTime).utc().format('HH:mm') + ' - ' + moment(nextSession.endTime).utc().format('HH:mm');;
+				var runtime = moment(nextSession.startTime).utc().format('HH:mm') + ' - ' + moment(nextSession.endTime).utc().format('HH:mm');
 
 				authorCollabs.push($scope.nextLecture.author.name); // push author in first
 				// push in collabs
@@ -540,15 +547,15 @@ angular.module('uniQaApp')
 		});
 
 	})
-	.controller('SessionRegisterCtrl', function($scope, $location, Auth, Lecture, Session, Modal) {
+	.controller('SessionRegisterCtrl', function($scope, $location, Auth, Lecture, Session) {
 		// check querystring
 		var querystring = $location.search();
-		if (querystring.m == "notReady") {
+		if (querystring.m === 'notReady') {
 			// if m is set, a message needs displaying on screen.
 			// default msg, can be set again
-			$scope.error = "Session is not ready to be joined just yet.";
-		} else if (querystring.m == "notExist") {
-			$scope.error = "That session does not exist";
+			$scope.error = 'Session is not ready to be joined just yet.';
+		} else if (querystring.m === 'notExist') {
+			$scope.error = 'That session does not exist';
 		}
 		// attach lodash to scope
 		$scope._ = _;
@@ -561,7 +568,7 @@ angular.module('uniQaApp')
 
 		$scope.register = {
 			'session': ''
-		}
+		};
 
 
 		$scope.sessionAltRegister = function() {
@@ -581,13 +588,14 @@ angular.module('uniQaApp')
 				if (now >= start && now <= end) {
 					$location.path('/session/active/' + res._id);
 				} else {
-					$scope.error = "Session is not ready to be joined just yet.";
+					$scope.error = 'Session is not ready to be joined just yet.';
 				}
 
 				// will be booted back if session isn't ready yet
 			}).catch(function(err) {
+				console.info(err);
 				//display message on screen saying can't find
-				$scope.error = "Session cannot be found";
+				$scope.error = 'Session cannot be found';
 			});
 		};
 

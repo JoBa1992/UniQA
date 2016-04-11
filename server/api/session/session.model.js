@@ -4,6 +4,10 @@ var mongoose = require('mongoose'),
 	Schema = mongoose.Schema;
 
 var SessionSchema = new Schema({
+	createdBy: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User'
+	},
 	lecture: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Lecture'

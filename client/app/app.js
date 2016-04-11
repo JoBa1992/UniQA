@@ -88,7 +88,7 @@ angular.module('uniQaApp', [
 				if (response.status === 401) {
 					var loc = $location.path().substring(1, $location.path().length).split('/');
 					// check to see if req is coming from qr login
-					if (loc[0] == 'qr') {
+					if (loc[0] === 'qr') {
 						// $location.path('$loca');
 					} else {
 						$location.path('/login');
@@ -107,7 +107,7 @@ angular.module('uniQaApp', [
 
 		// check for scope state changes
 		//next, current
-		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+		$rootScope.$on('$stateChangeStart', function(event, toState, toParams /*, fromState, fromParams*/ ) {
 			// if not on active lecture, unsync socket listening for questions
 			if (toState.url !== '/session/active/:sessionid') {
 				socket.unsyncUpdates('session');
@@ -163,7 +163,7 @@ angular.module('uniQaApp', [
 	})
 	.run(function($rootScope, $location, Auth) {
 		// Redirect to login if route requires auth and you're not logged in
-		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+		$rootScope.$on('$stateChangeStart', function(event, toState /*, toParams, fromState, fromParams*/ ) {
 			Auth.isLoggedInAsync(function(loggedIn) {
 				if ((toState.authenticate && !loggedIn)) {
 					event.preventDefault();

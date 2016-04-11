@@ -32,7 +32,7 @@ angular.module('uniQaApp')
 		Group.get().then(function(res) {
 			var group = {
 				course: 'None'
-			}
+			};
 			res.groups.unshift(group);
 			$scope.filter.group = 'Select Group';
 			$scope.groups = res.groups;

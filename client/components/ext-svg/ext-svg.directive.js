@@ -22,4 +22,4 @@ angular.module('uniQaApp')
 				$element.replaceWith($compile('<svg xmlns="http://www.w3.org/2000/svg" style="width:100%;" alt="Alternate Text" class="img-responsive" viewBox="0 0 43 43">' + $scope.content + '</svg>')($scope.$parent));
 			}
 		};
-	}])
+	}]);

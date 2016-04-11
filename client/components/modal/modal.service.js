@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uniQaApp')
-	.factory('Modal', function($rootScope, $modal, $parse, $window, $location, $timeout, $interval, Auth, Thing, Group, Lecture, Session) {
+	.factory('Modal', function($rootScope, $modal, $parse, $window, $location, $timeout, $interval, $sce, Auth, Thing, Group, Lecture, Session) {
 
 		// Use the User $resource to fetch all users
 		$rootScope.user = {};
@@ -10,7 +10,7 @@ angular.module('uniQaApp')
 
 		$rootScope.res = {
 			received: true
-		}
+		};
 
 		/**
 		 * Opens a modal
@@ -26,7 +26,7 @@ angular.module('uniQaApp')
 
 			angular.extend(modalScope, scope);
 
-			var modalTemplate = modalScope.modal.template || 'components/modal/views/modal.html'
+			var modalTemplate = modalScope.modal.template || 'components/modal/views/modal.html';
 			var modalBackdrop = modalScope.modal.backdrop || true;
 
 			return $modal.open({
@@ -39,9 +39,9 @@ angular.module('uniQaApp')
 		}
 
 		var isUrl = function(string) {
-			var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+			var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
 			return regexp.test(string);
-		}
+		};
 
 		// Public API here
 		return {
@@ -53,7 +53,7 @@ angular.module('uniQaApp')
 
 					return function() {
 						var readModal;
-						var me = Auth.getCurrentUser();
+						// var me = Auth.getCurrentUser();
 						console.info(session);
 						Session.getOne(session).then(function(res) {
 							$rootScope.session = res;
@@ -90,10 +90,10 @@ angular.module('uniQaApp')
 						$rootScope.isAdmin = Auth.isAdmin;
 						$rootScope.isStudent = Auth.isStudent;
 
-						var _second = 1000;
-						var _minute = _second * 60;
-						var _hour = _minute * 60;
-						var _day = _hour * 24;
+						// var _second = 1000;
+						// var _minute = _second * 60;
+						// var _hour = _minute * 60;
+						// var _day = _hour * 24;
 						var interval = 100; // for accuracy
 						var getTimer;
 						$rootScope.timer = '0:00:00';
@@ -103,7 +103,7 @@ angular.module('uniQaApp')
 
 						var counter = function() {
 							duration = moment.duration(moment.utc().diff(now));
-							$rootScope.timer = Math.floor(duration.asHours()) + moment.utc(duration.asMilliseconds()).format(":mm:ss");
+							$rootScope.timer = Math.floor(duration.asHours()) + moment.utc(duration.asMilliseconds()).format(':mm:ss');
 						};
 
 						$rootScope.startTimer = function() {
@@ -140,7 +140,7 @@ angular.module('uniQaApp')
 						// var sessionid = $stateParams.sessionid;
 						// console.info(lecture);
 
-						var me = Auth.getCurrentUser();
+						// var me = Auth.getCurrentUser();
 
 						$rootScope.trustSrc = function(src) {
 							return $sce.trustAsResourceUrl(src);
@@ -253,7 +253,7 @@ angular.module('uniQaApp')
 								file: file,
 								session: sessionid
 							}).then(function(res) {
-								// console.info(res);
+								console.info(res);
 							});
 						};
 
@@ -296,18 +296,18 @@ angular.module('uniQaApp')
 						$rootScope.feedback = args.shift(); // gets feedback passed through from main view
 
 						var readModal;
-						var me = Auth.getCurrentUser();
+						// var me = Auth.getCurrentUser();
 
 						$rootScope.showQuestions = false;
 						$rootScope.showRegister = false;
 
 						$rootScope.toggleQuestions = function() {
 							$rootScope.showQuestions = !$rootScope.showQuestions;
-						}
+						};
 
 						$rootScope.toggleRegister = function() {
 							$rootScope.showRegister = !$rootScope.showRegister;
-						}
+						};
 
 						// cross check registered students against those expected,
 						$rootScope.feedback.notRegistered = [];
@@ -332,18 +332,17 @@ angular.module('uniQaApp')
 							three: 0,
 							four: 0,
 							five: 0
-						}
+						};
 
 						// get each users feedback and put into band
 						_.some($rootScope.feedback.feedback, function(user) {
-							// get each amount
-							if (user.rating == 1) {
+							if (parseInt(user.rating) === 1) {
 								$rootScope.feedback.ratings.one++;
-							} else if (user.rating == 2) {
+							} else if (parseInt(user.rating) === 2) {
 								$rootScope.feedback.ratings.two++;
-							} else if (user.rating == 3) {
+							} else if (parseInt(user.rating) === 3) {
 								$rootScope.feedback.ratings.three++;
-							} else if (user.rating == 4) {
+							} else if (parseInt(user.rating) === 4) {
 								$rootScope.feedback.ratings.four++;
 							} else {
 								$rootScope.feedback.ratings.five++;
@@ -390,7 +389,7 @@ angular.module('uniQaApp')
 								}, {
 									classes: 'btn-danger',
 									text: 'Leave',
-									click: function(e, form) {
+									click: function(e) {
 										confirmModal.close(e);
 									}
 								}]
@@ -408,7 +407,7 @@ angular.module('uniQaApp')
 					cb = cb || angular.noop;
 					return function() {
 						var importModal;
-						var me = Auth.getCurrentUser();
+						// var me = Auth.getCurrentUser();
 						$rootScope.importViewData = false;
 						$rootScope.importBtnText = 'Next...';
 						$rootScope.importCancelText = 'Cancel';
@@ -425,18 +424,18 @@ angular.module('uniQaApp')
 						// 	// console.info("hit success on file upload");
 						// };
 
-						function CSVToArray(strData, strDelimiter) {
+						function csvToArray(strData, strDelimiter) {
 							// Check to see if the delimiter is defined. If not,
 							// then default to comma.
-							strDelimiter = (strDelimiter || ",");
+							strDelimiter = (strDelimiter || ',');
 							// Create a regular expression to parse the CSV values.
 							var objPattern = new RegExp((
 								// Delimiters.
-								"(\\" + strDelimiter + "|\\r?\\n|\\r|^)" +
+								'(\\' + strDelimiter + '|\\r?\\n|\\r|^)' +
 								// Quoted fields.
-								"(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|" +
+								'(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|' +
 								// Standard fields.
-								"([^\"\\" + strDelimiter + "\\r\\n]*))"), "gi");
+								'([^\"\\' + strDelimiter + '\\r\\n]*))'), 'gi');
 							// Create an array to hold our data. Give the array
 							// a default empty first row.
 							var arrData = [
@@ -444,17 +443,20 @@ angular.module('uniQaApp')
 							];
 							// Create an array to hold our individual pattern
 							// matching groups.
-							var arrMatches = null;
+							var arrMatches;
+							var strMatchedDelimiter;
+							var strMatchedValue;
 							// Keep looping over the regular expression matches
 							// until we can no longer find a match.
+							/*jshint -W084 */
 							while (arrMatches = objPattern.exec(strData)) {
 								// Get the delimiter that was found.
-								var strMatchedDelimiter = arrMatches[1];
+								strMatchedDelimiter = arrMatches[1];
 								// Check to see if the given delimiter has a length
 								// (is not the start of string) and if it matches
 								// field delimiter. If id does not, then we know
 								// that this delimiter is a row delimiter.
-								if (strMatchedDelimiter.length && (strMatchedDelimiter != strDelimiter)) {
+								if (strMatchedDelimiter.length && (strMatchedDelimiter !== strDelimiter)) {
 									// Since we have reached a new row of data,
 									// add an empty row to our data array.
 									arrData.push([]);
@@ -465,11 +467,11 @@ angular.module('uniQaApp')
 								if (arrMatches[2]) {
 									// We found a quoted value. When we capture
 									// this value, unescape any double quotes.
-									var strMatchedValue = arrMatches[2].replace(
-										new RegExp("\"\"", "g"), "\"");
+									strMatchedValue = arrMatches[2].replace(
+										new RegExp('\"\"', 'g'), '\"');
 								} else {
 									// We found a non-quoted value.
-									var strMatchedValue = arrMatches[3];
+									strMatchedValue = arrMatches[3];
 								}
 								// Now that we have our value string, let's add
 								// it to the data array.
@@ -479,19 +481,19 @@ angular.module('uniQaApp')
 							return (arrData);
 						}
 
-						function CSVToJSON(csv) {
-							var array = CSVToArray(csv);
+						function csvToJSON(csv) {
+							var array = csvToArray(csv);
 							var objArray = [];
 							for (var i = 1; i < array.length; i++) {
 								objArray[i - 1] = {};
 								for (var k = 0; k < array[0].length && k < array[i].length; k++) {
 									var key = array[0][k];
-									objArray[i - 1][key] = array[i][k]
+									objArray[i - 1][key] = array[i][k];
 								}
 							}
 
 							var json = JSON.stringify(objArray);
-							var str = json.replace(/},/g, "},\r\n");
+							var str = json.replace(/},/g, '},\r\n');
 
 							return str;
 						}
@@ -503,7 +505,7 @@ angular.module('uniQaApp')
 									$rootScope.importUsers.splice(i, 1);
 								}
 							});
-						}
+						};
 
 						importModal = openModal({
 							modal: {
@@ -543,10 +545,10 @@ angular.module('uniQaApp')
 													input.files.forEach(function(item) {
 														var reader = new FileReader();
 														reader.onload = function() {
-															var text = reader.result;
+															// var text = reader.result;
 
-															var usersToImport = JSON.parse(CSVToJSON(reader.result));
-															// $rootScope.importUsers = JSON.parse(CSVToJSON(reader.result));
+															var usersToImport = JSON.parse(csvToJSON(reader.result));
+															// $rootScope.importUsers = JSON.parse(csvToJSON(reader.result));
 
 															// convert userid into email address
 															for (var user in usersToImport) {
@@ -560,9 +562,9 @@ angular.module('uniQaApp')
 												} else {
 													var reader = new FileReader();
 													reader.onload = function() {
-														var text = reader.result;
+														// var text = reader.result;
 
-														var usersToImport = JSON.parse(CSVToJSON(reader.result));
+														var usersToImport = JSON.parse(csvToJSON(reader.result));
 
 														// convert userid into email address
 														for (var user in usersToImport) {
@@ -577,14 +579,15 @@ angular.module('uniQaApp')
 												$rootScope.importCancelText = 'Back';
 												$rootScope.importBtnText = 'Save';
 												$rootScope.res.received = true;
-												console.info("Importing Data");
+												console.info('Importing Data');
 											} else {
-												console.info("Ammending & Saving");
+												console.info('Ammending & Saving');
 												$rootScope.res.received = false;
 												Auth.createUsers({
 														users: $rootScope.importUsers
 													})
 													.then(function(res) {
+														console.info(res);
 														$rootScope.res.received = true;
 														importModal.close(e);
 													})
@@ -714,7 +717,7 @@ angular.module('uniQaApp')
 				feedback: function(id, cb) {
 					cb = cb || angular.noop;
 					return function() {
-						var args = Array.prototype.slice.call(arguments);
+						// var args = Array.prototype.slice.call(arguments);
 						var session = id;
 
 						var createModal;
@@ -746,11 +749,11 @@ angular.module('uniQaApp')
 												var feedback = $rootScope.feedback;
 												feedback.session = session; // attach session id to object
 												feedback.user = Auth.getCurrentUser()._id; // attach user
-												if (feedback.rating != 0) {
+												if (feedback.rating !== 0) {
 													// send feedback to server here
 													Session.sendFeedback(feedback, function() {
 														createModal.close(e);
-													})
+													});
 												}
 											}
 										}]
@@ -852,7 +855,7 @@ angular.module('uniQaApp')
 						};
 						$rootScope.preview = {
 							loading: false
-						}
+						};
 
 						$rootScope.lectureTypes = [];
 						$rootScope.lectureDescHeight = 220;
@@ -898,13 +901,13 @@ angular.module('uniQaApp')
 									if (_.isEmpty(res)) {
 										$rootScope.lecture.tempPreview = {
 											err: true
-										}
+										};
 									}
 									// attach with base64 tag
 									$rootScope.lecture.tempPreview = 'data:image/png;base64,' + res;
 									$rootScope.preview = {
 										loading: false
-									}
+									};
 								});
 							} else {
 								if (!isUrl('http://' + $rootScope.lecture.url)) {
@@ -915,14 +918,14 @@ angular.module('uniQaApp')
 
 						// stop enter key triggering DropzoneJS
 						angular.element($window).on('keydown', function(e) {
-							if (e.keyCode == 13) {
+							if (e.keyCode === 13) {
 								e.preventDefault();
 							}
 						});
 
 						$rootScope.removeCollaborator = function(user) {
 							for (var tutor in $rootScope.selectedCollaborators) {
-								if ($rootScope.selectedCollaborators[tutor] == user) {
+								if ($rootScope.selectedCollaborators[tutor] === user) {
 									$rootScope.selectedCollaborators.splice(tutor, 1);
 								}
 							}
@@ -930,23 +933,23 @@ angular.module('uniQaApp')
 
 						$rootScope.searchPossibleCollaborators = function(e) {
 							// checking length to see if id has been sent through
-							if (e.keyCode == 13 || e == 'Submit' || e._id) {
+							if (e.keyCode === 13 || e === 'Submit' || e._id) {
 								// if name isn't on the list, break out of function
-								if ($rootScope.possibleCollaborators.length == 0) {
+								if ($rootScope.possibleCollaborators.length === 0) {
 									return;
 								} else {
 									// need to either get selected here, or select first
 									if (!($rootScope.lecture.collaborator instanceof Object)) {
-										if (e == 'Submit') {
+										if (e === 'Submit') {
 											// gets index of child with active class from typeahead property
-											$rootScope.lecture.collaborator = $rootScope.possibleCollaborators[angular.element(document.querySelector("[id*='typeahead']")).find('.active').index()];
+											$rootScope.lecture.collaborator = $rootScope.possibleCollaborators[angular.element(document.querySelector('[id*=\'typeahead\']')).find('.active').index()];
 										}
 									}
 								}
 
 								// only add if we have a collaborator
 								if ($rootScope.lecture.collaborator instanceof Object) {
-									$rootScope.selectedCollaborators.push($rootScope.lecture.collaborator)
+									$rootScope.selectedCollaborators.push($rootScope.lecture.collaborator);
 								}
 								$rootScope.possibleCollaborators = [];
 								$rootScope.lecture.collaborator = '';
@@ -961,7 +964,7 @@ angular.module('uniQaApp')
 									for (var x = 0; x < res.collaborators.length; x++) {
 										var isIn = false;
 										for (var y = 0; y < $rootScope.selectedCollaborators.length; y++) {
-											if (res.collaborators[x]._id == $rootScope.selectedCollaborators[y]._id) {
+											if (res.collaborators[x]._id === $rootScope.selectedCollaborators[y]._id) {
 												isIn = true;
 											}
 										}
@@ -999,7 +1002,7 @@ angular.module('uniQaApp')
 											for (var i = 0; i < $rootScope.selectedCollaborators.length; i++) {
 												collabs.push({
 													user: $rootScope.selectedCollaborators[i]._id
-												})
+												});
 											}
 
 											// set createdBy to the ID for model
@@ -1044,10 +1047,11 @@ angular.module('uniQaApp')
 							}
 						}, 'modal-success', 'lg');
 
-						$rootScope.uploadSuccess = function(response) {
+						$rootScope.uploadSuccess = function(res) {
+							console.info(res);
 							$rootScope.res.received = true;
 							createModal.close();
-						}
+						};
 
 						createModal.result.then(function() {
 							cb(createdLecture);
@@ -1325,12 +1329,12 @@ angular.module('uniQaApp')
 
 						$rootScope.selectedGroups = [];
 
-						$rootScope.updatedSession.startTime = moment.utc(session.startTime).format("DD/MM/YYYY HH:mm");
-						$rootScope.updatedSession.endTime = moment.utc(session.endTime).format("DD/MM/YYYY HH:mm");
+						$rootScope.updatedSession.startTime = moment.utc(session.startTime).format('DD/MM/YYYY HH:mm');
+						$rootScope.updatedSession.endTime = moment.utc(session.endTime).format('DD/MM/YYYY HH:mm');
 
 
 						for (var group in session.groups) {
-							$rootScope.selectedGroups.push(session.groups[group].group)
+							$rootScope.selectedGroups.push(session.groups[group].group);
 						}
 
 						console.info(session);
@@ -1365,7 +1369,7 @@ angular.module('uniQaApp')
 													user: $rootScope.updatedUser
 												})
 												.then(function(res) {
-													updatedUser = res.user;
+													updatedSession = res.session;
 													// user created, close the modal
 													updateModal.close(e);
 												})
@@ -1386,7 +1390,7 @@ angular.module('uniQaApp')
 						}, 'modal-warning', 'md');
 
 						updateModal.result.then(function() {
-							cb(updatedUser);
+							cb(updatedSession);
 						});
 					};
 				}

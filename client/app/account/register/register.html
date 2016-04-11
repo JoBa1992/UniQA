@@ -81,24 +81,24 @@
           </p>
           <div class="progress">
             <div class="progress-bar progress-bar-default" style="width: 100%" ng-if="passStr==-1">
-              <span>Password Strength Indicator</span>
+              <span class="pad-left-8">Password Strength Indicator</span>
             </div>
             <div class="progress-bar progress-bar-default" style="width: 100%" ng-if="passStr==0">
-              <span>Need at least
+              <span class="pad-left-8">Need at least
                 {{6-user.password.length}}
                 more characters</span>
             </div>
             <div class="progress-bar progress-bar-danger" style="width: 25%" ng-if="passStr==1">
-              <span>Weak Password</span>
+              <span class="pad-left-8">Weak Password</span>
             </div>
             <div class="progress-bar progress-bar-warning" style="width: 50%" ng-if="passStr==2">
-              <span>Good Password</span>
+              <span class="pad-left-8">Good Password</span>
             </div>
             <div class="progress-bar progress-bar-success" style="width: 75%" ng-if="passStr==3">
-              <span>Strong Password</span>
+              <span class="pad-left-8">Strong Password</span>
             </div>
             <div class="progress-bar progress-bar-success" style="width: 100%" ng-if="passStr==4">
-              <span>Very Strong Password</span>
+              <span class="pad-left-8">Very Strong Password</span>
             </div>
           </div>
         </div>

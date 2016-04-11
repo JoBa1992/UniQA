@@ -85,10 +85,10 @@ angular.module('uniQaApp')
 				var deferred = $q.defer();
 				var history = obj.historic || null;
 				var order = obj.order || null;
-
 				$http.get('/api/sessions', {
 					params: {
-						author: obj.createdBy,
+						createdBy: obj.createdBy,
+						author: obj.author,
 						history: history,
 						order: order,
 						page: obj.page,
