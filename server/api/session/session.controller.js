@@ -417,7 +417,7 @@ exports.create = function(req, res) {
 						if (err) {
 							console.info(err);
 						} else {
-							res.send(session);
+							res.status(201).send(session);
 						}
 
 					});
@@ -620,7 +620,7 @@ exports.update = function(req, res) {
 	if (req.body._id) {
 		delete req.body._id;
 	}
-	Lecture.findById(req.params.id, function(err, session) {
+	Session.findById(req.params.id, function(err, session) {
 		if (err) {
 			return handleError(res, err);
 		}
@@ -639,7 +639,7 @@ exports.update = function(req, res) {
 
 // Deletes a session from the DB.
 exports.destroy = function(req, res) {
-	Lecture.findById(req.params.id, function(err, session) {
+	Session.findById(req.params.id, function(err, session) {
 		if (err) {
 			return handleError(res, err);
 		}

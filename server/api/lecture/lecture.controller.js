@@ -236,7 +236,7 @@ exports.create = function(req, res) {
 					});
 			} else {
 				// else res back straight away
-				return res.json(lecture);
+				return res.status(201).json(lecture);
 			}
 		}
 	});

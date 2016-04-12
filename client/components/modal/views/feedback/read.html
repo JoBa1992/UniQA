@@ -115,7 +115,7 @@
         <!-- end row -->
       </div>
     </div>
-    <hr ng-if="showRegister" class="resource-hr" style="display:block; width:100%;margin:2em 0;">
+    <hr ng-if="showRegister" class="resource-hr" style="clear:left;display:block; width:100%;margin:2em 0;">
     <div ng-if="showRegister">
       <h2 style="padding:0em 0 .4em .4em;margin:0;" ng-if="!_.isEmpty(feedback.registered)">Attended</h2>
       <div class="row" ng-if="!_.isEmpty(feedback.registered)">
@@ -136,7 +136,7 @@
         </div>
       </div>
     </div>
-    <hr ng-if="showQuestions" class="resource-hr" style="display:block; width:100%;margin:2em 0;">
+    <hr ng-if="showQuestions" class="resource-hr" style="clear:left;display:block; width:100%;margin:2em 0;">
     <div ng-if="showQuestions">
       <h2 style="padding:0em 0 .4em .4em;">Questions</h2>
       <div ng-repeat="item in feedback.questions" class="row feedback-row">
@@ -169,7 +169,8 @@
       </div>
 
     </div>
-    <hr class="resource-hr" style="display:block; width:100%;margin:2em 0;">
+    <br>
+    <hr class="resource-hr" style="clear:left;display:block; width:100%;margin:2em 0;">
     <div ng-if="!feedback.feedback[0]">
       <h3 class="text-default" style="width:100%; text-align:center;">No Feedback Received</h3>
     </div>
