@@ -244,7 +244,7 @@ angular.module('uniQaApp')
 					return function() {
 						var readModal;
 
-						console.info(lecture);
+						// console.info(lecture);
 
 						$rootScope.getFile = function(file) {
 							Session.getFile({
@@ -252,8 +252,8 @@ angular.module('uniQaApp')
 								user: me._id,
 								file: file,
 								session: sessionid
-							}).then(function(res) {
-								console.info(res);
+							}).then(function( /*res*/ ) {
+								// console.info(res);
 							});
 						};
 
@@ -309,19 +309,21 @@ angular.module('uniQaApp')
 							$rootScope.showRegister = !$rootScope.showRegister;
 						};
 
+						// needs checking
 						// cross check registered students against those expected,
 						$rootScope.feedback.notRegistered = [];
-						for (var group in $rootScope.feedback.groups) {
-							for (var student in $rootScope.feedback.groups[group].group.students) {
+						for (var g = 0; g < $rootScope.feedback.groups.length; g++) {
+							for (var s = 0; s < $rootScope.feedback.groups[g].group.students.length; s++) {
 								var registered = false;
-								for (var user in $rootScope.feedback.registered) {
-									if ($rootScope.feedback.registered[user].user._id === $rootScope.feedback.groups[group].group.students[student].user._id) {
+								for (var u = 0; u < $rootScope.feedback.registered.length; u++) {
+									if ($rootScope.feedback.registered[u].user._id ===
+										$rootScope.feedback.groups[g].group.students[s].user._id) {
 										registered = true;
 									}
 								}
 								// if user wasn't registered, push them into notRegistered array
 								if (!registered) {
-									$rootScope.feedback.notRegistered.push(angular.copy($rootScope.feedback.groups[group].group.students[student]));
+									$rootScope.feedback.notRegistered.push(angular.copy($rootScope.feedback.groups[g].group.students[s]));
 								}
 							}
 						}
@@ -369,10 +371,11 @@ angular.module('uniQaApp')
 				},
 			},
 			confirm: {
-				leaveSession: function(cb) {
+				leaveSession: function(msg, cb) {
 					cb = cb || angular.noop;
 					return function() {
 						var confirmModal;
+						$rootScope.leaveMsg = msg;
 
 						confirmModal = openModal({
 							modal: {
@@ -384,6 +387,7 @@ angular.module('uniQaApp')
 									classes: 'btn-default',
 									text: 'Cancel',
 									click: function(e) {
+										$rootScope.submitted = false;
 										confirmModal.dismiss(e);
 									}
 								}, {
@@ -391,6 +395,61 @@ angular.module('uniQaApp')
 									text: 'Leave',
 									click: function(e) {
 										confirmModal.close(e);
+									}
+								}]
+							}
+						}, 'modal-danger', 'md');
+
+						confirmModal.result.then(function() {
+							cb();
+						});
+					};
+				},
+				leaveSessionNoFeedback: function(id, cb) {
+					cb = cb || angular.noop;
+					return function() {
+						var confirmModal;
+						var session = id;
+
+						$rootScope.feedback = {
+							rating: 0,
+							comment: ''
+						};
+
+						confirmModal = openModal({
+							modal: {
+								name: 'leaveSessionNoFeedbackForm',
+								dismissable: true,
+								form: 'components/modal/views/session/leaveNoFeedback.html',
+								title: 'Leaving Session',
+								buttons: [{
+									classes: 'btn-danger pull-left',
+									text: 'No Thanks!',
+									click: function(e) {
+										$rootScope.submitted = false;
+										confirmModal.close(e);
+									}
+								}, {
+									classes: 'btn-default',
+									text: 'Cancel',
+									click: function(e) {
+										$rootScope.submitted = false;
+										confirmModal.dismiss(e);
+									}
+								}, {
+									classes: 'btn-success',
+									text: 'Submit',
+									click: function(e) {
+										var feedback = $rootScope.feedback;
+										feedback.session = session; // attach session id to object
+										feedback.user = Auth.getCurrentUser()._id; // attach user
+										if (feedback.rating !== 0) {
+											// send feedback to server here
+											Session.sendFeedback(feedback, function() {
+												confirmModal.close(e);
+											});
+										}
+
 									}
 								}]
 							}
@@ -522,6 +581,7 @@ angular.module('uniQaApp')
 											$rootScope.importCancelText = 'Cancel';
 											$rootScope.importViewData = false;
 										} else {
+											$rootScope.submitted = false;
 											importModal.dismiss(e);
 										}
 
@@ -565,7 +625,6 @@ angular.module('uniQaApp')
 														// var text = reader.result;
 
 														var usersToImport = JSON.parse(csvToJSON(reader.result));
-
 														// convert userid into email address
 														for (var user in usersToImport) {
 															usersToImport[user].email = String.fromCharCode(usersToImport[user].id.charCodeAt(0) + 48) + usersToImport[user].id.substring(1, usersToImport[user].id.length);
@@ -589,6 +648,9 @@ angular.module('uniQaApp')
 													.then(function(res) {
 														console.info(res);
 														$rootScope.res.received = true;
+														$rootScope.submitted = false;
+														form.$setUntouched();
+														form.$setPristine();
 														importModal.close(e);
 													})
 													.catch(function(err) {
@@ -669,6 +731,8 @@ angular.module('uniQaApp')
 									classes: 'btn-default',
 									text: 'Cancel',
 									click: function(e) {
+										// reset submit state
+										$rootScope.submitted = false;
 										createModal.dismiss(e);
 									}
 								}, {
@@ -676,10 +740,8 @@ angular.module('uniQaApp')
 									text: 'Create',
 									click: function(e, form) {
 										$rootScope.submitted = true;
-										// form.$setPristine();
-										// form.$setValidity();
-										// form.$setUntouched();
-										if ($rootScope.user.role !== 'Select Role' && $rootScope.user.department !== 'Select Department' && $rootScope.user.name && $rootScope.user.email && $rootScope.user.passcode) {
+
+										if ($rootScope.user.role !== 'Select Role' && $rootScope.user.name !== '' && $rootScope.user.email !== '') {
 
 											$rootScope.res.received = false;
 
@@ -688,6 +750,10 @@ angular.module('uniQaApp')
 												})
 												.then(function(res) {
 													$rootScope.res.received = true;
+													// reset submit state
+													$rootScope.submitted = false;
+													form.$setUntouched();
+													form.$setPristine();
 													createdUser = res.user;
 													// user created, close the modal
 													createModal.close(e);
@@ -797,6 +863,7 @@ angular.module('uniQaApp')
 									classes: 'btn-default',
 									text: 'Cancel',
 									click: function(e) {
+										$rootScope.submitted = false;
 										createModal.dismiss(e);
 									}
 								}, {
@@ -814,6 +881,9 @@ angular.module('uniQaApp')
 												})
 												.then(function(res) {
 													createdUser = res.user;
+													$rootScope.submitted = false;
+													form.$setUntouched();
+													form.$setPristine();
 													// user created, close the modal
 													createModal.close(e);
 												})
@@ -988,6 +1058,7 @@ angular.module('uniQaApp')
 									classes: 'btn-default',
 									text: 'Cancel',
 									click: function(e) {
+										$rootScope.submitted = false;
 										createModal.dismiss(e);
 									}
 								}, {
@@ -1026,6 +1097,9 @@ angular.module('uniQaApp')
 														$rootScope.dropzone[0].dropzone.processQueue();
 													} else {
 														// lecture created with no files, close the modal
+														$rootScope.submitted = false;
+														form.$setUntouched();
+														form.$setPristine();
 														createModal.close(e);
 													}
 												})
@@ -1114,6 +1188,7 @@ angular.module('uniQaApp')
 									classes: 'btn-default',
 									text: 'Cancel',
 									click: function(e) {
+										$rootScope.submitted = false;
 										updateModal.dismiss(e);
 									}
 								}, {
@@ -1130,6 +1205,9 @@ angular.module('uniQaApp')
 												.then(function(res) {
 													updatedUser = res.user;
 													// user created, close the modal
+													$rootScope.submitted = false;
+													form.$setUntouched();
+													form.$setPristine();
 													updateModal.close(e);
 												})
 												.catch(function(err) {
@@ -1207,6 +1285,7 @@ angular.module('uniQaApp')
 									classes: 'btn-default',
 									text: 'Cancel',
 									click: function(e) {
+										$rootScope.submitted = false;
 										updateModal.dismiss(e);
 									}
 								}, {
@@ -1223,6 +1302,9 @@ angular.module('uniQaApp')
 												.then(function(res) {
 													updatedUser = res.user;
 													// user created, close the modal
+													$rootScope.submitted = false;
+													form.$setUntouched();
+													form.$setPristine();
 													updateModal.close(e);
 												})
 												.catch(function(err) {
@@ -1279,13 +1361,20 @@ angular.module('uniQaApp')
 									classes: 'btn-default',
 									text: 'Cancel',
 									click: function(e) {
+										$rootScope.submitted = false;
 										updateModal.dismiss(e);
 									}
 								}, {
 									classes: 'btn-warning',
 									text: 'Update',
-									click: function() {
-										$rootScope.submitted = true;
+									click: function( /*e, form*/ ) {
+										// $rootScope.submitted = true;
+
+										/*
+										$rootScope.submitted = false;
+										form.$setUntouched();
+										form.$setPristine();
+										*/
 										//
 										// if ($rootScope.updatedUser.role !== 'Select Role' && $rootScope.updatedUser.department !== 'Select Department' && $rootScope.updatedUser.name) {
 										//
@@ -1348,13 +1437,17 @@ angular.module('uniQaApp')
 								buttons: [{
 									classes: 'btn-danger pull-left',
 									text: 'Delete',
-									click: function(e) {
+									click: function(e /*, form*/ ) {
+										// $rootScope.submitted = false;
+										// form.$setUntouched();
+										// form.$setPristine();
 										updateModal.dismiss(e);
 									}
 								}, {
 									classes: 'btn-default',
 									text: 'Cancel',
 									click: function(e) {
+										$rootScope.submitted = false;
 										updateModal.dismiss(e);
 									}
 								}, {
@@ -1370,7 +1463,10 @@ angular.module('uniQaApp')
 												})
 												.then(function(res) {
 													updatedSession = res.session;
-													// user created, close the modal
+													$rootScope.submitted = false;
+													form.$setUntouched();
+													form.$setPristine();
+													// session updated, close the modal
 													updateModal.close(e);
 												})
 												.catch(function(err) {
@@ -1425,7 +1521,10 @@ angular.module('uniQaApp')
 									buttons: [{
 										classes: 'btn-warning',
 										text: 'OK',
-										click: function(e) {
+										click: function(e, form) {
+											$rootScope.submitted = false;
+											form.$setUntouched();
+											form.$setPristine();
 											deleteModal.close(e);
 										}
 									}]
@@ -1446,12 +1545,16 @@ angular.module('uniQaApp')
 										classes: 'btn-default',
 										text: 'Cancel',
 										click: function(e) {
+											$rootScope.submitted = false;
 											deleteModal.dismiss(e);
 										}
 									}, {
 										classes: 'btn-danger',
 										text: 'Delete',
-										click: function(e) {
+										click: function(e, form) {
+											$rootScope.submitted = false;
+											form.$setUntouched();
+											form.$setPristine();
 											deleteModal.close(e);
 										}
 									}]
@@ -1485,12 +1588,16 @@ angular.module('uniQaApp')
 									classes: 'btn-default',
 									text: 'Cancel',
 									click: function(e) {
+										$rootScope.submitted = false;
 										deleteModal.dismiss(e);
 									}
 								}, {
 									classes: 'btn-danger',
 									text: 'Delete',
-									click: function(e) {
+									click: function(e, form) {
+										$rootScope.submitted = false;
+										form.$setUntouched();
+										form.$setPristine();
 										deleteModal.close(e);
 									}
 								}]
@@ -1525,12 +1632,16 @@ angular.module('uniQaApp')
 									classes: 'btn-default',
 									text: 'Cancel',
 									click: function(e) {
+										$rootScope.submitted = false;
 										deleteModal.dismiss(e);
 									}
 								}, {
 									classes: 'btn-danger',
 									text: 'Delete',
-									click: function(e) {
+									click: function(e, form) {
+										$rootScope.submitted = false;
+										form.$setUntouched();
+										form.$setPristine();
 										deleteModal.close(e);
 									}
 								}]

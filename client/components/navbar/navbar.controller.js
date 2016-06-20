@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uniQaApp')
-	.controller('NavbarCtrl', function($scope, $location, Auth) {
+	.controller('NavbarCtrl', function($scope, $location, $stateParams, Auth, Modal) {
 		$scope.isCollapsed = true;
 		$scope.isLoggedIn = Auth.isLoggedIn;
 		$scope.isAdmin = Auth.isAdmin;
@@ -84,11 +84,23 @@ angular.module('uniQaApp')
 			admin: false,
 			student: false
 		}];
-		if ($scope.isLoggedIn()) {
-			$scope.leftMenu.root = '/profile';
-		} else {
-			$scope.leftMenu.root = '/';
-		}
+
+		$scope.checkLocation = function() {
+			if ($scope.isLoggedIn()) {
+				// check if user is in an active session,
+				if ($stateParams.sessionid) {
+					// are they sure they want to leave?
+					var confirmModal = Modal.confirm.leaveSession('Are you sure you want to leave?', function() {
+						$location.path('/profile');
+					});
+					confirmModal();
+				} else {
+					$location.path('/profile');
+				}
+			} else {
+				$location.path('/');
+			}
+		};
 
 		$scope.logout = function() {
 			Auth.logout();

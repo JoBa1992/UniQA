@@ -8,7 +8,6 @@ angular.module('uniQaApp')
 		$scope.moment = moment;
 
 		$scope.me = Auth.getCurrentUser();
-		console.info(Auth.isStudent);
 		// temporary until student profile is sorted
 		if ($scope.me.role === 'student') {
 			$location.path('/session/register');
@@ -37,7 +36,6 @@ angular.module('uniQaApp')
 				page: page,
 				paginate: pag
 			}).then(function(res) {
-				console.info(res);
 				$scope.timelineIcon = 'fa fa-arrow-circle-o-down';
 				if (res.length === 0) {
 					$scope.timelineIcon = 'fa fa-road';

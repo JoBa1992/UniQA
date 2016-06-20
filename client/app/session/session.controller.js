@@ -346,18 +346,36 @@ angular.module('uniQaApp')
 		$scope.checkLeave = function() {
 			// check times here, if there is still at least 10 minutes of time
 			// left, open up modal asking user for confirmation
-			var timeUntil = moment.utc($scope.session.endTime).subtract(10, 'minutes');
+			var timeUntilTenMinsLeft = moment.utc($scope.session.endTime).subtract(10, 'minutes');
+
+			var timeUntilHalfway = moment.utc(moment.utc($scope.session.endTime) - ((moment.utc($scope.session.endTime) - moment.utc($scope.session.startTime)) / 2));
+
+			var noFeedbackModal, confirmModal;
 
 			// if use is admin, redirect them to correct page
 			var path = $scope.isAdmin() ? '/session/start' : '/session/register';
 
-			if (moment.utc() <= timeUntil) {
-				var confirmModal = Modal.confirm.leaveSession(function() {
-					$location.path(path);
-				});
-				confirmModal();
+			if (!$scope.fedback) {
+				if (moment.utc() >= timeUntilHalfway) {
+					noFeedbackModal = Modal.confirm.leaveSessionNoFeedback(sessionid, function() {
+						$location.path(path);
+					});
+					noFeedbackModal();
+				} else {
+					confirmModal = Modal.confirm.leaveSession('There is still at least 10 minutes left, are you sure you want to leave?', function() {
+						$location.path(path);
+					});
+					confirmModal();
+				}
 			} else {
-				$location.path(path);
+				if (moment.utc() <= timeUntilTenMinsLeft) {
+					confirmModal = Modal.confirm.leaveSession('There is still at least 10 minutes left, are you sure you want to leave?', function() {
+						$location.path(path);
+					});
+					confirmModal();
+				} else {
+					$location.path(path);
+				}
 			}
 		};
 

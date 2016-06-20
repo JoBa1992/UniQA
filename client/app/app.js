@@ -107,7 +107,7 @@ angular.module('uniQaApp', [
 
 		// check for scope state changes
 		//next, current
-		$rootScope.$on('$stateChangeStart', function(event, toState, toParams /*, fromState, fromParams*/ ) {
+		$rootScope.$on('$stateChangeStart', function(event, toState, toParams /*, fromState , fromParams*/ ) {
 			// if not on active lecture, unsync socket listening for questions
 			if (toState.url !== '/session/active/:sessionid') {
 				socket.unsyncUpdates('session');

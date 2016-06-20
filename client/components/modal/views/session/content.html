@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row">
     <div ng-repeat="item in lecture.attachments">
-      <a class="col-xs-12" ng-click="getFile(item)" style="text-decoration:none;margin:.8em 0;cursor:pointer;">
+      <a class="col-xs-12" ng-click="getFile(item)" style="text-decoration:none;margin:.8em 0;cursor:pointer;" target="_self">
         <i class="fa fa-{{item.type}}-o fa-2x col-xs-2"></i>
         <h5 class="col-xs-10 text-warning" style="margin:.5em 0;">
           {{item.name | limitTo: 28}}{{item.name.length > 28? '...':''}}

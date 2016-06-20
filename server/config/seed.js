@@ -685,9 +685,9 @@ User.find({}).remove(function() {
 										createdBy: '56a7d95746b9e7db57417309',
 										_id: '56c87667bcd6f3c431cb8681',
 										lecture: '56c868096bd3f7b730a051f4',
-										startTime: moment.utc(moment()),
-										endTime: moment.utc(moment().add(2, 'hours')),
-										timeAllowance: 30,
+										startTime: moment.utc([2016, 4, 24, 12, 0, 0]),
+										endTime: moment.utc([2016, 4, 24, 14, 30, 0]),
+										timeAllowance: 60,
 										groups: [{
 											group: '56cb7c2e7bbe028ebfbe56a2'
 										}, {
@@ -696,8 +696,8 @@ User.find({}).remove(function() {
 									}, {
 										createdBy: '56a7d95746b9e7db57417309',
 										lecture: '56d1ca2e4f6973280ce025e6',
-										startTime: moment.utc(moment().add(4, 'hours')),
-										endTime: moment.utc(moment().add(5, 'hours')),
+										startTime: moment.utc([2016, 1, 21, 12, 0, 0]),
+										endTime: moment.utc([2016, 1, 21, 14, 0, 0]),
 										timeAllowance: 20,
 										groups: [{
 											group: '56cb7c2e7bbe028ebfbe56a2'
@@ -707,8 +707,8 @@ User.find({}).remove(function() {
 									}, {
 										createdBy: '56a7d95746b9e7db57417309',
 										lecture: '56d1ca2e4f6973280ce025e7',
-										startTime: moment.utc(moment().add(8, 'hours')),
-										endTime: moment.utc(moment().add(9, 'hours')),
+										startTime: moment.utc([2016, 1, 22, 12, 0, 0]),
+										endTime: moment.utc([2016, 1, 22, 14, 0, 0]),
 										timeAllowance: 30,
 										groups: [{
 											group: '56cb7c2e7bbe028ebfbe56a3'
@@ -716,8 +716,8 @@ User.find({}).remove(function() {
 									}, {
 										createdBy: '56a7d95746b9e7db57417309',
 										lecture: '56d1ca2e4f6973280ce025e8',
-										startTime: moment.utc(moment().add(12, 'hours')),
-										endTime: moment.utc(moment().add(13, 'hours')),
+										startTime: moment.utc([2016, 1, 24, 12, 0, 0]),
+										endTime: moment.utc([2016, 1, 24, 14, 0, 0]),
 										timeAllowance: 20,
 										groups: [{
 											group: '56cb7c2e7bbe028ebfbe56a2'
@@ -725,8 +725,8 @@ User.find({}).remove(function() {
 									}, {
 										createdBy: '56a7d95746b9e7db57417309',
 										lecture: '56d1ca2e4f6973280ce025e9',
-										startTime: moment.utc(moment().add(16, 'hours')),
-										endTime: moment.utc(moment().add(17, 'hours')),
+										startTime: moment.utc([2016, 1, 26, 12, 0, 0]),
+										endTime: moment.utc([2016, 1, 26, 14, 0, 0]),
 										timeAllowance: 20,
 										feedback: [{
 											comment: "Lovely",
