@@ -12,7 +12,7 @@ angular.module('uniQaApp')
 
 		$scope.user = {};
 		// for quicker access, remove once finished
-		$scope.user.email = 'b2006241@my.shu.ac.uk';
+		$scope.user.email = ''; //b2006241@my.shu.ac.uk
 		$scope.errors = {};
 
 		$scope.password = {};
@@ -62,8 +62,8 @@ angular.module('uniQaApp')
 								var _second = 1000;
 								var _minute = _second * 60;
 
-								var start = moment(moment(res.startTime).utc() - (res.timeAllowance * _minute)).utc();
-								var end = moment(moment(res.endTime).utc() + (res.timeAllowance * _minute)).utc();
+								var start = moment(moment(res.startTime).utc().subtract(1, "hour") - (res.timeAllowance * _minute));
+								var end = moment(moment(res.endTime).utc().subtract(1, "hour") + (res.timeAllowance * _minute));
 
 								// if session isn't between goalposts kick back to session start
 								if (now >= start && now <= end) {

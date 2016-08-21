@@ -88,6 +88,7 @@ exports.index = function(req, res) {
 	var order = 'startTime';
 	var page = 1;
 	var paginate = 10;
+	var now = moment.utc().add(1, "hour").format();
 
 	if (req.query) {
 		if (!req.query.author) {
@@ -96,15 +97,17 @@ exports.index = function(req, res) {
 			getAuthor.author = req.query.author
 		}
 		// if set get past, else get future
-		if (!req.query.history) {
-			query.endTime = {
-				$gte: moment.utc()
+		// quick hack on the subtraction method
+		if (req.query.history) {
+			query.startTime = { // used to be endTime, changed to startTime for quicker feedback
+				$lt: now
 			}
 		} else {
-			query.endTime = {
-				$lt: moment.utc()
+			query.startTime = { // used to be endTime, changed to startTime for quicker feedback
+				$gte: now
 			}
 		}
+		// console.info(query.endTime);
 
 		if (req.query.createdBy) {
 			query.createdBy = req.query.createdBy;
@@ -139,6 +142,7 @@ exports.index = function(req, res) {
 		.limit(paginate)
 		.lean()
 		.exec(function(err, sessions) {
+			// console.info(sessions);
 			if (err) {
 				return handleError(res, err);
 			}

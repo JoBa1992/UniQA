@@ -481,6 +481,8 @@ angular.module('uniQaApp')
 
 		$scope.now = moment.utc();
 
+		// console.info(moment(moment.utc()).subtract(1, 'hours'));
+
 		var _second = 1000;
 		var _minute = _second * 60;
 		var _hour = _minute * 60;
@@ -492,6 +494,8 @@ angular.module('uniQaApp')
 			if (!_.isEmpty(res)) {
 				// take next lecture ordered by mongoose
 				var nextSession = res.shift();
+
+				console.info(nextSession);
 
 				$scope.nextLecture = nextSession.lecture;
 				$scope.nextLectureStudentCount = 0;
@@ -520,22 +524,26 @@ angular.module('uniQaApp')
 				// $scope.lecture.expected = 15;
 				$scope.nextLecture.attachments = $scope.nextLecture.attachments;
 
-				// $scope.lectureStart = moment.utc('27/02/2016 13:44:00', 'DD/MM/YYYY HH:mm:ss');
-
 				// subtract and add the time allowance given either side of the lecture
-				$scope.lectureStart = moment(moment(nextSession.startTime).utc() - (nextSession.timeAllowance * _minute)).utc();
-				$scope.lectureEnd = moment(moment(nextSession.endTime).utc() + (nextSession.timeAllowance * _minute)).utc();
+				$scope.lectureStart = moment(moment(nextSession.startTime).utc().subtract(1, "hour") - (nextSession.timeAllowance * _minute));
+				$scope.lectureEnd = moment(moment(nextSession.endTime).utc().subtract(1, "hour") + (nextSession.timeAllowance * _minute));
 
 				// $scope.timeUntil = ($scope.lectureStart.getMinutes() - res.timeAllowance) - $scope.now;
-				$scope.timeUntil = $scope.lectureStart - $scope.now;
+				console.info($scope.lectureStart);
 
-				// console.info($scope.timeUntil);
+				// $scope.timeUntil = $scope.lectureStart - $scope.now;
+
 
 				var timeUntilTimer = $interval(function() {
 					// needed to move the following in so that its always calced,
 					// as tab changing doesn't allow the interval to carry on
+
+					// TEMP FIX. NEEDS REMOVING ONCE TIME IS CORRECTED
 					$scope.now = moment.utc();
 					$scope.timeUntil = $scope.lectureStart - $scope.now;
+
+					// console.info($scope.timeUntil);
+
 
 					$scope.timeUntil = $scope.timeUntil - interval; // does a check every 1/10 of a second, more accurate
 
@@ -598,9 +606,11 @@ angular.module('uniQaApp')
 				var now = moment.utc();
 				var _second = 1000;
 				var _minute = _second * 60;
+				var start = moment(moment(res.startTime).utc().subtract(1, "hour") - (res.timeAllowance * _minute));
+				var end = moment(moment(res.endTime).utc().subtract(1, "hour") + (res.timeAllowance * _minute));
 
-				var start = moment(moment(res.startTime).utc() - (res.timeAllowance * _minute)).utc();
-				var end = moment(moment(res.endTime).utc() + (res.timeAllowance * _minute)).utc();
+				// var start = moment(moment(res.startTime).utc() - (res.timeAllowance * _minute)).utc();
+				// var end = moment(moment(res.endTime).utc() + (res.timeAllowance * _minute)).utc();
 
 				// if session isn't between goalposts kick back to session start
 				if (now >= start && now <= end) {

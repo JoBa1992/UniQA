@@ -391,6 +391,24 @@ User.find({}).remove(function() {
 		email: 'he.ro@shu.ac.uk',
 		course: 'Computer Science',
 		password: 'password'
+	}, {
+		_id: '56cb76edd5b3f4b6be5d7df7',
+		role: 'student',
+		name: 'Lee Coddington',
+		email: 'lcoddington@shu.ac.uk',
+		password: 'password'
+	}, {
+		_id: '56cb76edd5b3f4b6be5d7df8',
+		role: 'student',
+		name: 'Simon Clark',
+		email: 'sclark@shu.ac.uk',
+		password: 'password'
+	}, {
+		_id: '56cb76edd5b3f4b6be5d7df9',
+		role: 'student',
+		name: 'Brian Irwin',
+		email: 'birwin@shu.ac.uk',
+		password: 'password'
 	}, function() {
 		// console.log('finished populating users');
 		Group.find({}).remove(function() {
@@ -431,6 +449,12 @@ User.find({}).remove(function() {
 					user: '56cb76ecd5b3f4b6be5d7dec'
 				}, {
 					user: '56cb76ecd5b3f4b6be5d7ded'
+				}, {
+					user: '56cb76edd5b3f4b6be5d7df7'
+				}, {
+					user: '56cb76edd5b3f4b6be5d7df8'
+				}, {
+					user: '56cb76edd5b3f4b6be5d7df9'
 				}],
 				tutors: [{
 					user: '56a7d95746b9e7db57417309'
@@ -469,6 +493,8 @@ User.find({}).remove(function() {
 					user: '56cb76ebd5b3f4b6be5d7dd7'
 				}, {
 					user: '56cb76ecd5b3f4b6be5d7ddc'
+				}, {
+					user: '56cb76ecd5b3f4b6be5d7ddb'
 				}, {
 					user: '56cb76ecd5b3f4b6be5d7ddd'
 				}, {
@@ -679,22 +705,21 @@ User.find({}).remove(function() {
 						if (error) {
 							console.log(error);
 						} else {
-							// console.log('finished populating Lectures');
 							Session.find({}).remove(function() {
 								Session.create({
-										createdBy: '56a7d95746b9e7db57417309',
+										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
 										_id: '56c87667bcd6f3c431cb8681',
 										lecture: '56c868096bd3f7b730a051f4',
-										startTime: moment.utc([2016, 4, 24, 12, 0, 0]),
-										endTime: moment.utc([2016, 4, 24, 14, 30, 0]),
-										timeAllowance: 60,
+										startTime: moment.utc([2016, 5, 22, 19, 0, 0]),
+										endTime: moment.utc([2016, 5, 22, 21, 0, 0]),
+										timeAllowance: 5,
 										groups: [{
 											group: '56cb7c2e7bbe028ebfbe56a2'
 										}, {
 											group: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56a7d95746b9e7db57417309',
+										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
 										lecture: '56d1ca2e4f6973280ce025e6',
 										startTime: moment.utc([2016, 1, 21, 12, 0, 0]),
 										endTime: moment.utc([2016, 1, 21, 14, 0, 0]),
@@ -705,7 +730,7 @@ User.find({}).remove(function() {
 											group: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56a7d95746b9e7db57417309',
+										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
 										lecture: '56d1ca2e4f6973280ce025e7',
 										startTime: moment.utc([2016, 1, 22, 12, 0, 0]),
 										endTime: moment.utc([2016, 1, 22, 14, 0, 0]),
@@ -714,7 +739,7 @@ User.find({}).remove(function() {
 											group: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56a7d95746b9e7db57417309',
+										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
 										lecture: '56d1ca2e4f6973280ce025e8',
 										startTime: moment.utc([2016, 1, 24, 12, 0, 0]),
 										endTime: moment.utc([2016, 1, 24, 14, 0, 0]),
@@ -723,19 +748,23 @@ User.find({}).remove(function() {
 											group: '56cb7c2e7bbe028ebfbe56a2'
 										}]
 									}, {
-										createdBy: '56a7d95746b9e7db57417309',
-										lecture: '56d1ca2e4f6973280ce025e9',
-										startTime: moment.utc([2016, 1, 26, 12, 0, 0]),
-										endTime: moment.utc([2016, 1, 26, 14, 0, 0]),
-										timeAllowance: 20,
+										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
+										lecture: '56c868096bd3f7b730a051f4',
+										startTime: moment.utc([2016, 5, 22, 12, 0, 0]),
+										endTime: moment.utc([2016, 5, 22, 14, 0, 0]),
+										timeAllowance: 5,
 										feedback: [{
-											comment: "Lovely",
-											rating: "3",
-											user: "56cb76ecd5b3f4b6be5d7df0"
+											comment: "A good lecture, was interesting to see how AJAX works",
+											rating: "4",
+											user: "56cb76ecd5b3f4b6be5d7dec"
 										}, {
-											comment: "JoBa",
-											rating: "3",
-											user: "56a7bf8a800c479155488fcb"
+											comment: "I never quite understood sessions until this one!",
+											rating: "5",
+											user: "56cb76ecd5b3f4b6be5d7dea"
+										}, {
+											comment: "Your slides are a great way of showing how slideshows can be done without PowerPoint!",
+											rating: "5",
+											user: "56cb76ecd5b3f4b6be5d7deb"
 										}],
 										questions: [{
 											asker: "56a7886405ab050a54d4eaa6",
@@ -839,10 +868,19 @@ User.find({}).remove(function() {
 											group: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56a7d95746b9e7db57417309',
-										lecture: '56d1ca2e4f6973280ce025ea',
-										startTime: moment.utc([2016, 1, 26, 12, 0, 0]),
-										endTime: moment.utc([2016, 1, 26, 14, 0, 0]),
+										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
+										lecture: '56c868096bd3f7b730a051f4',
+										startTime: moment.utc([2016, 5, 21, 16, 0, 0]),
+										endTime: moment.utc([2016, 5, 21, 17, 30, 0]),
+										timeAllowance: 10,
+										groups: [{
+											group: '56cb7c2e7bbe028ebfbe56a3'
+										}]
+									}, {
+										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
+										lecture: '56c868096bd3f7b730a051f4',
+										startTime: moment.utc([2016, 5, 22, 10, 0, 0]),
+										endTime: moment.utc([2016, 5, 22, 11, 0, 0]),
 										timeAllowance: 20,
 										registered: [{
 											user: '56cb76ecd5b3f4b6be5d7def'
@@ -862,13 +900,17 @@ User.find({}).remove(function() {
 											user: '56cb76edd5b3f4b6be5d7df6'
 										}],
 										feedback: [{
-											comment: "Lovely",
+											comment: "A good lecture, was interesting to see how AJAX works",
 											rating: "4",
 											user: "56cb76ecd5b3f4b6be5d7df0"
 										}, {
-											comment: "JoBa",
+											comment: "I never quite understood sessions until this one!",
 											rating: "5",
 											user: "56a7bf8a800c479155488fcb"
+										}, {
+											comment: "Your slides are a great way of showing how slideshows can be done without PowerPoint!",
+											rating: "5",
+											user: "56cb76ecd5b3f4b6be5d7def"
 										}],
 										groups: [{
 											group: '56cb7c2e7bbe028ebfbe56a2'
@@ -876,7 +918,7 @@ User.find({}).remove(function() {
 											group: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56a7d95746b9e7db57417309',
+										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
 										lecture: '56d1ca2e4f6973280ce025eb',
 										startTime: moment.utc([2016, 1, 28, 12, 0, 0]),
 										endTime: moment.utc([2016, 1, 28, 14, 0, 0]),
@@ -885,6 +927,42 @@ User.find({}).remove(function() {
 										groups: [{
 											group: '56cb7c2e7bbe028ebfbe56a2'
 										}, {
+											group: '56cb7c2e7bbe028ebfbe56a3'
+										}]
+									}, {
+										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
+										lecture: '56d1ca2e4f6973280ce025e7',
+										startTime: moment.utc([2016, 5, 29, 12, 0, 0]),
+										endTime: moment.utc([2016, 5, 29, 14, 0, 0]),
+										timeAllowance: 30,
+										groups: [{
+											group: '56cb7c2e7bbe028ebfbe56a3'
+										}]
+									}, {
+										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
+										lecture: '56d1ca2e4f6973280ce025e7',
+										startTime: moment.utc([2016, 5, 29, 14, 30, 0]),
+										endTime: moment.utc([2016, 5, 29, 16, 0, 0]),
+										timeAllowance: 30,
+										groups: [{
+											group: '56cb7c2e7bbe028ebfbe56a3'
+										}]
+									}, {
+										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
+										lecture: '56d1ca2e4f6973280ce025e7',
+										startTime: moment.utc([2016, 5, 27, 12, 0, 0]),
+										endTime: moment.utc([2016, 5, 27, 14, 0, 0]),
+										timeAllowance: 30,
+										groups: [{
+											group: '56cb7c2e7bbe028ebfbe56a3'
+										}]
+									}, {
+										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
+										lecture: '56d1ca2e4f6973280ce025e7',
+										startTime: moment.utc([2016, 5, 28, 12, 0, 0]),
+										endTime: moment.utc([2016, 5, 28, 14, 0, 0]),
+										timeAllowance: 30,
+										groups: [{
 											group: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									},

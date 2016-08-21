@@ -1097,6 +1097,7 @@ angular.module('uniQaApp')
 														$rootScope.dropzone[0].dropzone.processQueue();
 													} else {
 														// lecture created with no files, close the modal
+														$rootScope.res.received = true;
 														$rootScope.submitted = false;
 														form.$setUntouched();
 														form.$setPristine();

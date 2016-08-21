@@ -3,8 +3,8 @@
 angular.module('uniQaApp')
 	.controller('LoginCtrl', function($scope, $location, Auth, Thing) {
 		$scope.user = {};
-		// for quicker access, remove once finished
-		$scope.user.email = 'joba@uniqa.co.uk';
+
+		$scope.user.email = ''; //joba@uniqa.co.uk
 		$scope.errors = {};
 
 		$scope.password = {};
