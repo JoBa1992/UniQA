@@ -44,9 +44,11 @@ body {
 }
 .sidebar-wrapper {
   width: 200px;
+  position: absolute;
 }
 .page-content-wrapper {
   // overflow-y: scroll;
+  position: absolute;
   height: 100%;
   width: 100%;
   margin-right: -200px;
@@ -56,6 +58,7 @@ body {
 }
 @media(min-width:768px) {
   .sidebar-wrapper {
+    position: absolute;
     width: 200px;
   }
   .sidebar-wrapper-min {
@@ -68,7 +71,6 @@ body {
     padding-left: 56px;
   }
   .page-content-wrapper {
-    // overflow-y: scroll;
     position: relative;
     margin-right: 0;
   }

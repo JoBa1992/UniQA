@@ -10,9 +10,9 @@ angular.module('uniQaApp')
 		$scope.title = 'User Management';
 		// filtered users, different from original object.
 		$scope.filter = {};
-		$scope.groups = {};
+		$scope.modules = {};
 		$scope.filter.role = {};
-		// $scope.filter.group = {};
+		// $scope.filter.module = {};
 		$scope.clearedFilter = {
 			dropdown: true,
 		};
@@ -29,13 +29,13 @@ angular.module('uniQaApp')
 			$scope.uniEmail = res.content[0];
 		});
 
-		Group.get().then(function(res) {
-			var group = {
+		Module.get().then(function(res) {
+			var module = {
 				course: 'None'
 			};
-			res.groups.unshift(group);
-			$scope.filter.group = 'Select Group';
-			$scope.groups = res.groups;
+			res.modules.unshift(module);
+			$scope.filter.module = 'Select Module';
+			$scope.modules = res.modules;
 		});
 
 		// use the Thing service to return back some constants
@@ -86,9 +86,9 @@ angular.module('uniQaApp')
 			$scope.refreshUserList();
 		};
 
-		$scope.groupDropdownSel = function(target) {
+		$scope.moduleDropdownSel = function(target) {
 			// console.info(target);
-			$scope.filter.group = target;
+			$scope.filter.module = target;
 			$scope.clearedFilter.dropdown = false;
 			$scope.refreshUserList();
 		};
@@ -97,7 +97,7 @@ angular.module('uniQaApp')
 		$scope.clearDepFilter = function(e) {
 			if (!$scope.clearedFilter.dropdown) {
 				e.stopPropagation();
-				$scope.filter.group = 'Select Group';
+				$scope.filter.module = 'Select Module';
 				$scope.clearedFilter.dropdown = true;
 				$scope.refreshUserList();
 			}
@@ -111,8 +111,8 @@ angular.module('uniQaApp')
 				qFilter = _.omit(qFilter, 'searchStr');
 			}
 
-			if ($scope.filter.group === 'Select Group') {
-				qFilter = _.omit(qFilter, 'group');
+			if ($scope.filter.module === 'Select Module') {
+				qFilter = _.omit(qFilter, 'module');
 			}
 
 			// remove any false keys
@@ -143,7 +143,7 @@ angular.module('uniQaApp')
 			User.filtGet({
 				name: qFilter.searchStr,
 				role: qFilter.role,
-				group: qFilter.group,
+				module: qFilter.module,
 				paginate: $scope.resultsPerPage,
 				page: $scope.currentPage
 			}).$promise.then(function(res) {

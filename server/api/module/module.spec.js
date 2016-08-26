@@ -5,7 +5,7 @@ var app = require('../../app');
 var supertest = require('supertest');
 var Module = require('./module.model');
 
-var module = new Module({
+var mod = new Module({
 	course: 'test-course',
 	students: [{
 		user: '56a7bf8a800c479155488fcb' // b2006241
@@ -33,22 +33,22 @@ describe('Module Model', function() {
 		});
 	});
 
-	it('should begin with no modules', function(done) {
-		Module.find({}, function(err, modules) {
-			modules.should.have.length(0);
+	it('should begin with no mods', function(done) {
+		Module.find({}, function(err, mods) {
+			mods.should.have.length(0);
 			done();
 		});
 	});
 
 	it('should fail when saving without a course name', function(done) {
-		module.course = '';
-		module.save(function(err) {
+		mod.course = '';
+		mod.save(function(err) {
 			should.exist(err);
 			done();
 		});
 	});
 
-	it('should allow modules to be created through api', function(done) {
+	it('should allow mods to be created through api', function(done) {
 		api
 			.post('/')
 			.send({
@@ -70,7 +70,7 @@ describe('Module Model', function() {
 			});
 	});
 
-	it('should allow modules to be updated through api', function(done) {
+	it('should allow mods to be updated through api', function(done) {
 		api
 			.post('/')
 			.send({
@@ -112,7 +112,7 @@ describe('Module Model', function() {
 			});
 	});
 
-	it('should allow modules to be deleted through api', function(done) {
+	it('should allow mods to be deleted through api', function(done) {
 		api
 			.post('/')
 			.send({

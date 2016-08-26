@@ -6,7 +6,6 @@ angular.module('uniQaApp')
 		$scope.isAdmin = Auth.isAdmin;
 		$scope.isStudent = Auth.isStudent;
 		$scope.currentUser = Auth.getCurrentUser;
-		console.info($scope.currentUser);
 		$scope.collapsed = false;
 		$scope.sidebarIcon = 'chevron-left';
 
@@ -74,17 +73,23 @@ angular.module('uniQaApp')
 
 		$scope.toggleNav = function() {
 			$scope.collapsed = !$scope.collapsed;
-			if ($scope.sidebarIcon === 'chevron-left') return $scope.sidebarIcon = 'chevron-right';
-			if ($scope.sidebarIcon === 'chevron-right') return $scope.sidebarIcon = 'chevron-left';
-		}
+			if ($scope.sidebarIcon === 'chevron-left') {
+				$scope.sidebarIcon = 'chevron-right';
+			}
+			if ($scope.sidebarIcon === 'chevron-right') {
+				$scope.sidebarIcon = 'chevron-left';
+			}
+		};
 
 		$scope.calculateCookieTrail = function() {
 
 		};
 
 		$scope.isNavCollapsed = function() {
-			if (!$scope.isLoggedIn()) return null;
-			return $scope.collapsed
+			if (!$scope.isLoggedIn()) {
+				return null;
+			}
+			return $scope.collapsed;
 		};
 
 		$scope.logout = function() {

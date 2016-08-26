@@ -32,8 +32,8 @@ angular.module('uniQaApp')
 		});
 
 		$scope.openImportModal = Modal.import.module(function() { // callback when modal is confirmed
-			refreshUserStats();
-			$scope.refreshUserList();
+			// refreshUserStats();
+			// $scope.refreshUserList();
 		});
 
 		$scope.openDeleteModal = Modal.delete.module(function(module) {

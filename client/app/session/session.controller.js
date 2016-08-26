@@ -525,8 +525,8 @@ angular.module('uniQaApp')
 				$scope.nextLecture.attachments = $scope.nextLecture.attachments;
 
 				// subtract and add the time allowance given either side of the lecture
-				$scope.lectureStart = moment(moment(nextSession.startTime).utc().subtract(1, "hour") - (nextSession.timeAllowance * _minute));
-				$scope.lectureEnd = moment(moment(nextSession.endTime).utc().subtract(1, "hour") + (nextSession.timeAllowance * _minute));
+				$scope.lectureStart = moment(moment(nextSession.startTime).utc().subtract(1, 'hour') - (nextSession.timeAllowance * _minute));
+				$scope.lectureEnd = moment(moment(nextSession.endTime).utc().subtract(1, 'hour') + (nextSession.timeAllowance * _minute));
 
 				// $scope.timeUntil = ($scope.lectureStart.getMinutes() - res.timeAllowance) - $scope.now;
 				console.info($scope.lectureStart);
@@ -606,8 +606,8 @@ angular.module('uniQaApp')
 				var now = moment.utc();
 				var _second = 1000;
 				var _minute = _second * 60;
-				var start = moment(moment(res.startTime).utc().subtract(1, "hour") - (res.timeAllowance * _minute));
-				var end = moment(moment(res.endTime).utc().subtract(1, "hour") + (res.timeAllowance * _minute));
+				var start = moment(moment(res.startTime).utc().subtract(1, 'hour') - (res.timeAllowance * _minute));
+				var end = moment(moment(res.endTime).utc().subtract(1, 'hour') + (res.timeAllowance * _minute));
 
 				// var start = moment(moment(res.startTime).utc() - (res.timeAllowance * _minute)).utc();
 				// var end = moment(moment(res.endTime).utc() + (res.timeAllowance * _minute)).utc();

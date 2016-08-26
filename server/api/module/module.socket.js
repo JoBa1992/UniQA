@@ -1,16 +1,12 @@
-/**
- * Broadcast updates to client when the model changes
- */
-
 'use strict';
 
-var module = require('./module.model');
+var Module = require('./module.model');
 
 exports.register = function(socket) {
-	module.schema.post('save', function(doc) {
+	Module.schema.post('save', function(doc) {
 		onSave(socket, doc);
 	});
-	module.schema.post('remove', function(doc) {
+	Module.schema.post('remove', function(doc) {
 		onRemove(socket, doc);
 	});
 }

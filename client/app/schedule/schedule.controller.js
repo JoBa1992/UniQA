@@ -13,7 +13,7 @@ angular.module('uniQaApp')
 			startTime: '',
 			endTime: '',
 			allowance: '',
-			group: ''
+			module: ''
 		};
 
 		// disabled states for buttons on ui
@@ -35,8 +35,8 @@ angular.module('uniQaApp')
 		$scope.noQueryResults = false;
 
 		$scope.myLectures = [];
-		$scope.myGroups = [];
-		$scope.selectedGroups = [];
+		$scope.myModules = [];
+		$scope.selectedModules = [];
 
 		$scope.resultsPerPage = 200;
 		$scope.currentPage = 1;
@@ -59,13 +59,13 @@ angular.module('uniQaApp')
 		refreshSessions();
 
 
-		$scope.searchForMyGroup = function(e) {
+		$scope.searchForMyModule = function(e) {
 			// checking length to see if id has been sent through
 			if (e.keyCode === 13 || e === 'Submit' || e._id) {
 				// form lecture contains the object that can be used when saving
 				console.info($scope.sForm.lecture);
 			} else {
-				Group.getMyAssocGroups({
+				Module.getMyAssocModules({
 					title: $scope.sForm.lecture,
 					createdBy: me._id,
 					page: 1,
@@ -195,60 +195,60 @@ angular.module('uniQaApp')
 		// 	}
 		// };
 
-		$scope.removeGroup = function(group) {
-			// console.info(group);
-			for (var item in $scope.selectedGroups) {
-				if ($scope.selectedGroups[item] === group) {
-					$scope.selectedGroups.splice(group, 1);
+		$scope.removeModule = function(module) {
+			// console.info(module);
+			for (var item in $scope.selectedModules) {
+				if ($scope.selectedModules[item] === module) {
+					$scope.selectedModules.splice(module, 1);
 				}
 			}
 		};
 
-		$scope.searchForMyGroups = function(e) {
+		$scope.searchForMyModules = function(e) {
 			// console.info(e);
 			// checking length to see if id has been sent through
 			if (e.keyCode === 13 || e === 'Submit' || e._id) {
-				// console.info($scope.myGroups);
+				// console.info($scope.myModules);
 				// if name isn't on the list, break out of function
-				if ($scope.myGroups.length === 0) {
+				if ($scope.myModules.length === 0) {
 					return;
 				} else {
 					// need to either get selected here, or select first
-					if (!($scope.sForm.group instanceof Object)) {
+					if (!($scope.sForm.module instanceof Object)) {
 						if (e === 'Submit') {
 							// gets index of child with active class from typeahead property
 							/*jshint -W109 */
-							$scope.sForm.group = $scope.myGroups[angular.element(document.querySelector("[id*='typeahead']")).find('.active').index()];
+							$scope.sForm.module = $scope.myModules[angular.element(document.querySelector("[id*='typeahead']")).find('.active').index()];
 						}
 					}
 				}
 
 				// only add if we have a collaborator
-				if ($scope.sForm.group instanceof Object) {
-					$scope.selectedGroups.push($scope.sForm.group);
+				if ($scope.sForm.module instanceof Object) {
+					$scope.selectedModules.push($scope.sForm.module);
 				}
-				$scope.myGroups = [];
-				$scope.sForm.group = '';
+				$scope.myModules = [];
+				$scope.sForm.module = '';
 			} else {
-				Group.getMyAssocGroups({
+				Module.getMyAssocModules({
 					user: me._id,
-					search: $scope.sForm.group
+					search: $scope.sForm.module
 				}).then(function(res) {
 					// reset before continuing
-					$scope.myGroups = [];
-					// filter through myGroups here, check against already existing collaborators and only allow them to stay if they don't exist
-					for (var x = 0; x < res.groups.length; x++) {
+					$scope.myModules = [];
+					// filter through myModules here, check against already existing collaborators and only allow them to stay if they don't exist
+					for (var x = 0; x < res.modules.length; x++) {
 						var isIn = false;
-						for (var y = 0; y < $scope.selectedGroups.length; y++) {
-							if (res.groups[x]._id === $scope.selectedGroups[y]._id) {
+						for (var y = 0; y < $scope.selectedModules.length; y++) {
+							if (res.modules[x]._id === $scope.selectedModules[y]._id) {
 								isIn = true;
 							}
 						}
 						if (!isIn) {
-							$scope.myGroups.push(res.groups[x]);
+							$scope.myModules.push(res.modules[x]);
 						}
 					}
-					// console.info($scope.myGroups);
+					// console.info($scope.myModules);
 				});
 			}
 
@@ -260,9 +260,9 @@ angular.module('uniQaApp')
 				startTime: '',
 				endTime: '',
 				allowance: '',
-				group: ''
+				module: ''
 			};
-			$scope.selectedGroups = [];
+			$scope.selectedModules = [];
 		};
 		$scope.openUpdateDelSessionModal = Modal.update.session(function(session) {
 			// when modal is confirmed, callback
@@ -280,22 +280,22 @@ angular.module('uniQaApp')
 		// 		startTime: '',
 		// 		endTime: '',
 		// 		allowance: '',
-		// 		group: ''
+		// 		module: ''
 		// 	}
-		// 	$scope.selectedGroups = [];
+		// 	$scope.selectedModules = [];
 		// };
 
 		$scope.addSchedule = function() {
 			// console.info($scope.sForm);
-			// console.info($scope.selectedGroups);
+			// console.info($scope.selectedModules);
 			$scope.submitted = true;
-			if ($scope.sForm.lecture && $scope.sForm.startTime && $scope.sForm.endTime && !_.isEmpty($scope.selectedGroups)) {
+			if ($scope.sForm.lecture && $scope.sForm.startTime && $scope.sForm.endTime && !_.isEmpty($scope.selectedModules)) {
 				// setup vars to be sent across to API
-				var presGroups = [];
+				var presModules = [];
 				// push each selected collaborator into array
-				for (var i = 0; i < $scope.selectedGroups.length; i++) {
-					presGroups.push({
-						group: $scope.selectedGroups[i]._id
+				for (var i = 0; i < $scope.selectedModules.length; i++) {
+					presModules.push({
+						module: $scope.selectedModules[i]._id
 					});
 				}
 
@@ -304,7 +304,7 @@ angular.module('uniQaApp')
 					lecture: $scope.sForm.lecture._id,
 					startTime: moment.utc($scope.sForm.startTimeMoment).toISOString(),
 					endTime: moment.utc($scope.sForm.endTimeMoment).toISOString(),
-					groups: presGroups,
+					modules: presModules,
 					timeAllowance: $scope.sForm.allowance
 				};
 

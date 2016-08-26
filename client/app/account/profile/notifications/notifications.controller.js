@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('uniQaApp')
-	.controller('NotificationCtrl', function($scope, User, Auth) {
+	.controller('NotificationCtrl', function($scope) {
 		$scope.errors = {};
 	});
