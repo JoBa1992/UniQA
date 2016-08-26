@@ -11,8 +11,6 @@ angular.module('uniQaApp')
 		$scope.password.inputType = 'password';
 		$scope.password.icon = 'glyphicon glyphicon-eye-close';
 
-		console.log($location.search());
-
 		Thing.getByName('uniEmail').then(function(val) {
 			// only returns one element
 			$scope.uniEmail = val.content[0];
@@ -42,9 +40,10 @@ angular.module('uniQaApp')
 					})
 					.then(function() {
 						// Logged in, redirect to home
-						$location.path('/profile');
+						$location.path('/session/start');
 					})
 					.catch(function(err) {
+						// throw message on screen
 						$scope.errors.other = err.message;
 					});
 			}

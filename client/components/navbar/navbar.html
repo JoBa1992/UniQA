@@ -1,24 +1,25 @@
 <div ng-if="isLoggedIn()" ng-class="{'sidebar-wrapper': !isNavCollapsed(), 'sidebar-wrapper-min': isNavCollapsed()}">
   <ul class="sidebar-nav">
     <li ng-if="!isNavCollapsed()" class="sidebar-brand">
-      <h2 style="color: #FFA700;">UniQA</h2>
+      <h3>UniQA logo</h3>
     </li>
-    <li ng-if="isNavCollapsed()" class="sidebar-nav-item home-icon">
+    <li ng-if="isNavCollapsed()" class="sidebar-nav-item sidebar-brand home-icon">
       <a class="disable-animations" href="#">
-        <i class="fa fa-home fa-2x" style="margin-top:.4em;margin-left:-.2em;color: #FFA700;" aria-hidden="true"></i>
+        <i class="fa fa-home" style="margin-top:.4em;margin-left:-.2em;" aria-hidden="true"></i>
       </a>
     </li>
     <li ng-repeat="item in leftMenu" ng-class="{active: isActive(item.link)}" class="sidebar-nav-item">
       <a ng-if="isAdmin() && item.admin || isTutor() && item.tutor || isStudent() && item.student" ng-href="{{item.link}}" class="disable-animations">
         <i class="fa fa-{{item.icon}} sidebar-nav-icon" aria-hidden="true"></i>
         <span ng-if="!isNavCollapsed()">{{item.title}}</span>
+        <span ng-if="!isNavCollapsed() && item.badge" class="badge nav-badge">{{item.badge}}</span>
       </a>
     </li>
   </ul>
   <div class="sidebar-footer">
     <div class="sidebar-account dropdown dropup" ng-if="isLoggedIn()">
       <button class="dropdown-toggle" type="button" data-toggle="dropdown">
-        <img class="avatar" ng-class="{'avatar-min': isNavCollapsed()}" src="/assets/images/placeholders/profile.jpg" style="border:2px solid #FFA700;">
+        <img class="avatar" ng-class="{'avatar-min': isNavCollapsed()}" src="/assets/images/placeholders/profile.jpg" style="border:2px solid #82AECC;">
         <span ng-if="!isNavCollapsed()" class="username" style="display:inline-block;">{{currentUser().name}}</span>
       </button>
       <ul class="dropdown-menu account-menu" role="menu" style="overflow:hidden;">

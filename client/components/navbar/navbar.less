@@ -8,25 +8,32 @@
   font-size: 14px;
 }
 .sidebar-brand {
-  text-align: center;
+  background-color: #82AECC;
   cursor: default;
   border-bottom: 1px solid lighten(#343D48,3%);
   color: white;
-  margin-left: 1em;
-  margin-right: 1em;
-  margin-bottom: 0.4em;
+  margin-top: -1em;
+  padding: 0.8em 1em 0.2em;
   line-height: 40px;
+  -webkit-font-smoothing: antialiased;
+  text-shadow: rgba(0,0,0,.01) 0 0 1px;
 }
 .home-icon {
-  border-bottom: 1px solid lighten(#343D48,3%);
+  margin-top: 0;
+}
+.home-icon i::before {
+  color: white;
 }
 .sidebar-nav > li.sidebar-nav-item {
   padding: 0.2em 0;
   text-indent: 10px;
   line-height: 40px;
-  border-right: 1px solid lighten(#343D48,2%);
+}
+li.sidebar-nav-item:nth-child(2) {
+  margin-top: 1em;
 }
 .sidebar-nav li a {
+  position: relative;
   display: block;
   text-decoration: none;
 }
@@ -35,7 +42,9 @@
 .sidebar-nav li a:hover,
 .sidebar-nav li a:focus {
   color: #FFF;
-  background-color: lighten(#343D48,12%);
+  -webkit-box-shadow: inset 3px 0 0 0 #82AECC;
+  box-shadow: inset 3px 0 0 0 #82AECC;
+  background-color: darken(#343D48,2%);
   text-decoration: none;
 }
 .sidebar-nav > .sidebar-brand {
@@ -49,6 +58,15 @@
 .sidebar-nav-icon {
   margin-right: 14px;
 }
+.nav-badge {
+  text-indent: 0;
+  position: absolute;
+  padding-left: 0.9em;
+  padding-right: 0.9em;
+  top: 11px;
+  right: 18px;
+  background-color: #82AECC;
+}
 .sidebar-footer {
   position: absolute;
   border-top: 1px solid lighten(#343D48,2%);
@@ -58,7 +76,7 @@
 }
 .sidebar-account {
   position: absolute;
-  top: -54px;
+  top: -64px;
 }
 .sidebar-account button {
   cursor: pointer;
@@ -70,7 +88,7 @@
   float: left;
   font-size: 1.1em;
   font-weight: 300;
-  line-height: 0.4;
+  line-height: 1;
   margin: 1em 0.4em;
   color: white;
 }
@@ -90,7 +108,7 @@
 .account-menu li:hover a,
 .account-menu li.active a {
   color: #FFF;
-  background-color: lighten(#343D48,16%);
+  background-color: darken(#343D48,1%);
   text-decoration: none;
 }
 .avatar {

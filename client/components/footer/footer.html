@@ -6,11 +6,11 @@
       </a>
     </span>
   </div>
-  <h2 style="margin-right:.2em;">
+  <h2>
     <a ng-href="/about">About UniQA</a>
   </h2>
-  <h2 style="color:#FFA700">•</h2>
-  <h2 style="margin-left:.2em;">
+  <h2 ng-if="!isRoot()" style="color:#FFA700">•</h2>
+  <h2 ng-if="!isRoot()">
     <a ng-href="/report-issue">Report a problem</a>
   </h2>
 </footer>

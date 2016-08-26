@@ -10,7 +10,6 @@ var express = require('express');
 
 module.exports = function(app) {
 
-
 	// serve static images, need to make this more secure, but its only screenshots/attachments
 	app.use('/api/storage', express.static(__dirname + '/storage'));
 

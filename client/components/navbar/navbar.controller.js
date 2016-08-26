@@ -13,6 +13,7 @@ angular.module('uniQaApp')
 				title: 'Start Session',
 				icon: 'play',
 				link: '/session/start',
+				badge: 5,
 				login: true,
 				admin: true,
 				student: false
@@ -72,12 +73,13 @@ angular.module('uniQaApp')
 		};
 
 		$scope.toggleNav = function() {
-			$scope.collapsed = !$scope.collapsed;
-			if ($scope.sidebarIcon === 'chevron-left') {
-				$scope.sidebarIcon = 'chevron-right';
-			}
-			if ($scope.sidebarIcon === 'chevron-right') {
-				$scope.sidebarIcon = 'chevron-left';
+			if ($scope.collapsed !== null) {
+				$scope.collapsed = !$scope.collapsed;
+				if ($scope.sidebarIcon === 'chevron-left') {
+					$scope.sidebarIcon = 'chevron-right';
+				} else {
+					$scope.sidebarIcon = 'chevron-left';
+				}
 			}
 		};
 
