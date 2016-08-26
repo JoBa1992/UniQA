@@ -1,8 +1,5 @@
 'use strict';
 
-/**
- * Removes server error when user updates input
- */
 angular.module('uniQaApp')
 	.directive('scrollBottom', ['$timeout', function($timeout) {
 		return {
@@ -13,7 +10,6 @@ angular.module('uniQaApp')
 				$scope.$watchCollection('scrollBottom', function(newValue) {
 					if (newValue) {
 						$timeout(function() {
-							// console.info($element[0].scrollHeight);
 							$element.scrollTop($element[0].scrollHeight);
 						}, 0);
 					}

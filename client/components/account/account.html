@@ -1,55 +1,25 @@
-<!-- Sidebar -->
-<div ng-if="isLoggedIn()" ng-class="{'sidebar-wrapper': !isNavCollapsed(), 'sidebar-wrapper-min': isNavCollapsed()}">
-  <ul class="sidebar-nav">
-    <li ng-if="!isNavCollapsed()" class="sidebar-brand">
-      <!-- <a href="#"> -->
-      <h2 style="color: #FFA700;">UniQA</h2>
-      <!-- </a> -->
-    </li>
-    <li ng-if="isNavCollapsed()" class="sidebar-nav-item home-icon">
-      <!-- <a href="#"> -->
-      <a class="disable-animations" href="#">
-        <i class="fa fa-home fa-2x" style="margin-top:.4em;margin-left:-.2em;color: #FFA700;" aria-hidden="true"/>
-      </a>
-      <!-- </a> -->
-    </li>
-    <li ng-repeat="item in leftMenu" ng-class="{active: isActive(item.link)}" class="sidebar-nav-item">
+<div class="navbar navbar-inverse navbar-fixed-left" ng-controller="NavbarCtrl">
+  <div class="navbar" style="margin:0;">
+    <button class="navbar-toggle" type="button" ng-click="isCollapsed = !isCollapsed">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <h3 href="#" ng-class="{active: isActive('/')}" ng-click="checkLocation()" class="navbar-brand-uniqa-logo">UniQA</h3>
+  </div>
+  <ul class="nav navbar-nav navbar-collapse collapse" collapse="isCollapsed" id="navbar-main">
+    <li ng-repeat="item in leftMenu" ng-class="{active: isActive(item.link)}">
       <a ng-if="isAdmin() && item.admin ||
-                          isTutor() && item.tutor ||
-                          isStudent() && item.student" ng-href="{{item.link}}" class="disable-animations">
-        <i class="fa fa-{{item.icon}} sidebar-nav-icon" aria-hidden="true"/>
-        <span ng-if="!isNavCollapsed()">{{item.title}}</span>
-      </a>
+                        isTutor() && item.tutor ||
+                        isStudent() && item.student" ng-href="{{item.link}}" class="disable-animations">{{item.title}}</a>
     </li>
   </ul>
-  <div class="sidebar-footer">
-    <div class="sidebar-account dropdown dropup" ng-if="isLoggedIn()">
-      <button class="dropdown-toggle" type="button" data-toggle="dropdown">
-        <img class="avatar" ng-class="{'avatar-min': isNavCollapsed()}" src="/assets/images/placeholders/profile.jpg" style="border:2px solid #FFA700;">
-        <span ng-if="!isNavCollapsed()" class="username" style="display:inline-block;">{{currentUser().name}}</span>
-      </button>
-      <ul class="dropdown-menu account-menu" role="menu" style="overflow:hidden;">
-        <li ng-class="{active: isActive('/profile')}">
-          <a href="/profile">Account</a>
-        </li>
-        <li ng-class="{active: isActive('/profile/settings')}">
-          <a href="/profile/settings">Settings</a>
-        </li>
-        <li>
-          <a ng-click="logout()">Logout</a>
-        </li>
-      </ul>
-    </div>
-    <button class="sidebar-footer-toggle" ng-class="{'sidebar-footer-toggle-min': isNavCollapsed()}" ng-click="toggleNav()">
-      <i class="fa fa-{{sidebarIcon}}" aria-hidden="true"/>
-    </button>
-  </div>
 </div>
-<!-- /#sidebar-wrapper -->
 
 <!-- <div class="navbar col-lg-2 col-md-3 col-sm-3" ng-controller="NavbarCtrl">
   <div class="navbar">
-    <button class="navbar-toggle" type="button" ng-click="isNavCollapsed = !isNavCollapsed">
+    <button class="navbar-toggle" type="button" ng-click="isCollapsed = !isCollapsed">
       <span class="sr-only">Toggle navigation</span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>

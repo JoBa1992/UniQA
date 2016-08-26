@@ -40,10 +40,10 @@ var SessionSchema = new Schema({
 		},
 		_id: false
 	}],
-	groups: [{
-		group: {
+	modules: [{
+		module: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Group'
+			ref: 'Module'
 		},
 		_id: false
 	}],

@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('uniQaApp')
-	.controller('AdminGroupCtrl', function($scope, $http, Auth, Group, Modal) {
-		$scope.title = 'Group Management';
+	.controller('ModuleCtrl', function($scope, $http, Auth, Module, Modal) {
+		$scope.title = 'Module Management';
 
 
-		// Check for when query returns no groups
+		// Check for when query returns no modules
 		$scope.isEmpty = function(obj) {
 			//   console.info(obj);
 			for (var i in obj) {
@@ -16,26 +16,31 @@ angular.module('uniQaApp')
 			return true;
 		};
 
-		Group.get().then(function(res) {
-			$scope.groups = res.groups;
+		Module.get().then(function(res) {
+			$scope.modules = res.modules;
 			$scope.count = res.count;
 			$scope.unassigned = res.unassigned;
 		});
 
 		//
-		$scope.openCreateGroupModal = Modal.create.group(function(group) { // callback when modal is confirmed
-			$scope.groups.push(group);
+		$scope.openCreateModal = Modal.create.module(function(module) { // callback when modal is confirmed
+			$scope.modules.push(module);
 		});
 
-		$scope.openUpdateGroupModal = Modal.update.group(function() { // callback when modal is confirmed
+		$scope.openUpdateModal = Modal.update.module(function() { // callback when modal is confirmed
 			//   $scope.refreshUserList();
 		});
 
-		$scope.openDeleteGroupModal = Modal.delete.group(function(group) {
+		$scope.openImportModal = Modal.import.module(function() { // callback when modal is confirmed
+			refreshUserStats();
+			$scope.refreshUserList();
+		});
+
+		$scope.openDeleteModal = Modal.delete.module(function(module) {
 			//   // when modal is confirmed, callback
-			if (group) {
-				Group.remove({
-					id: group._id
+			if (module) {
+				Module.remove({
+					id: module._id
 				});
 			}
 

@@ -13,7 +13,7 @@ var DepartmentSchema = new Schema({
 		name: {
 			type: String
 		},
-		groups: [{
+		modules: [{
 			course: {
 				type: String,
 				required: true,

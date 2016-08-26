@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('uniQaApp')
-	.factory('Group', function Department($http, $q) {
+	.factory('Module', function Department($http, $q) {
 		return {
 			get: function(callback) {
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();
 
-				$http.get('/api/groups').success(function(data) {
+				$http.get('/api/modules').success(function(data) {
 					deferred.resolve(data);
 					return cb;
 				}).error(function(err) {
@@ -22,7 +22,7 @@ angular.module('uniQaApp')
 				var userid = obj.user;
 				var collab = obj.search;
 
-				$http.get('/api/groups/assoc/' + userid + '?name=' + collab).success(function(data) {
+				$http.get('/api/modules/assoc/' + userid + '?name=' + collab).success(function(data) {
 					deferred.resolve(data);
 					return cb;
 				}).error(function(err) {
@@ -31,13 +31,13 @@ angular.module('uniQaApp')
 				}.bind(this));
 				return deferred.promise;
 			},
-			getMyAssocGroups: function(obj, callback) {
+			getMyAssocModules: function(obj, callback) {
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();
 				var userid = obj.user;
 				//var collab = obj.search;
 
-				$http.get('/api/groups/user/' + userid).success(function(data) {
+				$http.get('/api/modules/user/' + userid).success(function(data) {
 					deferred.resolve(data);
 					return cb;
 				}).error(function(err) {
@@ -50,7 +50,7 @@ angular.module('uniQaApp')
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();
 
-				$http.get('/api/groups?name=' + query).success(function(data) {
+				$http.get('/api/modules?name=' + query).success(function(data) {
 					deferred.resolve(data);
 					return cb();
 				}).error(function(err) {
@@ -63,7 +63,7 @@ angular.module('uniQaApp')
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();
 
-				$http.post('/api/groups').success(function(data) {
+				$http.post('/api/modules').success(function(data) {
 					deferred.resolve(data);
 					return cb();
 				}).error(function(err) {
@@ -77,7 +77,7 @@ angular.module('uniQaApp')
 				var deferred = $q.defer();
 				var id = query.id;
 
-				$http.put('/api/groups/' + id).success(function(data) {
+				$http.put('/api/modules/' + id).success(function(data) {
 					deferred.resolve(data);
 					return cb();
 				}).error(function(err) {
@@ -91,7 +91,7 @@ angular.module('uniQaApp')
 				var deferred = $q.defer();
 				var id = query.id;
 
-				$http.delete('/api/groups/' + id).success(function(data) {
+				$http.delete('/api/modules/' + id).success(function(data) {
 					deferred.resolve(data);
 					return cb();
 				}).error(function(err) {

@@ -136,7 +136,7 @@ exports.index = function(req, res) {
 		.populate('registered.user')
 		.populate('questions.asker')
 		.populate('feedback.user')
-		.populate('groups.group')
+		.populate('modules.module')
 		.sort(order)
 		.skip((page - 1) * paginate)
 		.limit(paginate)
@@ -155,7 +155,7 @@ exports.index = function(req, res) {
 				});
 
 				Session.populate(sessions, {
-					path: 'groups.group.students.user',
+					path: 'modules.module.students.user',
 					model: 'User'
 				}, function(err) {
 					res.status(200).json(sessions);
@@ -245,7 +245,7 @@ exports.getNextFourTutor = function(req, res) {
 		})
 		.populate('registered.user')
 		.populate('questions.asker')
-		.populate('groups.group')
+		.populate('modules.module')
 		.sort('startTime')
 		.limit(4)
 		.exec(function(err, sessions) {
@@ -287,7 +287,7 @@ exports.getNextFourTutor = function(req, res) {
 // 		.populate('registered.user')
 // 		.populate('questions.asker')
 // 		.populate({
-// 			path: 'groups.group',
+// 			path: 'modules.module',
 // 			match: {
 // 				'students.user': req.params.userid
 // 			}
@@ -304,7 +304,7 @@ exports.getNextFourTutor = function(req, res) {
 // 			console.info(sessions);
 // 			// rip out any null lectures
 // 			sessions = sessions.filter(function(session) {
-// 				return session.group;
+// 				return session.module;
 // 			});
 //
 // 			Session.populate(sessions, {
@@ -329,7 +329,7 @@ exports.show = function(req, res) {
 		.populate('lecture')
 		.populate('registered.user')
 		.populate('questions.asker')
-		.populate('groups.group')
+		.populate('modules.module')
 		.exec(function(err, session) {
 			if (err) {
 				return handleError(res, err);
@@ -503,7 +503,7 @@ exports.registerUser = function(req, res) {
 	};
 
 	Session.findOne(query)
-		.populate('groups.group')
+		.populate('modules.module')
 		.exec(function(err, session) {
 			if (err) {
 				return handleError(res, err);
@@ -516,14 +516,14 @@ exports.registerUser = function(req, res) {
 			var expected = false;
 
 			// need to check that user is supposed to be registering to this lecture
-			for (var i = 0; i < checkSession.groups.length; i++) {
-				for (var x = 0; x < checkSession.groups[i].group.students.length; x++) {
-					if (String(checkSession.groups[i].group.students[x].user) === String(user.user)) {
+			for (var i = 0; i < checkSession.modules.length; i++) {
+				for (var x = 0; x < checkSession.modules[i].module.students.length; x++) {
+					if (String(checkSession.modules[i].module.students[x].user) === String(user.user)) {
 						expected = true;
 					}
 				}
-				for (var y = 0; y < checkSession.groups[i].group.tutors.length; y++) {
-					if (String(checkSession.groups[i].group.tutors[y].user) === String(user.user)) {
+				for (var y = 0; y < checkSession.modules[i].module.tutors.length; y++) {
+					if (String(checkSession.modules[i].module.tutors[y].user) === String(user.user)) {
 						expected = 'tutor';
 					}
 				}

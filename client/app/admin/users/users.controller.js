@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uniQaApp')
-	.controller('AdminUserCtrl', function($scope, $http, Auth, User, Thing, Modal, Group) {
+	.controller('AdminUserCtrl', function($scope, $http, Auth, User, Thing, Modal, Module) {
 		// attach lodash to scope
 		$scope._ = _;
 		// attach moment to scope
@@ -160,11 +160,6 @@ angular.module('uniQaApp')
 		});
 
 		$scope.openUpdateUserModal = Modal.update.user(function() { // callback when modal is confirmed
-			$scope.refreshUserList();
-		});
-
-		$scope.openImportUserModal = Modal.import.user(function() { // callback when modal is confirmed
-			refreshUserStats();
 			$scope.refreshUserList();
 		});
 

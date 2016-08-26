@@ -80,16 +80,16 @@ exports.index = function(req, res) {
 		req.query.role = [];
 	}
 
-	// group checking
-	if (!req.query.group)
-		req.query.group = new RegExp('', "i");
+	// module checking
+	if (!req.query.module)
+		req.query.module = new RegExp('', "i");
 
 	User.find({
 			name: req.query.name,
 			role: {
 				$in: req.query.role
 			},
-			//group: req.query.department
+			//module: req.query.department
 		}, '-salt -hashedPassword')
 		.skip((req.query.page - 1) * req.query.paginate)
 		.limit(req.query.paginate)
@@ -106,7 +106,7 @@ exports.index = function(req, res) {
 				role: {
 					$in: req.query.role
 				},
-				//   group: req.query.group
+				//   module: req.query.module
 			}, function(err, count) {
 				users.forEach(function(user) {
 					user.createdOn = user._id.getTimestamp();

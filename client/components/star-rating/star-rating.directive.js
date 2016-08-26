@@ -7,7 +7,7 @@ angular.module('uniQaApp')
 	.directive('starRating', function() {
 		return {
 			restrict: 'A',
-			template: '<ul class="rating">' +
+			template: '<ul class="rating" style="cursor:default;">' +
 				' <li ng-repeat="star in stars" ng-class="star"> ' +
 				' <i class="fa" ng-class="{\'fa-star\': star.filled==\'true\', \'fa-star-half-o\': star.filled==\'half\', \'fa-star-o\': star.filled==\'false\'}"></i>' +
 				'</li> ' +

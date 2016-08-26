@@ -1,51 +1,132 @@
-.navbar-content {
+.sidebar-nav {
+  position: absolute;
+  top: 0;
+  width: 100%;
   margin: 0;
   padding: 0;
+  list-style: none;
+}
+.sidebar-brand {
+  text-align: center;
   cursor: default;
-  background-color: lighten(#343D48,6%);
+  border-bottom: 1px solid lighten(#343D48,3%);
+  color: white;
+  margin-left: 1em;
+  margin-right: 1em;
+  margin-bottom: 0.4em;
+  line-height: 40px;
 }
-.navbar-content > li {
-  padding: 0;
-  margin: 0;
+.home-icon {
+  border-bottom: 1px solid lighten(#343D48,3%);
 }
-.navbar-content > li.divider {
-  background-color: lighten(#343D48,20%);
+.sidebar-nav > li.sidebar-nav-item {
+  padding: 0.2em 0;
+  text-indent: 10px;
+  line-height: 40px;
+  border-right: 1px solid lighten(#343D48,2%);
 }
-.navbar-content > li > a {
-  padding: 0.4em 1em;
-  margin: 0;
+.sidebar-nav li a {
+  display: block;
+  text-decoration: none;
+}
+.sidebar-nav > li.active,
+.sidebar-nav > li.active > a,
+.sidebar-nav li a:hover,
+.sidebar-nav li a:focus {
+  color: #FFF;
+  background-color: lighten(#343D48,12%);
+  text-decoration: none;
+}
+.sidebar-nav > .sidebar-brand {
+  font-size: 1.8em;
+  line-height: 60px;
+}
+.sidebar-nav > .sidebar-brand a {}
+.sidebar-nav > .sidebar-brand a:hover {
+  background: none;
+}
+.sidebar-nav-icon {
+  margin-right: 14px;
+}
+.sidebar-footer {
+  position: absolute;
+  border-top: 1px solid lighten(#343D48,2%);
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+.sidebar-account {
+  position: absolute;
+  top: -54px;
+}
+.sidebar-account button {
+  cursor: pointer;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+}
+.sidebar-account button span {
+  font-size: 1.1em;
+  font-weight: 300;
+  line-height: 1;
+  margin: 1em 0.4em;
   color: white;
 }
-.navbar-content > li > a:hover {
-  color: #8DB7D2;
+.account-menu {
+  left: 20px;
+  background-color: lighten(#343D48,12%);
+  margin: 0;
+  border-radius: 6px;
+  clear: both;
+  font-weight: normal;
+  line-height: 1.42857143;
+  white-space: nowrap;
+}
+.account-menu li a {
+  color: #82aecc;
+}
+.account-menu li:hover a,
+.account-menu li.active a {
+  color: #FFF;
+  background-color: lighten(#343D48,16%);
+  text-decoration: none;
+}
+.avatar {
+  /* make it responsive */
+  max-width: 20%;
+  width: 20%;
+  margin-left: -20px;
+  height: auto;
+  display: inline-block;
+  /* make it a cirkle */
+  border-radius: 50%;
+  /* Centering on image`s center*/
+  background-position-y: center;
+  background-position-x: center;
+  background-repeat: no-repeat;
+  /* it makes the clue thing, takes smaller dimention to fill div */
+  background-size: cover;
+}
+.avatar-min {
+  /* make it responsive */
+  max-width: 100%;
+  width: 100%;
+  margin-left: 0;
+}
+.sidebar-footer-toggle,
+.sidebar-footer-toggle-min {
+  float: right;
+  background: transparent;
+  border: 0;
+  padding: 0.6em 1em;
+  margin: 0;
+}
+.sidebar-footer-toggle-min {
+  width: 100%;
+}
+.sidebar-footer-toggle:focus {
+  outline: none;
+}
+.sidebar-footer-toggle:hover {
   background-color: lighten(#343D48,12%);
 }
-.nav-notification {
-  position: relative;
-}
-.custom-logout-btn:hover {
-  background-color: #d9534f !important;
-  color: black !important;
-  border-color: #d9534f !important;
-}
-// Nav active state
-.navbar-default .navbar-nav > li > a:hover,
-.navbar-default .navbar-nav > li > a:focus,
-.navbar-default .navbar-nav > .active > a,
-.navbar-default .navbar-nav > .active > a:hover,
-.navbar-default .navbar-nav > .active > a:focus {
-  box-shadow: inset 0 2px 0 #82AECC;
-  /* switch to a lighter color for active element */
-  -webkit-transition: all 0.1s linear;
-  -o-transition: all 0.1s linear;
-  -moz-transition: all 0.1s linear;
-  -ms-transition: all 0.1s linear;
-  -kthtml-transition: all 0.1s linear;
-  transition: all 0.1s linear;
-}
-// .uniqa-logo.active,
-// .uniqa-logo.active:hover {
-//   cursor: pointer;
-//   background-color: @body-custom-blue;
-//   color: @body-custom-gray;
-// }

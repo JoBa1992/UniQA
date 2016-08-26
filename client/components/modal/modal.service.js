@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uniQaApp')
-	.factory('Modal', function($rootScope, $modal, $parse, $window, $location, $timeout, $interval, $sce, Auth, Thing, Group, Lecture, Session) {
+	.factory('Modal', function($rootScope, $modal, $parse, $window, $location, $timeout, $interval, $sce, Auth, Thing, Module, Lecture, Session) {
 
 		// Use the User $resource to fetch all users
 		$rootScope.user = {};
@@ -312,18 +312,18 @@ angular.module('uniQaApp')
 						// needs checking
 						// cross check registered students against those expected,
 						$rootScope.feedback.notRegistered = [];
-						for (var g = 0; g < $rootScope.feedback.groups.length; g++) {
-							for (var s = 0; s < $rootScope.feedback.groups[g].group.students.length; s++) {
+						for (var g = 0; g < $rootScope.feedback.modules.length; g++) {
+							for (var s = 0; s < $rootScope.feedback.modules[g].module.students.length; s++) {
 								var registered = false;
 								for (var u = 0; u < $rootScope.feedback.registered.length; u++) {
 									if ($rootScope.feedback.registered[u].user._id ===
-										$rootScope.feedback.groups[g].group.students[s].user._id) {
+										$rootScope.feedback.modules[g].module.students[s].user._id) {
 										registered = true;
 									}
 								}
 								// if user wasn't registered, push them into notRegistered array
 								if (!registered) {
-									$rootScope.feedback.notRegistered.push(angular.copy($rootScope.feedback.groups[g].group.students[s]));
+									$rootScope.feedback.notRegistered.push(angular.copy($rootScope.feedback.modules[g].module.students[s]));
 								}
 							}
 						}
@@ -462,7 +462,7 @@ angular.module('uniQaApp')
 				}
 			},
 			import: {
-				user: function(cb) {
+				module: function(cb) {
 					cb = cb || angular.noop;
 					return function() {
 						var importModal;
@@ -501,7 +501,7 @@ angular.module('uniQaApp')
 								[]
 							];
 							// Create an array to hold our individual pattern
-							// matching groups.
+							// matching modules.
 							var arrMatches;
 							var strMatchedDelimiter;
 							var strMatchedValue;
@@ -833,7 +833,7 @@ angular.module('uniQaApp')
 						});
 					};
 				},
-				group: function(cb) {
+				module: function(cb) {
 					cb = cb || angular.noop;
 					return function() {
 						var createModal, createdUser;
@@ -846,9 +846,9 @@ angular.module('uniQaApp')
 							qActAllowance: 10,
 						};
 
-						$rootScope.groupLevels = [4, 5, 6, 7];
+						$rootScope.moduleLevels = [4, 5, 6, 7];
 
-						// $rootScope.group = {
+						// $rootScope.module = {
 						// 	name: '',
 						// 	email: ''
 						// };
@@ -857,8 +857,8 @@ angular.module('uniQaApp')
 							modal: {
 								name: 'createrUserForm',
 								dismissable: true,
-								form: 'components/modal/views/group/create.html',
-								title: 'Create Group',
+								form: 'components/modal/views/module/create.html',
+								title: 'Create Module',
 								buttons: [{
 									classes: 'btn-default',
 									text: 'Cancel',
@@ -1024,7 +1024,7 @@ angular.module('uniQaApp')
 								$rootScope.possibleCollaborators = [];
 								$rootScope.lecture.collaborator = '';
 							} else {
-								Group.getPossibleCollabs({
+								Module.getPossibleCollabs({
 									user: me._id,
 									search: $rootScope.lecture.collaborator
 								}).then(function(res) {
@@ -1232,7 +1232,7 @@ angular.module('uniQaApp')
 						});
 					};
 				},
-				group: function(cb) {
+				module: function(cb) {
 					cb = cb || angular.noop;
 					return function() {
 						var args = Array.prototype.slice.call(arguments),
@@ -1280,8 +1280,8 @@ angular.module('uniQaApp')
 							modal: {
 								name: 'updateUserForm',
 								dismissable: true,
-								title: 'Update Group',
-								form: 'components/modal/views/group/update.html',
+								title: 'Update Module',
+								form: 'components/modal/views/module/update.html',
 								buttons: [{
 									classes: 'btn-default',
 									text: 'Cancel',
@@ -1417,14 +1417,14 @@ angular.module('uniQaApp')
 
 						$rootScope.updatedSession = angular.copy(session);
 
-						$rootScope.selectedGroups = [];
+						$rootScope.selectedModules = [];
 
 						$rootScope.updatedSession.startTime = moment.utc(session.startTime).format('DD/MM/YYYY HH:mm');
 						$rootScope.updatedSession.endTime = moment.utc(session.endTime).format('DD/MM/YYYY HH:mm');
 
 
-						for (var group in session.groups) {
-							$rootScope.selectedGroups.push(session.groups[group].group);
+						for (var module in session.modules) {
+							$rootScope.selectedModules.push(session.modules[module].module);
 						}
 
 						console.info(session);
@@ -1568,7 +1568,7 @@ angular.module('uniQaApp')
 						}
 					};
 				},
-				group: function(cb) {
+				module: function(cb) {
 					cb = cb || angular.noop;
 					/**
 					 * Open a delete confirmation modal
@@ -1584,7 +1584,7 @@ angular.module('uniQaApp')
 								name: 'deleteConf',
 								dismissable: true,
 								title: 'Confirm Delete',
-								form: 'components/modal/views/group/delete.html',
+								form: 'components/modal/views/module/delete.html',
 								buttons: [{
 									classes: 'btn-default',
 									text: 'Cancel',

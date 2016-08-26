@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uniQaApp')
-	.controller('ScheduleCtrl', function($scope, $http, $window, Auth, Session, Lecture, Group, Modal) {
+	.controller('ScheduleCtrl', function($scope, $http, $window, Auth, Session, Lecture, Module, Modal) {
 
 		// attach lodash to scope
 		$scope._ = _;

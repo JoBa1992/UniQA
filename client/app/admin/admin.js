@@ -14,17 +14,11 @@ angular.module('uniQaApp')
 				templateUrl: 'app/admin/users/users.html',
 				controller: 'AdminUserCtrl',
 				authenticate: true
-			})
-			//   .state('depMgr', {
-			//     url: '/admin/departments',
-			//     templateUrl: 'app/admin/departments/departments.html',
-			//     controller: 'AdminDepCtrl',
-			//     authenticate: true
-			//   })
-			.state('groupMgr', {
-				url: '/my/groups',
-				templateUrl: 'app/admin/groups/groups.html',
-				controller: 'AdminGroupCtrl',
-				authenticate: true
 			});
+		//   .state('depMgr', {
+		//     url: '/admin/departments',
+		//     templateUrl: 'app/admin/departments/departments.html',
+		//     controller: 'AdminDepCtrl',
+		//     authenticate: true
+		//   })
 	});

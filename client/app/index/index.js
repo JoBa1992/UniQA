@@ -5,8 +5,8 @@ angular.module('uniQaApp')
 		$stateProvider
 			.state('index', {
 				url: '/',
-				templateUrl: 'app/index/index.html',
-				controller: 'HomeCtrl'
+				templateUrl: 'app/account/login/login.html',
+				controller: 'LoginCtrl'
 			});
 	})
 	.directive('bindUnsafeHtml', ['$compile', function($compile) {
@@ -29,17 +29,4 @@ angular.module('uniQaApp')
 				}
 			);
 		};
-	}])
-	// Custom directive for inserting path into SVG
-
-// .run(function($rootScope, $modalStack) {
-//   $rootScope.$on('$routeChangeSuccess', function(newVal, oldVal) {
-//     if (oldVal !== newVal) {
-//       $modalStack.dismissAll();
-//     }
-//   });
-// })
-// .run(function($rootScope, $modalStack) {
-//   $modalStack.dismissAll();
-// })
-;
+	}]);

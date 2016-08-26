@@ -4,20 +4,9 @@ angular.module('uniQaApp')
 	.controller('FooterCtrl', function($scope) {
 		$scope.menu = [{
 			'title': 'About',
-			'link': '/'
+			'link': '/about'
 		}, {
-			'title': 'News',
-			'link': '/news'
-		}, {
-			'title': 'Contact',
-			'link': '/contact'
+			'title': 'Report a problem',
+			'link': '/report-issue'
 		}];
-
-		/* add additional items in with this
-		,{
-		  'title': 'Test',
-		  'link': '/test'
-		}
-		*/
-
 	});

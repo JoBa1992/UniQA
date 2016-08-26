@@ -18,12 +18,6 @@ angular.module('uniQaApp')
 				templateUrl: 'app/account/login/login.html',
 				controller: 'QrRegistrationCtrl'
 			})
-			.state('notifications', {
-				url: '/profile/notifications',
-				templateUrl: 'app/account/profile/notifications/notifications.html',
-				controller: 'NotificationCtrl',
-				authenticate: true
-			})
 			.state('messages', {
 				url: '/profile/messages',
 				templateUrl: 'app/account/profile/messages/messages.html',

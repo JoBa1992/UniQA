@@ -17,11 +17,11 @@ exports.index = function(req, res) {
 	Department
 		.find(req.query)
 		.populate({
-			path: "subdepartment.groups.tutors.tutor",
+			path: "subdepartment.modules.tutors.tutor",
 			populate: 'User'
 		})
 		.populate({
-			path: "subdepartment.groups.users",
+			path: "subdepartment.modules.users",
 			populate: 'User'
 		})
 		.sort('name subdepartment.name')

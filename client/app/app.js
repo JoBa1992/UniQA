@@ -29,15 +29,21 @@ angular.module('uniQaApp', [
 				authenticate: true
 			})
 			.state('lectMgr', {
-				url: '/my/lectures',
+				url: '/lectures',
 				templateUrl: 'app/lectures/tutor.html',
 				controller: 'LectureTutCtrl',
 				authenticate: true
 			})
 			.state('userSchedule', {
-				url: '/my/schedule',
+				url: '/schedule',
 				templateUrl: 'app/schedule/schedule.html',
 				controller: 'ScheduleCtrl',
+				authenticate: true
+			})
+			.state('modules', {
+				url: '/modules',
+				templateUrl: 'app/modules/modules.html',
+				controller: 'ModuleCtrl',
 				authenticate: true
 			})
 			.state('profile', {
@@ -46,8 +52,14 @@ angular.module('uniQaApp', [
 				controller: 'ProfileCtrl',
 				authenticate: true
 			})
+			.state('notifications', {
+				url: '/notifications',
+				templateUrl: 'app/account/profile/notifications/notifications.html',
+				controller: 'NotificationCtrl',
+				authenticate: true
+			})
 			.state('statMgr', {
-				url: '/my/stats',
+				url: '/stats',
 				templateUrl: 'app/stats/statistics.html',
 				controller: 'AdminStatsCtrl',
 				authenticate: true

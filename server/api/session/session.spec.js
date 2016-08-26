@@ -117,10 +117,10 @@ var session = new Session({
 	}, {
 		user: '56cb76ecd5b3f4b6be5d7ded'
 	}],
-	groups: [{
-		group: '56cb7c2e7bbe028ebfbe56a2'
+	modules: [{
+		module: '56cb7c2e7bbe028ebfbe56a2'
 	}, {
-		group: '56cb7c2e7bbe028ebfbe56a3'
+		module: '56cb7c2e7bbe028ebfbe56a3'
 	}]
 });
 
@@ -278,10 +278,10 @@ describe('Session Model', function() {
 				}, {
 					user: '56cb76ecd5b3f4b6be5d7ded'
 				}],
-				groups: [{
-					group: '56cb7c2e7bbe028ebfbe56a2'
+				modules: [{
+					module: '56cb7c2e7bbe028ebfbe56a2'
 				}, {
-					group: '56cb7c2e7bbe028ebfbe56a3'
+					module: '56cb7c2e7bbe028ebfbe56a3'
 				}]
 			})
 			.end(function(err, res) {
@@ -406,10 +406,10 @@ describe('Session Model', function() {
 				}, {
 					user: '56cb76ecd5b3f4b6be5d7ded'
 				}],
-				groups: [{
-					group: '56cb7c2e7bbe028ebfbe56a2'
+				modules: [{
+					module: '56cb7c2e7bbe028ebfbe56a2'
 				}, {
-					group: '56cb7c2e7bbe028ebfbe56a3'
+					module: '56cb7c2e7bbe028ebfbe56a3'
 				}]
 			})
 			.end(function(err, res) {
@@ -547,10 +547,10 @@ describe('Session Model', function() {
 				}, {
 					user: '56cb76ecd5b3f4b6be5d7ded'
 				}],
-				groups: [{
-					group: '56cb7c2e7bbe028ebfbe56a2'
+				modules: [{
+					module: '56cb7c2e7bbe028ebfbe56a2'
 				}, {
-					group: '56cb7c2e7bbe028ebfbe56a3'
+					module: '56cb7c2e7bbe028ebfbe56a3'
 				}]
 			})
 			.end(function(err, res) {

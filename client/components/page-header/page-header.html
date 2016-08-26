@@ -1,0 +1,29 @@
+<div class="page-sub-header" ng-class="{'page-sub-header-min': isNavCollapsed()}">
+  <div class="marg-fix">
+    <div class="row">
+      <div class="col-sm-4 col-med-4 col-lg-4 pull-left">
+        <h1>{{title}}</h1>
+      </div>
+      <div class="col-sm-8 col-med-8 col-lg-8 pull-right">
+        <div class="pull-right" style="margin:0.56em .4em;display:inline-block;">
+          <a class="btn page-sub-header-action-btn" ng-click="openCreateModal()">
+            <i class="fa fa-plus" aria-hidden="true" style="font-size:1.4em;"></i>
+          </a>
+          <a class="btn page-sub-header-action-btn" href="/notifications">
+            <i class="fa fa-bell" aria-hidden="true"></i>
+          </a>
+        </div>
+        <form id="search-form" class="form-inline pull-right" role="form" style="margin:0.56em .4em;display:inline-block;">
+          <div style="position:relative;width:100%;">
+            <input type="text" class="form-control search-form" placeholder="Search" ng-model="filter.searchStr" ng-keyup="checkForSubmit($event)" style='width:200px;'>
+            <!-- <span class="input-group-btn" style="position:relative;"> -->
+            <button type="submit" class="search-btn" ng-click="searchStrFilter($event)" name="q" style="">
+              <span style="" class="glyphicon glyphicon-search"></span>
+            </button>
+            <!-- </span> -->
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -3,7 +3,7 @@
 var mongoose = require('mongoose'),
 	Schema = mongoose.Schema;
 
-var GroupSchema = new Schema({
+var ModuleSchema = new Schema({
 	course: {
 		type: String,
 		required: true
@@ -33,4 +33,4 @@ var GroupSchema = new Schema({
 	}
 });
 
-module.exports = mongoose.model('Group', GroupSchema);
+module.exports = mongoose.model('Module', ModuleSchema);

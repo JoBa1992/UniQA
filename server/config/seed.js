@@ -8,7 +8,7 @@
 // var Department = require('../api/department/department.model');
 var Thing = require('../api/thing/thing.model');
 var User = require('../api/user/user.model');
-var Group = require('../api/group/group.model');
+var Module = require('../api/module/module.model');
 var Lecture = require('../api/lecture/lecture.model');
 var Session = require('../api/session/session.model');
 
@@ -100,7 +100,7 @@ User.find({}).remove(function() {
 	User.create({
 		_id: '56a7d95746b9e7db57417309',
 		role: 'admin',
-		name: 'JoBa',
+		name: 'Joshua Bates',
 		email: 'JoBa@uniqa.co.uk',
 		teachingArea: 'Software Engineering',
 		password: 'Josh1992'
@@ -411,8 +411,8 @@ User.find({}).remove(function() {
 		password: 'password'
 	}, function() {
 		// console.log('finished populating users');
-		Group.find({}).remove(function() {
-			Group.create({
+		Module.find({}).remove(function() {
+			Module.create({
 				_id: '56cb7c2e7bbe028ebfbe56a2',
 				course: 'Software Engineering',
 				students: [{
@@ -504,7 +504,7 @@ User.find({}).remove(function() {
 				deleted: false
 			}, function(err) {
 				if (err) console.log(err);
-				// console.log('finished populating groups');
+				// console.log('finished populating modules');
 				Lecture.find({}).remove(function() {
 					Lecture.create({
 						_id: '56d1ca2e4f6973280ce025e6',
@@ -713,10 +713,10 @@ User.find({}).remove(function() {
 										startTime: moment.utc([2016, 5, 22, 19, 0, 0]),
 										endTime: moment.utc([2016, 5, 22, 21, 0, 0]),
 										timeAllowance: 5,
-										groups: [{
-											group: '56cb7c2e7bbe028ebfbe56a2'
+										modules: [{
+											module: '56cb7c2e7bbe028ebfbe56a2'
 										}, {
-											group: '56cb7c2e7bbe028ebfbe56a3'
+											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
 										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
@@ -724,10 +724,10 @@ User.find({}).remove(function() {
 										startTime: moment.utc([2016, 1, 21, 12, 0, 0]),
 										endTime: moment.utc([2016, 1, 21, 14, 0, 0]),
 										timeAllowance: 20,
-										groups: [{
-											group: '56cb7c2e7bbe028ebfbe56a2'
+										modules: [{
+											module: '56cb7c2e7bbe028ebfbe56a2'
 										}, {
-											group: '56cb7c2e7bbe028ebfbe56a3'
+											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
 										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
@@ -735,8 +735,8 @@ User.find({}).remove(function() {
 										startTime: moment.utc([2016, 1, 22, 12, 0, 0]),
 										endTime: moment.utc([2016, 1, 22, 14, 0, 0]),
 										timeAllowance: 30,
-										groups: [{
-											group: '56cb7c2e7bbe028ebfbe56a3'
+										modules: [{
+											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
 										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
@@ -744,8 +744,8 @@ User.find({}).remove(function() {
 										startTime: moment.utc([2016, 1, 24, 12, 0, 0]),
 										endTime: moment.utc([2016, 1, 24, 14, 0, 0]),
 										timeAllowance: 20,
-										groups: [{
-											group: '56cb7c2e7bbe028ebfbe56a2'
+										modules: [{
+											module: '56cb7c2e7bbe028ebfbe56a2'
 										}]
 									}, {
 										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
@@ -862,10 +862,10 @@ User.find({}).remove(function() {
 										}, {
 											user: '56cb76ecd5b3f4b6be5d7ded'
 										}],
-										groups: [{
-											group: '56cb7c2e7bbe028ebfbe56a2'
+										modules: [{
+											module: '56cb7c2e7bbe028ebfbe56a2'
 										}, {
-											group: '56cb7c2e7bbe028ebfbe56a3'
+											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
 										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
@@ -873,8 +873,8 @@ User.find({}).remove(function() {
 										startTime: moment.utc([2016, 5, 21, 16, 0, 0]),
 										endTime: moment.utc([2016, 5, 21, 17, 30, 0]),
 										timeAllowance: 10,
-										groups: [{
-											group: '56cb7c2e7bbe028ebfbe56a3'
+										modules: [{
+											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
 										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
@@ -912,10 +912,10 @@ User.find({}).remove(function() {
 											rating: "5",
 											user: "56cb76ecd5b3f4b6be5d7def"
 										}],
-										groups: [{
-											group: '56cb7c2e7bbe028ebfbe56a2'
+										modules: [{
+											module: '56cb7c2e7bbe028ebfbe56a2'
 										}, {
-											group: '56cb7c2e7bbe028ebfbe56a3'
+											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
 										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
@@ -924,10 +924,10 @@ User.find({}).remove(function() {
 										endTime: moment.utc([2016, 1, 28, 14, 0, 0]),
 										timeAllowance: 20,
 										altAccess: '',
-										groups: [{
-											group: '56cb7c2e7bbe028ebfbe56a2'
+										modules: [{
+											module: '56cb7c2e7bbe028ebfbe56a2'
 										}, {
-											group: '56cb7c2e7bbe028ebfbe56a3'
+											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
 										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
@@ -935,8 +935,8 @@ User.find({}).remove(function() {
 										startTime: moment.utc([2016, 5, 29, 12, 0, 0]),
 										endTime: moment.utc([2016, 5, 29, 14, 0, 0]),
 										timeAllowance: 30,
-										groups: [{
-											group: '56cb7c2e7bbe028ebfbe56a3'
+										modules: [{
+											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
 										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
@@ -944,8 +944,8 @@ User.find({}).remove(function() {
 										startTime: moment.utc([2016, 5, 29, 14, 30, 0]),
 										endTime: moment.utc([2016, 5, 29, 16, 0, 0]),
 										timeAllowance: 30,
-										groups: [{
-											group: '56cb7c2e7bbe028ebfbe56a3'
+										modules: [{
+											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
 										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
@@ -953,8 +953,8 @@ User.find({}).remove(function() {
 										startTime: moment.utc([2016, 5, 27, 12, 0, 0]),
 										endTime: moment.utc([2016, 5, 27, 14, 0, 0]),
 										timeAllowance: 30,
-										groups: [{
-											group: '56cb7c2e7bbe028ebfbe56a3'
+										modules: [{
+											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
 										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
@@ -962,8 +962,8 @@ User.find({}).remove(function() {
 										startTime: moment.utc([2016, 5, 28, 12, 0, 0]),
 										endTime: moment.utc([2016, 5, 28, 14, 0, 0]),
 										timeAllowance: 30,
-										groups: [{
-											group: '56cb7c2e7bbe028ebfbe56a3'
+										modules: [{
+											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									},
 									function(err, sessions) {

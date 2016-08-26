@@ -5,7 +5,7 @@ angular.module('uniQaApp')
 		// attach lodash to scope
 		$scope._ = _;
 
-		$scope.title = 'My Lectures';
+		$scope.title = 'Lecture Management';
 
 		$scope.filter = {
 			searchStr: ''
@@ -49,15 +49,15 @@ angular.module('uniQaApp')
 			refreshLectures();
 		};
 
-		$scope.openCreateLectureModal = Modal.create.lecture(function() {
+		$scope.openCreateModal = Modal.create.lecture(function() {
 			refreshLectures();
 		});
 
-		$scope.openpreviewLectureModal = Modal.read.lecture(function() {
-			// refreshLectures();
+		$scope.openPreviewLectureModal = Modal.read.lecture(function() {
+
 		});
 
-		$scope.openDeleteLectureModal = Modal.delete.lecture(function(lecture) {
+		$scope.openDeleteModal = Modal.delete.lecture(function(lecture) {
 			// when modal is confirmed, callback
 			if (lecture) {
 				Lecture.remove(lecture._id).then(function() {
@@ -65,6 +65,12 @@ angular.module('uniQaApp')
 				});
 			}
 		});
+
+		$scope.checkForSubmit = function(e) {
+			if (e.keyCode === 13) {
+				$scope.refreshLectures();
+			}
+		};
 
 		$scope.isMyLecture = function(lectAuthor) {
 			return me._id === lectAuthor;

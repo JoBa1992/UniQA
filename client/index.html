@@ -31,125 +31,131 @@
   <body ng-app="uniQaApp">
     <!--[if lt IE 7]> <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p> <![endif]-->
 
-    <!-- Add your site or application content here -->
-    <div ui-view=""></div>
+    <div ng-controller="NavbarCtrl" ng-class="{'wrapper': isNavCollapsed() === false, 'wrapper-min': isNavCollapsed() === true, 'wrapper-no-side': isNavCollapsed() === null}">
+      <div class="sidebar-container" ng-include="'components/navbar/navbar.html'"></div>
 
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
-    <script>
-      (function(i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r;
-        i[r] = i[r] || function() {
-          (i[r].q = i[r].q || []).push(arguments)
-        },
-        i[r].l = 1 * new Date();
-        a = s.createElement(o),
-        m = s.getElementsByTagName(o)[0];
-        a.async = 1;
-        a.src = g;
-        m.parentNode.insertBefore(a, m)
-      })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+      <!-- Page Content -->
+      <div class="page-content-wrapper">
+        <div class="container-fluid no-pad" ui-view=""></div>
+      </div>
+    </div>
+  </div>
 
-      ga('create', 'UA-XXXXX-X');
-      ga('send', 'pageview');
-    </script>
+  <!-- Add your site or application content here -->
 
-    <!-- NEEDS TESTING ON MOBILES TO CHECK IF HOVER ELEMENTS ARE REMOVED -->
-    <script>
-      var touch = window.ontouchstart || (navigator.MaxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
+  <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+  <script>
+    (function(i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+      },
+      i[r].l = 1 * new Date();
+      a = s.createElement(o),
+      m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-      if (touch) { // remove all :hover stylesheets
-        try { // prevent crash on browsers not supporting DOM styleSheets properly
-          for (var si in document.styleSheets) {
-            var styleSheet = document.styleSheets[si];
-            if (!styleSheet.rules) 
+    ga('create', 'UA-XXXXX-X');
+    ga('send', 'pageview');
+  </script>
+
+  <!-- NEEDS TESTING ON MOBILES TO CHECK IF HOVER ELEMENTS ARE REMOVED -->
+  <script>
+    var touch = window.ontouchstart || (navigator.MaxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
+
+    if (touch) { // remove all :hover stylesheets
+      try { // prevent crash on browsers not supporting DOM styleSheets properly
+        for (var si in document.styleSheets) {
+          var styleSheet = document.styleSheets[si];
+          if (!styleSheet.rules) 
+            continue;
+          
+          for (var ri = styleSheet.rules.length - 1; ri >= 0; ri--) {
+            if (!styleSheet.rules[ri].selectorText) 
               continue;
             
-            for (var ri = styleSheet.rules.length - 1; ri >= 0; ri--) {
-              if (!styleSheet.rules[ri].selectorText) 
-                continue;
-              
-              if (styleSheet.rules[ri].selectorText.match(':hover')) {
-                styleSheet.deleteRule(ri);
-              }
+            if (styleSheet.rules[ri].selectorText.match(':hover')) {
+              styleSheet.deleteRule(ri);
             }
           }
-        } catch (ex) {}
-      }
-    </script>
+        }
+      } catch (ex) {}
+    }
+  </script>
 
-    <!--[if lt IE 9]> <script src="bower_components/es5-shim/es5-shim.js"></script> <script src="bower_components/json3/lib/json3.min.js"></script> <![endif]-->
-    <!-- build:js({client,node_modules}) app/vendor.js -->
-    <!-- bower:js -->
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/matchmedia/matchMedia.js"></script>
-    <script src="bower_components/ngSticky/lib/sticky.js"></script>
-    <script src="bower_components/angular-animate/angular-animate.js"></script>
-    <script src="bower_components/angular-resource/angular-resource.js"></script>
-    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-    <script src="bower_components/lodash/dist/lodash.compat.js"></script>
-    <script src="bower_components/angular-socket-io/socket.js"></script>
-    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-    <script src="bower_components/moment/moment.js"></script>
-    <script src="bower_components/dropzone/downloads/dropzone.min.js"></script>
-    <script src="bower_components/angular-dropzone/lib/angular-dropzone.js"></script>
-    <script src="bower_components/ngToast/dist/ngToast.js"></script>
-    <!-- endbower -->
-    <script src="socket.io-client/socket.io.js"></script>
-    <!-- endbuild -->
+  <!--[if lt IE 9]> <script src="bower_components/es5-shim/es5-shim.js"></script> <script src="bower_components/json3/lib/json3.min.js"></script> <![endif]-->
+  <!-- build:js({client,node_modules}) app/vendor.js -->
+  <!-- bower:js -->
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/matchmedia/matchMedia.js"></script>
+  <script src="bower_components/ngSticky/lib/sticky.js"></script>
+  <script src="bower_components/angular-animate/angular-animate.js"></script>
+  <script src="bower_components/angular-resource/angular-resource.js"></script>
+  <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+  <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+  <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+  <script src="bower_components/lodash/dist/lodash.compat.js"></script>
+  <script src="bower_components/angular-socket-io/socket.js"></script>
+  <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+  <script src="bower_components/moment/moment.js"></script>
+  <script src="bower_components/dropzone/downloads/dropzone.min.js"></script>
+  <script src="bower_components/angular-dropzone/lib/angular-dropzone.js"></script>
+  <script src="bower_components/ngToast/dist/ngToast.js"></script>
+  <!-- endbower -->
+  <script src="socket.io-client/socket.io.js"></script>
+  <!-- endbuild -->
 
-    <script src="bower_components/ngSticky/dist/sticky.min.js"></script>
-    <script src="bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js"></script>
-    <script src="bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.templates.js"></script>
+  <script src="bower_components/ngSticky/dist/sticky.min.js"></script>
+  <script src="bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js"></script>
+  <script src="bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.templates.js"></script>
 
-    <!-- build:js(.tmp) app/app.js -->
+  <!-- build:js(.tmp) app/app.js -->
 
-    <script src="app/app.js"></script>
-    <!-- injector:js -->
-    <script src="app/account/account.js"></script>
-    <script src="app/account/login/login.controller.js"></script>
-    <script src="app/account/profile/messages/messages.controller.js"></script>
-    <script src="app/account/profile/notifications/notifications.controller.js"></script>
-    <script src="app/account/profile/settings/settings.controller.js"></script>
-    <script src="app/account/register/register.controller.js"></script>
-    <script src="app/account/request-new/request-new.controller.js"></script>
-    <script src="app/admin/admin.js"></script>
-    <script src="app/admin/general/general.controller.js"></script>
-    <script src="app/admin/groups/groups.controller.js"></script>
-    <script src="app/admin/users/users.controller.js"></script>
-    <script src="app/index/index.controller.js"></script>
-    <script src="app/index/index.js"></script>
-    <script src="app/lectures/lectures.controller.js"></script>
-    <script src="app/profile/profile.controller.js"></script>
-    <script src="app/qr/qr.controller.js"></script>
-    <script src="app/schedule/schedule.controller.js"></script>
-    <script src="app/session/session.controller.js"></script>
-    <script src="app/stats/statistics.controller.js"></script>
-    <script src="components/auth/auth.service.js"></script>
-    <script src="components/auth/user.service.js"></script>
-    <script src="components/coming-soon/coming-soon.directive.js"></script>
-    <script src="components/contenteditable/contenteditable.directive.js"></script>
-    <script src="components/dropzone/dropzone.controller.js"></script>
-    <script src="components/dropzone/dropzone.directive.js"></script>
-    <script src="components/ext-svg/ext-svg.directive.js"></script>
-    <script src="components/footer/footer.controller.js"></script>
-    <script src="components/group/group.service.js"></script>
-    <script src="components/infinite-scroll/infiniteScroll.directive.js"></script>
-    <script src="components/lecture/lecture.service.js"></script>
-    <script src="components/loading/loading.directive.js"></script>
-    <script src="components/modal/modal.service.js"></script>
-    <script src="components/mongoose-error/mongoose-error.directive.js"></script>
-    <script src="components/navbar/navbar.controller.js"></script>
-    <script src="components/scroll-bottom/scroll-bottom.directive.js"></script>
-    <script src="components/session/session.service.js"></script>
-    <script src="components/socket/socket.service.js"></script>
-    <script src="components/star-rating/star-rating-click.directive.js"></script>
-    <script src="components/star-rating/star-rating.directive.js"></script>
-    <script src="components/thing/thing.service.js"></script>
-    <script src="components/wip/wip.controller.js"></script>
-    <!-- endinjector -->
-    <!-- endbuild -->
-  </body>
+  <script src="app/app.js"></script>
+  <!-- injector:js -->
+  <script src="app/account/account.js"></script>
+  <script src="app/account/login/login.controller.js"></script>
+  <script src="app/account/profile/messages/messages.controller.js"></script>
+  <script src="app/account/profile/notifications/notifications.controller.js"></script>
+  <script src="app/account/profile/settings/settings.controller.js"></script>
+  <script src="app/account/register/register.controller.js"></script>
+  <script src="app/account/request-new/request-new.controller.js"></script>
+  <script src="app/admin/admin.js"></script>
+  <script src="app/admin/general/general.controller.js"></script>
+  <script src="app/admin/users/users.controller.js"></script>
+  <script src="app/index/index.js"></script>
+  <script src="app/lectures/lectures.controller.js"></script>
+  <script src="app/modules/modules.controller.js"></script>
+  <script src="app/profile/profile.controller.js"></script>
+  <script src="app/qr/qr.controller.js"></script>
+  <script src="app/schedule/schedule.controller.js"></script>
+  <script src="app/session/session.controller.js"></script>
+  <script src="app/stats/statistics.controller.js"></script>
+  <script src="components/account/account.controller.js"></script>
+  <script src="components/auth/auth.service.js"></script>
+  <script src="components/auth/user.service.js"></script>
+  <script src="components/contenteditable/contenteditable.directive.js"></script>
+  <script src="components/dropzone/dropzone.controller.js"></script>
+  <script src="components/dropzone/dropzone.directive.js"></script>
+  <script src="components/ext-svg/ext-svg.directive.js"></script>
+  <script src="components/footer/footer.controller.js"></script>
+  <script src="components/lecture/lecture.service.js"></script>
+  <script src="components/loading/loading.directive.js"></script>
+  <script src="components/modal/modal.service.js"></script>
+  <script src="components/module/module.service.js"></script>
+  <script src="components/mongoose-error/mongoose-error.directive.js"></script>
+  <script src="components/navbar/navbar.controller.js"></script>
+  <script src="components/scroll-bottom/scroll-bottom.directive.js"></script>
+  <script src="components/session/session.service.js"></script>
+  <script src="components/socket/socket.service.js"></script>
+  <script src="components/star-rating/star-rating-click.directive.js"></script>
+  <script src="components/star-rating/star-rating.directive.js"></script>
+  <script src="components/thing/thing.service.js"></script>
+  <!-- endinjector -->
+  <!-- endbuild -->
+</body>
 </html>

@@ -44,10 +44,7 @@ var all = {
 				safe: true
 			}
 		}
-	},
-
-	seedDB: true
-
+	}
 };
 
 // Export the config object based on the NODE_ENV

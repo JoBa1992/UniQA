@@ -85,7 +85,7 @@ describe('Lecture Model', function() {
 			});
 	});
 
-	it('should allow groups to be updated through api', function(done) {
+	it('should allow modules to be updated through api', function(done) {
 		api
 			.post('/')
 			.send({
@@ -123,7 +123,7 @@ describe('Lecture Model', function() {
 			});
 	});
 
-	it('should allow groups to be deleted through api', function(done) {
+	it('should allow modules to be deleted through api', function(done) {
 		api
 			.post('/')
 			.send({

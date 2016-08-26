@@ -2,89 +2,59 @@
 
 angular.module('uniQaApp')
 	.controller('NavbarCtrl', function($scope, $location, $stateParams, Auth, Modal) {
-		$scope.isCollapsed = true;
 		$scope.isLoggedIn = Auth.isLoggedIn;
 		$scope.isAdmin = Auth.isAdmin;
 		$scope.isStudent = Auth.isStudent;
-		$scope.getCurrentUser = Auth.getCurrentUser;
+		$scope.currentUser = Auth.getCurrentUser;
+		console.info($scope.currentUser);
+		$scope.collapsed = false;
+		$scope.sidebarIcon = 'chevron-left';
 
 		$scope.leftMenu = [{
 				title: 'Start Session',
+				icon: 'play',
 				link: '/session/start',
 				login: true,
 				admin: true,
 				student: false
 			}, {
-				title: 'Groups',
-				link: '/my/groups',
-				login: true,
-				admin: true,
-				student: false
-			}, {
-				title: 'Users',
-				link: '/users',
+				title: 'Modules',
+				icon: 'users',
+				link: '/modules',
 				login: true,
 				admin: true,
 				student: false
 			}, {
 				title: 'Lectures',
-				link: '/my/lectures',
+				icon: 'archive',
+				link: '/lectures',
 				login: true,
 				admin: true,
 				student: false
 			}, {
 				title: 'Schedule',
-				link: '/my/schedule',
+				icon: 'calendar',
+				link: '/schedule',
 				login: true,
 				admin: true,
 				student: false
 			}, {
-				title: 'Lecture Reg',
-				link: '/session/register',
-				//   link: '#',
+				title: 'Statistics',
+				icon: 'bar-chart',
+				link: '/profile',
 				login: true,
-				admin: false,
-				student: true
+				admin: true,
+				student: false
 			}
 			// , {
-			// 	title: 'My Questions',
-			// 	link: '/my/questions/',
+			// 	title: 'Lecture Reg',
+			// 	link: '/session/register',
 			// 	//   link: '#',
 			// 	login: true,
 			// 	admin: false,
 			// 	student: true
 			// }
-			//  //,
-			/* {
-						title: 'Stats',
-						link: '/my/stats',
-						login: true,
-						admin: true,
-						student: false
-					},*/
-			// {
-			// 	title: 'Modal Dev',
-			// 	//   link: '/my/questions/',
-			// 	link: '/dev',
-			// 	login: true,
-			// 	admin: true,
-			// 	student: true
-			// }
 		];
-		$scope.rightMenu = [{
-			title: 'Register',
-			link: '/register',
-			login: false,
-			admin: false,
-			student: false
-		}, {
-			title: 'Sign in',
-			link: '/login',
-			login: false,
-			admin: false,
-			student: false
-		}];
-
 		$scope.checkLocation = function() {
 			if ($scope.isLoggedIn()) {
 				// check if user is in an active session,
@@ -102,13 +72,27 @@ angular.module('uniQaApp')
 			}
 		};
 
+		$scope.toggleNav = function() {
+			$scope.collapsed = !$scope.collapsed;
+			if ($scope.sidebarIcon === 'chevron-left') return $scope.sidebarIcon = 'chevron-right';
+			if ($scope.sidebarIcon === 'chevron-right') return $scope.sidebarIcon = 'chevron-left';
+		}
+
+		$scope.calculateCookieTrail = function() {
+
+		};
+
+		$scope.isNavCollapsed = function() {
+			if (!$scope.isLoggedIn()) return null;
+			return $scope.collapsed
+		};
+
 		$scope.logout = function() {
 			Auth.logout();
 			$location.path('/');
 		};
 
 		$scope.isActive = function(route) {
-			//   console.info(route);
 			return route === $location.path();
 		};
 

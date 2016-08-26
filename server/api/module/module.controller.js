@@ -1,31 +1,31 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
- * GET     /groups              ->  index
- * POST    /groups              ->  create
- * GET     /groups/:id          ->  show
- * PUT     /groups/:id          ->  update
- * DELETE  /groups/:id          ->  destroy
+ * GET     /modules              ->  index
+ * POST    /modules              ->  create
+ * GET     /modules/:id          ->  show
+ * PUT     /modules/:id          ->  update
+ * DELETE  /modules/:id          ->  destroy
  */
 
 'use strict';
 
 var _ = require('lodash');
-var Group = require('./group.model');
+var Module = require('./module.model');
 
-// Get list of groups (or limit by querystring)
+// Get list of modules (or limit by querystring)
 exports.index = function(req, res) {
 	var result = {};
-	Group
+	Module
 		.find(req.query)
 		.populate('students.user')
 		.populate('tutors.user')
 		.lean()
-		.exec(function(err, groups) {
+		.exec(function(err, modules) {
 			if (err) {
 				return handleError(res, err);
 			}
-			result.groups = groups;
-			Group.count({}, function(err, count) {
+			result.modules = modules;
+			Module.count({}, function(err, count) {
 				if (err) {
 					return handleError(res, err);
 				}
@@ -45,7 +45,7 @@ exports.getAssocUsers = function(req, res) {
 	var result = {
 		collaborators: []
 	};
-	Group
+	Module
 		.find({
 			'tutors': {
 				'$elemMatch': {
@@ -58,20 +58,20 @@ exports.getAssocUsers = function(req, res) {
 			match: query
 		})
 		.lean()
-		.exec(function(err, groups) {
+		.exec(function(err, modules) {
 			if (err) {
 				return handleError(res, err);
 			}
-			if (_.isEmpty(groups)) {
+			if (_.isEmpty(modules)) {
 				return res.status(404).send('Not Found');
 			}
 			//push into single arr
-			for (var a = 0; a < groups.length; a++) {
-				for (var b = 0; b < groups[a].tutors.length; b++) {
+			for (var a = 0; a < modules.length; a++) {
+				for (var b = 0; b < modules[a].tutors.length; b++) {
 					// check that not null from elemMatch,
 					// and user isn't same as logged in user
-					if (groups[a].tutors[b].user && String(groups[a].tutors[b].user._id) !== String(req.params.userid)) {
-						result.collaborators.push(groups[a].tutors[b].user);
+					if (modules[a].tutors[b].user && String(modules[a].tutors[b].user._id) !== String(req.params.userid)) {
+						result.collaborators.push(modules[a].tutors[b].user);
 					}
 				}
 			}
@@ -81,10 +81,10 @@ exports.getAssocUsers = function(req, res) {
 		});
 };
 
-// Get list of groups with association to user
+// Get list of modules with association to user
 exports.getForMe = function(req, res) {
 	var result = {};
-	Group
+	Module
 		.find({
 			'tutors': {
 				'$elemMatch': {
@@ -95,15 +95,15 @@ exports.getForMe = function(req, res) {
 		.populate('students.user')
 		.populate('tutors.user')
 		.lean()
-		.exec(function(err, groups) {
+		.exec(function(err, modules) {
 			if (err) {
 				return handleError(res, err);
 			}
-			if (_.isEmpty(groups)) {
+			if (_.isEmpty(modules)) {
 				return res.status(404).send('Not Found');
 			}
-			result.groups = groups;
-			Group.count({
+			result.modules = modules;
+			Module.count({
 				'tutors': {
 					'$elemMatch': {
 						'user': req.params.userid
@@ -122,10 +122,10 @@ exports.getForMe = function(req, res) {
 
 };
 
-// Get list of groups with association to user
+// Get list of modules with association to user
 exports.getNotForMe = function(req, res) {
 	var result = {};
-	Group
+	Module
 		.find({
 			'tutors.user': {
 				'$ne': req.params.userid
@@ -134,15 +134,15 @@ exports.getNotForMe = function(req, res) {
 		.populate('students.user')
 		.populate('tutors.user')
 		.lean()
-		.exec(function(err, groups) {
+		.exec(function(err, modules) {
 			if (err) {
 				return handleError(res, err);
 			}
-			if (_.isEmpty(groups)) {
+			if (_.isEmpty(modules)) {
 				return res.status(404).send('Not Found');
 			}
-			result.groups = groups;
-			Group.count({
+			result.modules = modules;
+			Module.count({
 				'tutors.user': {
 					'$ne': req.params.userid
 				}
@@ -157,64 +157,64 @@ exports.getNotForMe = function(req, res) {
 		});
 };
 
-// Get a single group
+// Get a single module
 exports.show = function(req, res) {
-	Group.findById(req.params.id)
+	Module.findById(req.params.id)
 		.populate('students.user')
 		.populate('tutors.user')
-		.exec(function(err, group) {
+		.exec(function(err, module) {
 			if (err) {
 				return handleError(res, err);
 			}
-			if (!group) {
+			if (!module) {
 				return res.status(404).send('Not Found');
 			}
-			return res.json(group);
+			return res.json(module);
 		});
 };
 
-// Creates a new group in the DB.
+// Creates a new module in the DB.
 exports.create = function(req, res) {
-	Group.create(req.body, function(err, group) {
+	Module.create(req.body, function(err, module) {
 		if (err) {
 			return handleError(res, err);
 		}
-		return res.status(201).json(group);
+		return res.status(201).json(module);
 	});
 };
 
-// Updates an existing group in the DB.
+// Updates an existing module in the DB.
 exports.update = function(req, res) {
 	if (req.body._id) {
 		delete req.body._id;
 	}
-	Group.findById(req.params.id, function(err, group) {
+	Module.findById(req.params.id, function(err, module) {
 		if (err) {
 			return handleError(res, err);
 		}
-		if (!group) {
+		if (!module) {
 			return res.status(404).send('Not Found');
 		}
-		var updated = _.merge(group, req.body);
+		var updated = _.merge(module, req.body);
 		updated.save(function(err) {
 			if (err) {
 				return handleError(res, err);
 			}
-			return res.status(200).json(group);
+			return res.status(200).json(module);
 		});
 	});
 };
 
-// Deletes a group from the DB.
+// Deletes a module from the DB.
 exports.destroy = function(req, res) {
-	Group.findById(req.params.id, function(err, group) {
+	Module.findById(req.params.id, function(err, module) {
 		if (err) {
 			return handleError(res, err);
 		}
-		if (!group) {
+		if (!module) {
 			return res.status(404).send('Not Found');
 		}
-		group.remove(function(err) {
+		module.remove(function(err) {
 			if (err) {
 				return handleError(res, err);
 			}

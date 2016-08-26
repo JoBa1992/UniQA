@@ -1,5 +1,7 @@
-<div class="container">
-  <div class="row" style="margin-top:1em;padding-bottom:1.4em;border-bottom:2px dotted #8CB7D3;">
+<div ng-include="'components/page-header/page-header.html'"></div>
+
+<div class="container header-margin-offset">
+  <!-- <div class="row" style="margin-top:1em;padding-bottom:1.4em;border-bottom:2px dotted #8CB7D3;">
     <div class="col-sm-4 col-med-4 col-lg-4 user-filter text-center">
       <h5 class="text-left">User Role</h5>
       <div class="btn-group " role="group" aria-label="...">
@@ -25,15 +27,15 @@
           <!-- <li ng-repeat="(key,val) in groups">
             <a class="dropdown-header disabled dropdown-header-custom" ng-click="groupDropdownSel(key)">{{key}}</a>
             <a ng-repeat="subVals in courses[key]" ng-click="groupDropdownSel(subVals)">{{courses[key][$index]}}</a>
-          </li> -->
+          </li>
           <li ng-repeat="group in groups">
             <a class="" ng-click="groupDropdownSel(group.course)">{{group.course}}</a>
           </li>
         </ul>
       </div>
     </div>
-  </div>
-  <br>
+  </div> -->
+
   <div class="row">
     <div class="warnings">
       <!-- <div class="alert alert-warning" role="alert">
@@ -49,9 +51,10 @@
     <div class="panel panel-default">
       <!-- Default panel contents -->
       <div class="panel-heading clearfix">
-        <button class="btn btn-primary pull-right" ng-click="refreshUserList('btn')">
+        <p></p>
+        <!-- <button class="btn btn-primary pull-right" ng-click="refreshUserList('btn')">
           <span class="glyphicon glyphicon-refresh rotate"></span>
-          Refresh</button>
+          Refresh</button> -->
       </div>
       <table class="table table-striped">
         <thead>
@@ -91,7 +94,7 @@
       </table>
     </div>
     <div class="col-sm-4 col-med-2 col-lg-2 pull-left">
-      <button type="button" class="btn btn-success dropdown-toggle" ng-click="openImportUserModal()">Import Users...</button>
+      <button type="button" class="btn btn-success dropdown-toggle" ng-click="openImportModal()">Import...</button>
     </div>
     <div class="col-sm-8 col-med-10 col-lg-10">
       <ul class="pagination pull-right">
@@ -115,6 +118,58 @@
     </div>
   </div>
 </div>
-<!-- FOOTER -->
+
 <div ng-include="'components/footer/footer.html'"></div>
-<!-- /FOOTER -->
+<!--
+
+<div ng-include="'components/page-header/page-header.html'"></div>
+
+<div class="marg-fix header-margin-offset">
+  <div class="row" ng-repeat="group in groups">
+    <div class="col-xs-12 col-sm-12 col-md-12" ng-class="{'foot-marg': $last && isEmpty(unassigned)}">
+      <h3 class="" style="padding-left:4px;">{{group.course}}
+        - (Level
+        {{group.level}})
+        <a href="#" ng-click="openUpdateModal(group._id)" class="text-warning">
+          <i class="fa fa-pencil fa"></i>
+        </a>
+        <a href="#" ng-click="openDeleteModal(group._id)" class="trash">
+          <i class="fa fa-trash pull-right"></i>
+        </a>
+      </h3>
+      <hr class="resource-hr">
+      <div class="col-xs-12 col-sm-12 col-md-12">
+        <h4 style="margin:0em 0 .4em;">Tutors</h4>
+        <a href="#" class="col-xs-6 col-sm-4 col-md-3 col-lg-3 text-primary" ng-repeat="tutor in group.tutors">
+          {{tutor.user.name}}
+        </a>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12">
+        <h4 style="margin:1em 0 .4em;">Students</h4>
+        <a class="col-xs-6 col-sm-4 col-md-3 col-lg-3 group-user" style="color:#343D48" ng-repeat="student in group.students">
+          {{student.user.name}}
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="row" ng-if="!isEmpty(unassigned)">
+    <div class="col-xs-12 col-sm-12 col-md-12">
+      <h3 class="text-primary" style="padding-left:4px;">Unassigned User Pool
+      </h3>
+      <hr class="resource-hr">
+      <div class="col-xs-12 col-sm-12 col-md-12">
+        <h4 style="margin:0em 0 .4em;" ng-if="!isEmpty(unassigned.tutors)">Tutors</h4>
+        <a href="#" class="col-xs-6 col-sm-4 col-md-3 col-lg-3 text-primary" ng-repeat="tutor in unassigned.tutors">
+          {{tutor.user.name}}
+        </a>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12">
+        <h4 style="margin:1em 0 .4em;" ng-if="">!isEmpty(unassigned.tutors)</h4>
+        <a class="col-xs-6 col-sm-4 col-md-3 col-lg-3 group-user" style="color:#343D48" ng-repeat="student in unassigned.students">
+          {{student.user.name}}
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+-->
