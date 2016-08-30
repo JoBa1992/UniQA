@@ -928,7 +928,6 @@ angular.module('uniQaApp')
 						};
 
 						$rootScope.lectureTypes = [];
-						$rootScope.lectureDescHeight = 220;
 						$rootScope.possibleCollaborators = [];
 						$rootScope.selectedCollaborators = [];
 						$rootScope.formBackdrop = 'static';

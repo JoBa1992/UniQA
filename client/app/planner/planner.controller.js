@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uniQaApp')
-	.controller('ScheduleCtrl', function($scope, $http, $window, Auth, Session, Lecture, Module, Modal) {
+	.controller('PlannerCtrl', function($scope, $http, $window, Auth, Session, Lecture, Module, Modal) {
 
 		// attach lodash to scope
 		$scope._ = _;
@@ -63,7 +63,7 @@ angular.module('uniQaApp')
 			// checking length to see if id has been sent through
 			if (e.keyCode === 13 || e === 'Submit' || e._id) {
 				// form lecture contains the object that can be used when saving
-				console.info($scope.sForm.lecture);
+				// console.info($scope.sForm.lecture);
 			} else {
 				Module.getMyAssocModules({
 					title: $scope.sForm.lecture,
@@ -170,7 +170,7 @@ angular.module('uniQaApp')
 			// checking length to see if id has been sent through
 			if (e.keyCode === 13 || e === 'Submit' || e._id) {
 				// form lecture contains the object that can be used when saving
-				console.info($scope.sForm.lecture);
+				// console.info($scope.sForm.lecture);
 			} else {
 				// for no value
 				// $scope.sForm.lecture = $scope.sForm.lecture || '';
@@ -268,7 +268,7 @@ angular.module('uniQaApp')
 			// when modal is confirmed, callback
 			if (session) {
 				Session.remove(session._id).then(function(res) {
-					console.info(res);
+					// console.info(res);
 					refreshSessions();
 				});
 			}
@@ -286,8 +286,6 @@ angular.module('uniQaApp')
 		// };
 
 		$scope.addSchedule = function() {
-			// console.info($scope.sForm);
-			// console.info($scope.selectedModules);
 			$scope.submitted = true;
 			if ($scope.sForm.lecture && $scope.sForm.startTime && $scope.sForm.endTime && !_.isEmpty($scope.selectedModules)) {
 				// setup vars to be sent across to API
@@ -312,7 +310,7 @@ angular.module('uniQaApp')
 						data: data
 					})
 					.then(function(res) {
-						console.info(res);
+						// console.info(res);
 						refreshSessions();
 						$scope.clearSchedForm();
 					})

@@ -8,24 +8,9 @@ html {
 body {
   -webkit-overflow-scrolling: touch;
 }
-// body::-webkit-scrollbar {
-//   // -webkit-appearance: none;
-//   z-index: 1000;
-// }
-// body::-webkit-scrollbar-thumb {
-//   background-color: rgba(50, 50, 50, .5);
-//   border: 3px solid transparent;
-//   border-radius: 9px;
-//   background-clip: content-box;
-//   z-index: 1000;
-// }
-// body::-webkit-scrollbar-track {
-//   background-color: rgba(100, 100, 100, .5);
-//   width: 10px;
-//   z-index: 1000;
-// }
 .wrapper {
   padding-left: 0;
+  overflow-x: hidden;
 }
 .sidebar-wrapper,
 .sidebar-wrapper-min {
@@ -56,7 +41,67 @@ body {
 .page-content-wrapper::-webkit-scrollbar {
   display: none;
 }
-@media(min-width:768px) {
+.no-pad {
+  padding: 0 !important;
+}
+.no-marg {
+  margin: 0 !important;
+}
+.pad-fix {
+  padding: 0 15px;
+}
+.marg-fix {
+  margin: 0 15px;
+}
+.header-margin-offset {
+  margin-top: 70px;
+}
+.body-min-height {
+  min-height: 600px;
+}
+/*==========  Mobile First Method  ==========*/
+/* Custom, iPhone Retina */
+@media only screen and (min-width : 320px) {
+  .sidebar-wrapper {
+    position: absolute;
+    width: 150px;
+  }
+  .sidebar-wrapper-min {
+    width: 56px;
+  }
+  .wrapper {
+    padding-left: 150px;
+  }
+  .wrapper-min {
+    padding-left: 56px;
+  }
+  .page-content-wrapper {
+    position: relative;
+    margin-right: 0;
+  }
+}
+/* Extra Small Devices, Phones */
+@media only screen and (min-width : 480px) {
+  .sidebar-wrapper {
+    position: absolute;
+    width: 200px;
+  }
+  .sidebar-wrapper-min {
+    width: 56px;
+  }
+  .wrapper {
+    padding-left: 200px;
+  }
+  .wrapper-min {
+    padding-left: 56px;
+  }
+  .page-content-wrapper {
+    position: relative;
+    margin-right: 0;
+  }
+}
+/* Small Devices, Tablets */
+@media only screen and (min-width : 768px) {
   .sidebar-wrapper {
     position: absolute;
     width: 250px;
@@ -75,18 +120,108 @@ body {
     margin-right: 0;
   }
 }
-.no-pad {
-  padding: 0 !important;
+/* Medium Devices, Desktops */
+@media only screen and (min-width : 992px) {}
+/* Large Devices, Wide Screens */
+@media only screen and (min-width : 1200px) {}
+/*==========  Non-Mobile First Method  ==========*/
+/* Large Devices, Wide Screens */
+@media only screen and (max-width : 1200px) {
+  .sidebar-wrapper {
+    position: absolute;
+    width: 250px;
+  }
+  .sidebar-wrapper-min {
+    width: 56px;
+  }
+  .wrapper {
+    padding-left: 250px;
+  }
+  .wrapper-min {
+    padding-left: 56px;
+  }
+  .page-content-wrapper {
+    position: relative;
+    margin-right: 0;
+  }
 }
-.no-marg {
-  margin: 0 !important;
+/* Medium Devices, Desktops */
+@media only screen and (max-width : 992px) {
+  .sidebar-wrapper {
+    position: absolute;
+    width: 200px;
+  }
+  .sidebar-wrapper-min {
+    width: 56px;
+  }
+  .wrapper {
+    padding-left: 200px;
+  }
+  .wrapper-min {
+    padding-left: 56px;
+  }
+  .page-content-wrapper {
+    position: relative;
+    margin-right: 0;
+  }
 }
-.pad-fix {
-  padding: 0 15px;
+/* Small Devices, Tablets */
+@media only screen and (max-width : 768px) {
+  .sidebar-wrapper {
+    position: absolute;
+    width: 175px;
+  }
+  .sidebar-wrapper-min {
+    width: 56px;
+  }
+  .wrapper {
+    padding-left: 175px;
+  }
+  .wrapper-min {
+    padding-left: 56px;
+  }
+  .page-content-wrapper {
+    position: relative;
+    margin-right: 0;
+  }
 }
-.marg-fix {
-  margin: 0 15px;
+/* Extra Small Devices, Phones */
+@media only screen and (max-width : 480px) {
+  .sidebar-wrapper {
+    position: absolute;
+    width: 150px;
+  }
+  .sidebar-wrapper-min {
+    width: 56px;
+  }
+  .wrapper {
+    padding-left: 150px;
+  }
+  .wrapper-min {
+    padding-left: 56px;
+  }
+  .page-content-wrapper {
+    position: relative;
+    margin-right: 0;
+  }
 }
-.header-margin-offset {
-  margin-top: 70px;
+/* Custom, iPhone Retina */
+@media only screen and (max-width : 320px) {
+  .sidebar-wrapper {
+    position: absolute;
+    width: 100px;
+  }
+  .sidebar-wrapper-min {
+    width: 56px;
+  }
+  .wrapper {
+    padding-left: 100px;
+  }
+  .wrapper-min {
+    padding-left: 56px;
+  }
+  .page-content-wrapper {
+    position: relative;
+    margin-right: 0;
+  }
 }

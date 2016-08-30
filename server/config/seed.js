@@ -87,7 +87,7 @@ Thing.find({}).remove(function() {
 		content: 8
 	}, {
 		name: 'lectureTypes',
-		content: ["Powerpoint", "URL", "PDF", "Video"]
+		content: ["URL", "Powerpoint"]
 	}, {
 		name: 'explicitWords',
 		content: ["abbo", "abortion", "alla", "allah", "alligatorbait", "anal", "analannie", "analsex", "anus", "arab", "arabs", "areola", "aroused", "arse", "arsehole", "asian", "ass", "assassin", "assassinate", "assassination", "assault", "assbagger", "assblaster", "assclown", "asscowboy", "asses", "assfuck", "assfucker", "asshat", "asshole", "assholes", "asshore", "assjockey", "asskiss", "asskisser", "assklown", "asslick", "asslicker", "asslover", "assman", "assmonkey", "assmunch", "assmuncher", "asspacker", "asspirate", "asspuppies", "assranger", "asswhore", "asswipe", "athletesfoot", "attack", "australian", "babe", "babies", "backdoor", "backdoorman", "backseat", "badfuck", "balllicker", "balls", "ballsack", "banging", "baptist", "barelylegal", "barf", "barface", "barfface", "bast", "bastard", "bazongas", "bazooms", "beaner", "beast", "beastality", "beastial", "beastiality", "beatoff", "beat-off", "beatyourmeat", "beaver", "bestial", "bestiality", "bi", "biatch", "bible", "bicurious", "bigass", "bigbastard", "bigbutt", "bigger", "bisexual", "bi-sexual", "bitch", "bitcher", "bitches", "bitchez", "bitchin", "bitching", "bitchslap", "bitchy", "biteme", "black", "blackman", "blackout", "blacks", "blind", "blow", "blowjob", "boang", "bogan", "bohunk", "bollick", "bollock", "bomb", "bombers", "bombing", "bombs", "bomd", "bondage", "boner", "bong", "boob", "boobies", "boobs", "booby", "boody", "boom", "boong", "boonga", "boonie", "booty", "bootycall", "bountybar", "bra", "brea5t", "breast", "breastjob", "breastlover", "breastman", "brothel", "bugger", "buggered", "buggery", "bullcrap", "bulldike", "bulldyke", "bullshit", "bumblefuck", "bumfuck", "bunga", "bunghole", "buried", "burn", "butchbabes", "butchdike", "butchdyke", "butt", "buttbang", "butt-bang", "buttface", "buttfuck", "butt-fuck", "buttfucker", "butt-fucker", "buttfuckers", "butt-fuckers", "butthead", "buttman", "buttmunch", "buttmuncher", "buttpirate", "buttplug", "buttstain", "byatch", "cacker", "cameljockey", "cameltoe", "canadian", "cancer", "carpetmuncher", "carruth", "catholic", "catholics", "cemetery", "chav", "cherrypopper", "chickslick", "childrens", "chin", "chinaman", "chinamen", "chinese", "chink", "chinky", "choad", "chode", "christ", "christian", "church", "cigarette", "cigs", "clamdigger", "clamdiver", "clit", "clitoris", "clogwog", "cocaine", "cock", "cockblock", "cockblocker", "cockcowboy", "cockfight", "cockhead", "cockknob", "cocklicker", "cocklover", "cocknob", "cockqueen", "cockrider", "cocksman", "cocksmith", "cocksmoker", "cocksucer", "cocksuck", "cocksucked", "cocksucker", "cocksucking", "cocktail", "cocktease", "cocky", "cohee", "coitus", "color", "colored", "coloured", "commie", "communist", "condom", "conservative", "conspiracy", "coolie", "cooly", "coon", "coondog", "copulate", "cornhole", "corruption", "cra5h", "crabs", "crack", "crackpipe", "crackwhore", "crack-whore", "crap", "crapola", "crapper", "crappy", "crash", "creamy", "crime", "crimes", "criminal", "criminals", "crotch", "crotchjockey", "crotchmonkey", "crotchrot", "cum", "cumbubble", "cumfest", "cumjockey", "cumm", "cummer", "cumming", "cumquat", "cumqueen", "cumshot", "cunilingus", "cunillingus", "cunn", "cunnilingus", "cunntt", "cunt", "cunteyed", "cuntfuck", "cuntfucker", "cuntlick", "cuntlicker", "cuntlicking", "cuntsucker", "cybersex", "cyberslimer", "dago", "dahmer", "dammit", "damn", "damnation", "damnit", "darkie", "darky", "datnigga", "dead", "deapthroat", "death", "deepthroat", "defecate", "dego", "demon", "deposit", "desire", "destroy", "deth", "devil", "devilworshipper", "dick", "dickbrain", "dickforbrains", "dickhead", "dickless", "dicklick", "dicklicker", "dickman", "dickwad", "dickweed", "diddle", "die", "died", "dies", "dike", "dildo", "dingleberry", "dink", "dipshit", "dipstick", "dirty", "disease", "diseases", "disturbed", "dive", "dix", "dixiedike", "dixiedyke", "doggiestyle", "doggystyle", "dong", "doodoo", "doo-doo", "doom", "dope", "dragqueen", "dragqween", "dripdick", "drug", "drunk", "drunken", "dumb", "dumbass", "dumbbitch", "dumbfuck", "dyefly", "dyke", "easyslut", "eatballs", "eatme", "eatpussy", "ecstacy", "ejaculate", "ejaculated", "ejaculating", "ejaculation", "enema", "enemy", "erect", "erection", "ero", "escort", "ethiopian", "ethnic", "european", "evl", "excrement", "execute", "executed", "execution", "executioner", "explosion", "facefucker", "faeces", "fag", "fagging", "faggot", "fagot", "failed", "failure", "fairies", "fairy", "faith", "fannyfucker", "fart", "farted", "farting", "farty", "fastfuck", "fat", "fatah", "fatass", "fatfuck", "fatfucker", "fatso", "fckcum", "fear", "feces", "felatio", "felch", "felcher", "felching", "fellatio", "feltch", "feltcher", "feltching", "fetish", "fight", "filipina", "filipino", "fingerfood", "fingerfuck", "fingerfucked", "fingerfucker", "fingerfuckers", "fingerfucking", "fire", "firing", "fister", "fistfuck", "fistfucked", "fistfucker", "fistfucking", "fisting", "flange", "flasher", "flatulence", "floo", "flydie", "flydye", "fok", "fondle", "footaction", "footfuck", "footfucker", "footlicker", "footstar", "fore", "foreskin", "forni", "fornicate", "foursome", "fourtwenty", "fraud", "freakfuck", "freakyfucker", "freefuck", "fu", "fubar", "fuc", "fucck", "fuck", "fucka", "fuckable", "fuckbag", "fuckbuddy", "fucked", "fuckedup", "fucker", "fuckers", "fuckface", "fuckfest", "fuckfreak", "fuckfriend", "fuckhead", "fuckher", "fuckin", "fuckina", "fucking", "fuckingbitch", "fuckinnuts", "fuckinright", "fuckit", "fuckknob", "fuckme", "fuckmehard", "fuckmonkey", "fuckoff", "fuckpig", "fucks", "fucktard", "fuckwhore", "fuckyou", "fudgepacker", "fugly", "fuk", "fuks", "funeral", "funfuck", "fungus", "fuuck", "gangbang", "gangbanged", "gangbanger", "gangsta", "gatorbait", "gay", "gaymuthafuckinwhore", "gaysex", "geez", "geezer", "geni", "genital", "german", "getiton", "gin", "ginzo", "gipp", "girls", "givehead", "glazeddonut", "gob", "god", "godammit", "goddamit", "goddammit", "goddamn", "goddamned", "goddamnes", "goddamnit", "goddamnmuthafucker", "goldenshower", "gonorrehea", "gonzagas", "gook", "gotohell", "goy", "goyim", "greaseball", "gringo", "groe", "gross", "grostulation", "gubba", "gummer", "gun", "gyp", "gypo", "gypp", "gyppie", "gyppo", "gyppy", "hamas", "handjob", "hapa", "harder", "hardon", "harem", "headfuck", "headlights", "hebe", "heeb", "hell", "henhouse", "heroin", "herpes", "heterosexual", "hijack", "hijacker", "hijacking", "hillbillies", "hindoo", "hiscock", "hitler", "hitlerism", "hitlerist", "hiv", "ho", "hobo", "hodgie", "hoes", "hole", "holestuffer", "homicide", "homo", "homobangers", "homosexual", "honger", "honk", "honkers", "honkey", "honky", "hook", "hooker", "hookers", "hooters", "hore", "hork", "horn", "horney", "horniest", "horny", "horseshit", "hosejob", "hoser", "hostage", "hotdamn", "hotpussy", "hottotrot", "hummer", "husky", "hussy", "hustler", "hymen", "hymie", "iblowu", "idiot", "ikey", "illegal", "incest", "insest", "intercourse", "interracial", "intheass", "inthebuff", "israel", "israeli", "israels", "italiano", "itch", "jackass", "jackoff", "jackshit", "jacktheripper", "jade", "jap", "japanese", "japcrap", "jebus", "jeez", "jerkoff", "jesus", "jesuschrist", "jew", "jewish", "jiga", "jigaboo", "jigg", "jigga", "jiggabo", "jigger", "jiggy", "jihad", "jijjiboo", "jimfish", "jism", "jiz", "jizim", "jizjuice", "jizm", "jizz", "jizzim", "jizzum", "joint", "juggalo", "jugs", "junglebunny", "kaffer", "kaffir", "kaffre", "kafir", "kanake", "kid", "kigger", "kike", "kill", "killed", "killer", "killing", "kills", "kink", "kinky", "kissass", "kkk", "knife", "knockers", "kock", "kondum", "koon", "kotex", "krap", "krappy", "kraut", "kum", "kumbubble", "kumbullbe", "kummer", "kumming", "kumquat", "kums", "kunilingus", "kunnilingus", "kunt", "ky", "kyke", "lactate", "laid", "lapdance", "latin", "lesbain", "lesbayn", "lesbian", "lesbin", "lesbo", "lez", "lezbe", "lezbefriends", "lezbo", "lezz", "lezzo", "liberal", "libido", "licker", "lickme", "lies", "limey", "limpdick", "limy", "lingerie", "liquor", "livesex", "loadedgun", "lolita", "looser", "loser", "lotion", "lovebone", "lovegoo", "lovegun", "lovejuice", "lovemuscle", "lovepistol", "loverocket", "lowlife", "lsd", "lubejob", "lucifer", "luckycammeltoe", "lugan", "lynch", "macaca", "mad", "mafia", "magicwand", "mams", "manhater", "manpaste", "marijuana", "mastabate", "mastabater", "masterbate", "masterblaster", "mastrabator", "masturbate", "masturbating", "mattressprincess", "meatbeatter", "meatrack", "meth", "mexican", "mgger", "mggor", "mickeyfinn", "mideast", "milf", "minority", "mockey", "mockie", "mocky", "mofo", "moky", "moles", "molest", "molestation", "molester", "molestor", "moneyshot", "mooncricket", "mormon", "moron", "moslem", "mosshead", "mothafuck", "mothafucka", "mothafuckaz", "mothafucked", "mothafucker", "mothafuckin", "mothafucking", "mothafuckings", "motherfuck", "motherfucked", "motherfucker", "motherfuckin", "motherfucking", "motherfuckings", "motherlovebone", "muff", "muffdive", "muffdiver", "muffindiver", "mufflikcer", "mulatto", "muncher", "munt", "murder", "murderer", "muslim", "naked", "narcotic", "nasty", "nastybitch", "nastyho", "nastyslut", "nastywhore", "nazi", "necro", "negro", "negroes", "negroid", "negros", "nig", "niger", "nigerian", "nigerians", "nigg", "nigga", "niggah", "niggaracci", "niggard", "niggarded", "niggarding", "niggardliness", "niggardlinesss", "niggardly", "niggards", "niggards", "niggaz", "nigger", "niggerhead", "niggerhole", "niggers", "niggers", "niggle", "niggled", "niggles", "niggling", "nigglings", "niggor", "niggur", "niglet", "nignog", "nigr", "nigra", "nigre", "nip", "nipple", "nipplering", "nittit", "nlgger", "nlggor", "nofuckingway", "nook", "nookey", "nookie", "noonan", "nooner", "nude", "nudger", "nuke", "nutfucker", "nymph", "ontherag", "oral", "orga", "orgasim", "orgasm", "orgies", "orgy", "osama", "paki", "palesimian", "palestinian", "pansies", "pansy", "panti", "panties", "payo", "pearlnecklace", "peck", "pecker", "peckerwood", "pee", "peehole", "pee-pee", "peepshow", "peepshpw", "pendy", "penetration", "peni5", "penile", "penis", "penises", "penthouse", "period", "perv", "phonesex", "phuk", "phuked", "phuking", "phukked", "phukking", "phungky", "phuq", "pi55", "picaninny", "piccaninny", "pickaninny", "piker", "pikey", "piky", "pimp", "pimped", "pimper", "pimpjuic", "pimpjuice", "pimpsimp", "pindick", "piss", "pissed", "pisser", "pisses", "pisshead", "pissin", "pissing", "pissoff", "pistol", "pixie", "pixy", "playboy", "playgirl", "pocha", "pocho", "pocketpool", "pohm", "polack", "pom", "pommie", "pommy", "poo", "poon", "poontang", "poop", "pooper", "pooperscooper", "pooping", "poorwhitetrash", "popimp", "porchmonkey", "porn", "pornflick", "pornking", "porno", "pornography", "pornprincess", "pot", "poverty", "premature", "pric", "prick", "prickhead", "primetime", "propaganda", "pros", "prostitute", "protestant", "pu55i", "pu55y", "pube", "pubic", "pubiclice", "pud", "pudboy", "pudd", "puddboy", "puke", "puntang", "purinapricness", "puss", "pussie", "pussies", "pussy", "pussycat", "pussyeater", "pussyfucker", "pussylicker", "pussylips", "pussylover", "pussypounder", "pusy", "quashie", "queef", "queer", "quickie", "quim", "ra8s", "rabbi", "racial", "racist", "radical", "radicals", "raghead", "randy", "rape", "raped", "raper", "rapist", "rearend", "rearentry", "rectum", "redlight", "redneck", "reefer", "reestie", "refugee", "reject", "remains", "rentafuck", "republican", "rere", "retard", "retarded", "ribbed", "rigger", "rimjob", "rimming", "roach", "robber", "roundeye", "rump", "russki", "russkie", "sadis", "sadom", "samckdaddy", "sandm", "sandnigger", "satan", "scag", "scallywag", "scat", "schlong", "screw", "screwyou", "scrotum", "scum", "semen", "seppo", "servant", "sex", "sexed", "sexfarm", "sexhound", "sexhouse", "sexing", "sexkitten", "sexpot", "sexslave", "sextogo", "sextoy", "sextoys", "sexual", "sexually", "sexwhore", "sexy", "sexymoma", "sexy-slim", "shag", "shaggin", "shagging", "shat", "shav", "shawtypimp", "sheeney", "shhit", "shinola", "shit", "shitcan", "shitdick", "shite", "shiteater", "shited", "shitface", "shitfaced", "shitfit", "shitforbrains", "shitfuck", "shitfucker", "shitfull", "shithapens", "shithappens", "shithead", "shithouse", "shiting", "shitlist", "shitola", "shitoutofluck", "shits", "shitstain", "shitted", "shitter", "shitting", "shitty", "shoot", "shooting", "shortfuck", "showtime", "sick", "sissy", "sixsixsix", "sixtynine", "sixtyniner", "skank", "skankbitch", "skankfuck", "skankwhore", "skanky", "skankybitch", "skankywhore", "skinflute", "skum", "skumbag", "slant", "slanteye", "slapper", "slaughter", "slav", "slave", "slavedriver", "sleezebag", "sleezeball", "slideitin", "slime", "slimeball", "slimebucket", "slopehead", "slopey", "slopy", "slut", "sluts", "slutt", "slutting", "slutty", "slutwear", "slutwhore", "smack", "smackthemonkey", "smut", "snatch", "snatchpatch", "snigger", "sniggered", "sniggering", "sniggers", "sniggers", "sniper", "snot", "snowback", "snownigger", "sob", "sodom", "sodomise", "sodomite", "sodomize", "sodomy", "sonofabitch", "sonofbitch", "sooty", "sos", "soviet", "spaghettibender", "spaghettinigger", "spank", "spankthemonkey", "sperm", "spermacide", "spermbag", "spermhearder", "spermherder", "spic", "spick", "spig", "spigotty", "spik", "spit", "spitter", "splittail", "spooge", "spreadeagle", "spunk", "spunky", "squaw", "stagg", "stiffy", "strapon", "stringer", "stripclub", "stroke", "stroking", "stupid", "stupidfuck", "stupidfucker", "suck", "suckdick", "sucker", "suckme", "suckmyass", "suckmydick", "suckmytit", "suckoff", "suicide", "swallow", "swallower", "swalow", "swastika", "sweetness", "syphilis", "taboo", "taff", "tampon", "tang", "tantra", "tarbaby", "tard", "teat", "terror", "terrorist", "teste", "testicle", "testicles", "thicklips", "thirdeye", "thirdleg", "threesome", "threeway", "timbernigger", "tinkle", "tit", "titbitnipply", "titfuck", "titfucker", "titfuckin", "titjob", "titlicker", "titlover", "tits", "tittie", "titties", "titty", "tnt", "toilet", "tongethruster", "tongue", "tonguethrust", "tonguetramp", "tortur", "torture", "tosser", "towelhead", "trailertrash", "tramp", "trannie", "tranny", "transexual", "transsexual", "transvestite", "triplex", "trisexual", "trojan", "trots", "tuckahoe", "tunneloflove", "turd", "turnon", "twat", "twink", "twinkie", "twobitwhore", "uck", "unfuckable", "upskirt", "uptheass", "upthebutt", "urinary", "urinate", "urine", "usama", "uterus", "vagina", "vaginal", "vatican", "vibr", "vibrater", "vibrator", "vietcong", "violence", "virgin", "virginbreaker", "vomit", "vulva", "wab", "wank", "wanker", "wanking", "waysted", "weapon", "weenie", "weewee", "welcher", "welfare", "wetb", "wetback", "wetspot", "whacker", "whash", "whigger", "whiskey", "whiskeydick", "whiskydick", "whit", "whitenigger", "whites", "whitetrash", "whitey", "whiz", "whop", "whore", "whorefucker", "whorehouse", "wigger", "willie", "williewanker", "willy", "wn", "wog", "womens", "wop", "wtf", "wuss", "wuzzie", "xtc", "xxx", "yankee", "yellowman", "zigabo", "zipperhead"]
@@ -579,7 +579,6 @@ User.find({}).remove(function() {
 							user: "56cb76ecd5b3f4b6be5d7ddb"
 						}],
 						url: 'http://www.mustbebuilt.co.uk/SHU/WAD/wad-wk8-lecture16.html#/step-1',
-						preview: "/api/storage/lectures/56a7d95746b9e7db57417309/preview.png",
 						attachments: [{
 							"loc": "/Applications/XAMPP/xamppfiles/htdocs/Website/UniQA/server/storage/lectures/56a7d95746b9e7db57417309/Application_Demo_Marking_Scheme(1).pdf",
 							"url": "/api/storage/lectures/56a7d95746b9e7db57417309/Application_Demo_Marking_Scheme(1).pdf",
@@ -707,11 +706,11 @@ User.find({}).remove(function() {
 						} else {
 							Session.find({}).remove(function() {
 								Session.create({
-										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
+										createdBy: '56a7d95746b9e7db57417309',
 										_id: '56c87667bcd6f3c431cb8681',
 										lecture: '56c868096bd3f7b730a051f4',
-										startTime: moment.utc([2016, 5, 22, 19, 0, 0]),
-										endTime: moment.utc([2016, 5, 22, 21, 0, 0]),
+										startTime: moment("27-08-2016 14:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
+										endTime: moment("27-08-2016 15:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
 										timeAllowance: 5,
 										modules: [{
 											module: '56cb7c2e7bbe028ebfbe56a2'
@@ -719,10 +718,10 @@ User.find({}).remove(function() {
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
+										createdBy: '56a7d95746b9e7db57417309',
 										lecture: '56d1ca2e4f6973280ce025e6',
-										startTime: moment.utc([2016, 1, 21, 12, 0, 0]),
-										endTime: moment.utc([2016, 1, 21, 14, 0, 0]),
+										startTime: moment("27-08-2016 16:40:00", "DD-MM-YYYY HH:mm:ss").utc(),
+										endTime: moment("27-08-2016 17:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
 										timeAllowance: 20,
 										modules: [{
 											module: '56cb7c2e7bbe028ebfbe56a2'
@@ -730,28 +729,28 @@ User.find({}).remove(function() {
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
+										createdBy: '56a7d95746b9e7db57417309',
 										lecture: '56d1ca2e4f6973280ce025e7',
-										startTime: moment.utc([2016, 1, 22, 12, 0, 0]),
-										endTime: moment.utc([2016, 1, 22, 14, 0, 0]),
+										startTime: moment("27-08-2016 18:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
+										endTime: moment("27-08-2016 19:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
 										timeAllowance: 30,
 										modules: [{
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
+										createdBy: '56a7d95746b9e7db57417309',
 										lecture: '56d1ca2e4f6973280ce025e8',
-										startTime: moment.utc([2016, 1, 24, 12, 0, 0]),
-										endTime: moment.utc([2016, 1, 24, 14, 0, 0]),
+										startTime: moment("27-08-2016 21:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
+										endTime: moment("27-08-2016 22:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
 										timeAllowance: 20,
 										modules: [{
 											module: '56cb7c2e7bbe028ebfbe56a2'
 										}]
 									}, {
-										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
+										createdBy: '56a7d95746b9e7db57417309',
 										lecture: '56c868096bd3f7b730a051f4',
-										startTime: moment.utc([2016, 5, 22, 12, 0, 0]),
-										endTime: moment.utc([2016, 5, 22, 14, 0, 0]),
+										startTime: moment("28-08-2016 14:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
+										endTime: moment("28-08-2016 15:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
 										timeAllowance: 5,
 										feedback: [{
 											comment: "A good lecture, was interesting to see how AJAX works",
@@ -868,19 +867,19 @@ User.find({}).remove(function() {
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
+										createdBy: '56a7d95746b9e7db57417309',
 										lecture: '56c868096bd3f7b730a051f4',
-										startTime: moment.utc([2016, 5, 21, 16, 0, 0]),
-										endTime: moment.utc([2016, 5, 21, 17, 30, 0]),
+										startTime: moment.utc([2016, 8, 21, 16, 0, 0]),
+										endTime: moment.utc([2016, 8, 21, 17, 30, 0]),
 										timeAllowance: 10,
 										modules: [{
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
+										createdBy: '56a7d95746b9e7db57417309',
 										lecture: '56c868096bd3f7b730a051f4',
-										startTime: moment.utc([2016, 5, 22, 10, 0, 0]),
-										endTime: moment.utc([2016, 5, 22, 11, 0, 0]),
+										startTime: moment.utc([2016, 9, 22, 10, 0, 0]),
+										endTime: moment.utc([2016, 9, 22, 11, 0, 0]),
 										timeAllowance: 20,
 										registered: [{
 											user: '56cb76ecd5b3f4b6be5d7def'
@@ -918,10 +917,10 @@ User.find({}).remove(function() {
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
+										createdBy: '56a7d95746b9e7db57417309',
 										lecture: '56d1ca2e4f6973280ce025eb',
-										startTime: moment.utc([2016, 1, 28, 12, 0, 0]),
-										endTime: moment.utc([2016, 1, 28, 14, 0, 0]),
+										startTime: moment.utc([2016, 10, 28, 12, 0, 0]),
+										endTime: moment.utc([2016, 10, 28, 14, 0, 0]),
 										timeAllowance: 20,
 										altAccess: '',
 										modules: [{
@@ -930,25 +929,25 @@ User.find({}).remove(function() {
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
+										createdBy: '56a7d95746b9e7db57417309',
 										lecture: '56d1ca2e4f6973280ce025e7',
-										startTime: moment.utc([2016, 5, 29, 12, 0, 0]),
-										endTime: moment.utc([2016, 5, 29, 14, 0, 0]),
+										startTime: moment.utc([2016, 10, 29, 12, 0, 0]),
+										endTime: moment.utc([2016, 10, 29, 14, 0, 0]),
 										timeAllowance: 30,
 										modules: [{
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
+										createdBy: '56a7d95746b9e7db57417309',
 										lecture: '56d1ca2e4f6973280ce025e7',
-										startTime: moment.utc([2016, 5, 29, 14, 30, 0]),
-										endTime: moment.utc([2016, 5, 29, 16, 0, 0]),
+										startTime: moment.utc([2016, 10, 29, 14, 30, 0]),
+										endTime: moment.utc([2016, 10, 29, 16, 0, 0]),
 										timeAllowance: 30,
 										modules: [{
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
+										createdBy: '56a7d95746b9e7db57417309',
 										lecture: '56d1ca2e4f6973280ce025e7',
 										startTime: moment.utc([2016, 5, 27, 12, 0, 0]),
 										endTime: moment.utc([2016, 5, 27, 14, 0, 0]),
@@ -957,10 +956,10 @@ User.find({}).remove(function() {
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56cb76ecd5b3f4b6be5d7ddb',
+										createdBy: '56a7d95746b9e7db57417309',
 										lecture: '56d1ca2e4f6973280ce025e7',
-										startTime: moment.utc([2016, 5, 28, 12, 0, 0]),
-										endTime: moment.utc([2016, 5, 28, 14, 0, 0]),
+										startTime: moment.utc([2016, 10, 28, 12, 0, 0]),
+										endTime: moment.utc([2016, 10, 28, 14, 0, 0]),
 										timeAllowance: 30,
 										modules: [{
 											module: '56cb7c2e7bbe028ebfbe56a3'

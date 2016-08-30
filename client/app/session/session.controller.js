@@ -25,6 +25,7 @@ angular.module('uniQaApp')
 		//var interval = 100;
 
 		// ping noise on new question
+		// need a new sound here...!
 		var ping = new Audio('assets/fx/drop.mp3');
 
 		// url parameter passed through
@@ -56,8 +57,6 @@ angular.module('uniQaApp')
 		$scope.session = {};
 
 		// scope load for lecture/tutor
-		$scope.lectureHeight = $window.innerHeight;
-		$scope.lectureHeightMarginTop = '-1.4em;';
 		$scope.fullScreenToggle = false;
 		$scope.hideQuestions = false;
 		$scope.presViewSizeMd = 'col-md-9';
@@ -71,63 +70,42 @@ angular.module('uniQaApp')
 				'asker': {
 					'name': 'Joshua Bates'
 				},
-				'question': 'They say that nothing is true, everything is permitted',
+				'question': 'Good find, I need help with building this app, so if you have some spare time, and fancy getting involved, please send me an email at joshua.bates16@gmail.com...',
 				'time': '2016-03-20T20:35:00Z',
 				'anon': false
 			}, {
 				'asker': {
-					'name': '56c86c25099777e930372eb7'
+					'name': 'Joshua Bates'
 				},
-				'question': 'I have been doing this development far too long',
-				'time': '2016-03-20T20:40:00Z',
-				'anon': false
-			}, {
-				'asker': {
-					'name': '56c86c25099777e930372eb7'
-				},
-				'question': 'Infact, it took me like 4 hours to even start on sockets',
+				'question': 'It took me like 4 hours to even start understanding sockets',
 				'time': '2016-03-20T20:50:00Z',
 				'anon': false
 			}, {
 				'asker': {
-					'name': '56a7d95746b9e7db57417309'
+					'name': 'Joshua Bates'
 				},
 				'question': 'SOCKETS!',
 				'time': '2016-02-20T21:16:35Z',
 				'anon': false
 			}, {
 				'asker': {
-					'name': '56a7d95746b9e7db57417309'
+					'name': 'Joshua Bates'
 				},
 				'question': 'And the best thing is, they were built into the framework.',
 				'time': '2016-02-20T21:16:36Z',
 				'anon': false
 			}, {
 				'asker': {
-					'name': '56a7d95746b9e7db57417309'
+					'name': 'Joshua Bates'
 				},
-				'question': 'I mean...',
+				'question': 'Anyway...',
 				'time': '2016-02-20T21:16:36Z',
 				'anon': false
 			}, {
 				'asker': {
 					'name': '56a7d95746b9e7db57417309'
 				},
-				'question': 'Anyway, if you ever feel like your degree was a pain, its because it most likely was.',
-				'time': '2016-02-20T21:16:36Z',
-				'anon': false
-			}, {
-				'asker': {
-					'name': '56a7d95746b9e7db57417309'
-				},
-				'question': 'And as for this blur, I just needed some content filled in behind it. ',
-				'time': '2016-02-20T21:16:36Z',
-				'anon': false
-			}, {
-				'asker': {
-					'name': '56a7d95746b9e7db57417309'
-				},
-				'question': 'Anyway, thanks for taking your time to read this.',
+				'question': 'I just needed some content filled in behind this loading blur. ',
 				'time': '2016-02-20T21:16:36Z',
 				'anon': false
 			}], // needs declaring for use in socket updates
@@ -148,16 +126,8 @@ angular.module('uniQaApp')
 
 		// need to set this id by what gets passed through
 		Session.getOne(sessionid).then(function(res) {
-			// var start = moment(moment(res.startTime).utc() - (res.timeAllowance * _minute)).utc();
-			// var end = moment(moment(res.endTime).utc() + (res.timeAllowance * _minute)).utc();
-			//
-			// // if session isn't between goalposts kick back to session start
-			// if (!($scope.now >= start && $scope.now <= end)) {
-			// 	return $location.url('/session/start');
-			// }
-
 			var lecture = res.lecture;
-			// var groups = res.groups;
+			// var modules = res.modules;
 			var questions = res.questions;
 			var authorCollabs = [];
 			var runtime;
@@ -174,8 +144,6 @@ angular.module('uniQaApp')
 			$scope.session.startTime = res.startTime;
 			$scope.session.endTime = res.endTime;
 
-			// console.info(res);
-
 			// check if user has given feedback already
 			$scope.fedback = _.some(res.feedback, function(feedback) {
 				return feedback.user === me._id;
@@ -183,14 +151,11 @@ angular.module('uniQaApp')
 
 			// get total users expected to register into lecture
 			var expected = 0;
-			_.some(res.groups, function(group) {
+			_.some(res.modules, function(module) {
 				// bad nesting due to dodgy model, needs checking
-				expected += group.group.students.length;
+				expected += module.module.students.length;
 			});
 
-			/*
-			['This bit still needs sorting', 'John Bloomer', 'Fred Durst', 'Bob Ross', 'Jack McClone', 'Chadwick Simpson', 'Jonathon Dickson', 'Alexis Parks', 'Sandra Bates', 'Steve Bates', 'Bob the Dog']
-			*/
 			// for animated loading
 			$timeout(function() {
 				$scope.lecture._id = lecture._id;
@@ -460,28 +425,22 @@ angular.module('uniQaApp')
 			}
 		};
 	})
-	.controller('SessionStartCtrl', function($scope, $window, $timeout, $sce, $interval, socket, Auth, Lecture, Session) {
+	.controller('SessionStartCtrl', function($scope, $window, $timeout, $sce, $interval, socket, Auth, Lecture, Module, Session) {
 		// attach lodash to scope
 		$scope._ = _;
 
 		// attach moment to scope
 		$scope.moment = moment;
 
-		$scope.lectureHeight = '760';
-		$scope.lectureHeightMarginTop = '-1.4em;';
-
-		$scope.lecture = {
-			title: 'Lecture Example',
-			id: 0
-		};
-
 		var me = Auth.getCurrentUser();
 
 		// variables used by countdown...
-
 		$scope.now = moment.utc();
 
-		// console.info(moment(moment.utc()).subtract(1, 'hours'));
+		$scope.submitted = false;
+		// default active
+		$scope.startSessionQuestions = 'success';
+		$scope.startSessionFeedback = 'success';
 
 		var _second = 1000;
 		var _minute = _second * 60;
@@ -489,88 +448,148 @@ angular.module('uniQaApp')
 		var _day = _hour * 24;
 		var interval = 100;
 
-		// need to set this id by what gets passed through
-		Session.getNextFourTutor(me._id).then(function(res) {
-			if (!_.isEmpty(res)) {
-				// take next lecture ordered by mongoose
-				var nextSession = res.shift();
+		// Module.getMyAssocModules({
+		// 	title: $scope.sForm.lecture,
+		// 	createdBy: me._id,
+		// 	page: 1,
+		// 	paginate: 50
+		// }).then(function(res) {
+		// 	console.info(res.result);
+		// 	$scope.myLectures = res.result;
+		// });
 
-				console.info(nextSession);
-
-				$scope.nextLecture = nextSession.lecture;
-				$scope.nextLectureStudentCount = 0;
-
-				_.some(nextSession.groups, function(group) {
-					// bad nesting due to dodgy model, needs checking
-					$scope.nextLectureStudentCount += group.group.students.length;
+		$scope.searchForMyLectures = function(e) {
+			// checking length to see if id has been sent through
+			if (e.keyCode === 13 || e === 'Submit' || e._id) {
+				// form lecture contains the object that can be used when saving
+				// console.info($scope.sForm.lecture);
+			} else {
+				// for no value
+				// $scope.sForm.lecture = $scope.sForm.lecture || '';
+				// console.info($scope.sForm.lecture);
+				Lecture.getForMe({
+					title: $scope.sForm.lecture,
+					createdBy: me._id,
+					page: 1,
+					paginate: 50
+				}).then(function(res) {
+					$scope.myLectures = res.result;
 				});
+			}
+		};
 
-				var authorCollabs = [];
-				var runtime = moment(nextSession.startTime).utc().format('HH:mm') + ' - ' + moment(nextSession.endTime).utc().format('HH:mm');
-
-				authorCollabs.push($scope.nextLecture.author.name); // push author in first
-				// push in collabs
-				for (var i = 0; i < $scope.nextLecture.collaborators.length; i++) {
-					authorCollabs.push($scope.nextLecture.collaborators[i].user.name);
+		$scope.searchForMyModules = function(e) {
+			// console.info(e);
+			// checking length to see if id has been sent through
+			if (e.keyCode === 13 || e === 'Submit' || e._id) {
+				// console.info($scope.myModules);
+				// if name isn't on the list, break out of function
+				if ($scope.myModules.length === 0) {
+					return;
+				} else {
+					// need to either get selected here, or select first
+					if (!($scope.sForm.module instanceof Object)) {
+						if (e === 'Submit') {
+							// gets index of child with active class from typeahead property
+							/*jshint -W109 */
+							$scope.sForm.module = $scope.myModules[angular.element(document.querySelector("[id*='typeahead']")).find('.active').index()];
+						}
+					}
 				}
 
-				$scope.nextLecture.sessionId = nextSession._id;
-				// $scope.lecture.title = $scope.nextLecture.title;
-				// $scope.lecture.desc = $scope.nextLecture.desc;
-				// $scope.lecture.questions = questions;
-				$scope.nextLecture.runTime = runtime;
-				$scope.nextLecture.collaborators = authorCollabs;
-				// $scope.lecture.registered = ['This bit still needs sorting', 'John Bloomer', 'Fred Durst', 'Bob Ross', 'Jack McClone', 'Chadwick Simpson', 'Jonathon Dickson', 'Alexis Parks', 'Sandra Bates', 'Steve Bates', 'Bob the Dog'];
-				// $scope.lecture.expected = 15;
-				$scope.nextLecture.attachments = $scope.nextLecture.attachments;
-
-				// subtract and add the time allowance given either side of the lecture
-				$scope.lectureStart = moment(moment(nextSession.startTime).utc().subtract(1, 'hour') - (nextSession.timeAllowance * _minute));
-				$scope.lectureEnd = moment(moment(nextSession.endTime).utc().subtract(1, 'hour') + (nextSession.timeAllowance * _minute));
-
-				// $scope.timeUntil = ($scope.lectureStart.getMinutes() - res.timeAllowance) - $scope.now;
-				console.info($scope.lectureStart);
-
-				// $scope.timeUntil = $scope.lectureStart - $scope.now;
-
-
-				var timeUntilTimer = $interval(function() {
-					// needed to move the following in so that its always calced,
-					// as tab changing doesn't allow the interval to carry on
-
-					// TEMP FIX. NEEDS REMOVING ONCE TIME IS CORRECTED
-					$scope.now = moment.utc();
-					$scope.timeUntil = $scope.lectureStart - $scope.now;
-
-					// console.info($scope.timeUntil);
-
-
-					$scope.timeUntil = $scope.timeUntil - interval; // does a check every 1/10 of a second, more accurate
-
-					$scope.days = Math.floor($scope.timeUntil / _day); // gets days
-					$scope.hours = Math.floor(($scope.timeUntil % _day) / _hour); // gets hours
-					$scope.minutes = Math.floor(($scope.timeUntil % _hour) / _minute); // gets mins
-					$scope.seconds = Math.floor(($scope.timeUntil % _minute) / _second); // gets seconds
-
-					if ($scope.timeUntil < 0) {
-						$interval.cancel(timeUntilTimer);
-						timeUntilTimer = undefined;
-					}
-				}, interval);
-
-				// kill timer on scope destroy, doesn't implicitly happen.
-				$scope.$on('$destroy', function() {
-					$interval.cancel(timeUntilTimer);
-					timeUntilTimer = undefined;
-				});
-
-				// allows up to 3 sessions to be shown on screen
-				$scope.upcomingSessions = res;
+				// only add if we have a collaborator
+				if ($scope.sForm.module instanceof Object) {
+					$scope.selectedModules.push($scope.sForm.module);
+				}
+				$scope.myModules = [];
+				$scope.sForm.module = '';
 			} else {
-
+				Module.getMyAssocModules({
+					user: me._id,
+					search: $scope.sForm.module
+				}).then(function(res) {
+					// reset before continuing
+					$scope.myModules = [];
+					// filter through myModules here, check against already existing collaborators and only allow them to stay if they don't exist
+					for (var x = 0; x < res.modules.length; x++) {
+						var isIn = false;
+						for (var y = 0; y < $scope.selectedModules.length; y++) {
+							if (res.modules[x]._id === $scope.selectedModules[y]._id) {
+								isIn = true;
+							}
+						}
+						if (!isIn) {
+							$scope.myModules.push(res.modules[x]);
+						}
+					}
+					// console.info($scope.myModules);
+				});
 			}
 
-		});
+		};
+
+		$scope.switchQuestionState = function() {
+			if ($scope.startSessionQuestions === 'success') {
+				$scope.startSessionQuestions = 'default';
+			} else {
+				$scope.startSessionQuestions = 'success';
+			}
+		}
+		$scope.switchFeedbackState = function() {
+			if ($scope.startSessionFeedback === 'success') {
+				$scope.startSessionFeedback = 'default';
+			} else {
+				$scope.startSessionFeedback = 'success';
+			}
+		}
+
+		$scope.createSession = function() {
+			// create session in here
+			$scope.submitted = true;
+
+			if ($scope.sForm.lecture && $scope.sForm.startTime && $scope.sForm.endTime && !_.isEmpty($scope.selectedModules)) {
+				// setup vars to be sent across to API
+				var presModules = [];
+				// push each selected collaborator into array
+				for (var i = 0; i < $scope.selectedModules.length; i++) {
+					presModules.push({
+						module: $scope.selectedModules[i]._id
+					});
+				}
+
+				var data = {
+					createdBy: me._id,
+					lecture: $scope.sForm.lecture._id,
+					startTime: moment.utc($scope.sForm.startTimeMoment).toISOString(),
+					endTime: moment.utc($scope.sForm.endTimeMoment).toISOString(),
+					modules: presModules,
+					timeAllowance: $scope.sForm.allowance
+				};
+
+				Session.createSession({
+						data: data
+					})
+					.then(function(res) {
+						// console.info(res);
+						refreshSessions();
+						$scope.clearSchedForm();
+					})
+					.catch(function(err) {
+						$scope.errors = {};
+
+						console.info(err);
+
+						// Update validity of form fields that match the mongoose errors
+						// angular.forEach(err.errors, function(error, field) {
+						// 	//console.info(form[field]);
+						// 	form[field].$setValidity('mongoose', false);
+						// 	$scope.errors[field] = error.message;
+						// });
+					});
+			}
+		}
+
+		// need function which creates the session, and on success sends the page to the newly created session. Need to block UI input throughout this faze, and show a loading animation
 
 	})
 	.controller('SessionRegisterCtrl', function($scope, $location, Auth, Lecture, Session) {
@@ -606,8 +625,9 @@ angular.module('uniQaApp')
 				var now = moment.utc();
 				var _second = 1000;
 				var _minute = _second * 60;
-				var start = moment(moment(res.startTime).utc().subtract(1, 'hour') - (res.timeAllowance * _minute));
-				var end = moment(moment(res.endTime).utc().subtract(1, 'hour') + (res.timeAllowance * _minute));
+
+				var start = moment(res.startTime) - (res.timeAllowance * _minute);
+				var end = moment(res.endTime) + (res.timeAllowance * _minute);
 
 				// var start = moment(moment(res.startTime).utc() - (res.timeAllowance * _minute)).utc();
 				// var end = moment(moment(res.endTime).utc() + (res.timeAllowance * _minute)).utc();

@@ -88,7 +88,7 @@ exports.index = function(req, res) {
 	var order = 'startTime';
 	var page = 1;
 	var paginate = 10;
-	var now = moment.utc().add(1, "hour").format();
+	var now = moment.utc().format();
 
 	if (req.query) {
 		if (!req.query.author) {
@@ -97,13 +97,12 @@ exports.index = function(req, res) {
 			getAuthor.author = req.query.author
 		}
 		// if set get past, else get future
-		// quick hack on the subtraction method
 		if (req.query.history) {
-			query.startTime = { // used to be endTime, changed to startTime for quicker feedback
+			query.startTime = {
 				$lt: now
 			}
 		} else {
-			query.startTime = { // used to be endTime, changed to startTime for quicker feedback
+			query.startTime = {
 				$gte: now
 			}
 		}
@@ -126,7 +125,6 @@ exports.index = function(req, res) {
 			delete req.query.paginate;
 		}
 	}
-	// console.info(query);
 	Session.find(query)
 		.populate('createdBy')
 		.populate({
@@ -142,7 +140,6 @@ exports.index = function(req, res) {
 		.limit(paginate)
 		.lean()
 		.exec(function(err, sessions) {
-			// console.info(sessions);
 			if (err) {
 				return handleError(res, err);
 			}
@@ -226,10 +223,9 @@ exports.count = function(req, res) {
 };
 
 exports.getNextFourTutor = function(req, res) {
-	// console.info(req.params);
 	Session.find({
 			endTime: {
-				$gt: new Date()
+				$gt: moment.utc().format()
 			}
 		}) // order by startDate asc
 		.populate({

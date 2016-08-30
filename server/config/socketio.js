@@ -44,7 +44,6 @@ module.exports = function(socketio) {
 		// JSON.stringify(JSON.parse(socket),null,2);
 		// console.info(socket.request.client._peername);
 		socket.address = socket.handshake.address !== null ?
-			// socket.request.connection.remoteAddress + ':' + address.port :
 			socket.request.client._peername.address + ':' + socket.request.client._peername.port :
 			process.env.DOMAIN;
 

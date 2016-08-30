@@ -12,7 +12,7 @@
       <a ng-if="isAdmin() && item.admin || isTutor() && item.tutor || isStudent() && item.student" ng-href="{{item.link}}" class="disable-animations">
         <i class="fa fa-{{item.icon}} sidebar-nav-icon" aria-hidden="true"></i>
         <span ng-if="!isNavCollapsed()">{{item.title}}</span>
-        <span ng-if="!isNavCollapsed() && item.badge" class="badge nav-badge">{{item.badge}}</span>
+        <span ng-if="!isNavCollapsed() && item.action" class="badge nav-badge">{{item.action}}</span>
       </a>
     </li>
   </ul>
@@ -23,12 +23,12 @@
         <span ng-if="!isNavCollapsed()" class="username" style="display:inline-block;">{{currentUser().name}}</span>
       </button>
       <ul class="dropdown-menu account-menu" role="menu" style="overflow:hidden;">
-        <li ng-class="{active: isActive('/profile')}">
+        <!-- <li ng-class="{active: isActive('/profile')}">
           <a href="/profile">Account</a>
-        </li>
-        <li ng-class="{active: isActive('/profile/settings')}">
+        </li> -->
+        <!-- <li ng-class="{active: isActive('/profile/settings')}">
           <a href="/profile/settings">Settings</a>
-        </li>
+        </li> -->
         <li>
           <a ng-click="logout()">Logout</a>
         </li>

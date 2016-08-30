@@ -83,16 +83,15 @@ angular.module('uniQaApp')
 			getForMe: function(obj, callback) {
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();
-				var history = obj.historic || null;
-				var order = obj.order || null;
+
 				$http.get('/api/sessions', {
 					params: {
-						createdBy: obj.createdBy,
-						author: obj.author,
-						history: history,
-						order: order,
-						page: obj.page,
-						paginate: obj.paginate
+						createdBy: obj.createdBy || null,
+						author: obj.author || null,
+						history: obj.historic || null,
+						order: obj.order || null //,
+							// page: obj.page,
+							// paginate: obj.paginate
 					}
 				}).success(function(data) {
 					deferred.resolve(data);

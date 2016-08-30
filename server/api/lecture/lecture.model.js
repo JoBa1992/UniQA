@@ -27,11 +27,6 @@ var LectureSchema = new Schema({
 	url: {
 		type: String
 	},
-	preview: {
-		// screenshot file location on server
-		type: String,
-		default: null
-	},
 	attachments: [{
 		url: {
 			type: String

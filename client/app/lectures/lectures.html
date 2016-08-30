@@ -1,31 +1,25 @@
 <div ng-include="'components/page-header/page-header.html'"></div>
 
-<div class="container header-margin-offset">
+<div class="marg-fix header-margin-offset body-min-height">
   <div class="row" ng-repeat="lecture in lectures">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 presentation-view" style="">
-      <a href="#" ng-click="lecture.preview!== null? openPreviewLectureModal(lecture):null" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 visible-sm visible-md visible-lg" style="padding:0;" ng-class="{'lecture-no-preview' : !lecture.preview, 'lecture-preview' : lecture.preview}" ng-mouseenter="lecture.preHover = true" ng-mouseleave="lecture.preHover = false">
-        <h5 ng-if="!lecture.preview" style="width:100%;text-align:center;margin:6.94em 0;">No Preview Available
-          <i style="display:block;margin-top:.4em;" class="fa fa-frown-o fa-2x"></i>
-        </h5>
-        <img ng-if="lecture.preview && !preview.loading" src="{{lecture.preview}}" style="width:248px;height:248px;">
-        <i ng-if="lecture.preview && lecture.preHover" class="fa fa-search-plus fa-5x" style="background-color:rgba(0,0,0,.2);height:100%;width:100%;text-align:center;padding:1.27em 0;top:0;left:0;position:absolute;"></i>
-
-      </a>
-      <div class="col-xs-12 col-sm-6 col-md-8 col-lg-9" style="position:relative;">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="position:relative;">
         <h3 class="" style="margin:.2em 0 0;">{{lecture.title}}
           <a href="#" ng-click="openUpdateModal(lecture._id)" class="text-warning">
             <i class="fa fa-pencil fa"></i>
           </a>
-          <a href="#" ng-if="isMyLecture(lecture.author._id)" ng-click="openDeleteModal(lecture)" class="trash">
-            <i class="fa fa-trash pull-right"></i>
-          </a>
-          <!-- <a href="#" ng-if="!isMyLecture(lecture.author._id)" ng-click="openRequestDeleteLectureModal(lecture)" class="trash">
+          <a href="#" ng-if="isMyLecture(lecture.author._id)" ng-click="openDeleteModal(lecture)" class="trash" style="font-size:.6em;">
             <span class="fa-stack pull-right">
               <i class="fa fa-circle fa-stack-2x"></i>
-              <i class="fa fa-flag fa-stack-1x fa-inverse"></i>
+              <i class="fa fa-trash fa-stack-1x fa-inverse"></i>
             </span>
-            <i class="fa fa-chain-broken pull-right"></i>
-          </a> -->
+          </a>
+          <a href="#" ng-if="!isMyLecture(lecture.author._id)" ng-click="openRequestDeleteLectureModal(lecture)" class="trash" style="font-size:.6em;">
+            <span class="fa-stack pull-right">
+              <i class="fa fa-circle fa-stack-2x"></i>
+              <i class="fa fa-chain-broken fa-stack-1x fa-inverse"></i>
+            </span>
+          </a>
         </h3>
 
         <hr class="lecture-title-hr">

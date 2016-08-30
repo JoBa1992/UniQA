@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="row">
-    <div href="#" class="hidden-xs hidden-sm col-md-2 col-lg-2 lecture-modal-preview" style="padding:0;">
+    <!-- <div href="#" class="hidden-xs hidden-sm col-md-2 col-lg-2 lecture-modal-preview" style="padding:0;">
       <h4 ng-if="!lecture.tempPreview && !preview.loading && !lecture.tempPreview.err">
         <strong>Insert URL for preview</strong>
         <i style="display:block;margin-top:.4em;" class="fa fa-desktop fa-2x"></i>
@@ -12,19 +12,18 @@
         <strong>Could not generate preview</strong>
         <i style="display:block;margin-top:.4em;" class="fa fa-frown-o fa-2x"></i>
       </h4>
-      <!-- PUT IMG HERE -->
       <img ng-if="lecture.tempPreview && !preview.loading" src="{{lecture.tempPreview}}" style="width:396px;height:396px;">
-    </div>
+    </div> -->
     <!-- <div class="form-group col-xs-8 col-sm-6 col-md-3 col-lg-3 col-xs-offset-2 col-sm-offset-3 col-md-offset-0 col-lg-offset-0 pull-left">
       <img src="assets/images/placeholders/uniqa-qr.png" style="border:2px solid #343D48;border-radius:2px;width:100%;" alt="QR Example" class="img-responsive"/>
     </div> -->
-    <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6 pull-right" ng-class="{ 'has-success': form.name.$valid && submitted,'has-error': form.name.$invalid && submitted }">
+    <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6" ng-class="{ 'has-success': form.name.$valid && submitted,'has-error': form.name.$invalid && submitted }">
       <label>Title</label>
       <input type="text" name="name" class="form-control" ng-model="lecture.title" placeholder="My Lecture" autofocus="true" required mongoose-error>
       <p class="help-block" ng-show="form.name.$error.required && submitted">Lecture must have a name</p>
       <p class="help-block" name="titleVal" ng-show="form.name.$error.mongoose">{{ errors.name }}</p>
     </div>
-    <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6 pull-right" ng-class="{ 'has-success': form.createdBy.$valid && submitted,'has-error': form.createdBy.$invalid && submitted }">
+    <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6" style="clear:left;" ng-class="{ 'has-success': form.createdBy.$valid && submitted,'has-error': form.createdBy.$invalid && submitted }">
       <label>Type</label>
       <div class="dropdown reg-dropdown">
         <button class="btn btn-inverse dropdown-toggle form-control" style="text-transform: capitalize;" name="type" ng-model="lecture.type" type="button" data-toggle="dropdown">{{lecture.type}}
@@ -39,7 +38,7 @@
       <p class="help-block" ng-show="form.createdBy.$error.required && submitted">Something was not right there.</p>
       <p class="help-block" name="createdByVal" ng-show="form.createdBy.$error.mongoose">{{ errors.createdBy }}</p>
     </div>
-    <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6 pull-right" ng-if="lecture.type == 'URL'" ng-class="{ 'has-success': form.createdBy.$valid && submitted,'has-error': form.createdBy.$invalid && submitted }">
+    <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6" ng-if="lecture.type == 'URL'" ng-class="{ 'has-success': form.createdBy.$valid && submitted,'has-error': form.createdBy.$invalid && submitted }">
       <label>URL</label>
       <div class="input-group input-group-md">
         <span class="input-group-addon" id="sizing-addon1">http://</span>
@@ -48,13 +47,13 @@
       <p class="help-block" ng-show="form.createdBy.$error.required && submitted">Something was not right there.</p>
       <p class="help-block" name="createdByVal" ng-show="form.createdBy.$error.mongoose">{{ errors.createdBy }}</p>
     </div>
-    <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6 pull-right" ng-class="{ 'has-success': form.desc.$valid && submitted,'has-error': form.desc.$invalid && submitted }">
+    <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-class="{ 'has-success': form.desc.$valid && submitted,'has-error': form.desc.$invalid && submitted }">
       <label>Description</label>
-      <textarea class="form-control" name="desc" rows="2" ng-model="lecture.desc" style="height:{{lectureDescHeight + 'px'}};min-width:100%;max-width:100%;resize: none;" placeholder="An interesting encounter with lecture presentations, looking into the ability to ask questions without interrupting the speakers flow." required mongoose-error></textarea>
+      <textarea class="form-control" name="desc" rows="2" ng-model="lecture.desc" style="height:150px;min-width:100%;max-width:100%;resize: none;" placeholder="An interesting encounter with lecture presentations, looking into the ability to ask questions without interrupting the speakers flow." required mongoose-error></textarea>
       <p class="help-block" ng-show="form.desc.$error.required && submitted">Lecture must have a description</p>
       <p class="help-block" name="descVal" ng-show="form.desc.$error.mongoose">{{ errors.desc }}</p>
     </div>
-    <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right" style="margin-top:.8em;" ng-class="{ 'has-success': form.qActAllowance.$valid && submitted,'has-error': (form.qActAllowance.$invalid && submitted) || (form.qActAllowance < 0) || (form.qActAllowance > 60) }">
+    <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top:.8em;" ng-class="{ 'has-success': form.qActAllowance.$valid && submitted,'has-error': (form.qActAllowance.$invalid && submitted) || (form.qActAllowance < 0) || (form.qActAllowance > 60) }">
       <label>Collaborators</label>
       <div class="input-group">
         <input type="text" class="form-control" placeholder="e.g. Brian Smith" ng-model="lecture.collaborator" typeahead="tutor as tutor.name for tutor in possibleCollaborators | filter:{name:$viewValue} | limitTo:10" typeahead-on-select="searchPossibleCollaborators($item)" ng-keyup="searchPossibleCollaborators($event)">
@@ -76,7 +75,7 @@
       <p class="help-block" ng-show="form.qActAllowance.$error.mongoose">{{ errors.qActAllowance }}</p>
     </div>
     <form>
-      <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right" ng-class="{ 'has-success': form.qActAllowance.$valid && submitted,'has-error': (form.qActAllowance.$invalid && submitted) || (form.qActAllowance < 0) || (form.qActAllowance > 60) }">
+      <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-class="{ 'has-success': form.qActAllowance.$valid && submitted,'has-error': (form.qActAllowance.$invalid && submitted) || (form.qActAllowance < 0) || (form.qActAllowance > 60) }">
         <label>Attachments
           <span style="color:#bbb;">(max: 10 files)</span>
         </label>

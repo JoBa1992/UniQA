@@ -13,7 +13,6 @@ angular.module('uniQaApp')
 				title: 'Start Session',
 				icon: 'play',
 				link: '/session/start',
-				badge: 5,
 				login: true,
 				admin: true,
 				student: false
@@ -31,14 +30,17 @@ angular.module('uniQaApp')
 				login: true,
 				admin: true,
 				student: false
-			}, {
-				title: 'Schedule',
-				icon: 'calendar',
-				link: '/schedule',
-				login: true,
-				admin: true,
-				student: false
-			}, {
+			},
+			// {
+			// 	title: 'Planner',
+			// 	icon: 'calendar',
+			// 	link: '/planner',
+			// 	action: 'y',
+			// 	login: true,
+			// 	admin: true,
+			// 	student: false
+			// },
+			{
 				title: 'Statistics',
 				icon: 'bar-chart',
 				link: '/profile',

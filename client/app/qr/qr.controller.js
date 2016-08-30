@@ -62,8 +62,8 @@ angular.module('uniQaApp')
 								var _second = 1000;
 								var _minute = _second * 60;
 
-								var start = moment(moment(res.startTime).utc().subtract(1, 'hour') - (res.timeAllowance * _minute));
-								var end = moment(moment(res.endTime).utc().subtract(1, 'hour') + (res.timeAllowance * _minute));
+								var start = moment(res.startTime) - (res.timeAllowance * _minute);
+								var end = moment(res.endTime) + (res.timeAllowance * _minute);
 
 								// if session isn't between goalposts kick back to session start
 								if (now >= start && now <= end) {

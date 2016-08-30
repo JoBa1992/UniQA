@@ -32,7 +32,7 @@ var config = require('../../config/environment');
 var router = express.Router();
 
 router.get('/', controller.index);
-router.post('/preview', controller.generatePreview);
+// router.post('/preview', controller.generatePreview);
 router.get('/count', controller.count);
 router.post('/files/:id', upload.any(), controller.attachFiles); // file uploading for lecture
 router.put('/:id', controller.update);

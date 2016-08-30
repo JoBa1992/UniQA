@@ -30,19 +30,25 @@ angular.module('uniQaApp', [
 			})
 			.state('lectMgr', {
 				url: '/lectures',
-				templateUrl: 'app/lectures/tutor.html',
+				templateUrl: 'app/lectures/lectures.html',
 				controller: 'LectureTutCtrl',
 				authenticate: true
 			})
-			.state('userSchedule', {
-				url: '/schedule',
-				templateUrl: 'app/schedule/schedule.html',
-				controller: 'ScheduleCtrl',
-				authenticate: true
-			})
+			// .state('userPlanner', {
+			// 	url: '/planner',
+			// 	templateUrl: 'app/planner/planner.html',
+			// 	controller: 'PlannerCtrl',
+			// 	authenticate: true
+			// })
 			.state('modules', {
 				url: '/modules',
 				templateUrl: 'app/modules/modules.html',
+				controller: 'ModuleCtrl',
+				authenticate: true
+			})
+			.state('moduleItem', {
+				url: '/modules/:id',
+				templateUrl: 'app/modules/module.html',
 				controller: 'ModuleCtrl',
 				authenticate: true
 			})
@@ -147,11 +153,9 @@ angular.module('uniQaApp', [
 							return $location.path('/session/register?m=notExist');
 						}
 					}
-					// var start = moment(moment(res.startTime).utc() - (res.timeAllowance * _minute)).utc();
-					// var end = moment(moment(res.endTime).utc() + (res.timeAllowance * _minute)).utc();
 
-					var start = moment(moment(res.startTime).utc().subtract(1, 'hour') - (res.timeAllowance * _minute));
-					var end = moment(moment(res.endTime).utc().subtract(1, 'hour') + (res.timeAllowance * _minute));
+					var start = moment(res.startTime) - (res.timeAllowance * _minute);
+					var end = moment(res.endTime) + (res.timeAllowance * _minute);
 
 					// if session isn't between goalposts kick back to session start
 					if (!(now >= start && now <= end)) {

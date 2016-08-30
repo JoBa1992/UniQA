@@ -1,4 +1,4 @@
-<div class="container">
+<div class="pad-fix">
   <div class="row schedule-container" style="margin-top:0em;">
     <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 schedule" style="margin-top:-1.34em;padding-bottom:8em;">
       <ul ng-if="!_.isEmpty(mySessions)" class="timeline" style="">
@@ -34,8 +34,8 @@
                   <div>
                     <h5 style="display:inline-block;">Audience:
                     </h5>
-                    <h5 ng-if="_.isEmpty(session.groups)" style="display:inline-block;" class="text-danger">No groups set.</h5>
-                    <h5 ng-if="!_.isEmpty(session.groups)" style="display:inline-block;" ng-repeat="group in session.groups">{{group.group.course}}
+                    <h5 ng-if="_.isEmpty(session.modules)" style="display:inline-block;" class="text-danger">No modules set.</h5>
+                    <h5 ng-if="!_.isEmpty(session.modules)" style="display:inline-block;" ng-repeat="module in session.modules">{{module.module.course}}
                       <span style="padding:0;margin:0;" ng-if="!$last">,&nbsp;</span>
                     </h5>
                   </div>
@@ -136,17 +136,17 @@
           <div class="form-group" ng-class="{ 'has-success': form.qActAllowance.$valid && submitted,'has-error': (form.qActAllowance.$invalid && submitted) || (form.qActAllowance < 0) || (form.qActAllowance > 60) }">
             <label>Present To</label>
             <div class="input-group">
-              <input type="text" class="form-control" ng-model="sForm.group" placeholder="Group Name" typeahead="group as group.course for group in myGroups | filter:{course:$viewValue} | limitTo:10" typeahead-on-select="searchForMyGroups($item)" ng-keyup="searchForMyGroups($event)">
-              <div class="input-group-btn">
-                <button type="button" ng-click="searchForMyGroups('Submit')" class="btn btn-default" style="border-color:#cccccc;">
+              <input type="text" class="form-control" ng-model="sForm.group" placeholder="Module Name" typeahead="module as module.course for module in myModules | filter:{course:$viewValue} | limitTo:10" typeahead-on-select="searchForMyModules($item)" ng-keyup="searchForMyModules($event)">
+              <div class="input-module-btn">
+                <button type="button" ng-click="searchForMyModules('Submit')" class="btn btn-default" style="border-color:#cccccc;">
                   <i class="fa fa-plus"></i>
                 </button>
               </div>
             </div>
             <div style="margin-top:.4em;">
-              <h3 ng-repeat="group in selectedGroups" class="label label-warning" style="display:inline-block;font-size:.9em;margin:.2em .4em .2em 0;padding:.6em;">
-                {{group.course}}
-                <a style="color:#343D48;" href="#" ng-click="removeGroup(group)">
+              <h3 ng-repeat="module in selectedModules" class="label label-warning" style="display:inline-block;font-size:.9em;margin:.2em .4em .2em 0;padding:.6em;">
+                {{module.course}}
+                <a style="color:#343D48;" href="#" ng-click="removeModule(module)">
                   <i class="fa fa-times" style="margin-left:.4em;"></i>
                 </a>
               </h3>
@@ -156,8 +156,8 @@
           </div>
         </div>
         <div class="form-group pull-right" style="margin-top:1em;">
-          <button class="btn btn-default btn-md" ng-click="clearSchedForm()" ng-class="{'disabled': (!sForm.startTime && !sForm.lecture && !sForm.endTime && !sForm.allowance && _.isEmpty(selectedGroups))}" type="button">Clear</button>
-          <button class="btn btn-success btn-md" type="button" ng-class="{'disabled': (!sForm.startTime || !sForm.lecture || !sForm.endTime || !sForm.allowance || _.isEmpty(selectedGroups))}" ng-click="addSchedule()">Add</button>
+          <button class="btn btn-default btn-md" ng-click="clearSchedForm()" ng-class="{'disabled': (!sForm.startTime && !sForm.lecture && !sForm.endTime && !sForm.allowance && _.isEmpty(selectedModules))}" type="button">Clear</button>
+          <button class="btn btn-success btn-md" type="button" ng-class="{'disabled': (!sForm.startTime || !sForm.lecture || !sForm.endTime || !sForm.allowance || _.isEmpty(selectedModules))}" ng-click="addSchedule()">Add</button>
         </div>
       </div>
     </div>

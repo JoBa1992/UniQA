@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uniQaApp')
-	.controller('ModuleCtrl', function($scope, $http, Auth, Module, Modal) {
+	.controller('ModuleCtrl', function($scope, $http, $location, Auth, Module, Modal) {
 		$scope.title = 'Module Management';
 
 
@@ -21,6 +21,10 @@ angular.module('uniQaApp')
 			$scope.count = res.count;
 			$scope.unassigned = res.unassigned;
 		});
+
+		$scope.routeToModuleChild = function(id) {
+			$location.path('/modules/' + id);
+		};
 
 		//
 		$scope.openCreateModal = Modal.create.module(function(module) { // callback when modal is confirmed

@@ -19,7 +19,7 @@ var rmdir = require('rimraf');
 var fs = require('fs');
 var path = require('path');
 var mkdirp = require('mkdirp');
-var Screenshot = require('url-to-screenshot');
+// var Screenshot = require('url-to-screenshot');
 
 function storeFile(id, name, file, cb) {
 	var apiRoute = path.join('/api/storage/lectures/', String(id), '/', name);
@@ -86,21 +86,21 @@ exports.index = function(req, res) {
 		});
 };
 
-exports.generatePreview = function(req, res) {
-	if (req.body.url) {
-		new Screenshot('http://' + req.body.url)
-			.width(968)
-			.height(968)
-			.clip()
-			.capture(function(err, img) {
-				if (err) throw err;
-				res.contentType('image/jpeg');
-				res.end(img.toString('base64'), 'binary');
-			});
-	} else {
-		res.status(400).send('no url sent');
-	}
-};
+// exports.generatePreview = function(req, res) {
+// 	if (req.body.url) {
+// 		new Screenshot('http://' + req.body.url)
+// 			.width(968)
+// 			.height(968)
+// 			.clip()
+// 			.capture(function(err, img) {
+// 				if (err) throw err;
+// 				res.contentType('image/jpeg');
+// 				res.end(img.toString('base64'), 'binary');
+// 			});
+// 	} else {
+// 		res.status(400).send('no url sent');
+// 	}
+// };
 
 exports.count = function(req, res) {
 	Lecture.count({
@@ -216,24 +216,25 @@ exports.create = function(req, res) {
 			// create preview, save server side, update lecture with preview
 			// if lecture has a url, generate a preview
 			if (lecture.url) {
-				new Screenshot(lecture.url)
-					.width(968)
-					.height(968)
-					.clip()
-					.capture(function(err, img) {
-						if (err) throw err;
-						// store other files here
-						storeFile(lecture._id, 'preview.png', img, function(loc) {
-							lecture.preview = loc;
-							lecture.save(function(err) {
-								if (err) {
-									return handleError(res, err);
-								} else {
-									return res.json(lecture);
-								}
-							})
-						});
-					});
+				return res.json(lecture);
+				// new Screenshot(lecture.url)
+				// 	.width(968)
+				// 	.height(968)
+				// 	.clip()
+				// 	.capture(function(err, img) {
+				// 		if (err) throw err;
+				// 		// store other files here
+				// 		storeFile(lecture._id, 'preview.png', img, function(loc) {
+				// 			lecture.preview = loc;
+				// 			lecture.save(function(err) {
+				// 				if (err) {
+				// 					return handleError(res, err);
+				// 				} else {
+				// 					return res.json(lecture);
+				// 				}
+				// 			})
+				// 		});
+				// 	});
 			} else {
 				// else res back straight away
 				return res.status(201).json(lecture);
