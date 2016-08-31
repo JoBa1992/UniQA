@@ -102,7 +102,8 @@ angular.module('uniQaApp')
 		};
 
 		$scope.isActive = function(route) {
-			return route === $location.path();
+			return $location.path().includes(route);
+			//return route === $location.path();
 		};
 
 		$scope.isRoot = function() {

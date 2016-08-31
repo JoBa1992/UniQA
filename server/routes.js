@@ -14,11 +14,9 @@ module.exports = function(app) {
 	app.use('/api/storage', express.static(__dirname + '/storage'));
 
 	// Insert routes below
-	app.use('/api/comments', require('./api/comment'));
 	app.use('/api/things', require('./api/thing'));
 	app.use('/api/users', require('./api/user'));
 	app.use('/api/modules', require('./api/module'));
-	// app.use('/api/departments', require('./api/department'));
 	app.use('/api/lectures', require('./api/lecture'));
 	app.use('/api/sessions', require('./api/session'));
 

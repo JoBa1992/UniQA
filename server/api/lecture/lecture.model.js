@@ -13,10 +13,6 @@ var LectureSchema = new Schema({
 		type: String,
 		required: true
 	},
-	desc: {
-		type: String,
-		default: null
-	},
 	collaborators: [{
 		user: {
 			type: Schema.Types.ObjectId,
@@ -37,10 +33,7 @@ var LectureSchema = new Schema({
 		type: {
 			type: String,
 			default: 'fa-file-o'
-		} //,
-		// desc: {
-		// 	type: String
-		// }
+		}
 	}]
 });
 

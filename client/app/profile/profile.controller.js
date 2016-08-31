@@ -46,9 +46,9 @@ angular.module('uniQaApp')
 					_.some(res, function(session) {
 						session.expected = 0;
 						//session.mostDownloaded; // set to null;
-						_.some(session.groups, function(group) {
+						_.some(session.modules, function(module) {
 							// bad nesting due to dodgy model, needs checking
-							session.expected += group.group.students.length;
+							session.expected += module.module.students.length;
 						});
 
 					});

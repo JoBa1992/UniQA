@@ -8,16 +8,23 @@ var SessionSchema = new Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User'
 	},
+	modules: [{
+		module: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Module'
+		},
+		_id: false
+	}],
 	lecture: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Lecture'
 	},
+	reference: {
+		type: String,
+		default: null
+	},
 	startTime: Date,
 	endTime: Date,
-	started: {
-		type: Boolean,
-		default: false
-	},
 	qr: {
 		url: String,
 		svg: String
@@ -27,12 +34,6 @@ var SessionSchema = new Schema({
 		default: null,
 		max: 6
 	},
-	timeAllowance: {
-		type: Number,
-		min: 0,
-		max: 60,
-		default: 10
-	},
 	registered: [{
 		user: {
 			type: mongoose.Schema.Types.ObjectId,
@@ -40,13 +41,14 @@ var SessionSchema = new Schema({
 		},
 		_id: false
 	}],
-	modules: [{
-		module: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Module'
-		},
-		_id: false
-	}],
+	questionsEnabled: {
+		type: Boolean,
+		default: true
+	},
+	feedbackEnabled: {
+		type: Boolean,
+		default: true
+	},
 	questions: [{
 		asker: {
 			type: mongoose.Schema.Types.ObjectId,

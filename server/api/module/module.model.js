@@ -4,9 +4,12 @@ var mongoose = require('mongoose'),
 	Schema = mongoose.Schema;
 
 var ModuleSchema = new Schema({
-	course: {
-		type: String,
-		required: true
+	// implied _id
+	_id: {
+		type: String
+	},
+	name: {
+		type: String
 	},
 	students: [{
 		user: {
@@ -22,11 +25,6 @@ var ModuleSchema = new Schema({
 		},
 		_id: false
 	}],
-	level: {
-		type: Number,
-		min: 4,
-		max: 7
-	},
 	deleted: {
 		type: Boolean,
 		default: false
