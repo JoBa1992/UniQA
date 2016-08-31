@@ -5,7 +5,6 @@
 
 'use strict';
 
-// var Department = require('../api/department/department.model');
 var Thing = require('../api/thing/thing.model');
 var User = require('../api/user/user.model');
 var Module = require('../api/module/module.model');
@@ -956,11 +955,8 @@ User.find({}).remove(function() {
 														createUniqueAccKey(altAccKeyLen, function(altAccessKey) {
 															session.altAccess = altAccessKey;
 
-															// var url = String('http://' + process.env.DOMAIN + '/qr/register/' + session._id);
 															var url = String('http://uniqa-shu.herokuapp.com/qr/register/' + session._id);
 
-
-															// currently in Sync...? :(
 															var qrSvgString = qrEncoder.imageSync(url, {
 																type: 'svg',
 																ec_level: 'Q',
@@ -968,8 +964,8 @@ User.find({}).remove(function() {
 																margin: 1,
 																size: 4
 															});
-															// REMOVE Inject elements on svg, problem with plugin
 
+															// REMOVE Inject elements on svg, problem with plugin
 															qrSvgString = qrSvgString.replace('<svg xmlns="http://www.w3.org/2000/svg" width="172" height="172" viewBox="0 0 43 43">', "");
 															qrSvgString = qrSvgString.replace('</svg>', "");
 															qrSvgString = qrSvgString.replace('\"', "\'");
@@ -988,7 +984,6 @@ User.find({}).remove(function() {
 													});
 												}
 											});
-											// console.log('finished populating Sessions');
 										});
 									});
 
