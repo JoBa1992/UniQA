@@ -46,6 +46,7 @@ angular.module('uniQaApp')
 					_.some(res, function(session) {
 						session.expected = 0;
 						//session.mostDownloaded; // set to null;
+						console.info(session);
 						_.some(session.modules, function(module) {
 							// bad nesting due to dodgy model, needs checking
 							session.expected += module.module.students.length;

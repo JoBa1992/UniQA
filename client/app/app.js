@@ -43,11 +43,11 @@ angular.module('uniQaApp', [
 			.state('modules', {
 				url: '/modules',
 				templateUrl: 'app/modules/modules.html',
-				controller: 'ModuleCtrl',
+				controller: 'ModulesCtrl',
 				authenticate: true
 			})
 			.state('moduleItem', {
-				url: '/modules/:id',
+				url: '/modules/:moduleid',
 				templateUrl: 'app/modules/module.html',
 				controller: 'ModuleCtrl',
 				authenticate: true

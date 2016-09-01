@@ -26,7 +26,7 @@ angular.module('uniQaApp')
 
 			angular.extend(modalScope, scope);
 
-			var modalTemplate = modalScope.modal.template || 'components/modal/views/modal.html';
+			var modalTemplate = modalScope.modal.template || 'components/modal/views/standard.html';
 			var modalBackdrop = modalScope.modal.backdrop || true;
 
 			return $modal.open({
@@ -45,6 +45,40 @@ angular.module('uniQaApp')
 
 		// Public API here
 		return {
+			option: {
+				module: function(cb) {
+					cb = cb || angular.noop;
+					return function() {
+						var moduleOptionModel, optionResult;
+						// refresh validation on new modal open - remove details
+						$rootScope.me = Auth.getCurrentUser();
+
+						$rootScope.onImportSelect = function(e) {
+							optionResult = 'import';
+							moduleOptionModel.close(e);
+						}
+						$rootScope.onManualSelect = function(e) {
+							optionResult = 'manual';
+							moduleOptionModel.close(e);
+						}
+
+						moduleOptionModel = openModal({
+							modal: {
+								name: 'createrModuleForm',
+								dismissable: true,
+								template: 'components/modal/views/standard.html',
+								form: 'components/modal/views/module/option.html',
+								footer: false,
+								title: 'Select Option...'
+							}
+						}, 'modal-success', 'lg');
+
+						moduleOptionModel.result.then(function() {
+							cb(optionResult);
+						});
+					};
+				}
+			},
 			read: {
 				qr: function(cb) {
 					cb = cb || angular.noop;
@@ -90,10 +124,6 @@ angular.module('uniQaApp')
 						$rootScope.isAdmin = Auth.isAdmin;
 						$rootScope.isStudent = Auth.isStudent;
 
-						// var _second = 1000;
-						// var _minute = _second * 60;
-						// var _hour = _minute * 60;
-						// var _day = _hour * 24;
 						var interval = 100; // for accuracy
 						var getTimer;
 						$rootScope.timer = '0:00:00';
@@ -366,7 +396,6 @@ angular.module('uniQaApp')
 								}]
 							}
 						}, 'modal-primary', 'lg');
-						// });
 					};
 				},
 			},
@@ -477,12 +506,6 @@ angular.module('uniQaApp')
 							$rootScope.uniEmail = val.content[0];
 						});
 
-
-						// $rootScope.showCsvData = function(res) {
-						// 	console.info(res);
-						// 	// console.info("hit success on file upload");
-						// };
-
 						function csvToArray(strData, strDelimiter) {
 							// Check to see if the delimiter is defined. If not,
 							// then default to comma.
@@ -570,7 +593,7 @@ angular.module('uniQaApp')
 							modal: {
 								name: 'createrUserForm',
 								dismissable: true,
-								form: 'components/modal/views/user/import.html',
+								form: 'components/modal/views/module/import.html',
 								title: 'Import Users',
 								buttons: [{
 									classes: 'btn-default',
@@ -836,33 +859,33 @@ angular.module('uniQaApp')
 				module: function(cb) {
 					cb = cb || angular.noop;
 					return function() {
-						var createModal, createdUser;
+						var createModal, createdModule;
 						// refresh validation on new modal open - remove details
-						$rootScope.me = Auth.getCurrentUser();
-						$rootScope.lecture = {
-							startTime: new Date(),
-							endTime: new Date(new Date().getTime() + 60 * 60000),
-							createdBy: $rootScope.me.name,
-							qActAllowance: 10,
-						};
 
-						$rootScope.moduleLevels = [4, 5, 6, 7];
+						// use the Thing service to return back some constants
+						Thing.getByName('userRoles').then(function(val) {
+							$rootScope.roles = val.content;
+							$rootScope.user.role = 'Select Role';
+						});
 
-						// $rootScope.module = {
-						// 	name: '',
-						// 	email: ''
-						// };
+						Thing.getByName('uniEmail').then(function(val) {
+							// add Any to start of array
+							$rootScope.uniEmail = val.content[0];
+						});
 
+						// creates a unique access code everytime the modal is opened.
+						// createUniqueAccessCode();
 						createModal = openModal({
 							modal: {
 								name: 'createrUserForm',
 								dismissable: true,
 								form: 'components/modal/views/module/create.html',
-								title: 'Create Module',
+								title: 'Create User',
 								buttons: [{
 									classes: 'btn-default',
 									text: 'Cancel',
 									click: function(e) {
+										// reset submit state
 										$rootScope.submitted = false;
 										createModal.dismiss(e);
 									}
@@ -871,23 +894,26 @@ angular.module('uniQaApp')
 									text: 'Create',
 									click: function(e, form) {
 										$rootScope.submitted = true;
-										// form.$setPristine();
-										// form.$setValidity();
-										// form.$setUntouched();
-										if ($rootScope.user.role !== 'Select Role' && $rootScope.user.department !== 'Select Department' && $rootScope.user.name && $rootScope.user.email && $rootScope.user.passcode) {
+
+										if ($rootScope.user.role !== 'Select Role' && $rootScope.user.name !== '' && $rootScope.user.email !== '') {
+
+											$rootScope.res.received = false;
 
 											Auth.createUser({
 													user: $rootScope.user
 												})
 												.then(function(res) {
-													createdUser = res.user;
+													$rootScope.res.received = true;
+													// reset submit state
 													$rootScope.submitted = false;
 													form.$setUntouched();
 													form.$setPristine();
+													createdUser = res.user;
 													// user created, close the modal
 													createModal.close(e);
 												})
 												.catch(function(err) {
+													$rootScope.res.received = true;
 													$rootScope.errors = {};
 
 													// Update validity of form fields that match the mongoose errors
@@ -904,7 +930,7 @@ angular.module('uniQaApp')
 						}, 'modal-success', null);
 
 						createModal.result.then(function() {
-							cb(createdUser);
+							cb(createdModule);
 						});
 					};
 				},

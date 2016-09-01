@@ -1,13 +1,11 @@
 'use strict';
 
 angular.module('uniQaApp')
-	.controller('ModulesCtrl', function($scope, $http, $location, Auth, Module, Modal) {
+	.controller('ModuleCtrl', function($scope, $http, $location, $stateParams, Auth, Module, Modal) {
 		$scope.title = 'Module Management';
-
 
 		// Check for when query returns no modules
 		$scope.isEmpty = function(obj) {
-			//   console.info(obj);
 			for (var i in obj) {
 				if (obj.hasOwnProperty(i)) {
 					return false;
@@ -16,9 +14,8 @@ angular.module('uniQaApp')
 			return true;
 		};
 
-		Module.get().then(function(res) {
-			$scope.modules = res.modules;
-			$scope.count = res.count;
+		Module.getByID($stateParams.moduleid).then(function(res) {
+			$scope.module = res;
 			console.info(res);
 		});
 
@@ -26,13 +23,9 @@ angular.module('uniQaApp')
 			$location.path('/modules/' + id);
 		};
 
-		$scope.openCreateModal = Modal.option.module(function(optionResult) {
-			// opens correct model according to last result
-			if (optionResult === 'import') {
-				Modal.import.module(function() {})();
-			} else if (optionResult === 'manual') {
-				Modal.create.module(function() {})();
-			}
+		//
+		$scope.openCreateModal = Modal.create.module(function(module) { // callback when modal is confirmed
+			$scope.modules.push(module);
 		});
 
 		$scope.openUpdateModal = Modal.update.module(function() { // callback when modal is confirmed

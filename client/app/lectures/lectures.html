@@ -26,8 +26,6 @@
         <h5 class="">Author:
           <a href="#" class="text-primary">{{lecture.author.name}}</a>
         </h5>
-        <p style="word-wrap:break-word;">Description:
-          {{lecture.desc}}</p>
         <h5 class="" ng-if="!_.isEmpty(lecture.collaborators)">Collaborators:
           <a href="#" class="text-primary" ng-repeat="collab in lecture.collaborators">{{collab.user.name}}
             <span ng-if="!$last">,</span>

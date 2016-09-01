@@ -466,7 +466,7 @@ User.find({}).remove(function() {
 				deleted: false
 			}, {
 				_id: '6200-02',
-				course: 'Mobile Application Dev',
+				name: 'Mobile Application Dev',
 				students: [{
 					user: '56cb76ecd5b3f4b6be5d7def'
 				}, {
@@ -684,7 +684,6 @@ User.find({}).remove(function() {
 										lecture: '56c868096bd3f7b730a051f4',
 										startTime: moment("27-08-2016 14:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
 										endTime: moment("27-08-2016 15:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
-										timeAllowance: 5,
 										modules: [{
 											module: '56cb7c2e7bbe028ebfbe56a2'
 										}, {
@@ -695,7 +694,6 @@ User.find({}).remove(function() {
 										lecture: '56d1ca2e4f6973280ce025e6',
 										startTime: moment("27-08-2016 16:40:00", "DD-MM-YYYY HH:mm:ss").utc(),
 										endTime: moment("27-08-2016 17:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
-										timeAllowance: 20,
 										modules: [{
 											module: '56cb7c2e7bbe028ebfbe56a2'
 										}, {
@@ -706,7 +704,6 @@ User.find({}).remove(function() {
 										lecture: '56d1ca2e4f6973280ce025e7',
 										startTime: moment("27-08-2016 18:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
 										endTime: moment("27-08-2016 19:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
-										timeAllowance: 30,
 										modules: [{
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
@@ -715,7 +712,6 @@ User.find({}).remove(function() {
 										lecture: '56d1ca2e4f6973280ce025e8',
 										startTime: moment("27-08-2016 21:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
 										endTime: moment("27-08-2016 22:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
-										timeAllowance: 20,
 										modules: [{
 											module: '56cb7c2e7bbe028ebfbe56a2'
 										}]
@@ -724,7 +720,6 @@ User.find({}).remove(function() {
 										lecture: '56c868096bd3f7b730a051f4',
 										startTime: moment("28-08-2016 14:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
 										endTime: moment("28-08-2016 15:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
-										timeAllowance: 5,
 										feedback: [{
 											comment: "A good lecture, was interesting to see how AJAX works",
 											rating: "4",
@@ -844,7 +839,6 @@ User.find({}).remove(function() {
 										lecture: '56c868096bd3f7b730a051f4',
 										startTime: moment.utc([2016, 8, 21, 16, 0, 0]),
 										endTime: moment.utc([2016, 8, 21, 17, 30, 0]),
-										timeAllowance: 10,
 										modules: [{
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
@@ -853,7 +847,6 @@ User.find({}).remove(function() {
 										lecture: '56c868096bd3f7b730a051f4',
 										startTime: moment.utc([2016, 9, 22, 10, 0, 0]),
 										endTime: moment.utc([2016, 9, 22, 11, 0, 0]),
-										timeAllowance: 20,
 										registered: [{
 											user: '56cb76ecd5b3f4b6be5d7def'
 										}, {
@@ -894,7 +887,6 @@ User.find({}).remove(function() {
 										lecture: '56d1ca2e4f6973280ce025eb',
 										startTime: moment.utc([2016, 10, 28, 12, 0, 0]),
 										endTime: moment.utc([2016, 10, 28, 14, 0, 0]),
-										timeAllowance: 20,
 										altAccess: '',
 										modules: [{
 											module: '56cb7c2e7bbe028ebfbe56a2'
@@ -906,7 +898,6 @@ User.find({}).remove(function() {
 										lecture: '56d1ca2e4f6973280ce025e7',
 										startTime: moment.utc([2016, 10, 29, 12, 0, 0]),
 										endTime: moment.utc([2016, 10, 29, 14, 0, 0]),
-										timeAllowance: 30,
 										modules: [{
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
@@ -915,7 +906,6 @@ User.find({}).remove(function() {
 										lecture: '56d1ca2e4f6973280ce025e7',
 										startTime: moment.utc([2016, 10, 29, 14, 30, 0]),
 										endTime: moment.utc([2016, 10, 29, 16, 0, 0]),
-										timeAllowance: 30,
 										modules: [{
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
@@ -924,7 +914,6 @@ User.find({}).remove(function() {
 										lecture: '56d1ca2e4f6973280ce025e7',
 										startTime: moment.utc([2016, 5, 27, 12, 0, 0]),
 										endTime: moment.utc([2016, 5, 27, 14, 0, 0]),
-										timeAllowance: 30,
 										modules: [{
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
@@ -933,7 +922,6 @@ User.find({}).remove(function() {
 										lecture: '56d1ca2e4f6973280ce025e7',
 										startTime: moment.utc([2016, 10, 28, 12, 0, 0]),
 										endTime: moment.utc([2016, 10, 28, 14, 0, 0]),
-										timeAllowance: 30,
 										modules: [{
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
