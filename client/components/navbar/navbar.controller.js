@@ -4,6 +4,7 @@ angular.module('uniQaApp')
 	.controller('NavbarCtrl', function($scope, $location, $stateParams, Auth, Modal) {
 		$scope.isLoggedIn = Auth.isLoggedIn;
 		$scope.isAdmin = Auth.isAdmin;
+		$scope.isTutor = Auth.isTutor;
 		$scope.isStudent = Auth.isStudent;
 		$scope.currentUser = Auth.getCurrentUser;
 		$scope.collapsed = false;
@@ -15,6 +16,7 @@ angular.module('uniQaApp')
 				link: '/session/start',
 				login: true,
 				admin: true,
+				tutor: true,
 				student: false
 			}, {
 				title: 'Modules',
@@ -22,6 +24,7 @@ angular.module('uniQaApp')
 				link: '/modules',
 				login: true,
 				admin: true,
+				tutor: true,
 				student: false
 			}, {
 				title: 'Lectures',
@@ -29,6 +32,7 @@ angular.module('uniQaApp')
 				link: '/lectures',
 				login: true,
 				admin: true,
+				tutor: true,
 				student: false
 			},
 			// {
@@ -46,6 +50,7 @@ angular.module('uniQaApp')
 				link: '/profile',
 				login: true,
 				admin: true,
+				tutor: true,
 				student: false
 			}
 			// , {

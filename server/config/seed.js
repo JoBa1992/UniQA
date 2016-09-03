@@ -95,314 +95,329 @@ Thing.find({}).remove(function() {
 User.find({}).remove(function() {
 	User.create({
 		_id: '56a7d95746b9e7db57417309',
-		role: 'admin',
-		name: 'Joshua Bates',
+		role: 'tutor',
+		forename: 'Joshua',
+		surname: 'Bates',
 		email: 'JoBa@uniqa.co.uk',
 		teachingArea: 'Software Engineering',
 		password: 'Josh1992'
 	}, {
 		_id: '56cb76ebd5b3f4b6be5d7dd4',
-		role: 'admin',
-		name: 'Andrew Dearden',
+		role: 'tutor',
+		forename: 'Andrew',
+		surname: 'Dearden',
 		email: 'ande@shu.ac.uk',
 		teachingArea: 'Software Engineering',
 		password: 'tutor'
 	}, {
 		_id: '56cb76ebd5b3f4b6be5d7dd5',
-		role: 'admin',
-		name: 'Andrew Stratton',
+		role: 'tutor',
+		forename: 'Andrew',
+		surname: 'Stratton',
 		email: 'anst@shu.ac.uk',
 		teachingArea: 'Software Engineering',
 		password: 'tutor'
 	}, {
 		_id: '56cb76ebd5b3f4b6be5d7dd6',
-		role: 'admin',
-		name: 'Mehmet Özcan',
+		role: 'tutor',
+		forename: 'Mehmet',
+		surname: 'Özcan',
 		email: 'meoz@shu.ac.uk',
 		teachingArea: 'Software Engineering',
 		password: 'tutor'
 	}, {
 		_id: '56cb76ebd5b3f4b6be5d7dd7',
-		role: 'admin',
-		name: 'Chris Bates',
+		role: 'tutor',
+		forename: 'Chris',
+		surname: 'Bates',
 		email: 'chba@shu.ac.uk',
 		teachingArea: 'Software Engineering',
 		password: 'tutor'
 	}, {
 		_id: '56cb76ebd5b3f4b6be5d7dd8',
-		role: 'admin',
-		name: "Peter O'Neill",
+		role: 'tutor',
+		forename: "Peter",
+		surname: 'O\'Neill',
 		email: 'peon@shu.ac.uk',
 		teachingArea: 'Software Engineering',
 		password: 'tutor'
 	}, {
 		_id: '56cb76ebd5b3f4b6be5d7dd9',
-		role: 'admin',
-		name: 'Andrew Bisset',
+		role: 'tutor',
+		forename: 'Andrew',
+		surname: 'Bisset',
 		email: 'anbi@shu.ac.uk',
 		teachingArea: 'Software Engineering',
 		password: 'tutor'
 	}, {
 		_id: '56cb76ebd5b3f4b6be5d7dda',
-		role: 'admin',
-		name: 'Ivan Phelan',
+		role: 'tutor',
+		forename: 'Ivan',
+		surname: 'Phelan',
 		email: 'ivph@shu.ac.uk',
 		teachingArea: 'Software Engineering',
 		password: 'tutor'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7ddb',
-		role: 'admin',
-		name: 'Martin Cooper',
+		role: 'tutor',
+		forename: 'Martin',
+		surname: 'Cooper',
 		email: 'maco@shu.ac.uk',
 		teachingArea: 'Software Engineering',
 		password: 'mcooper'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7ddc',
-		role: 'admin',
-		name: 'Adrian Oram',
+		role: 'tutor',
+		forename: 'Adrian',
+		surname: 'Oram',
 		email: 'ador@shu.ac.uk',
 		teachingArea: 'Software Engineering',
 		password: 'tutor'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7ddd',
-		role: 'admin',
-		name: 'Pascale Vacher',
+		role: 'tutor',
+		forename: 'Pascale',
+		surname: 'Vacher',
 		email: 'pava@shu.ac.uk',
 		teachingArea: 'Software Engineering',
 		password: 'tutor'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7dde',
-		role: 'admin',
-		name: 'Mark Featherstone',
+		role: 'tutor',
+		forename: 'Mark',
+		surname: 'Featherstone',
 		email: 'mafe@shu.ac.uk',
 		teachingArea: 'Software Engineering',
 		password: 'tutor'
 	}, {
 		_id: '56c86c25099777e930372eb7',
-		name: 'Test Student',
+		forename: 'Test',
+		surname: 'Student',
 		role: 'student',
 		email: 'student@shu.ac.uk',
-		course: 'Software Engineering',
 		password: 'student'
 	}, {
 		_id: '56a7bf8a800c479155488fcb',
-		name: 'Joshua Bates',
+		forename: 'Joshua',
+		surname: 'Bates',
 		role: 'student',
 		email: 'b2006241@my.shu.ac.uk',
-		course: 'Software Engineering',
 		password: 'password'
 	}, {
 		_id: '56a7bf8a800c479155488fce',
-		name: 'Jonathon Dickson',
-		role: 'student',
-		email: 'b2011327@my.shu.ac.uk',
-		course: 'Software Engineering',
+		forename: 'Jonathon',
+		surname: 'Dickson',
+		role: 'admin',
+		email: 'jd912@uniqa.co.uk',
 		password: 'password'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7ddf',
-		name: 'Jack McGlone',
+		forename: 'Jack',
+		surname: 'McGlone',
 		role: 'student',
 		email: 'jack@shu.ac.uk',
-		course: 'Software Engineering',
 		password: 'password'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7de0',
-		name: 'Chad Simpson',
+		forename: 'Chad',
+		surname: 'Simpson',
 		role: 'student',
 		email: 'chad@shu.ac.uk',
-		course: 'Software Engineering',
 		password: 'password'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7de1',
-		name: 'Daniel Haswell',
+		forename: 'Daniel',
+		surname: 'Haswell',
 		role: 'student',
 		email: 'dan.has@shu.ac.uk',
-		course: 'Software Engineering',
 		password: 'Chad'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7de2',
-		name: 'Elizabeth Athanasiadi',
+		forename: 'Elizabeth',
+		surname: 'Athanasiadi',
 		role: 'student',
 		email: 'liz.ath@shu.ac.uk',
-		course: 'Software Engineering',
 		password: 'Chad'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7de3',
-		name: 'Rowell Heria',
+		forename: 'Rowell',
+		surname: 'Heria',
 		role: 'student',
 		email: 'row.her@shu.ac.uk',
-		course: 'Software Engineering',
 		password: 'Chad'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7de4',
-		name: 'Kyle Bingham',
+		forename: 'Kyle',
+		surname: 'Bingham',
 		role: 'student',
 		email: 'kyl.bin@shu.ac.uk',
-		course: 'Software Engineering',
 		password: 'Chad'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7de5',
-		name: 'Cameron Chalmers',
+		forename: 'Cameron',
+		surname: 'Chalmers',
 		role: 'student',
 		email: 'cam.cha@shu.ac.uk',
-		course: 'Software Engineering',
 		password: 'Chad'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7de6',
-		name: 'Ryan Robinson',
+		forename: 'Ryan',
+		surname: 'Robinson',
 		role: 'student',
 		email: 'rya.rob@shu.ac.uk',
-		course: 'Software Engineering',
 		password: 'Chad'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7de7',
-		name: 'Brandon Murdoch',
+		forename: 'Brandon',
+		surname: 'Murdoch',
 		role: 'student',
 		email: 'bra.mur@shu.ac.uk',
-		course: 'Software Engineering',
 		password: 'Chad'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7de8',
-		name: 'Tom McGurrin',
+		forename: 'Tom',
+		surname: 'McGurrin',
 		role: 'student',
 		email: 'tom.mcg@shu.ac.uk',
-		course: 'Software Engineering',
 		password: 'Chad'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7de9',
-		name: 'Matt Bizley',
+		forename: 'Matt',
+		surname: 'Bizley',
 		role: 'student',
 		email: 'mat.biz@shu.ac.uk',
-		course: 'Software Engineering',
 		password: 'Chad'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7dea',
-		name: 'Latir Cole-Etti',
+		forename: 'Latir',
+		surname: 'Cole-Etti',
 		role: 'student',
 		email: 'lat.col@shu.ac.uk',
-		course: 'Software Engineering',
 		password: 'Chad'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7deb',
-		name: 'Luke Ward',
+		forename: 'Luke',
+		surname: 'Ward',
 		role: 'student',
 		email: 'luk.war@shu.ac.uk',
-		course: 'Software Engineering',
 		password: 'Chad'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7dec',
-		name: 'Shaun Webb',
+		forename: 'Shaun',
+		surname: 'Webb',
 		role: 'student',
 		email: 'sha.web@shu.ac.uk',
-		course: 'Software Engineering',
 		password: 'Chad'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7ded',
-		name: 'Michael Crowther',
+		forename: 'Michael',
+		surname: 'Crowther',
 		role: 'student',
 		email: 'mic.cro@shu.ac.uk',
-		course: 'Software Engineering',
 		password: 'Chad'
 	}, {
 		_id: '56a7afd3259ef46f559880c9',
-		name: 'Alexis Parks',
+		forename: 'Alexis',
+		surname: 'Parks',
 		role: 'student',
 		email: 'ap@shu.ac.uk',
-		course: 'Software Engineering',
 		passcode: 9493265230
 	}, {
 		_id: "56a7886405ab050a54d4eaa5",
-		name: 'Jeff',
+		forename: 'Jeff',
+		surname: '',
 		role: 'student',
 		email: 'jeff@shu.ac.uk',
-		course: 'Computer Science',
 		passcode: 9493265230
 	}, {
 		_id: "56a7886405ab050a54d4eaa6",
-		name: 'Bill Gates',
+		forename: 'Bill',
+		surname: 'Gates',
 		role: 'student',
 		email: 'Bill@shu.ac.uk',
-		course: 'Computer Science',
 		password: 'Bill'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7dee',
-		name: 'Alex',
+		forename: 'Alex',
+		surname: '',
 		role: 'student',
 		email: 'alexs@shu.ac.uk',
-		course: 'Computer Science',
 		passcode: 9493265230
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7def',
-		name: 'Ben Parnell',
-		role: 'tutor',
+		forename: 'Ben',
+		surname: 'Parnell',
+		role: 'admin',
 		email: 'bparnell@uniqa.co.uk',
-		course: 'Computer Science',
 		password: 'password'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7df0',
-		name: 'Jacob Burns',
+		forename: 'Jacob',
+		surname: 'Burns',
 		role: 'student',
 		email: 'ja.bu@shu.ac.uk',
-		course: 'Computer Science',
 		password: 'password'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7df1',
-		name: 'Martin Rushton',
+		forename: 'Martin',
+		surname: 'Rushton',
 		role: 'student',
 		email: 'ma.ru@shu.ac.uk',
-		course: 'Computer Science',
 		password: 'password'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7df2',
-		name: 'Tom Hanson',
+		forename: 'Tom',
+		surname: 'Hanson',
 		role: 'student',
 		email: 'to.ha@shu.ac.uk',
-		course: 'Computer Science',
 		password: 'password'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7df3',
-		name: 'Ehsan Hussain',
+		forename: 'Ehsan',
+		surname: 'Hussain',
 		role: 'student',
 		email: 'eh.hu@shu.ac.uk',
-		course: 'Computer Science',
 		password: 'password'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7df4',
-		name: 'Curtis Bailey',
+		forename: 'Curtis',
+		surname: 'Bailey',
 		role: 'student',
 		email: 'cu.ba@shu.ac.uk',
-		course: 'Computer Science',
 		password: 'password'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7df5',
-		name: 'Akeem Khan',
+		forename: 'Akeem',
+		surname: 'Khan',
 		role: 'student',
 		email: 'ak.kh@shu.ac.uk',
-		course: 'Computer Science',
 		password: 'password'
 	}, {
 		_id: '56cb76edd5b3f4b6be5d7df6',
-		name: 'Henry Rowland',
+		forename: 'Henry',
+		surname: 'Rowland',
 		role: 'student',
 		email: 'he.ro@shu.ac.uk',
-		course: 'Computer Science',
 		password: 'password'
 	}, {
 		_id: '56cb76edd5b3f4b6be5d7df7',
 		role: 'student',
-		name: 'Lee Coddington',
+		forename: 'Lee',
+		surname: 'Coddington',
 		email: 'lcoddington@shu.ac.uk',
 		password: 'password'
 	}, {
 		_id: '56cb76edd5b3f4b6be5d7df8',
 		role: 'student',
-		name: 'Simon Clark',
+		forename: 'Simon',
+		surname: 'Clark',
 		email: 'sclark@shu.ac.uk',
 		password: 'password'
 	}, {
 		_id: '56cb76edd5b3f4b6be5d7df9',
 		role: 'student',
-		name: 'Brian Irwin',
+		forename: 'Brian',
+		surname: 'Irwin',
 		email: 'birwin@shu.ac.uk',
 		password: 'password'
 	}, function() {

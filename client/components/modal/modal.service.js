@@ -45,40 +45,40 @@ angular.module('uniQaApp')
 
 		// Public API here
 		return {
-			option: {
-				module: function(cb) {
-					cb = cb || angular.noop;
-					return function() {
-						var moduleOptionModel, optionResult;
-						// refresh validation on new modal open - remove details
-						$rootScope.me = Auth.getCurrentUser();
-
-						$rootScope.onImportSelect = function(e) {
-							optionResult = 'import';
-							moduleOptionModel.close(e);
-						}
-						$rootScope.onManualSelect = function(e) {
-							optionResult = 'manual';
-							moduleOptionModel.close(e);
-						}
-
-						moduleOptionModel = openModal({
-							modal: {
-								name: 'createrModuleForm',
-								dismissable: true,
-								template: 'components/modal/views/standard.html',
-								form: 'components/modal/views/module/option.html',
-								footer: false,
-								title: 'Select Option...'
-							}
-						}, 'modal-success', 'lg');
-
-						moduleOptionModel.result.then(function() {
-							cb(optionResult);
-						});
-					};
-				}
-			},
+			// option: {
+			// 	module: function(cb) {
+			// 		cb = cb || angular.noop;
+			// 		return function() {
+			// 			var moduleOptionModel, optionResult;
+			// 			// refresh validation on new modal open - remove details
+			// 			$rootScope.me = Auth.getCurrentUser();
+			//
+			// 			$rootScope.onImportSelect = function(e) {
+			// 				optionResult = 'import';
+			// 				moduleOptionModel.close(e);
+			// 			}
+			// 			$rootScope.onManualSelect = function(e) {
+			// 				optionResult = 'manual';
+			// 				moduleOptionModel.close(e);
+			// 			}
+			//
+			// 			moduleOptionModel = openModal({
+			// 				modal: {
+			// 					name: 'createModuleForm',
+			// 					dismissable: true,
+			// 					template: 'components/modal/views/standard.html',
+			// 					form: 'components/modal/views/module/option.html',
+			// 					footer: false,
+			// 					title: 'Select Option...'
+			// 				}
+			// 			}, 'modal-success', 'lg');
+			//
+			// 			moduleOptionModel.result.then(function() {
+			// 				cb(optionResult);
+			// 			});
+			// 		};
+			// 	}
+			// },
 			read: {
 				qr: function(cb) {
 					cb = cb || angular.noop;
@@ -506,80 +506,6 @@ angular.module('uniQaApp')
 							$rootScope.uniEmail = val.content[0];
 						});
 
-						function csvToArray(strData, strDelimiter) {
-							// Check to see if the delimiter is defined. If not,
-							// then default to comma.
-							strDelimiter = (strDelimiter || ',');
-							// Create a regular expression to parse the CSV values.
-							var objPattern = new RegExp((
-								// Delimiters.
-								'(\\' + strDelimiter + '|\\r?\\n|\\r|^)' +
-								// Quoted fields.
-								'(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|' +
-								// Standard fields.
-								'([^\"\\' + strDelimiter + '\\r\\n]*))'), 'gi');
-							// Create an array to hold our data. Give the array
-							// a default empty first row.
-							var arrData = [
-								[]
-							];
-							// Create an array to hold our individual pattern
-							// matching modules.
-							var arrMatches;
-							var strMatchedDelimiter;
-							var strMatchedValue;
-							// Keep looping over the regular expression matches
-							// until we can no longer find a match.
-							/*jshint -W084 */
-							while (arrMatches = objPattern.exec(strData)) {
-								// Get the delimiter that was found.
-								strMatchedDelimiter = arrMatches[1];
-								// Check to see if the given delimiter has a length
-								// (is not the start of string) and if it matches
-								// field delimiter. If id does not, then we know
-								// that this delimiter is a row delimiter.
-								if (strMatchedDelimiter.length && (strMatchedDelimiter !== strDelimiter)) {
-									// Since we have reached a new row of data,
-									// add an empty row to our data array.
-									arrData.push([]);
-								}
-								// Now that we have our delimiter out of the way,
-								// let's check to see which kind of value we
-								// captured (quoted or unquoted).
-								if (arrMatches[2]) {
-									// We found a quoted value. When we capture
-									// this value, unescape any double quotes.
-									strMatchedValue = arrMatches[2].replace(
-										new RegExp('\"\"', 'g'), '\"');
-								} else {
-									// We found a non-quoted value.
-									strMatchedValue = arrMatches[3];
-								}
-								// Now that we have our value string, let's add
-								// it to the data array.
-								arrData[arrData.length - 1].push(strMatchedValue);
-							}
-							// Return the parsed data.
-							return (arrData);
-						}
-
-						function csvToJSON(csv) {
-							var array = csvToArray(csv);
-							var objArray = [];
-							for (var i = 1; i < array.length; i++) {
-								objArray[i - 1] = {};
-								for (var k = 0; k < array[0].length && k < array[i].length; k++) {
-									var key = array[0][k];
-									objArray[i - 1][key] = array[i][k];
-								}
-							}
-
-							var json = JSON.stringify(objArray);
-							var str = json.replace(/},/g, '},\r\n');
-
-							return str;
-						}
-
 						$rootScope.deleteImportableUser = function(userid) {
 							console.info(userid);
 							angular.forEach($rootScope.importUsers, function(u, i) {
@@ -594,7 +520,7 @@ angular.module('uniQaApp')
 								name: 'createrUserForm',
 								dismissable: true,
 								form: 'components/modal/views/module/import.html',
-								title: 'Import Users',
+								title: 'Importing module...',
 								buttons: [{
 									classes: 'btn-default',
 									text: '{{importCancelText}}',
@@ -620,43 +546,7 @@ angular.module('uniQaApp')
 
 											// only access if first success click on this modal
 											if (!$rootScope.importViewData) {
-												$rootScope.res.received = false;
-												var input = $rootScope.dropzone[0].dropzone;
 
-												// if more than 1 file exists
-												if (input.files[1]) {
-													input.files.forEach(function(item) {
-														var reader = new FileReader();
-														reader.onload = function() {
-															// var text = reader.result;
-
-															var usersToImport = JSON.parse(csvToJSON(reader.result));
-															// $rootScope.importUsers = JSON.parse(csvToJSON(reader.result));
-
-															// convert userid into email address
-															for (var user in usersToImport) {
-																usersToImport[user].email = String.fromCharCode(usersToImport[user].id.charCodeAt(0) + 48) + usersToImport[user].id.substring(1, usersToImport[user].id.length);
-																$rootScope.importUsers.push(usersToImport[user]);
-															}
-														};
-
-														reader.readAsText(item);
-													});
-												} else {
-													var reader = new FileReader();
-													reader.onload = function() {
-														// var text = reader.result;
-
-														var usersToImport = JSON.parse(csvToJSON(reader.result));
-														// convert userid into email address
-														for (var user in usersToImport) {
-															usersToImport[user].email = String.fromCharCode(usersToImport[user].id.charCodeAt(0) + 48) + usersToImport[user].id.substring(1, usersToImport[user].id.length);
-															$rootScope.importUsers.push(usersToImport[user]);
-														}
-													};
-
-													reader.readAsText(input.files[0]);
-												}
 												$rootScope.importViewData = true;
 												$rootScope.importCancelText = 'Back';
 												$rootScope.importBtnText = 'Save';
@@ -806,7 +696,6 @@ angular.module('uniQaApp')
 				feedback: function(id, cb) {
 					cb = cb || angular.noop;
 					return function() {
-						// var args = Array.prototype.slice.call(arguments);
 						var session = id;
 
 						var createModal;
@@ -860,27 +749,107 @@ angular.module('uniQaApp')
 					cb = cb || angular.noop;
 					return function() {
 						var createModal, createdModule;
-						// refresh validation on new modal open - remove details
 
-						// use the Thing service to return back some constants
-						Thing.getByName('userRoles').then(function(val) {
-							$rootScope.roles = val.content;
-							$rootScope.user.role = 'Select Role';
-						});
+						$rootScope.me = Auth.getCurrentUser();
 
-						Thing.getByName('uniEmail').then(function(val) {
-							// add Any to start of array
-							$rootScope.uniEmail = val.content[0];
-						});
+						$rootScope.module = {
+							_id: '',
+							name: '',
+							tutor: '',
+							students: ''
+						};
+
+						//
+						// $rootScope.setDropzoneToAvailable = function() {
+						// 	console.info('dragging');
+						// };
+						//
+						// $rootScope.removeDropzoneAvailable = function() {
+						// 	console.info('left');
+						// };
+						$rootScope.importUsers = [];
+						$rootScope.possibleTutors = [];
+						$rootScope.selectedTutors = [];
+
+						$rootScope.removeTutor = function(user) {
+							for (var tutor in $rootScope.selectedTutors) {
+								if ($rootScope.selectedTutors[tutor] === user) {
+									$rootScope.selectedTutors.splice(tutor, 1);
+								}
+							}
+						};
+
+						$rootScope.checkForSubmit = function(e) {
+							// checking length to see if id has been sent through
+							if (e.keyCode === 13 || e === 'Submit' || e._id) {
+
+								// if name isn't on the list, break out of function
+								if ($rootScope.possibleTutors.length === 0) {
+									return;
+								} else {
+									// need to either get selected here, or select first
+									if (!($rootScope.module.tutor instanceof Object)) {
+										if (e === 'Submit') {
+											// gets index of child with active class from typeahead property
+											$rootScope.module.tutor = $rootScope.possibleTutors[angular.element(document.querySelector('[id*=\'typeahead\']')).find('.active').index()];
+										}
+									}
+								}
+
+								// only add if we have a tutor
+								if ($rootScope.module.tutor instanceof Object) {
+									$rootScope.selectedTutors.push($rootScope.module.tutor);
+									$rootScope.selectedTutors.sort(function compare(a, b) {
+										if (a.name < b.name)
+											return -1;
+										if (a.name > b.name)
+											return 1;
+										return 0;
+									});
+								}
+
+								$rootScope.possibleTutors = [];
+								$rootScope.module.tutor = '';
+							}
+						}
+
+						$rootScope.searchPossibleTutors = function(e) {
+							Module.getTutors({
+								user: $rootScope.me._id,
+								search: $rootScope.module.tutor
+							}).then(function(res) {
+								// reset before continuing
+								$rootScope.possibleTutors = [];
+								// filter through possibleTutors here, check against already existing tutors and only allow them to stay if they don't exist
+								for (var x = 0; x < res.length; x++) {
+									var isIn = false;
+									for (var y = 0; y < $rootScope.selectedTutors.length; y++) {
+										if (res[x]._id === $rootScope.selectedTutors[y]._id) {
+											isIn = true;
+										}
+									}
+									if (!isIn && res[x]._id !== $rootScope.me._id) {
+										// only used internally, _id is the only referenced part in module model
+										$rootScope.possibleTutors.push({
+											_id: res[x]._id,
+											name: res[x].forename + ' ' + res[x].surname,
+											email: res[x]._id,
+											role: res[x]._id
+										});
+									}
+									console.info($rootScope.possibleTutors);
+								}
+							});
+						}
 
 						// creates a unique access code everytime the modal is opened.
 						// createUniqueAccessCode();
 						createModal = openModal({
 							modal: {
-								name: 'createrUserForm',
+								name: 'createrModuleForm',
 								dismissable: true,
 								form: 'components/modal/views/module/create.html',
-								title: 'Create User',
+								title: 'Creating module...',
 								buttons: [{
 									classes: 'btn-default',
 									text: 'Cancel',
@@ -927,7 +896,21 @@ angular.module('uniQaApp')
 									}
 								}]
 							}
-						}, 'modal-success', null);
+						}, 'modal-success', 'lg');
+						//
+						// $rootScope.uploadSuccess = function(res) {
+						// 	console.info(res);
+						// 	$rootScope.res.received = true;
+						// 	createModal.close();
+						// };
+						//
+						$rootScope.showCsvData = function(res) {
+							console.info(res);
+							$rootScope.importUsers = res;
+							$timeout(function() {
+								$('.csv-dropzone').focus();
+							});
+						}
 
 						createModal.result.then(function() {
 							cb(createdModule);

@@ -25,15 +25,17 @@ angular.module('uniQaApp')
 		$scope.routeToModuleChild = function(id) {
 			$location.path('/modules/' + id);
 		};
+		$scope.openCreateModal = Modal.create.module(function() {
 
-		$scope.openCreateModal = Modal.option.module(function(optionResult) {
-			// opens correct model according to last result
-			if (optionResult === 'import') {
-				Modal.import.module(function() {})();
-			} else if (optionResult === 'manual') {
-				Modal.create.module(function() {})();
-			}
 		});
+
+		// 	// opens correct model according to last result
+		// 	if (optionResult === 'import') {
+		// 		Modal.import.module(function() {})();
+		// 	} else if (optionResult === 'manual') {
+		//
+		// 	}
+		// });
 
 		$scope.openUpdateModal = Modal.update.module(function() { // callback when modal is confirmed
 			//   $scope.refreshUserList();

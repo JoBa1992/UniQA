@@ -6,6 +6,7 @@
 
 - module management (Josh)
     1.	import method has already been created, but it's done client side. We would probably be better pushing the file to node, let node deal with it and pass us back a data object with the information we want. Then we can send that information back on a create method.
+        -   Need delete file possibility on dropzone
     2.	manual creation method
         -	Need to search for tutors and do a typeahead
         -	Need to think of a way to create students bit by bit
@@ -36,6 +37,18 @@
   4. lecture management page, no restriction to view
   5. no stats page
   6. application constant management page
+
+
+- Need to implement report a problem page (located on footer)
+    1. Clicking button takes user to report issue form
+    2. form auto-generates:
+        - the page where the issue is being reported -> Could be input into URL as part of the navigate process
+        - who is reporting it -> getCurrentUser on the controller
+        - their details about the issue -> user inputted.
+
+
+- About UniQA Page
+    -   General details about the application, and progression/versions etc.
 
 
 - Need to send email to user when user is created via admin creation
@@ -73,12 +86,13 @@
             -   Collaborators can be added against lectures, which will make the lecture show up in the collaborators lecture list.
             -   Lectures only show up in the list if the lecture is created by the logged in tutor, or if the logged in tutor is a collaborator on a lecture.
         -   tutor can update a lecture
-            -   tbc...
+            -   need to be able to add/remove collaborators
+            -   need to be able to add/remove attachments
         -   Tutor can delete a lecture if they've created it
         -   Tutor can unlink a lecture (remove themselves as a collaborator) if they're set as a collaborator
 
     4. Tutor navigates to Start Session page
-            -   tbc...
+        -   tbc...
 
     5. Tutor navigates to Statistics Page
-            -   tbc...
+        -   tbc...

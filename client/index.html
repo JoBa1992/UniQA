@@ -85,6 +85,17 @@
       } catch (ex) {}
     }
   </script>
+  <!-- Stop files from loading/downloading on window drop -->
+  <script>
+    window.addEventListener("dragover", function(e) {
+      e = e || event;
+      e.preventDefault();
+    }, false);
+    window.addEventListener("drop", function(e) {
+      e = e || event;
+      e.preventDefault();
+    }, false);
+  </script>
 
   <!--[if lt IE 9]> <script src="bower_components/es5-shim/es5-shim.js"></script> <script src="bower_components/json3/lib/json3.min.js"></script> <![endif]-->
   <!-- build:js({client,node_modules}) app/vendor.js -->
@@ -139,7 +150,6 @@
   <script src="components/auth/auth.service.js"></script>
   <script src="components/auth/user.service.js"></script>
   <script src="components/contenteditable/contenteditable.directive.js"></script>
-  <script src="components/dropzone/dropzone.controller.js"></script>
   <script src="components/dropzone/dropzone.directive.js"></script>
   <script src="components/ext-svg/ext-svg.directive.js"></script>
   <script src="components/footer/footer.controller.js"></script>

@@ -67,12 +67,16 @@ function createUniqueAccessCode(length, cb) {
  * restriction: 'admin'
  */
 exports.index = function(req, res) {
-	// name checking
-	if (req.query.name)
-		req.query.name = new RegExp(req.query.name, "i");
-	else
-		req.query.name = new RegExp('', "i");
+	var forename, surname;
 
+	// name checking
+	if (req.query.name) {
+		forename = new RegExp(req.query.name, "i");
+		surname = new RegExp(req.query.name, "i");
+	} else {
+		forename = new RegExp('', "i");
+		surname = new RegExp('', "i");
+	}
 	// role checking
 	if (typeof req.query.role === 'string') {
 		req.query.role = [req.query.role];
@@ -81,25 +85,43 @@ exports.index = function(req, res) {
 	}
 
 	// module checking
-	if (!req.query.module)
+	if (!req.query.module) {
 		req.query.module = new RegExp('', "i");
+	}
 
-	User.find({
-			name: req.query.name,
-			role: {
-				$in: req.query.role
-			},
-			//module: req.query.department
-		}, '-salt -hashedPassword')
+	var query = {
+		$or: [{
+			'forename': forename
+		}, {
+			'surname': surname
+		}],
+		role: {
+			$in: req.query.role
+		}
+	}
+
+	User.find(query, '-salt -hashedPassword')
 		.skip((req.query.page - 1) * req.query.paginate)
 		.limit(req.query.paginate)
-		.populate({
-			path: "department",
-			populate: "Department"
-		})
 		.lean()
 		.exec(function(err, users) {
+			console.info(users);
 			if (err) return res.status(500).send(err);
+			if (req.query.getTutors) {
+				// var result;
+				// for (var a = 0; a < users.length; a++) {
+				// 	for (var b = 0; b < users[a]; b++) {
+				//
+				// 		console.info(users[a]);
+				// 		// check that not null from elemMatch,
+				// 		// and user isn't same as logged in user
+				// 		if (users[a] && String(users[a]._id) !== String(req.params.userid)) {
+				// 			result.collaborators.push(users[a]);
+				// 		}
+				// 	}
+				// }
+				return res.status(200).json(users);
+			}
 
 			User.count({
 				name: req.query.name,
@@ -111,7 +133,7 @@ exports.index = function(req, res) {
 				users.forEach(function(user) {
 					user.createdOn = user._id.getTimestamp();
 				});
-				res.status(200).json({
+				return res.status(200).json({
 					result: users,
 					count: count
 				});
