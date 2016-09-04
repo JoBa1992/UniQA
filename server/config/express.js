@@ -31,7 +31,7 @@ module.exports = function(app) {
 	app.use(cookieParser());
 	app.use(passport.initialize());
 	if ('production' === env) {
-		app.use(favicon(path.join(config.root, 'public', 'favicon.ico')));
+		app.use(favicon(path.join(config.root, 'public/assets/favicons', 'favicon-32x32.png')));
 		app.use(express.static(path.join(config.root, 'public')));
 		app.set('appPath', path.join(config.root, 'public'));
 		app.use(morgan('dev'));
