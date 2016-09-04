@@ -5,16 +5,10 @@
 
 
 - module management (Josh)
-    1.	import method has already been created, but it's done client side. We would probably be better pushing the file to node, let node deal with it and pass us back a data object with the information we want. Then we can send that information back on a create method.
-        -   Need delete file possibility on dropzone
-    2.	manual creation method
-        -	Need to search for tutors and do a typeahead
-        -	Need to think of a way to create students bit by bit
-    3.	onSuccess, take tutor to newly created module
-    4.	Add search/filter method to main management screen.
-    5.	Create view for individual module page, which allows user to:
+    1.	Create view for individual module page, which allows user to:
         -	edit
         -	delete module (have to provide module ID name to confirm, like github)
+    2.	Add search/filter method to main management screen.
 
 
 - lecture management (tile/list view)

@@ -11,32 +11,9 @@
 
 var _ = require('lodash');
 var Module = require('./module.model');
+var User = require('../user/user.model');
 
 var fs = require('fs');
-
-// Get list of modules (or limit by querystring)
-exports.index = function(req, res) {
-	var result = {};
-	Module
-		.find(req.query)
-		.populate('students.user')
-		.populate('tutors.user')
-		.lean()
-		.exec(function(err, modules) {
-			if (err) {
-				return handleError(res, err);
-			}
-			result.modules = modules;
-			Module.count({}, function(err, count) {
-				if (err) {
-					return handleError(res, err);
-				}
-				result.count = count;
-				return res.status(200).json(result);
-			});
-
-		});
-};
 
 function csvToArray(strData, strDelimiter) {
 	// Check to see if the delimiter is defined. If not,
@@ -114,57 +91,96 @@ function csvToJSON(csv) {
 
 // Convert Csv file to JSON and pass back
 exports.convertCsvToJSON = function(req, res) {
-	// TODO: do foreach on multiple files, add onto array. Determine whether to split if fullname exists
-	console.info(req.files);
 	var result = [];
+	var invalidFileFlag = false;
 	if (req.files.length > 0) {
 		if (req.files.length > 1) {
 			req.files.forEach(function(item) {
-				// need to forEach here...
-				fs.readFile(req.files[0].path, 'utf8', function(err, data) {
-					if (err) {
-						return res.status(400).send(err);
-					}
-					// console.info(data);
-					result = JSON.parse(csvToJSON(data));
-					// console.info(result);
-					fs.unlink(req.files[0].path);
-					return res.status(200).send(result);
+				if (!invalidFileFlag) {
+					fs.readFile(item.path, 'utf8', function(err, data) {
+						if (err) {
+							return res.status(400).send(err);
+						}
+						var tempStore = JSON.parse(csvToJSON(data));
+						if (!(tempStore[0].id && (tempStore[0].name || (tempStore[0].forename && tempStore[0].surname)))) {
+							fs.unlink(item.path);
+							return invalidFileFlag = true;
+						}
 
-					// console.info(fileRows);
-					// // convert userid into email address
-					// for (var user in fileRows) {
-					// 	fileRows[user].email = String.fromCharCode(fileRows[user].id.charCodeAt(0) + 48) + fileRows[user].id.substring(1, fileRows[user].id.length);
-					// 	result.push(fileRows[user]);
-					// }
-				});
+						for (var x = 0; x < tempStore.length; x++) {
+							result.push({
+								user: tempStore[x].id,
+								course: tempStore[x].course,
+								group: tempStore[x].group,
+								fullName: tempStore[x].name,
+								forename: tempStore[x].forename || tempStore[x].name.split(" ").shift(),
+								surname: tempStore[x].surname || tempStore[x].name.split(" ").pop()
+							});
+						}
+						fs.unlink(item.path);
+						if (item.newId === req.files[req.files.length - 1].newId) {
+							return res.status(200).send(result);
+						}
+
+					});
+				} else {
+					return res.status(400).send('Incorrect data structure');
+				}
 			});
 		} else {
 			fs.readFile(req.files[0].path, 'utf8', function(err, data) {
 				if (err) {
 					return res.status(400).send(err);
 				}
-				// console.info(data);
-				result = JSON.parse(csvToJSON(data));
-				// console.info(result);
+				var tempStore = JSON.parse(csvToJSON(data));
+				if (!(tempStore[0].id && (tempStore[0].name || tempStore[0].fullName || (tempStore[0].forename && tempStore[0].surname)))) {
+					fs.unlink(req.files[0].path);
+					return res.status(400).send('Incorrect data structure');
+				}
+
+				for (var x = 0; x < tempStore.length; x++) {
+					result.push({
+						user: tempStore[x].id,
+						course: tempStore[x].course,
+						group: tempStore[x].group,
+						fullName: tempStore[x].name || tempStore[x].fullName,
+						forename: tempStore[x].forename || tempStore[x].name.split(" ").shift(),
+						surname: tempStore[x].surname || tempStore[x].name.split(" ").pop()
+					});
+				}
 				fs.unlink(req.files[0].path);
 				return res.status(200).send(result);
-				// result = fileRows;
-				// console.info(fileRows);
-				// convert userid into email address
-				// for (var user in fileRows) {
-				// 	fileRows[user].email = String.fromCharCode(fileRows[user].id.charCodeAt(0) + 48) + fileRows[user].id.substring(1, fileRows[user].id.length);
-				// 	result.push(fileRows[user]);
-				// }
 			});
 		}
 	} else {
 		return res.status(400).send('Invalid file');
 	}
-
-
 };
 
+
+// Get list of modules (or limit by querystring)
+exports.index = function(req, res) {
+	var result = {};
+	Module
+		.find(req.query)
+		.populate('students.user')
+		.populate('tutors.user')
+		.lean()
+		.exec(function(err, modules) {
+			if (err) {
+				return handleError(res, err);
+			}
+			result.modules = modules;
+			Module.count({}, function(err, count) {
+				if (err) {
+					return handleError(res, err);
+				}
+				result.count = count;
+				return res.status(200).json(result);
+			});
+
+		});
+};
 
 // Get list of modules with association to user
 exports.getForMe = function(req, res) {
@@ -258,14 +274,72 @@ exports.show = function(req, res) {
 		});
 };
 
-// Creates a new module in the DB.
+// Creates a new module in the DB. Users are checked against the user model,
+// and if they don't exist they're created and referenced back to the created module
 exports.create = function(req, res) {
-	Module.create(req.body, function(err, module) {
-		if (err) {
-			return handleError(res, err);
-		}
-		return res.status(201).json(module);
-	});
+	// hack, but no es6 or spread operator :(
+	var moduleStudents = JSON.parse(JSON.stringify(req.body.students));
+
+	var studentList = [];
+	for (var x = 0; x < moduleStudents.length; x++) {
+		studentList.push(moduleStudents[x].user);
+	}
+
+	User.find({
+			_id: {
+				$in: studentList
+			}
+		})
+		.lean()
+		.exec(function(err, usersWhoExist) {
+			//	loop through usersWhoExist, compare against original array,
+			// and pull out users who exist from original array.
+			for (var x = 0; x < usersWhoExist.length; x++) {
+				for (var y = 0; y < moduleStudents.length; y++) {
+					moduleStudents = moduleStudents.filter(function(user) {
+						return usersWhoExist[x]._id !== moduleStudents[y].user
+					});
+				}
+			}
+
+			var studentsToCreate = [];
+
+			for (var y = 0; y < moduleStudents.length; y++) {
+				if (moduleStudents[y]) {
+					studentsToCreate.push({
+						_id: moduleStudents[y].user,
+						forename: moduleStudents[y].forename,
+						surname: moduleStudents[y].surname,
+						role: 'student'
+					});
+				}
+			}
+
+			// create users who still remain from original request
+			if (!_.isEmpty(moduleStudents)) {
+				User.insertMany(studentsToCreate, function(err, docs) {
+					if (err) {
+						console.info(err);
+					}
+
+					Module.create(req.body, function(err, module) {
+						if (err) {
+							return handleError(res, err);
+						}
+						return res.status(201).json(module);
+					});
+
+				});
+			} else {
+				Module.create(req.body, function(err, module) {
+					if (err) {
+						return handleError(res, err);
+					}
+					return res.status(201).json(module);
+				});
+			}
+
+		});
 };
 
 // Updates an existing module in the DB.

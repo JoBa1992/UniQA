@@ -759,17 +759,24 @@ angular.module('uniQaApp')
 							students: ''
 						};
 
-						//
-						// $rootScope.setDropzoneToAvailable = function() {
-						// 	console.info('dragging');
-						// };
-						//
-						// $rootScope.removeDropzoneAvailable = function() {
-						// 	console.info('left');
-						// };
-						$rootScope.importUsers = [];
+						// with placeholder
+						$rootScope.importUsers = [{
+							user: '01234567',
+							forename: 'John',
+							surname: 'Smith',
+							placeholder: true
+						}];
+
+						$rootScope.formBackdrop = 'static';
+
 						$rootScope.possibleTutors = [];
-						$rootScope.selectedTutors = [];
+						$rootScope.selectedTutors = [{
+							user: $rootScope.me._id,
+							name: $rootScope.me.forename + ' ' + $rootScope.me.surname,
+							email: $rootScope.me.email,
+							role: $rootScope.me.role,
+							currentUser: true
+						}];
 
 						$rootScope.removeTutor = function(user) {
 							for (var tutor in $rootScope.selectedTutors) {
@@ -778,6 +785,41 @@ angular.module('uniQaApp')
 								}
 							}
 						};
+
+						$rootScope.addRowToModuleTable = function() {
+							$rootScope.importUsers.push({
+								user: '01234567',
+								forename: 'John',
+								surname: 'Smith',
+								placeholder: true
+							});
+						}
+						$rootScope.deleteModuleTableRow = function(uid) {
+							$rootScope.importUsers = $rootScope.importUsers.filter(function(item) {
+								return item.user !== uid;
+							});
+							addPlaceholderInIfEmpty();
+						}
+
+						var addPlaceholderInIfEmpty = function() {
+							if (_.isEmpty($rootScope.importUsers)) {
+								$rootScope.importUsers.push({
+									user: '01234567',
+									forename: 'John',
+									surname: 'Smith',
+									placeholder: true
+								});
+							}
+						}
+
+						$rootScope.dissolveIfPlaceholder = function(user, placeholder) {
+							if (placeholder) {
+								user.user = '';
+								user.forename = '';
+								user.surname = '';
+								user.placeholder = false;
+							}
+						}
 
 						$rootScope.checkForSubmit = function(e) {
 							// checking length to see if id has been sent through
@@ -824,20 +866,19 @@ angular.module('uniQaApp')
 								for (var x = 0; x < res.length; x++) {
 									var isIn = false;
 									for (var y = 0; y < $rootScope.selectedTutors.length; y++) {
-										if (res[x]._id === $rootScope.selectedTutors[y]._id) {
+										if (res[x]._id === $rootScope.selectedTutors[y].user) {
 											isIn = true;
 										}
 									}
 									if (!isIn && res[x]._id !== $rootScope.me._id) {
 										// only used internally, _id is the only referenced part in module model
 										$rootScope.possibleTutors.push({
-											_id: res[x]._id,
+											user: res[x]._id,
 											name: res[x].forename + ' ' + res[x].surname,
 											email: res[x]._id,
 											role: res[x]._id
 										});
 									}
-									console.info($rootScope.possibleTutors);
 								}
 							});
 						}
@@ -848,6 +889,7 @@ angular.module('uniQaApp')
 							modal: {
 								name: 'createrModuleForm',
 								dismissable: true,
+								backdrop: $rootScope.formBackdrop,
 								form: 'components/modal/views/module/create.html',
 								title: 'Creating module...',
 								buttons: [{
@@ -856,6 +898,7 @@ angular.module('uniQaApp')
 									click: function(e) {
 										// reset submit state
 										$rootScope.submitted = false;
+										$rootScope.moduleAlreadyExists = false;
 										createModal.dismiss(e);
 									}
 								}, {
@@ -863,21 +906,30 @@ angular.module('uniQaApp')
 									text: 'Create',
 									click: function(e, form) {
 										$rootScope.submitted = true;
+										$rootScope.res.received = false;
 
-										if ($rootScope.user.role !== 'Select Role' && $rootScope.user.name !== '' && $rootScope.user.email !== '') {
+										// filter students for placeholder
+										$rootScope.importUsers = $rootScope.importUsers.filter(function(item) {
+											return item.id !== '01234567' &&
+												item.forename !== 'John' &&
+												item.surname !== 'Smith';
+										});
 
-											$rootScope.res.received = false;
-
-											Auth.createUser({
-													user: $rootScope.user
+										if ($rootScope.module._id !== '' && $rootScope.module.name !== '') {
+											Module.create({
+													_id: $rootScope.module._id,
+													name: $rootScope.module.name,
+													tutors: $rootScope.selectedTutors,
+													students: $rootScope.importUsers
 												})
 												.then(function(res) {
 													$rootScope.res.received = true;
 													// reset submit state
 													$rootScope.submitted = false;
+													$rootScope.moduleAlreadyExists = false;
 													form.$setUntouched();
 													form.$setPristine();
-													createdUser = res.user;
+													createdModule = res;
 													// user created, close the modal
 													createModal.close(e);
 												})
@@ -885,28 +937,48 @@ angular.module('uniQaApp')
 													$rootScope.res.received = true;
 													$rootScope.errors = {};
 
-													// Update validity of form fields that match the mongoose errors
-													angular.forEach(err.errors, function(error, field) {
-														//console.info(form[field]);
-														form[field].$setValidity('mongoose', false);
-														$rootScope.errors[field] = error.message;
-													});
+													// if module already exists
+													if (err.code === 11000) {
+														form['id'].$setValidity('mongoose', false);
+														$rootScope.moduleAlreadyExists = true;
+														// add placeholder back in if empty
+														addPlaceholderInIfEmpty();
+													} else {
+														// Update validity of form fields that match the mongoose errors
+														angular.forEach(err.errors, function(error, field) {
+															form[field].$setValidity('mongoose', false);
+															$rootScope.errors[field] = error.message;
+														});
+													}
 												});
+										} else {
+											$rootScope.res.received = true;
+											$rootScope.errors = {};
+											// add placeholder back in if empty
+											addPlaceholderInIfEmpty();
 										}
 									}
 								}]
 							}
 						}, 'modal-success', 'lg');
-						//
-						// $rootScope.uploadSuccess = function(res) {
-						// 	console.info(res);
-						// 	$rootScope.res.received = true;
-						// 	createModal.close();
-						// };
-						//
+
 						$rootScope.showCsvData = function(res) {
-							console.info(res);
-							$rootScope.importUsers = res;
+							if ($rootScope.importUsers[0].placeholder) {
+								$rootScope.importUsers = [];
+							}
+							for (var y = 0; y < res.length; y++) {
+								var existsAlready = false;
+								for (var x = 0; x < $rootScope.importUsers.length; x++) {
+									if ($rootScope.importUsers[x].user === res[y].user) {
+										existsAlready = true;
+									}
+								}
+								if (!existsAlready) {
+									$rootScope.importUsers.push(res[y]);
+								}
+							}
+							// add placeholder back in if empty
+							addPlaceholderInIfEmpty();
 							$timeout(function() {
 								$('.csv-dropzone').focus();
 							});

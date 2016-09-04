@@ -105,7 +105,6 @@ exports.index = function(req, res) {
 		.limit(req.query.paginate)
 		.lean()
 		.exec(function(err, users) {
-			console.info(users);
 			if (err) return res.status(500).send(err);
 			if (req.query.getTutors) {
 				// var result;

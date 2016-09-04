@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
 
 var LectureSchema = new Schema({
 	author: {
-		type: Schema.Types.ObjectId,
+		type: String,
 		ref: 'User',
 		required: true
 	},
@@ -15,7 +15,7 @@ var LectureSchema = new Schema({
 	},
 	collaborators: [{
 		user: {
-			type: Schema.Types.ObjectId,
+			type: String,
 			ref: 'User'
 		},
 		_id: false

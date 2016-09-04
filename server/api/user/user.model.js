@@ -7,6 +7,7 @@ var crypto = require('crypto');
 var UserSchema = new Schema({
 	_id: {
 		type: String,
+		unique: true,
 		required: true
 	},
 	forename: {
@@ -27,7 +28,6 @@ var UserSchema = new Schema({
 	},
 	email: { // only have an email address if they're a tutor/admin
 		type: String,
-		unique: true,
 		lowercase: true
 	},
 	passcode: {

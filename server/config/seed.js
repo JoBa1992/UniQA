@@ -94,7 +94,7 @@ Thing.find({}).remove(function() {
 
 User.find({}).remove(function() {
 	User.create({
-		_id: '56a7d95746b9e7db57417309',
+		_id: '22006241',
 		role: 'tutor',
 		forename: 'Joshua',
 		surname: 'Bates',
@@ -200,9 +200,7 @@ User.find({}).remove(function() {
 		_id: '56a7bf8a800c479155488fcb',
 		forename: 'Joshua',
 		surname: 'Bates',
-		role: 'student',
-		email: 'b2006241@my.shu.ac.uk',
-		password: 'password'
+		role: 'student'
 	}, {
 		_id: '56a7bf8a800c479155488fce',
 		forename: 'Jonathon',
@@ -214,135 +212,97 @@ User.find({}).remove(function() {
 		_id: '56cb76ecd5b3f4b6be5d7ddf',
 		forename: 'Jack',
 		surname: 'McGlone',
-		role: 'student',
-		email: 'jack@shu.ac.uk',
-		password: 'password'
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7de0',
 		forename: 'Chad',
 		surname: 'Simpson',
-		role: 'student',
-		email: 'chad@shu.ac.uk',
-		password: 'password'
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7de1',
 		forename: 'Daniel',
 		surname: 'Haswell',
-		role: 'student',
-		email: 'dan.has@shu.ac.uk',
-		password: 'Chad'
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7de2',
 		forename: 'Elizabeth',
 		surname: 'Athanasiadi',
-		role: 'student',
-		email: 'liz.ath@shu.ac.uk',
-		password: 'Chad'
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7de3',
 		forename: 'Rowell',
 		surname: 'Heria',
-		role: 'student',
-		email: 'row.her@shu.ac.uk',
-		password: 'Chad'
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7de4',
 		forename: 'Kyle',
 		surname: 'Bingham',
-		role: 'student',
-		email: 'kyl.bin@shu.ac.uk',
-		password: 'Chad'
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7de5',
 		forename: 'Cameron',
 		surname: 'Chalmers',
-		role: 'student',
-		email: 'cam.cha@shu.ac.uk',
-		password: 'Chad'
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7de6',
 		forename: 'Ryan',
 		surname: 'Robinson',
-		role: 'student',
-		email: 'rya.rob@shu.ac.uk',
-		password: 'Chad'
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7de7',
 		forename: 'Brandon',
 		surname: 'Murdoch',
-		role: 'student',
-		email: 'bra.mur@shu.ac.uk',
-		password: 'Chad'
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7de8',
 		forename: 'Tom',
 		surname: 'McGurrin',
-		role: 'student',
-		email: 'tom.mcg@shu.ac.uk',
-		password: 'Chad'
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7de9',
 		forename: 'Matt',
 		surname: 'Bizley',
-		role: 'student',
-		email: 'mat.biz@shu.ac.uk',
-		password: 'Chad'
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7dea',
 		forename: 'Latir',
 		surname: 'Cole-Etti',
-		role: 'student',
-		email: 'lat.col@shu.ac.uk',
-		password: 'Chad'
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7deb',
 		forename: 'Luke',
 		surname: 'Ward',
-		role: 'student',
-		email: 'luk.war@shu.ac.uk',
-		password: 'Chad'
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7dec',
 		forename: 'Shaun',
 		surname: 'Webb',
-		role: 'student',
-		email: 'sha.web@shu.ac.uk',
-		password: 'Chad'
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7ded',
 		forename: 'Michael',
 		surname: 'Crowther',
-		role: 'student',
-		email: 'mic.cro@shu.ac.uk',
-		password: 'Chad'
+		role: 'student'
 	}, {
 		_id: '56a7afd3259ef46f559880c9',
 		forename: 'Alexis',
 		surname: 'Parks',
-		role: 'student',
-		email: 'ap@shu.ac.uk',
-		passcode: 9493265230
+		role: 'student'
 	}, {
 		_id: "56a7886405ab050a54d4eaa5",
 		forename: 'Jeff',
 		surname: '',
-		role: 'student',
-		email: 'jeff@shu.ac.uk',
-		passcode: 9493265230
+		role: 'student'
 	}, {
 		_id: "56a7886405ab050a54d4eaa6",
 		forename: 'Bill',
 		surname: 'Gates',
-		role: 'student',
-		email: 'Bill@shu.ac.uk',
-		password: 'Bill'
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7dee',
 		forename: 'Alex',
 		surname: '',
-		role: 'student',
-		email: 'alexs@shu.ac.uk',
-		passcode: 9493265230
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7def',
 		forename: 'Ben',
@@ -354,72 +314,52 @@ User.find({}).remove(function() {
 		_id: '56cb76ecd5b3f4b6be5d7df0',
 		forename: 'Jacob',
 		surname: 'Burns',
-		role: 'student',
-		email: 'ja.bu@shu.ac.uk',
-		password: 'password'
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7df1',
 		forename: 'Martin',
 		surname: 'Rushton',
-		role: 'student',
-		email: 'ma.ru@shu.ac.uk',
-		password: 'password'
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7df2',
 		forename: 'Tom',
 		surname: 'Hanson',
-		role: 'student',
-		email: 'to.ha@shu.ac.uk',
-		password: 'password'
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7df3',
 		forename: 'Ehsan',
 		surname: 'Hussain',
-		role: 'student',
-		email: 'eh.hu@shu.ac.uk',
-		password: 'password'
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7df4',
 		forename: 'Curtis',
 		surname: 'Bailey',
 		role: 'student',
-		email: 'cu.ba@shu.ac.uk',
-		password: 'password'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7df5',
 		forename: 'Akeem',
 		surname: 'Khan',
 		role: 'student',
-		email: 'ak.kh@shu.ac.uk',
-		password: 'password'
 	}, {
 		_id: '56cb76edd5b3f4b6be5d7df6',
 		forename: 'Henry',
 		surname: 'Rowland',
 		role: 'student',
-		email: 'he.ro@shu.ac.uk',
-		password: 'password'
 	}, {
 		_id: '56cb76edd5b3f4b6be5d7df7',
-		role: 'student',
 		forename: 'Lee',
 		surname: 'Coddington',
-		email: 'lcoddington@shu.ac.uk',
-		password: 'password'
+		role: 'student'
 	}, {
 		_id: '56cb76edd5b3f4b6be5d7df8',
-		role: 'student',
 		forename: 'Simon',
 		surname: 'Clark',
-		email: 'sclark@shu.ac.uk',
-		password: 'password'
+		role: 'student'
 	}, {
 		_id: '56cb76edd5b3f4b6be5d7df9',
-		role: 'student',
 		forename: 'Brian',
 		surname: 'Irwin',
-		email: 'birwin@shu.ac.uk',
-		password: 'password'
+		role: 'student'
 	}, function() {
 		// console.log('finished populating users');
 		Module.find({}).remove(function() {
@@ -468,7 +408,7 @@ User.find({}).remove(function() {
 					user: '56cb76edd5b3f4b6be5d7df9'
 				}],
 				tutors: [{
-					user: '56a7d95746b9e7db57417309'
+					user: '22006241'
 				}, {
 					user: '56cb76ebd5b3f4b6be5d7dd4'
 				}, {
@@ -521,7 +461,7 @@ User.find({}).remove(function() {
 						title: "WAD Week 1",
 						desc: "Descriptive element for WAD no1",
 						collaborators: [{
-							user: '56a7d95746b9e7db57417309'
+							user: '22006241'
 						}],
 						url: '',
 						attachments: []
@@ -530,7 +470,7 @@ User.find({}).remove(function() {
 						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "WAD Week 2",
 						collaborators: [{
-							user: '56a7d95746b9e7db57417309'
+							user: '22006241'
 						}],
 						url: '',
 						attachments: []
@@ -539,7 +479,7 @@ User.find({}).remove(function() {
 						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "WAD Week 3",
 						collaborators: [{
-							user: '56a7d95746b9e7db57417309'
+							user: '22006241'
 						}],
 						url: '',
 						attachments: []
@@ -548,7 +488,7 @@ User.find({}).remove(function() {
 						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "WAD Week 4",
 						collaborators: [{
-							user: '56a7d95746b9e7db57417309'
+							user: '22006241'
 						}],
 						url: '',
 						attachments: []
@@ -557,7 +497,7 @@ User.find({}).remove(function() {
 						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "WAD Week 5",
 						collaborators: [{
-							user: '56a7d95746b9e7db57417309'
+							user: '22006241'
 						}],
 						url: '',
 						attachments: []
@@ -566,7 +506,7 @@ User.find({}).remove(function() {
 						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "WAD Week 6",
 						collaborators: [{
-							user: '56a7d95746b9e7db57417309'
+							user: '22006241'
 						}],
 						url: '',
 						attachments: []
@@ -575,20 +515,20 @@ User.find({}).remove(function() {
 						title: "WAD Week 7"
 					}, {
 						_id: "56c868096bd3f7b730a051f4",
-						author: '56a7d95746b9e7db57417309',
+						author: '22006241',
 						title: "WAD Week 8",
 						collaborators: [{
 							user: "56cb76ecd5b3f4b6be5d7ddb"
 						}],
 						url: 'http://www.mustbebuilt.co.uk/SHU/WAD/wad-wk8-lecture16.html#/step-1',
 						attachments: [{
-							"loc": "/Applications/XAMPP/xamppfiles/htdocs/Website/UniQA/server/storage/lectures/56a7d95746b9e7db57417309/Application_Demo_Marking_Scheme(1).pdf",
-							"url": "/api/storage/lectures/56a7d95746b9e7db57417309/Application_Demo_Marking_Scheme(1).pdf",
+							"loc": "/Applications/XAMPP/xamppfiles/htdocs/Website/UniQA/server/storage/lectures/22006241/Application_Demo_Marking_Scheme(1).pdf",
+							"url": "/api/storage/lectures/22006241/Application_Demo_Marking_Scheme(1).pdf",
 							"_id": "5702d39c4826bef0959ebadf",
 							"type": "file-pdf"
 						}, {
-							"loc": "/Applications/XAMPP/xamppfiles/htdocs/Website/UniQA/server/storage/lectures/56a7d95746b9e7db57417309/childcare_proof.pdf",
-							"url": "/api/storage/lectures/56a7d95746b9e7db57417309/childcare_proof.pdf",
+							"loc": "/Applications/XAMPP/xamppfiles/htdocs/Website/UniQA/server/storage/lectures/22006241/childcare_proof.pdf",
+							"url": "/api/storage/lectures/22006241/childcare_proof.pdf",
 							"_id": "5702d39c4826bef0959ebade",
 							"type": "file-pdf"
 						}],
@@ -596,7 +536,7 @@ User.find({}).remove(function() {
 						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "WAD Week 9",
 						collaborators: [{
-							user: '56a7d95746b9e7db57417309'
+							user: '22006241'
 						}],
 						url: '',
 						attachments: []
@@ -604,7 +544,7 @@ User.find({}).remove(function() {
 						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "MAD No1",
 						collaborators: [{
-							user: '56a7d95746b9e7db57417309'
+							user: '22006241'
 						}],
 						url: '',
 						attachments: []
@@ -612,7 +552,7 @@ User.find({}).remove(function() {
 						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "CSSD No1",
 						collaborators: [{
-							user: '56a7d95746b9e7db57417309'
+							user: '22006241'
 						}],
 						url: '',
 						attachments: []
@@ -620,7 +560,7 @@ User.find({}).remove(function() {
 						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "CSSD No2",
 						collaborators: [{
-							user: '56a7d95746b9e7db57417309'
+							user: '22006241'
 						}],
 						url: '',
 						attachments: []
@@ -628,7 +568,7 @@ User.find({}).remove(function() {
 						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "CSSD No3",
 						collaborators: [{
-							user: '56a7d95746b9e7db57417309'
+							user: '22006241'
 						}],
 						url: '',
 						attachments: []
@@ -636,7 +576,7 @@ User.find({}).remove(function() {
 						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "MAD No2",
 						collaborators: [{
-							user: '56a7d95746b9e7db57417309'
+							user: '22006241'
 						}],
 						url: '',
 						attachments: []
@@ -647,13 +587,13 @@ User.find({}).remove(function() {
 						url: '',
 						attachments: []
 					}, {
-						author: '56a7d95746b9e7db57417309',
+						author: '22006241',
 						title: "UniQA - Week 1",
 						collaborators: [],
 						url: '',
 						attachments: []
 					}, {
-						author: '56a7d95746b9e7db57417309',
+						author: '22006241',
 						title: "UniQA - Week 2",
 						collaborators: [],
 						url: '',
@@ -694,7 +634,7 @@ User.find({}).remove(function() {
 						} else {
 							Session.find({}).remove(function() {
 								Session.create({
-										createdBy: '56a7d95746b9e7db57417309',
+										createdBy: '22006241',
 										_id: '56c87667bcd6f3c431cb8681',
 										lecture: '56c868096bd3f7b730a051f4',
 										startTime: moment("27-08-2016 14:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
@@ -705,7 +645,7 @@ User.find({}).remove(function() {
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56a7d95746b9e7db57417309',
+										createdBy: '22006241',
 										lecture: '56d1ca2e4f6973280ce025e6',
 										startTime: moment("27-08-2016 16:40:00", "DD-MM-YYYY HH:mm:ss").utc(),
 										endTime: moment("27-08-2016 17:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
@@ -715,7 +655,7 @@ User.find({}).remove(function() {
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56a7d95746b9e7db57417309',
+										createdBy: '22006241',
 										lecture: '56d1ca2e4f6973280ce025e7',
 										startTime: moment("27-08-2016 18:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
 										endTime: moment("27-08-2016 19:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
@@ -723,7 +663,7 @@ User.find({}).remove(function() {
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56a7d95746b9e7db57417309',
+										createdBy: '22006241',
 										lecture: '56d1ca2e4f6973280ce025e8',
 										startTime: moment("27-08-2016 21:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
 										endTime: moment("27-08-2016 22:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
@@ -731,7 +671,7 @@ User.find({}).remove(function() {
 											module: '56cb7c2e7bbe028ebfbe56a2'
 										}]
 									}, {
-										createdBy: '56a7d95746b9e7db57417309',
+										createdBy: '22006241',
 										lecture: '56c868096bd3f7b730a051f4',
 										startTime: moment("28-08-2016 14:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
 										endTime: moment("28-08-2016 15:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
@@ -850,7 +790,7 @@ User.find({}).remove(function() {
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56a7d95746b9e7db57417309',
+										createdBy: '22006241',
 										lecture: '56c868096bd3f7b730a051f4',
 										startTime: moment.utc([2016, 8, 21, 16, 0, 0]),
 										endTime: moment.utc([2016, 8, 21, 17, 30, 0]),
@@ -858,7 +798,7 @@ User.find({}).remove(function() {
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56a7d95746b9e7db57417309',
+										createdBy: '22006241',
 										lecture: '56c868096bd3f7b730a051f4',
 										startTime: moment.utc([2016, 9, 22, 10, 0, 0]),
 										endTime: moment.utc([2016, 9, 22, 11, 0, 0]),
@@ -898,7 +838,7 @@ User.find({}).remove(function() {
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56a7d95746b9e7db57417309',
+										createdBy: '22006241',
 										lecture: '56d1ca2e4f6973280ce025eb',
 										startTime: moment.utc([2016, 10, 28, 12, 0, 0]),
 										endTime: moment.utc([2016, 10, 28, 14, 0, 0]),
@@ -909,7 +849,7 @@ User.find({}).remove(function() {
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56a7d95746b9e7db57417309',
+										createdBy: '22006241',
 										lecture: '56d1ca2e4f6973280ce025e7',
 										startTime: moment.utc([2016, 10, 29, 12, 0, 0]),
 										endTime: moment.utc([2016, 10, 29, 14, 0, 0]),
@@ -917,7 +857,7 @@ User.find({}).remove(function() {
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56a7d95746b9e7db57417309',
+										createdBy: '22006241',
 										lecture: '56d1ca2e4f6973280ce025e7',
 										startTime: moment.utc([2016, 10, 29, 14, 30, 0]),
 										endTime: moment.utc([2016, 10, 29, 16, 0, 0]),
@@ -925,7 +865,7 @@ User.find({}).remove(function() {
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56a7d95746b9e7db57417309',
+										createdBy: '22006241',
 										lecture: '56d1ca2e4f6973280ce025e7',
 										startTime: moment.utc([2016, 5, 27, 12, 0, 0]),
 										endTime: moment.utc([2016, 5, 27, 14, 0, 0]),
@@ -933,7 +873,7 @@ User.find({}).remove(function() {
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56a7d95746b9e7db57417309',
+										createdBy: '22006241',
 										lecture: '56d1ca2e4f6973280ce025e7',
 										startTime: moment.utc([2016, 10, 28, 12, 0, 0]),
 										endTime: moment.utc([2016, 10, 28, 14, 0, 0]),

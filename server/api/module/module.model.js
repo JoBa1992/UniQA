@@ -13,14 +13,14 @@ var ModuleSchema = new Schema({
 	},
 	students: [{
 		user: {
-			type: mongoose.Schema.Types.ObjectId,
+			type: String,
 			ref: 'User'
 		},
 		_id: false
 	}],
 	tutors: [{
 		user: {
-			type: mongoose.Schema.Types.ObjectId,
+			type: String,
 			ref: 'User',
 		},
 		_id: false

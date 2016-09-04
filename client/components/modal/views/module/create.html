@@ -1,82 +1,42 @@
-<div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,'has-error': form.name.$invalid && submitted }">
+<div class="form-group" ng-class="{ 'has-success': form.id.$valid && submitted,'has-error': form.id.$invalid && submitted }">
   <label>Module ID</label>
-  <input type="text" name="name" class="form-control" placeholder="e.g. 6200-01" ng-model="module._id" required/>
-  <p class="help-block" ng-show="form.name.$error.required && submitted">A name is required</p>
+  <input type="text" name="id" class="form-control" placeholder="e.g. 6200-01" ng-model="module._id" required/>
+  <p class="help-block" ng-show="form.id.$error.required && submitted">Module ID is required</p>
+  <p class="help-block" ng-show="moduleAlreadyExists && submitted">
+    A module with this ID already exists
+  </p>
 </div>
 <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,'has-error': form.name.$invalid && submitted }">
   <label>Module Name</label>
   <input type="text" name="name" class="form-control" placeholder="e.g. Application Development" ng-model="module.name" required/>
-  <p class="help-block" ng-show="form.name.$error.required && submitted">A name is required</p>
+  <p class="help-block" ng-show="form.name.$error.required && submitted">Module Name is required</p>
 </div>
-<div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,'has-error': form.name.$invalid && submitted }">
+<div class="form-group">
   <label>Module Tutors</label>
   <div class="input-group">
-    <input type="text" name="name" class="form-control" typeahead="tutor as tutor.name for tutor in possibleTutors | filter:{name:$viewValue} | limitTo:14" typeahead-on-select="searchPossibleTutors($item)" ng-change="searchPossibleTutors($event)" ng-keyup="checkForSubmit($event)" ng-model="module.tutor" required/>
+    <input type="text" name="tutor" class="form-control" typeahead="tutor as tutor.name for tutor in possibleTutors | filter:{name:$viewValue} | limitTo:14" typeahead-on-select="searchPossibleTutors($item)" ng-change="searchPossibleTutors($event)" ng-keyup="checkForSubmit($event)" ng-model="module.tutor" required/>
     <div class="input-group-btn">
       <button type="button" class="btn btn-default" style="border-color:#cccccc;" ng-click="checkForSubmit('Submit')" ng-disabled="_.isEmpty(possibleTutors)">
         <i class="fa fa-plus"></i>
       </button>
     </div>
   </div>
-  <p class="help-block" ng-show="form.name.$error.required && submitted">A name is required</p>
 </div>
 <div style="margin:0 0 1em;">
-  <h3 class="label label-primary" style="display:inline-block;font-size:.9em;margin:.2em .4em .2em 0;padding:.6em;">
-    {{me.forename}}&nbsp;{{me.surname}}
-    <a style="color:#343D48;font-size:.8em;line-height:1.2;cursor:default;text-decoration:none;">You</a>
-  </h3>
-  <h3 ng-repeat="user in selectedTutors" class="label label-warning" style="display:inline-block;font-size:.9em;margin:.2em .4em .2em 0;padding:.6em;">
+  <h3 ng-repeat="user in selectedTutors" class="label" ng-class="{'label-primary': user.currentUser, 'label-warning' : !user.currentUser} " style="display:inline-block;font-size:.9em;margin:.2em .4em .2em 0;padding:.6em;">
     {{user.name}}
-    <a style="color:#343D48;" href="#" ng-click="removeTutor(user)">
+    <a ng-if="user.currentUser" style="color:#343D48;font-size:.8em;line-height:1.2;cursor:default;text-decoration:none;">You</a>
+    <a ng-if="!user.currentUser" style="color:#343D48;" href="#" ng-click="removeTutor(user)">
       <i class="fa fa-times" style="margin-left:.4em;"></i>
     </a>
   </h3>
 </div>
 <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,'has-error': form.name.$invalid && submitted }">
   <h5>Students
-    <span class="pull-right" style="color:#BBBBBB;">Not sure about CSV file structure?
-      <a href="#">Check out the docs</a>
+    <span class="pull-right" style="color:#BBBBBB;">Unsure of the CSV structure?
+      <a href="#">Check the docs</a>
     </span>
   </h5>
-  <!--
-  <div>
-    <div ng-if="!importViewData">
-      <button autoprocessdz="'false'" dz-type="'csvImport'" class="dropzone" drop-zone call-back="showCsvData(response)" name="csvUserData" data-max="5" mimetypes="'.csv, .txt'" id="csv-dropzone" style="width:100%;border:1px dashed #CCC;background-color:#FFF;">
-        <div class="dz-message" style="font-size:1.4em;color:#343D48;">Drop CSV files or click to upload.</div>
-        <div class="dz-message" style="margin-top:2em;color:#CCC;">
-          <i class="fa fa-tint fa-5x" style="cursor:pointer;"></i>
-        </div>
-      </button>
-    </div>
-    <div ng-if="importViewData">
-      <div id="table" class="table-editable">
-        <table class="table">
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Role</th>
-            <th>Course</th>
-            <th>Group</th>
-            <th></th>
-          </tr>
-          <tr ng-repeat="user in importUsers">
-            <td contenteditable="true" ng-model="user.id">{{user.id}}</td>
-            <td contenteditable="true" ng-model="user.name">{{user.name}}</td>
-
-            <td contenteditable="true" ng-model="user.email">{{user.email}}</td>
-            <td contenteditable="true" ng-model="user.role">Student</td>
-            <td contenteditable="true" ng-model="user.course">{{user.course}}</td>
-            <td contenteditable="true" ng-model="user.group">{{user.group}}</td>
-            <td>
-              <span class="table-remove glyphicon glyphicon-remove trash" ng-click="deleteImportableUser(user.id)"></span>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div>
-
-  </div>
-  -->
   <div id="table" class="table-editable">
     <table class="table csv-dropzone" url="'/api/modules/users/import'" autoprocessdz="'true'" no-file-display="'true'" dz-type="'csvImport'" class="dropzone" drop-zone call-back="showCsvData(response)" name="csvUserData" data-max="5" mimetypes="'.csv, .txt'" id="csv-dropzone" style="overflow:visible;">
       <!-- could show dropable class here -->
@@ -86,25 +46,17 @@
         </div>
       </div> -->
       <thead>
-        <th>ID</th>
-        <th>Forename</th>
-        <th>Surname</th>
+        <th style="width:18%;">ID</th>
+        <th style="width:38%;">Forename</th>
+        <th style="width:38%;">Surname</th>
         <th></th>
       </thead>
-      <tr>
-        <td contenteditable="true" ng-model="add.id">1234567890</td>
-        <td contenteditable="true" ng-model="add.forename">forename</td>
-        <td contenteditable="true" ng-model="add.surname">surname</td>
+      <tr class="csv-dropzone-row" ng-repeat="user in importUsers">
+        <td style="width:18%;" class="csv-dropzone-cell" ng-focus="dissolveIfPlaceholder(user, user.placeholder)" contenteditable="true" ng-class="{'csv-dropzone-placeholder' : user.placeholder}" ng-model="user.user"></td>
+        <td style="width:38%;" class="csv-dropzone-cell" ng-focus="dissolveIfPlaceholder(user, user.placeholder)" contenteditable="true" ng-class="{'csv-dropzone-placeholder' : user.placeholder}" ng-model="user.forename"></td>
+        <td style="width:38%;" class="csv-dropzone-cell" ng-focus="dissolveIfPlaceholder(user, user.placeholder)" contenteditable="true" ng-class="{'csv-dropzone-placeholder' : user.placeholder}" ng-model="user.surname"></td>
         <td style="text-align:right;">
-          <span class="table-remove glyphicon glyphicon-remove trash" ng-click="deleteModuleTableRow(user.id)"></span>
-        </td>
-      </tr>
-      <tr ng-repeat="user in importUsers">
-        <td contenteditable="true" ng-model="user.id"></td>
-        <td contenteditable="true" ng-model="user.forename"></td>
-        <td contenteditable="true" ng-model="user.surname"></td>
-        <td style="text-align:right;">
-          <span class="table-remove glyphicon glyphicon-remove trash" ng-click="deleteModuleTableRow(user.id)"></span>
+          <span ng-if="!user.placeholder" class="table-remove glyphicon glyphicon-trash trash" style="font-size:1em;" ng-click="deleteModuleTableRow(user.user)"></span>
         </td>
       </tr>
     </table>
@@ -114,5 +66,4 @@
   </div>
   <button class="btn btn-default" ng-click="addRowToModuleTable()">
     Add User</button>
-  <!-- <input type="text" name="name" class="form-control" placeholder="need to think of a way to add students in here" ng-model="module.students" required/> <p class="help-block" ng-show="form.name.$error.required && submitted">A name is required</p> -->
 </div>

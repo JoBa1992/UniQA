@@ -197,15 +197,23 @@
   border: 1px dashed #CCC;
   background-color: #FFF;
 }
-.csv-dropzone tbody tr:hover,
-.csv-dropzone tbody tr:active,
-.csv-dropzone tbody tr:focus {
-  background-color: #BBB;
-  td:hover,
-  td:active,
-  td:focus {
-    background-color: #FFA700;
+.csv-dropzone tbody .csv-dropzone-row:active,
+.csv-dropzone tbody .csv-dropzone-row:focus {
+  background-color: #F5F5F5;
+}
+.csv-dropzone tbody .csv-dropzone-row:hover {
+  background-color: #F5F5F5;
+  .csv-dropzone-cell:hover {
+    background-color: lighten(#82aecc, 14%);
   }
+}
+.csv-dropzone-placeholder {
+  color: #BBB;
+}
+// might need to be more specific here
+[contenteditable]:focus {
+  background-color: lighten(#82aecc, 20%);
+  outline: 0 solid transparent;
 }
 body.draggingInEffect .csv-dropzone {
   border: 1px dashed @brand-primary;
