@@ -1296,7 +1296,6 @@ angular.module('uniQaApp')
 
 													// Update validity of form fields that match the mongoose errors
 													angular.forEach(err.errors, function(error, field) {
-														//console.info(form[field]);
 														form[field].$setValidity('mongoose', false);
 														$rootScope.errors[field] = error.message;
 													});

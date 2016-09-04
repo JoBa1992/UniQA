@@ -1,12 +1,11 @@
 <div ng-if="isLoggedIn()" ng-class="{'sidebar-wrapper': !isNavCollapsed(), 'sidebar-wrapper-min': isNavCollapsed()}">
   <ul class="sidebar-nav">
-    <li ng-if="!isNavCollapsed()" class="sidebar-brand">
-      <h3>UniQA logo</h3>
-    </li>
-    <li ng-if="isNavCollapsed()" class="sidebar-nav-item sidebar-brand home-icon">
-      <a class="disable-animations" href="#">
+    <li ng-if="!isNavCollapsed()" class="sidebar-brand" ng-include="'assets/logo/full-logo-nav.svg'" style="padding-left: 1.4em;"></li>
+    <li ng-if="isNavCollapsed()" class="sidebar-nav-item sidebar-brand">
+      <div ng-include style="width:100%;" src="'assets/logo/bubble.svg'"></div>
+      <!-- <a class="disable-animations" href="#">
         <i class="fa fa-home" style="margin-top:.4em;margin-left:-.2em;" aria-hidden="true"></i>
-      </a>
+      </a> -->
     </li>
     <li ng-repeat="item in leftMenu" ng-class="{active: isActive(item.link)}" class="sidebar-nav-item">
       <a ng-if="isAdmin() && item.admin || isTutor() && item.tutor || isStudent() && item.student" ng-href="{{item.link}}" class="disable-animations">
