@@ -16,13 +16,26 @@ angular.module('uniQaApp')
 				}.bind(this));
 				return deferred.promise;
 			},
-			getPossibleCollabs: function(obj, callback) {
+			getByID: function(id, callback) {
+				var cb = callback || angular.noop;
+				var deferred = $q.defer();
+
+				$http.get('/api/modules/' + id).success(function(data) {
+					deferred.resolve(data);
+					return cb;
+				}).error(function(err) {
+					deferred.reject(err);
+					return cb(err);
+				}.bind(this));
+				return deferred.promise;
+			},
+			getTutors: function(obj, callback) {
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();
 				var userid = obj.user;
-				var collab = obj.search;
+				var tutorName = obj.search;
 
-				$http.get('/api/modules/assoc/' + userid + '?name=' + collab).success(function(data) {
+				$http.get('/api/users?me=' + userid + '&name=' + tutorName + '&role=tutor&getTutors=true').success(function(data) {
 					deferred.resolve(data);
 					return cb;
 				}).error(function(err) {
@@ -35,7 +48,6 @@ angular.module('uniQaApp')
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();
 				var userid = obj.user;
-				//var collab = obj.search;
 
 				$http.get('/api/modules/user/' + userid).success(function(data) {
 					deferred.resolve(data);
@@ -59,11 +71,11 @@ angular.module('uniQaApp')
 				}.bind(this));
 				return deferred.promise;
 			},
-			create: function(query, callback) {
+			create: function(obj, callback) {
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();
 
-				$http.post('/api/modules').success(function(data) {
+				$http.post('/api/modules', obj).success(function(data) {
 					deferred.resolve(data);
 					return cb();
 				}).error(function(err) {

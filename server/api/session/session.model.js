@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
 
 var SessionSchema = new Schema({
 	createdBy: {
-		type: mongoose.Schema.Types.ObjectId,
+		type: String,
 		ref: 'User'
 	},
 	modules: [{
@@ -36,7 +36,7 @@ var SessionSchema = new Schema({
 	},
 	registered: [{
 		user: {
-			type: mongoose.Schema.Types.ObjectId,
+			type: String,
 			ref: 'User'
 		},
 		_id: false
@@ -51,7 +51,7 @@ var SessionSchema = new Schema({
 	},
 	questions: [{
 		asker: {
-			type: mongoose.Schema.Types.ObjectId,
+			type: String,
 			ref: 'User'
 		},
 		question: {
@@ -66,7 +66,7 @@ var SessionSchema = new Schema({
 		},
 		response: {
 			tutor: {
-				type: mongoose.Schema.Types.ObjectId,
+				type: String,
 				ref: 'User'
 			},
 			body: {
@@ -77,7 +77,7 @@ var SessionSchema = new Schema({
 	}],
 	feedback: [{
 		user: {
-			type: mongoose.Schema.Types.ObjectId,
+			type: String,
 			ref: 'User'
 		},
 		rating: {
@@ -91,7 +91,7 @@ var SessionSchema = new Schema({
 	}],
 	downloads: [{
 		user: {
-			type: mongoose.Schema.Types.ObjectId,
+			type: String,
 			ref: 'User'
 		},
 		file: {

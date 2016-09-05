@@ -8,21 +8,24 @@
   font-size: 14px;
 }
 .sidebar-brand {
-  background-color: #82AECC;
-  cursor: default;
+  cursor: pointer;
   border-bottom: 1px solid lighten(#343D48,3%);
   color: white;
-  margin-top: -1em;
   padding: 0.8em 1em 0.2em;
-  line-height: 40px;
   -webkit-font-smoothing: antialiased;
   text-shadow: rgba(0,0,0,.01) 0 0 1px;
+}
+.sidebar-brand:hover {
+  background-color: darken(#343D48,2%);
 }
 .home-icon {
   margin-top: 0;
 }
 .home-icon i::before {
   color: white;
+}
+.sidebar-nav {
+  margin-bottom: -4em;
 }
 .sidebar-nav > li.sidebar-nav-item {
   padding: 0.2em 0;
@@ -83,14 +86,6 @@ li.sidebar-nav-item:nth-child(2) {
   background: transparent;
   border: none;
 }
-.sidebar-account button span {
-  float: left;
-  font-size: 1.1em;
-  font-weight: 300;
-  line-height: 1;
-  margin: 1em 0.4em;
-  color: white;
-}
 .account-menu {
   left: 20px;
   background-color: lighten(#343D48,12%);
@@ -150,3 +145,103 @@ li.sidebar-nav-item:nth-child(2) {
 .sidebar-footer-toggle:hover {
   background-color: lighten(#343D48,12%);
 }
+/*==========  Mobile First Method  ==========*/
+/* Custom, iPhone Retina */
+// @media only screen and (min-width : 320px) {
+//   .sidebar-wrapper {
+//     position: absolute;
+//     width: 150px;
+//   }
+//   .sidebar-wrapper-min {
+//     width: 56px;
+//   }
+//   .wrapper {
+//     padding-left: 150px;
+//   }
+//   .wrapper-min {
+//     padding-left: 56px;
+//   }
+//   .page-content-wrapper {
+//     position: relative;
+//     margin-right: 0;
+//   }
+// }
+/* Extra Small Devices, Phones */
+// @media only screen and (min-width : 480px) {
+//   .sidebar-wrapper {
+//     position: absolute;
+//     width: 200px;
+//   }
+//   .sidebar-wrapper-min {
+//     width: 56px;
+//   }
+//   .wrapper {
+//     padding-left: 200px;
+//   }
+//   .wrapper-min {
+//     padding-left: 56px;
+//   }
+//   .page-content-wrapper {
+//     position: relative;
+//     margin-right: 0;
+//   }
+// }
+/* Small Devices, Tablets */
+@media only screen and (min-width : 768px) {
+  // .sidebar-wrapper {
+  //   position: absolute;
+  //   width: 250px;
+  // }
+  .avatar-username {
+    float: left;
+    font-size: 1.1em;
+    font-weight: 300;
+    line-height: 1;
+    margin: 1em 0.4em;
+    color: white;
+  }
+}
+/* Medium Devices, Desktops */
+@media only screen and (min-width : 992px) {}
+/* Large Devices, Wide Screens */
+@media only screen and (min-width : 1200px) {}
+/*==========  Non-Mobile First Method  ==========*/
+/* Large Devices, Wide Screens */
+@media only screen and (max-width : 1200px) {
+  // .sidebar-wrapper {
+  //   position: absolute;
+  //   width: 250px;
+  // }
+  .avatar-username {
+    float: left;
+    font-size: 1.1em;
+    font-weight: 300;
+    line-height: 1;
+    margin: 1em 0.4em;
+    color: white;
+  }
+}
+/* Medium Devices, Desktops */
+@media only screen and (max-width : 992px) {
+  // .sidebar-wrapper {
+  //   position: absolute;
+  //   width: 200px;
+  // }
+  .avatar-username {
+    float: left;
+    font-size: 0.9em;
+    font-weight: 300;
+    line-height: 1;
+    margin: 1em 0.4em;
+    color: white;
+  }
+}
+/* Small Devices, Tablets */
+// @media only screen and (max-width : 768px) {
+// }
+/* Extra Small Devices, Phones */
+// @media only screen and (max-width : 480px) {
+// }
+/* Custom, iPhone Retina */
+// @media only screen and (max-width : 320px) {
+// }

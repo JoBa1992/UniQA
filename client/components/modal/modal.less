@@ -72,15 +72,28 @@
   color: #fff;
   font-size: 18px;
 }
-// .shield {
-//   position: absolute;
-//   width: 100%;
-//   height: 100%;
-//   top: 0;
-//   left: 0;
-//   z-index: 100;
-//   background-color: rgba(0,0,0,.3);
-// }
+.model-midway-border {
+  float: left;
+  display: inline-block;
+  border-left: 1px solid #EEE;
+  height: 400px;
+  background-color: #EEE;
+}
+.model-module-action {
+  float: left;
+  width: 49.8%;
+  display: inline-block;
+  cursor: pointer;
+  text-align: center;
+  padding: 10em 0;
+  color: #DDD;
+  transition: all 0.2s ease-in-out;
+}
+.model-module-action:hover {
+  color: #AAAAAA;
+  text-decoration: none;
+  transform: scale(1.2);
+}
 .loading {
   position: fixed;
   color: #FFA700;
@@ -146,4 +159,62 @@
   font-weight: bold;
   overflow: visible;
   clip: auto;
+}
+/**** EDITABLE TABLE ****/
+.table-editable {
+  position: relative;
+  .glyphicon {
+    font-size: 20px;
+  }
+}
+.table-remove {
+  color: #700;
+  cursor: pointer;
+  &:hover {
+    color: #f00;
+  }
+}
+.table-up,
+.table-down {
+  color: #007;
+  cursor: pointer;
+  &:hover {
+    color: #00f;
+  }
+}
+.table-add {
+  color: #070;
+  cursor: pointer;
+  position: absolute;
+  top: 8px;
+  right: 0;
+  &:hover {
+    color: #0b0;
+  }
+}
+.csv-dropzone {
+  width: 100%;
+  border: 1px dashed #CCC;
+  background-color: #FFF;
+}
+.csv-dropzone tbody .csv-dropzone-row:active,
+.csv-dropzone tbody .csv-dropzone-row:focus {
+  background-color: #F5F5F5;
+}
+.csv-dropzone tbody .csv-dropzone-row:hover {
+  background-color: #F5F5F5;
+  .csv-dropzone-cell:hover {
+    background-color: lighten(#82aecc, 14%);
+  }
+}
+.csv-dropzone-placeholder {
+  color: #BBB;
+}
+// might need to be more specific here
+[contenteditable]:focus {
+  background-color: lighten(#82aecc, 20%);
+  outline: 0 solid transparent;
+}
+body.draggingInEffect .csv-dropzone {
+  border: 1px dashed @brand-primary;
 }

@@ -13,11 +13,18 @@
     <!-- <meta name="viewport" content="width=device-width"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="assets/favicons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="assets/favicons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="assets/favicons/manifest.json">
+    <link rel="mask-icon" href="assets/favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="theme-color" content="#ffffff">
+
     <link rel="stylesheet" href="bower_components/angular-bootstrap-datetimepicker/src/css/datetimepicker.css"/>
     <!-- build:css(client) app/vendor.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/dropzone/downloads/css/dropzone.css" />
-    <link rel="stylesheet" href="bower_components/ngToast/dist/ngToast.css" />
+    <link rel="stylesheet" href="bower_components/dropzone/downloads/css/dropzone.css"/>
+    <link rel="stylesheet" href="bower_components/ngToast/dist/ngToast.css"/>
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
@@ -85,6 +92,17 @@
       } catch (ex) {}
     }
   </script>
+  <!-- Stop files from loading/downloading on window drop -->
+  <script>
+    window.addEventListener("dragover", function(e) {
+      e = e || event;
+      e.preventDefault();
+    }, false);
+    window.addEventListener("drop", function(e) {
+      e = e || event;
+      e.preventDefault();
+    }, false);
+  </script>
 
   <!--[if lt IE 9]> <script src="bower_components/es5-shim/es5-shim.js"></script> <script src="bower_components/json3/lib/json3.min.js"></script> <![endif]-->
   <!-- build:js({client,node_modules}) app/vendor.js -->
@@ -129,6 +147,7 @@
   <script src="app/admin/users/users.controller.js"></script>
   <script src="app/index/index.js"></script>
   <script src="app/lectures/lectures.controller.js"></script>
+  <script src="app/modules/module.controller.js"></script>
   <script src="app/modules/modules.controller.js"></script>
   <script src="app/planner/planner.controller.js"></script>
   <script src="app/profile/profile.controller.js"></script>
@@ -138,7 +157,6 @@
   <script src="components/auth/auth.service.js"></script>
   <script src="components/auth/user.service.js"></script>
   <script src="components/contenteditable/contenteditable.directive.js"></script>
-  <script src="components/dropzone/dropzone.controller.js"></script>
   <script src="components/dropzone/dropzone.directive.js"></script>
   <script src="components/ext-svg/ext-svg.directive.js"></script>
   <script src="components/footer/footer.controller.js"></script>

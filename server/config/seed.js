@@ -94,317 +94,272 @@ Thing.find({}).remove(function() {
 
 User.find({}).remove(function() {
 	User.create({
-		_id: '56a7d95746b9e7db57417309',
-		role: 'admin',
-		name: 'Joshua Bates',
+		_id: '22006241',
+		role: 'tutor',
+		forename: 'Joshua',
+		surname: 'Bates',
 		email: 'JoBa@uniqa.co.uk',
 		teachingArea: 'Software Engineering',
 		password: 'Josh1992'
 	}, {
 		_id: '56cb76ebd5b3f4b6be5d7dd4',
-		role: 'admin',
-		name: 'Andrew Dearden',
+		role: 'tutor',
+		forename: 'Andrew',
+		surname: 'Dearden',
 		email: 'ande@shu.ac.uk',
 		teachingArea: 'Software Engineering',
 		password: 'tutor'
 	}, {
 		_id: '56cb76ebd5b3f4b6be5d7dd5',
-		role: 'admin',
-		name: 'Andrew Stratton',
+		role: 'tutor',
+		forename: 'Andrew',
+		surname: 'Stratton',
 		email: 'anst@shu.ac.uk',
 		teachingArea: 'Software Engineering',
 		password: 'tutor'
 	}, {
 		_id: '56cb76ebd5b3f4b6be5d7dd6',
-		role: 'admin',
-		name: 'Mehmet Özcan',
+		role: 'tutor',
+		forename: 'Mehmet',
+		surname: 'Özcan',
 		email: 'meoz@shu.ac.uk',
 		teachingArea: 'Software Engineering',
 		password: 'tutor'
 	}, {
 		_id: '56cb76ebd5b3f4b6be5d7dd7',
-		role: 'admin',
-		name: 'Chris Bates',
+		role: 'tutor',
+		forename: 'Chris',
+		surname: 'Bates',
 		email: 'chba@shu.ac.uk',
 		teachingArea: 'Software Engineering',
 		password: 'tutor'
 	}, {
 		_id: '56cb76ebd5b3f4b6be5d7dd8',
-		role: 'admin',
-		name: "Peter O'Neill",
+		role: 'tutor',
+		forename: "Peter",
+		surname: 'O\'Neill',
 		email: 'peon@shu.ac.uk',
 		teachingArea: 'Software Engineering',
 		password: 'tutor'
 	}, {
 		_id: '56cb76ebd5b3f4b6be5d7dd9',
-		role: 'admin',
-		name: 'Andrew Bisset',
+		role: 'tutor',
+		forename: 'Andrew',
+		surname: 'Bisset',
 		email: 'anbi@shu.ac.uk',
 		teachingArea: 'Software Engineering',
 		password: 'tutor'
 	}, {
 		_id: '56cb76ebd5b3f4b6be5d7dda',
-		role: 'admin',
-		name: 'Ivan Phelan',
+		role: 'tutor',
+		forename: 'Ivan',
+		surname: 'Phelan',
 		email: 'ivph@shu.ac.uk',
 		teachingArea: 'Software Engineering',
 		password: 'tutor'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7ddb',
-		role: 'admin',
-		name: 'Martin Cooper',
+		role: 'tutor',
+		forename: 'Martin',
+		surname: 'Cooper',
 		email: 'maco@shu.ac.uk',
 		teachingArea: 'Software Engineering',
 		password: 'mcooper'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7ddc',
-		role: 'admin',
-		name: 'Adrian Oram',
+		role: 'tutor',
+		forename: 'Adrian',
+		surname: 'Oram',
 		email: 'ador@shu.ac.uk',
 		teachingArea: 'Software Engineering',
 		password: 'tutor'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7ddd',
-		role: 'admin',
-		name: 'Pascale Vacher',
+		role: 'tutor',
+		forename: 'Pascale',
+		surname: 'Vacher',
 		email: 'pava@shu.ac.uk',
 		teachingArea: 'Software Engineering',
 		password: 'tutor'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7dde',
-		role: 'admin',
-		name: 'Mark Featherstone',
+		role: 'tutor',
+		forename: 'Mark',
+		surname: 'Featherstone',
 		email: 'mafe@shu.ac.uk',
 		teachingArea: 'Software Engineering',
 		password: 'tutor'
 	}, {
 		_id: '56c86c25099777e930372eb7',
-		name: 'Test Student',
+		forename: 'Test',
+		surname: 'Student',
 		role: 'student',
 		email: 'student@shu.ac.uk',
-		course: 'Software Engineering',
 		password: 'student'
 	}, {
 		_id: '56a7bf8a800c479155488fcb',
-		name: 'Joshua Bates',
-		role: 'student',
-		email: 'b2006241@my.shu.ac.uk',
-		course: 'Software Engineering',
-		password: 'password'
+		forename: 'Joshua',
+		surname: 'Bates',
+		role: 'student'
 	}, {
 		_id: '56a7bf8a800c479155488fce',
-		name: 'Jonathon Dickson',
-		role: 'student',
-		email: 'b2011327@my.shu.ac.uk',
-		course: 'Software Engineering',
+		forename: 'Jonathon',
+		surname: 'Dickson',
+		role: 'admin',
+		email: 'jd912@uniqa.co.uk',
 		password: 'password'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7ddf',
-		name: 'Jack McGlone',
-		role: 'student',
-		email: 'jack@shu.ac.uk',
-		course: 'Software Engineering',
-		password: 'password'
+		forename: 'Jack',
+		surname: 'McGlone',
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7de0',
-		name: 'Chad Simpson',
-		role: 'student',
-		email: 'chad@shu.ac.uk',
-		course: 'Software Engineering',
-		password: 'password'
+		forename: 'Chad',
+		surname: 'Simpson',
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7de1',
-		name: 'Daniel Haswell',
-		role: 'student',
-		email: 'dan.has@shu.ac.uk',
-		course: 'Software Engineering',
-		password: 'Chad'
+		forename: 'Daniel',
+		surname: 'Haswell',
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7de2',
-		name: 'Elizabeth Athanasiadi',
-		role: 'student',
-		email: 'liz.ath@shu.ac.uk',
-		course: 'Software Engineering',
-		password: 'Chad'
+		forename: 'Elizabeth',
+		surname: 'Athanasiadi',
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7de3',
-		name: 'Rowell Heria',
-		role: 'student',
-		email: 'row.her@shu.ac.uk',
-		course: 'Software Engineering',
-		password: 'Chad'
+		forename: 'Rowell',
+		surname: 'Heria',
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7de4',
-		name: 'Kyle Bingham',
-		role: 'student',
-		email: 'kyl.bin@shu.ac.uk',
-		course: 'Software Engineering',
-		password: 'Chad'
+		forename: 'Kyle',
+		surname: 'Bingham',
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7de5',
-		name: 'Cameron Chalmers',
-		role: 'student',
-		email: 'cam.cha@shu.ac.uk',
-		course: 'Software Engineering',
-		password: 'Chad'
+		forename: 'Cameron',
+		surname: 'Chalmers',
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7de6',
-		name: 'Ryan Robinson',
-		role: 'student',
-		email: 'rya.rob@shu.ac.uk',
-		course: 'Software Engineering',
-		password: 'Chad'
+		forename: 'Ryan',
+		surname: 'Robinson',
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7de7',
-		name: 'Brandon Murdoch',
-		role: 'student',
-		email: 'bra.mur@shu.ac.uk',
-		course: 'Software Engineering',
-		password: 'Chad'
+		forename: 'Brandon',
+		surname: 'Murdoch',
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7de8',
-		name: 'Tom McGurrin',
-		role: 'student',
-		email: 'tom.mcg@shu.ac.uk',
-		course: 'Software Engineering',
-		password: 'Chad'
+		forename: 'Tom',
+		surname: 'McGurrin',
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7de9',
-		name: 'Matt Bizley',
-		role: 'student',
-		email: 'mat.biz@shu.ac.uk',
-		course: 'Software Engineering',
-		password: 'Chad'
+		forename: 'Matt',
+		surname: 'Bizley',
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7dea',
-		name: 'Latir Cole-Etti',
-		role: 'student',
-		email: 'lat.col@shu.ac.uk',
-		course: 'Software Engineering',
-		password: 'Chad'
+		forename: 'Latir',
+		surname: 'Cole-Etti',
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7deb',
-		name: 'Luke Ward',
-		role: 'student',
-		email: 'luk.war@shu.ac.uk',
-		course: 'Software Engineering',
-		password: 'Chad'
+		forename: 'Luke',
+		surname: 'Ward',
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7dec',
-		name: 'Shaun Webb',
-		role: 'student',
-		email: 'sha.web@shu.ac.uk',
-		course: 'Software Engineering',
-		password: 'Chad'
+		forename: 'Shaun',
+		surname: 'Webb',
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7ded',
-		name: 'Michael Crowther',
-		role: 'student',
-		email: 'mic.cro@shu.ac.uk',
-		course: 'Software Engineering',
-		password: 'Chad'
+		forename: 'Michael',
+		surname: 'Crowther',
+		role: 'student'
 	}, {
 		_id: '56a7afd3259ef46f559880c9',
-		name: 'Alexis Parks',
-		role: 'student',
-		email: 'ap@shu.ac.uk',
-		course: 'Software Engineering',
-		passcode: 9493265230
+		forename: 'Alexis',
+		surname: 'Parks',
+		role: 'student'
 	}, {
 		_id: "56a7886405ab050a54d4eaa5",
-		name: 'Jeff',
-		role: 'student',
-		email: 'jeff@shu.ac.uk',
-		course: 'Computer Science',
-		passcode: 9493265230
+		forename: 'Jeff',
+		surname: '',
+		role: 'student'
 	}, {
 		_id: "56a7886405ab050a54d4eaa6",
-		name: 'Bill Gates',
-		role: 'student',
-		email: 'Bill@shu.ac.uk',
-		course: 'Computer Science',
-		password: 'Bill'
+		forename: 'Bill',
+		surname: 'Gates',
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7dee',
-		name: 'Alex',
-		role: 'student',
-		email: 'alexs@shu.ac.uk',
-		course: 'Computer Science',
-		passcode: 9493265230
+		forename: 'Alex',
+		surname: '',
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7def',
-		name: 'Ben Parnell',
-		role: 'tutor',
+		forename: 'Ben',
+		surname: 'Parnell',
+		role: 'admin',
 		email: 'bparnell@uniqa.co.uk',
-		course: 'Computer Science',
 		password: 'password'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7df0',
-		name: 'Jacob Burns',
-		role: 'student',
-		email: 'ja.bu@shu.ac.uk',
-		course: 'Computer Science',
-		password: 'password'
+		forename: 'Jacob',
+		surname: 'Burns',
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7df1',
-		name: 'Martin Rushton',
-		role: 'student',
-		email: 'ma.ru@shu.ac.uk',
-		course: 'Computer Science',
-		password: 'password'
+		forename: 'Martin',
+		surname: 'Rushton',
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7df2',
-		name: 'Tom Hanson',
-		role: 'student',
-		email: 'to.ha@shu.ac.uk',
-		course: 'Computer Science',
-		password: 'password'
+		forename: 'Tom',
+		surname: 'Hanson',
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7df3',
-		name: 'Ehsan Hussain',
-		role: 'student',
-		email: 'eh.hu@shu.ac.uk',
-		course: 'Computer Science',
-		password: 'password'
+		forename: 'Ehsan',
+		surname: 'Hussain',
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7df4',
-		name: 'Curtis Bailey',
+		forename: 'Curtis',
+		surname: 'Bailey',
 		role: 'student',
-		email: 'cu.ba@shu.ac.uk',
-		course: 'Computer Science',
-		password: 'password'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7df5',
-		name: 'Akeem Khan',
+		forename: 'Akeem',
+		surname: 'Khan',
 		role: 'student',
-		email: 'ak.kh@shu.ac.uk',
-		course: 'Computer Science',
-		password: 'password'
 	}, {
 		_id: '56cb76edd5b3f4b6be5d7df6',
-		name: 'Henry Rowland',
+		forename: 'Henry',
+		surname: 'Rowland',
 		role: 'student',
-		email: 'he.ro@shu.ac.uk',
-		course: 'Computer Science',
-		password: 'password'
 	}, {
 		_id: '56cb76edd5b3f4b6be5d7df7',
-		role: 'student',
-		name: 'Lee Coddington',
-		email: 'lcoddington@shu.ac.uk',
-		password: 'password'
+		forename: 'Lee',
+		surname: 'Coddington',
+		role: 'student'
 	}, {
 		_id: '56cb76edd5b3f4b6be5d7df8',
-		role: 'student',
-		name: 'Simon Clark',
-		email: 'sclark@shu.ac.uk',
-		password: 'password'
+		forename: 'Simon',
+		surname: 'Clark',
+		role: 'student'
 	}, {
 		_id: '56cb76edd5b3f4b6be5d7df9',
-		role: 'student',
-		name: 'Brian Irwin',
-		email: 'birwin@shu.ac.uk',
-		password: 'password'
+		forename: 'Brian',
+		surname: 'Irwin',
+		role: 'student'
 	}, function() {
 		// console.log('finished populating users');
 		Module.find({}).remove(function() {
@@ -453,7 +408,7 @@ User.find({}).remove(function() {
 					user: '56cb76edd5b3f4b6be5d7df9'
 				}],
 				tutors: [{
-					user: '56a7d95746b9e7db57417309'
+					user: '22006241'
 				}, {
 					user: '56cb76ebd5b3f4b6be5d7dd4'
 				}, {
@@ -466,7 +421,7 @@ User.find({}).remove(function() {
 				deleted: false
 			}, {
 				_id: '6200-02',
-				course: 'Mobile Application Dev',
+				name: 'Mobile Application Dev',
 				students: [{
 					user: '56cb76ecd5b3f4b6be5d7def'
 				}, {
@@ -506,7 +461,7 @@ User.find({}).remove(function() {
 						title: "WAD Week 1",
 						desc: "Descriptive element for WAD no1",
 						collaborators: [{
-							user: '56a7d95746b9e7db57417309'
+							user: '22006241'
 						}],
 						url: '',
 						attachments: []
@@ -515,7 +470,7 @@ User.find({}).remove(function() {
 						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "WAD Week 2",
 						collaborators: [{
-							user: '56a7d95746b9e7db57417309'
+							user: '22006241'
 						}],
 						url: '',
 						attachments: []
@@ -524,7 +479,7 @@ User.find({}).remove(function() {
 						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "WAD Week 3",
 						collaborators: [{
-							user: '56a7d95746b9e7db57417309'
+							user: '22006241'
 						}],
 						url: '',
 						attachments: []
@@ -533,7 +488,7 @@ User.find({}).remove(function() {
 						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "WAD Week 4",
 						collaborators: [{
-							user: '56a7d95746b9e7db57417309'
+							user: '22006241'
 						}],
 						url: '',
 						attachments: []
@@ -542,7 +497,7 @@ User.find({}).remove(function() {
 						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "WAD Week 5",
 						collaborators: [{
-							user: '56a7d95746b9e7db57417309'
+							user: '22006241'
 						}],
 						url: '',
 						attachments: []
@@ -551,7 +506,7 @@ User.find({}).remove(function() {
 						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "WAD Week 6",
 						collaborators: [{
-							user: '56a7d95746b9e7db57417309'
+							user: '22006241'
 						}],
 						url: '',
 						attachments: []
@@ -560,20 +515,20 @@ User.find({}).remove(function() {
 						title: "WAD Week 7"
 					}, {
 						_id: "56c868096bd3f7b730a051f4",
-						author: '56a7d95746b9e7db57417309',
+						author: '22006241',
 						title: "WAD Week 8",
 						collaborators: [{
 							user: "56cb76ecd5b3f4b6be5d7ddb"
 						}],
 						url: 'http://www.mustbebuilt.co.uk/SHU/WAD/wad-wk8-lecture16.html#/step-1',
 						attachments: [{
-							"loc": "/Applications/XAMPP/xamppfiles/htdocs/Website/UniQA/server/storage/lectures/56a7d95746b9e7db57417309/Application_Demo_Marking_Scheme(1).pdf",
-							"url": "/api/storage/lectures/56a7d95746b9e7db57417309/Application_Demo_Marking_Scheme(1).pdf",
+							"loc": "/Applications/XAMPP/xamppfiles/htdocs/Website/UniQA/server/storage/lectures/22006241/Application_Demo_Marking_Scheme(1).pdf",
+							"url": "/api/storage/lectures/22006241/Application_Demo_Marking_Scheme(1).pdf",
 							"_id": "5702d39c4826bef0959ebadf",
 							"type": "file-pdf"
 						}, {
-							"loc": "/Applications/XAMPP/xamppfiles/htdocs/Website/UniQA/server/storage/lectures/56a7d95746b9e7db57417309/childcare_proof.pdf",
-							"url": "/api/storage/lectures/56a7d95746b9e7db57417309/childcare_proof.pdf",
+							"loc": "/Applications/XAMPP/xamppfiles/htdocs/Website/UniQA/server/storage/lectures/22006241/childcare_proof.pdf",
+							"url": "/api/storage/lectures/22006241/childcare_proof.pdf",
 							"_id": "5702d39c4826bef0959ebade",
 							"type": "file-pdf"
 						}],
@@ -581,7 +536,7 @@ User.find({}).remove(function() {
 						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "WAD Week 9",
 						collaborators: [{
-							user: '56a7d95746b9e7db57417309'
+							user: '22006241'
 						}],
 						url: '',
 						attachments: []
@@ -589,7 +544,7 @@ User.find({}).remove(function() {
 						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "MAD No1",
 						collaborators: [{
-							user: '56a7d95746b9e7db57417309'
+							user: '22006241'
 						}],
 						url: '',
 						attachments: []
@@ -597,7 +552,7 @@ User.find({}).remove(function() {
 						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "CSSD No1",
 						collaborators: [{
-							user: '56a7d95746b9e7db57417309'
+							user: '22006241'
 						}],
 						url: '',
 						attachments: []
@@ -605,7 +560,7 @@ User.find({}).remove(function() {
 						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "CSSD No2",
 						collaborators: [{
-							user: '56a7d95746b9e7db57417309'
+							user: '22006241'
 						}],
 						url: '',
 						attachments: []
@@ -613,7 +568,7 @@ User.find({}).remove(function() {
 						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "CSSD No3",
 						collaborators: [{
-							user: '56a7d95746b9e7db57417309'
+							user: '22006241'
 						}],
 						url: '',
 						attachments: []
@@ -621,7 +576,7 @@ User.find({}).remove(function() {
 						author: '56cb76ecd5b3f4b6be5d7ddb',
 						title: "MAD No2",
 						collaborators: [{
-							user: '56a7d95746b9e7db57417309'
+							user: '22006241'
 						}],
 						url: '',
 						attachments: []
@@ -632,13 +587,13 @@ User.find({}).remove(function() {
 						url: '',
 						attachments: []
 					}, {
-						author: '56a7d95746b9e7db57417309',
+						author: '22006241',
 						title: "UniQA - Week 1",
 						collaborators: [],
 						url: '',
 						attachments: []
 					}, {
-						author: '56a7d95746b9e7db57417309',
+						author: '22006241',
 						title: "UniQA - Week 2",
 						collaborators: [],
 						url: '',
@@ -679,52 +634,47 @@ User.find({}).remove(function() {
 						} else {
 							Session.find({}).remove(function() {
 								Session.create({
-										createdBy: '56a7d95746b9e7db57417309',
+										createdBy: '22006241',
 										_id: '56c87667bcd6f3c431cb8681',
 										lecture: '56c868096bd3f7b730a051f4',
 										startTime: moment("27-08-2016 14:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
 										endTime: moment("27-08-2016 15:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
-										timeAllowance: 5,
 										modules: [{
 											module: '56cb7c2e7bbe028ebfbe56a2'
 										}, {
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56a7d95746b9e7db57417309',
+										createdBy: '22006241',
 										lecture: '56d1ca2e4f6973280ce025e6',
 										startTime: moment("27-08-2016 16:40:00", "DD-MM-YYYY HH:mm:ss").utc(),
 										endTime: moment("27-08-2016 17:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
-										timeAllowance: 20,
 										modules: [{
 											module: '56cb7c2e7bbe028ebfbe56a2'
 										}, {
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56a7d95746b9e7db57417309',
+										createdBy: '22006241',
 										lecture: '56d1ca2e4f6973280ce025e7',
 										startTime: moment("27-08-2016 18:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
 										endTime: moment("27-08-2016 19:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
-										timeAllowance: 30,
 										modules: [{
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56a7d95746b9e7db57417309',
+										createdBy: '22006241',
 										lecture: '56d1ca2e4f6973280ce025e8',
 										startTime: moment("27-08-2016 21:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
 										endTime: moment("27-08-2016 22:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
-										timeAllowance: 20,
 										modules: [{
 											module: '56cb7c2e7bbe028ebfbe56a2'
 										}]
 									}, {
-										createdBy: '56a7d95746b9e7db57417309',
+										createdBy: '22006241',
 										lecture: '56c868096bd3f7b730a051f4',
 										startTime: moment("28-08-2016 14:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
 										endTime: moment("28-08-2016 15:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
-										timeAllowance: 5,
 										feedback: [{
 											comment: "A good lecture, was interesting to see how AJAX works",
 											rating: "4",
@@ -840,20 +790,18 @@ User.find({}).remove(function() {
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56a7d95746b9e7db57417309',
+										createdBy: '22006241',
 										lecture: '56c868096bd3f7b730a051f4',
 										startTime: moment.utc([2016, 8, 21, 16, 0, 0]),
 										endTime: moment.utc([2016, 8, 21, 17, 30, 0]),
-										timeAllowance: 10,
 										modules: [{
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56a7d95746b9e7db57417309',
+										createdBy: '22006241',
 										lecture: '56c868096bd3f7b730a051f4',
 										startTime: moment.utc([2016, 9, 22, 10, 0, 0]),
 										endTime: moment.utc([2016, 9, 22, 11, 0, 0]),
-										timeAllowance: 20,
 										registered: [{
 											user: '56cb76ecd5b3f4b6be5d7def'
 										}, {
@@ -890,11 +838,10 @@ User.find({}).remove(function() {
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56a7d95746b9e7db57417309',
+										createdBy: '22006241',
 										lecture: '56d1ca2e4f6973280ce025eb',
 										startTime: moment.utc([2016, 10, 28, 12, 0, 0]),
 										endTime: moment.utc([2016, 10, 28, 14, 0, 0]),
-										timeAllowance: 20,
 										altAccess: '',
 										modules: [{
 											module: '56cb7c2e7bbe028ebfbe56a2'
@@ -902,38 +849,34 @@ User.find({}).remove(function() {
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56a7d95746b9e7db57417309',
+										createdBy: '22006241',
 										lecture: '56d1ca2e4f6973280ce025e7',
 										startTime: moment.utc([2016, 10, 29, 12, 0, 0]),
 										endTime: moment.utc([2016, 10, 29, 14, 0, 0]),
-										timeAllowance: 30,
 										modules: [{
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56a7d95746b9e7db57417309',
+										createdBy: '22006241',
 										lecture: '56d1ca2e4f6973280ce025e7',
 										startTime: moment.utc([2016, 10, 29, 14, 30, 0]),
 										endTime: moment.utc([2016, 10, 29, 16, 0, 0]),
-										timeAllowance: 30,
 										modules: [{
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56a7d95746b9e7db57417309',
+										createdBy: '22006241',
 										lecture: '56d1ca2e4f6973280ce025e7',
 										startTime: moment.utc([2016, 5, 27, 12, 0, 0]),
 										endTime: moment.utc([2016, 5, 27, 14, 0, 0]),
-										timeAllowance: 30,
 										modules: [{
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]
 									}, {
-										createdBy: '56a7d95746b9e7db57417309',
+										createdBy: '22006241',
 										lecture: '56d1ca2e4f6973280ce025e7',
 										startTime: moment.utc([2016, 10, 28, 12, 0, 0]),
 										endTime: moment.utc([2016, 10, 28, 14, 0, 0]),
-										timeAllowance: 30,
 										modules: [{
 											module: '56cb7c2e7bbe028ebfbe56a3'
 										}]

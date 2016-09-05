@@ -63,7 +63,6 @@ function signToken(id) {
 		_id: id
 	}, config.secrets.session, {
 		expiresIn: 60 * 60 * 24 * 7 // expires in a week
-			// expiresIn: 1
 	});
 	// return jwt.sign({ _id: id }, config.secrets.session, { expiresInMinutes: 60*5 });
 }

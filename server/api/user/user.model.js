@@ -5,7 +5,16 @@ var Schema = mongoose.Schema;
 var crypto = require('crypto');
 
 var UserSchema = new Schema({
-	name: {
+	_id: {
+		type: String,
+		unique: true,
+		required: true
+	},
+	forename: {
+		type: String,
+		required: true
+	},
+	surname: {
 		type: String,
 		required: true
 	},
@@ -14,16 +23,11 @@ var UserSchema = new Schema({
 		lowercase: true,
 		default: 'student'
 	},
-	course: { // don't want to overcomplicate it
-		type: String
-	},
 	teachingArea: { // don't want to overcomplicate it
 		type: String
 	},
-	email: {
+	email: { // only have an email address if they're a tutor/admin
 		type: String,
-		unique: true,
-		required: true,
 		lowercase: true
 	},
 	passcode: {
@@ -31,12 +35,10 @@ var UserSchema = new Schema({
 		max: 10
 	},
 	hashedPassword: {
-		type: String,
-		// select: false
+		type: String
 	},
 	salt: {
-		type: String,
-		// select: false
+		type: String
 	},
 	lastLoggedIn: Date,
 	lastUpdated: Date

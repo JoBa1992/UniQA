@@ -4,23 +4,23 @@ var mongoose = require('mongoose'),
 	Schema = mongoose.Schema;
 
 var ModuleSchema = new Schema({
-	// implied _id
 	_id: {
 		type: String
 	},
 	name: {
-		type: String
+		type: String,
+		required: true
 	},
 	students: [{
 		user: {
-			type: mongoose.Schema.Types.ObjectId,
+			type: String,
 			ref: 'User'
 		},
 		_id: false
 	}],
 	tutors: [{
 		user: {
-			type: mongoose.Schema.Types.ObjectId,
+			type: String,
 			ref: 'User',
 		},
 		_id: false

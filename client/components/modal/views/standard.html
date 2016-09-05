@@ -11,11 +11,9 @@
 
   <div class="modal-body">
     <p ng-if="modal.text" ng-bind="modal.text"></p>
-    <!-- <div ng-include="modal.form"></div> -->
     <ng-include src="modal.form"></ng-include>
-    <!-- <div ng-if="modal.form" bind-unsafe-html="modal.form"></div> -->
   </div>
-  <div class="modal-footer">
+  <div ng-if="modal.footer !== false" class="modal-footer">
     <button ng-repeat="button in modal.buttons" ng-class="button.classes" ng-click="button.click($event, form)" bind-unsafe-html="button.text" class="btn"></button>
   </div>
 </form>

@@ -1,12 +1,9 @@
-<div ng-controller="DropZoneController as dzc">
+<div>
   <div ng-if="!importViewData">
-    <button autoprocessdz="'false'" dz-type="'csvImport'" class="dropzone" drop-zone call-back="showCsvData(response)" name="csvUserData" data-max="5" mimetypes="'.csv, .txt'" id="csv-dropzone" style="width:100%;border:2px solid #8DB7D2;">
-      <div class="dz-message" style="font-size:1.4em;color:#343D48;">Drop files here or click to upload.
-        <br>
-        <span class="note" style="font-size:.6em;">
-          <strong>(Allowed file types: .csv, .txt)</strong>
-        </span>
-
+    <button autoprocessdz="'false'" dz-type="'csvImport'" class="dropzone" drop-zone call-back="showCsvData(response)" name="csvUserData" data-max="5" mimetypes="'.csv, .txt'" id="csv-dropzone" style="width:100%;border:1px dashed #CCC;background-color:#FFF;">
+      <div class="dz-message" style="font-size:1.4em;color:#343D48;">Drop CSV files or click to upload.</div>
+      <div class="dz-message" style="margin-top:2em;color:#CCC;">
+        <i class="fa fa-tint fa-5x" style="cursor:pointer;"></i>
       </div>
     </button>
   </div>
@@ -16,7 +13,6 @@
         <tr>
           <th>ID</th>
           <th>Name</th>
-          <th>Email</th>
           <th>Role</th>
           <th>Course</th>
           <th>Group</th>
@@ -26,7 +22,7 @@
           <td contenteditable="true" ng-model="user.id">{{user.id}}</td>
           <td contenteditable="true" ng-model="user.name">{{user.name}}</td>
 
-          <td contenteditable="true" ng-model="user.email">{{user.email + uniEmail}}</td>
+          <td contenteditable="true" ng-model="user.email">{{user.email}}</td>
           <td contenteditable="true" ng-model="user.role">Student</td>
           <td contenteditable="true" ng-model="user.course">{{user.course}}</td>
           <td contenteditable="true" ng-model="user.group">{{user.group}}</td>

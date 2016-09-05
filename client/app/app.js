@@ -43,11 +43,11 @@ angular.module('uniQaApp', [
 			.state('modules', {
 				url: '/modules',
 				templateUrl: 'app/modules/modules.html',
-				controller: 'ModuleCtrl',
+				controller: 'ModulesCtrl',
 				authenticate: true
 			})
 			.state('moduleItem', {
-				url: '/modules/:id',
+				url: '/modules/:moduleid',
 				templateUrl: 'app/modules/module.html',
 				controller: 'ModuleCtrl',
 				authenticate: true
@@ -121,14 +121,33 @@ angular.module('uniQaApp', [
 			}
 		};
 	})
-	.run(function($rootScope, $location, socket, Auth, Session) {
+	.run(function($rootScope, $location, socket, Auth, Session, Module) {
 
 		// check for scope state changes
-		//next, current
+		// next, current
 		$rootScope.$on('$stateChangeStart', function(event, toState, toParams /*, fromState , fromParams*/ ) {
 			// if not on active lecture, unsync socket listening for questions
 			if (toState.url !== '/session/active/:sessionid') {
 				socket.unsyncUpdates('session');
+
+				if (toState.url === '/modules/:moduleid') {
+					var moduleid = toParams.moduleid;
+
+					Module.getByID(moduleid).then(function(res) {
+						if (!(Auth.isAdmin() || Auth.isTutor())) {
+							event.preventDefault();
+							return $location.path('/session/register');
+						}
+					}).catch(function(err) {
+						event.preventDefault();
+						if (Auth.isAdmin() || Auth.isTutor()) {
+							return $location.path('/modules');
+						} else {
+							return $location.path('/session/register');
+						}
+					});
+
+				}
 			} else {
 				if (!toParams.sessionid) {
 					event.preventDefault();
