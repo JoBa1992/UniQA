@@ -38,16 +38,6 @@ describe('Lecture Model', function() {
 		});
 	});
 
-	it('should fail when saving a duplicate lecture', function(done) {
-		lecture.save(function() {
-			var lectureDup = new Lecture(lecture);
-			lectureDup.save(function(err) {
-				should.exist(err);
-				done();
-			});
-		});
-	});
-
 	it('should fail when saving without an author', function(done) {
 		lecture.author = '';
 		lecture.save(function(err) {
@@ -70,10 +60,9 @@ describe('Lecture Model', function() {
 			.send({
 				data: {
 					title: 'test lecture',
-					author: '56a7d95746b9e7db57417309', // b2006241,
-					desc: 'test description',
+					author: '56cb76ecd5b3f4b6be5d7ddb',
 					collaborators: [{
-						user: '56cb76ecd5b3f4b6be5d7ddb' // Martin
+						user: '22006241'
 					}]
 				}
 			})

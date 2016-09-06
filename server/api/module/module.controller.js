@@ -292,6 +292,7 @@ exports.create = function(req, res) {
 		})
 		.lean()
 		.exec(function(err, usersWhoExist) {
+			// console.info(usersWhoExist);
 			//	loop through usersWhoExist, compare against original array,
 			// and pull out users who exist from original array.
 			for (var x = 0; x < usersWhoExist.length; x++) {
