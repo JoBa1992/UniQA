@@ -1,4 +1,24 @@
 # UniQA
+
+## Setup
+
+Install dependencies
+```
+npm install
+```
+
+## Run
+
+```
+grunt server
+```
+
+## Testing
+
+```
+grunt test
+```
+
 ## ToDo
 - all app
     1. Remove HashedPasswords/salts being leaked across by accident...
