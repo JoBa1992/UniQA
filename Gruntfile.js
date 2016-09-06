@@ -110,7 +110,7 @@ module.exports = function(grunt) {
 					'{.tmp,<%= yeoman.client %>}/{app,components}/**/*.css',
 					'{.tmp,<%= yeoman.client %>}/{app,components}/**/*.html',
 
-					'.tmp/{app,components}/**/*.js',
+					'.tmp/{app,assets,components}/**/*.js',
 
 					'!{.tmp,<%= yeoman.client %>}{app,components}/**/*.spec.js',
 					'!{.tmp,<%= yeoman.client %>}/{app,components}/**/*.mock.js',
@@ -370,6 +370,7 @@ module.exports = function(grunt) {
 						'bower_components/**/*',
 						'assets/images/{,*/}*.{webp}',
 						'assets/fx/*',
+						'assets/favicons/*',
 						'assets/fonts/**/*',
 						'index.html'
 					]

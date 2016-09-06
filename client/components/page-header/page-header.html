@@ -6,18 +6,21 @@
       </div>
       <div class="col-sm-8 col-med-8 col-lg-8 pull-right">
         <div class="pull-right" style="margin:0.56em .4em;display:inline-block;">
-          <a class="btn page-sub-header-action-btn" ng-click="openCreateModal()">
+          <!-- ng-click="openCreateModal()"  -->
+          <a class="btn page-sub-header-action-btn" tooltip="Coming&nbsp;soon" tooltip-trigger tooltip-animation="false" popover-append-to-body="true" tooltip-placement="bottom">
             <i class="fa fa-plus" aria-hidden="true" style="font-size:1.4em;"></i>
           </a>
-          <a class="btn page-sub-header-action-btn" href="/notifications">
+          <!-- href="/notifications" -->
+          <a class="btn page-sub-header-action-btn" tooltip="Coming&nbsp;soon" tooltip-trigger tooltip-animation="false" popover-append-to-body="true" tooltip-placement="bottom">
             <i class="fa fa-bell-o" aria-hidden="true" style="font-weight:900;"></i>
           </a>
         </div>
         <form id="search-form" class="form-inline pull-right" role="form" style="margin:0.56em .4em;display:inline-block;">
           <div style="position:relative;width:100%;">
-            <input type="text" class="form-control search-form" placeholder="Search" ng-model="filter.searchStr" ng-keyup="checkForSubmit($event)" style='width:200px;'>
-            <!-- <span class="input-group-btn" style="position:relative;"> -->
-            <button type="submit" class="search-btn" ng-click="searchStrFilter($event)" name="q" style="">
+            <!-- ng-keyup="checkForSubmit($event)" -->
+            <input type="text" class="form-control search-form" placeholder="Search" ng-model="filter.searchStr" style='width:200px;'>
+            <!-- ng-click="searchStrFilter($event)" -->
+            <button tooltip="Coming&nbsp;soon" tooltip-trigger tooltip-animation="false" popover-append-to-body="true" tooltip-placement="bottom" type="submit" class="search-btn" name="q" style="">
               <span style="" class="glyphicon glyphicon-search"></span>
             </button>
             <!-- </span> -->
