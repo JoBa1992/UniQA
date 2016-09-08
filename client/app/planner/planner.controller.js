@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uniQaApp')
-	.controller('PlannerCtrl', function($scope, $http, $window, Auth, Session, Lecture, Module, Modal) {
+	.controller('PlannerCtrl', function($scope, $http, $window, Auth, Session, Lesson, Module, Modal) {
 
 		// attach lodash to scope
 		$scope._ = _;
@@ -9,7 +9,7 @@ angular.module('uniQaApp')
 		$scope.moment = moment;
 
 		$scope.sForm = {
-			lecture: '',
+			lesson: '',
 			startTime: '',
 			endTime: '',
 			allowance: '',
@@ -34,7 +34,7 @@ angular.module('uniQaApp')
 		// $scope.cTime = new Date(); // get current date
 		$scope.noQueryResults = false;
 
-		$scope.myLectures = [];
+		$scope.myLessons = [];
 		$scope.myModules = [];
 		$scope.selectedModules = [];
 
@@ -62,17 +62,17 @@ angular.module('uniQaApp')
 		$scope.searchForMyModule = function(e) {
 			// checking length to see if id has been sent through
 			if (e.keyCode === 13 || e === 'Submit' || e._id) {
-				// form lecture contains the object that can be used when saving
-				// console.info($scope.sForm.lecture);
+				// form lesson contains the object that can be used when saving
+				// console.info($scope.sForm.lesson);
 			} else {
 				Module.getMyAssocModules({
-					title: $scope.sForm.lecture,
+					title: $scope.sForm.lesson,
 					createdBy: me._id,
 					page: 1,
 					paginate: 50
 				}).then(function(res) {
 					console.info(res.result);
-					$scope.myLectures = res.result;
+					$scope.myLessons = res.result;
 				});
 			}
 		};
@@ -166,22 +166,22 @@ angular.module('uniQaApp')
 		// $scope.startTimeSelect(moment.utc());
 
 
-		$scope.searchForMyLectures = function(e) {
+		$scope.searchForMyLessons = function(e) {
 			// checking length to see if id has been sent through
 			if (e.keyCode === 13 || e === 'Submit' || e._id) {
-				// form lecture contains the object that can be used when saving
-				// console.info($scope.sForm.lecture);
+				// form lesson contains the object that can be used when saving
+				// console.info($scope.sForm.lesson);
 			} else {
 				// for no value
-				// $scope.sForm.lecture = $scope.sForm.lecture || '';
-				// console.info($scope.sForm.lecture);
-				Lecture.getForMe({
-					title: $scope.sForm.lecture,
+				// $scope.sForm.lesson = $scope.sForm.lesson || '';
+				// console.info($scope.sForm.lesson);
+				Lesson.getForMe({
+					title: $scope.sForm.lesson,
 					createdBy: me._id,
 					page: 1,
 					paginate: 50
 				}).then(function(res) {
-					$scope.myLectures = res.result;
+					$scope.myLessons = res.result;
 				});
 			}
 		};
@@ -256,7 +256,7 @@ angular.module('uniQaApp')
 
 		$scope.clearSchedForm = function() {
 			$scope.sForm = {
-				lecture: '',
+				lesson: '',
 				startTime: '',
 				endTime: '',
 				allowance: '',
@@ -268,7 +268,7 @@ angular.module('uniQaApp')
 			// when modal is confirmed, callback
 			if (session) {
 				Session.remove(session._id).then(function(res) {
-					// console.info(res);
+					console.info(res);
 					refreshSessions();
 				});
 			}
@@ -276,7 +276,7 @@ angular.module('uniQaApp')
 
 		// $scope.openUpdateDelSessionModal = Modal.update.session() {
 		// 	$scope.sForm = {
-		// 		lecture: '',
+		// 		lesson: '',
 		// 		startTime: '',
 		// 		endTime: '',
 		// 		allowance: '',
@@ -287,7 +287,7 @@ angular.module('uniQaApp')
 
 		$scope.addSchedule = function() {
 			$scope.submitted = true;
-			if ($scope.sForm.lecture && $scope.sForm.startTime && $scope.sForm.endTime && !_.isEmpty($scope.selectedModules)) {
+			if ($scope.sForm.lesson && $scope.sForm.startTime && $scope.sForm.endTime && !_.isEmpty($scope.selectedModules)) {
 				// setup vars to be sent across to API
 				var presModules = [];
 				// push each selected collaborator into array
@@ -299,7 +299,7 @@ angular.module('uniQaApp')
 
 				var data = {
 					createdBy: me._id,
-					lecture: $scope.sForm.lecture._id,
+					lesson: $scope.sForm.lesson._id,
 					startTime: moment.utc($scope.sForm.startTimeMoment).toISOString(),
 					endTime: moment.utc($scope.sForm.endTimeMoment).toISOString(),
 					modules: presModules,
@@ -310,7 +310,7 @@ angular.module('uniQaApp')
 						data: data
 					})
 					.then(function(res) {
-						// console.info(res);
+						console.info(res);
 						refreshSessions();
 						$scope.clearSchedForm();
 					})

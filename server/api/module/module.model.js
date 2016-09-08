@@ -4,17 +4,18 @@ var mongoose = require('mongoose'),
 	Schema = mongoose.Schema;
 
 var ModuleSchema = new Schema({
-	_id: {
-		type: String
+	code: {
+		type: String,
+		required: true
 	},
 	name: {
 		type: String,
 		required: true
 	},
-	students: [{
-		user: {
-			type: String,
-			ref: 'User'
+	groups: [{
+		group: {
+			type: Schema.Types.ObjectId,
+			ref: 'ModuleGroup'
 		},
 		_id: false
 	}],

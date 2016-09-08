@@ -24,7 +24,7 @@
     <!-- build:css(client) app/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/dropzone/downloads/css/dropzone.css" />
-    <link rel="stylesheet" href="bower_components/ngToast/dist/ngToast.css" />
+    <link rel="stylesheet" href="bower_components/ngtoast/dist/ngToast.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
@@ -122,7 +122,7 @@
   <script src="bower_components/moment/moment.js"></script>
   <script src="bower_components/dropzone/downloads/dropzone.min.js"></script>
   <script src="bower_components/angular-dropzone/lib/angular-dropzone.js"></script>
-  <script src="bower_components/ngToast/dist/ngToast.js"></script>
+  <script src="bower_components/ngtoast/dist/ngToast.js"></script>
   <!-- endbower -->
   <script src="socket.io-client/socket.io.js"></script>
   <!-- endbuild -->
@@ -137,6 +137,7 @@
   <!-- injector:js -->
   <script src="app/account/account.js"></script>
   <script src="app/account/login/login.controller.js"></script>
+  <script src="app/account/login/login.po.js"></script>
   <script src="app/account/profile/messages/messages.controller.js"></script>
   <script src="app/account/profile/notifications/notifications.controller.js"></script>
   <script src="app/account/profile/settings/settings.controller.js"></script>
@@ -146,9 +147,11 @@
   <script src="app/admin/general/general.controller.js"></script>
   <script src="app/admin/users/users.controller.js"></script>
   <script src="app/index/index.js"></script>
-  <script src="app/lectures/lectures.controller.js"></script>
+  <script src="app/lessons/lesson.controller.js"></script>
+  <script src="app/lessons/lessonList.controller.js"></script>
+  <script src="app/moduleGroups/moduleGroup.controller.js"></script>
   <script src="app/modules/module.controller.js"></script>
-  <script src="app/modules/modules.controller.js"></script>
+  <script src="app/modules/moduleList.controller.js"></script>
   <script src="app/planner/planner.controller.js"></script>
   <script src="app/profile/profile.controller.js"></script>
   <script src="app/qr/qr.controller.js"></script>
@@ -160,17 +163,19 @@
   <script src="components/dropzone/dropzone.directive.js"></script>
   <script src="components/ext-svg/ext-svg.directive.js"></script>
   <script src="components/footer/footer.controller.js"></script>
-  <script src="components/lecture/lecture.service.js"></script>
+  <script src="components/lesson/lesson.service.js"></script>
   <script src="components/loading/loading.directive.js"></script>
   <script src="components/modal/modal.service.js"></script>
   <script src="components/module/module.service.js"></script>
   <script src="components/mongoose-error/mongoose-error.directive.js"></script>
   <script src="components/navbar/navbar.controller.js"></script>
+  <script src="components/page-header/page-header.controller.js"></script>
   <script src="components/scroll-bottom/scroll-bottom.directive.js"></script>
   <script src="components/session/session.service.js"></script>
   <script src="components/socket/socket.service.js"></script>
   <script src="components/star-rating/star-rating-click.directive.js"></script>
   <script src="components/star-rating/star-rating.directive.js"></script>
+  <script src="components/star-rating/star-rating.po.js"></script>
   <script src="components/thing/thing.service.js"></script>
   <!-- endinjector -->
   <!-- endbuild -->

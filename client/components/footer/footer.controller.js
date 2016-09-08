@@ -13,10 +13,10 @@ angular.module('uniQaApp')
 		}];
 
 		$scope.isRoot = function() {
-			if ($location.path() == '/') {
+			if ($location.path() === '/') {
 				return true;
 			}
 			return false;
-		}
+		};
 
 	});

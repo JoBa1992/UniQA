@@ -16,7 +16,7 @@
     </li>
   </ul>
   <div class="sidebar-footer">
-    <div class="sidebar-account dropdown dropup" ng-if="isLoggedIn()">
+    <div class="sidebar-account" uib-dropdown ng-if="isLoggedIn()">
       <button class="dropdown-toggle" type="button" data-toggle="dropdown">
         <img class="avatar" ng-class="{'avatar-min': isNavCollapsed()}" src="/assets/images/placeholders/profile.jpg" style="border:2px solid #82AECC;">
         <span ng-if="!isNavCollapsed()" class="avatar-username" style="display:inline-block;">{{currentUser().forename}}&nbsp;{{currentUser().surname}}</span>

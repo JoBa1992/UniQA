@@ -28,10 +28,10 @@ angular.module('uniQaApp', [
 				controller: 'SessionActiveCtrl',
 				authenticate: true
 			})
-			.state('lectMgr', {
-				url: '/lectures',
-				templateUrl: 'app/lectures/lectures.html',
-				controller: 'LectureTutCtrl',
+			.state('lessonList', {
+				url: '/lessons',
+				templateUrl: 'app/lessons/lessonList.html',
+				controller: 'LessonList',
 				authenticate: true
 			})
 			// .state('userPlanner', {
@@ -40,16 +40,22 @@ angular.module('uniQaApp', [
 			// 	controller: 'PlannerCtrl',
 			// 	authenticate: true
 			// })
-			.state('modules', {
+			.state('moduleList', {
 				url: '/modules',
-				templateUrl: 'app/modules/modules.html',
-				controller: 'ModulesCtrl',
+				templateUrl: 'app/modules/moduleList.html',
+				controller: 'ModuleListCtrl',
 				authenticate: true
 			})
-			.state('moduleItem', {
+			.state('module', {
 				url: '/modules/:moduleid',
 				templateUrl: 'app/modules/module.html',
 				controller: 'ModuleCtrl',
+				authenticate: true
+			})
+			.state('moduleGroup', {
+				url: '/modules/:moduleid/groups/:groupid',
+				templateUrl: 'app/moduleGroup/moduleGroup.html',
+				controller: 'ModuleGroupCtrl',
 				authenticate: true
 			})
 			.state('profile', {
@@ -84,7 +90,7 @@ angular.module('uniQaApp', [
 	})
 	.config(function(ngToastProvider) {
 		ngToastProvider.configure({
-			// animation: 'slide', // or 'fade'
+			animation: 'slide', // or 'fade'
 			verticalPosition: 'bottom',
 			horizontalPosition: 'left',
 			maxNumber: 1
@@ -133,12 +139,12 @@ angular.module('uniQaApp', [
 				if (toState.url === '/modules/:moduleid') {
 					var moduleid = toParams.moduleid;
 
-					Module.getByID(moduleid).then(function(res) {
+					Module.getByID(moduleid).then(function() {
 						if (!(Auth.isAdmin() || Auth.isTutor())) {
 							event.preventDefault();
 							return $location.path('/session/register');
 						}
-					}).catch(function(err) {
+					}).catch(function() {
 						event.preventDefault();
 						if (Auth.isAdmin() || Auth.isTutor()) {
 							return $location.path('/modules');

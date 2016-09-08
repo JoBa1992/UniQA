@@ -54,7 +54,7 @@ angular.module('uniQaApp')
 				if (scope.noFileDisplay === 'true') {
 
 				} else {
-					var previewTemp = '<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\" style=\"width:100%;\"><span style=\"width:100%;\" data-dz-name> </span>\n<i style=\"color:#bbb;margin-top:.3em;width:100%;\" class=\"fa " + iconType + " fa-3x\"></i></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div>\n  <div class=\"dz-success-mark\"><span>✔</span></div>\n  <div class=\"dz-error-mark\"><span>✘</span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>';
+					previewTemp = '<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\" style=\"width:100%;\"><span style=\"width:100%;\" data-dz-name> </span>\n<i style=\"color:#bbb;margin-top:.3em;width:100%;\" class=\"fa " + iconType + " fa-3x\"></i></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div>\n  <div class=\"dz-success-mark\"><span>✔</span></div>\n  <div class=\"dz-error-mark\"><span>✘</span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>';
 				}
 
 

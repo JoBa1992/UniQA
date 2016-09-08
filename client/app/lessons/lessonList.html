@@ -1,0 +1,32 @@
+<div ng-include="'components/page-header/page-header.html'"></div>
+
+<div class="marg-fix header-margin-offset body-min-height">
+  <div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" style="height:300px;" ng-repeat="lesson in lessons">
+      <div class="lesson-container">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="position:relative;">
+          <h4 class="" style="margin:1em 0;">{{lesson.title}}</h4>
+          <h5 style="font-size:.8em;">Author:
+            <a class="text-primary">{{lesson.author.forename}}&nbsp;{{lesson.author.surname}}</a>
+          </h5>
+          <h5 style="font-size:.8em;" class="" ng-if="!_.isEmpty(lesson.collaborators)">Collaborators:
+            <a class="text-primary" ng-repeat="collab in lesson.collaborators">{{collab.user.forename}}&nbsp;{{collab.user.surname}}
+              <span ng-if="!$last">,</span>
+            </a>
+          </h5>
+          <div style="position:absolute;bottom:-3em;left:.8em;" ng-if="!_.isEmpty(lesson.attachments)">
+            <h5 ng-repeat="item in lesson.attachments" tooltip="{{item.filename}}" tooltip-trigger tooltip-animation="false" tooltip-placement="top" style="margin:0 .4em;text-decoration:none;display:inline-block;">
+              <i class="fa fa-{{item.type}}-o fa-2x"></i>
+            </h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div ng-if="!$last" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin:2em 0;">
+      <hr class="resource-hr">
+    </div> -->
+  </div>
+</div>
+<!-- FOOTER -->
+<div ng-include="'components/footer/footer.html'"></div>
+<!-- /FOOTER -->

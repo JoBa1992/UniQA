@@ -40,7 +40,7 @@ describe('Thing Model', function() {
 		});
 	});
 
-	it('should allow lecture to be created through api', function(done) {
+	it('should allow thing to be created through api', function(done) {
 		api
 			.post('/')
 			.send({

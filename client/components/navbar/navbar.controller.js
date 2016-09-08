@@ -27,9 +27,9 @@ angular.module('uniQaApp')
 				tutor: true,
 				student: false
 			}, {
-				title: 'Lectures',
+				title: 'Lessons',
 				icon: 'archive',
-				link: '/lectures',
+				link: '/lessons',
 				login: true,
 				admin: true,
 				tutor: true,
@@ -54,7 +54,7 @@ angular.module('uniQaApp')
 				student: false
 			}
 			// , {
-			// 	title: 'Lecture Reg',
+			// 	title: 'Lesson Reg',
 			// 	link: '/session/register',
 			// 	//   link: '#',
 			// 	login: true,

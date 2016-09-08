@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('uniQaApp')
-	.controller('LoginCtrl', function($scope, $location, Auth, Thing) {
+	.controller('LoginCtrl', function($scope, $location, Auth, Thing, ngToast) {
 		$scope.user = {};
 
-		$scope.user.email = ''; //joba@uniqa.co.uk
+		$scope.user.username = ''; //joba@uniqa.co.uk
 		$scope.errors = {};
 
 		$scope.password = {};
@@ -30,12 +30,20 @@ angular.module('uniQaApp')
 			}
 		};
 
+		$scope.googleSignIn = function() {
+			ngToast.create({
+				className: 'danger',
+				timeout: 5000,
+				content: 'We\'re working on it :)'
+			});
+		};
+
 		$scope.login = function(form) {
 			$scope.submitted = true;
 
 			if (form.$valid) {
 				Auth.login({
-						email: $scope.user.email,
+						username: $scope.user.username,
 						password: $scope.user.password
 					})
 					.then(function() {

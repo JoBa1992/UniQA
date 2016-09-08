@@ -3,66 +3,66 @@
 var should = require('should');
 var app = require('../../app');
 var supertest = require('supertest');
-var Lecture = require('./lecture.model');
+var Lesson = require('./lesson.model');
 
-var lecture = new Lecture({
-	title: 'test lecture',
+var lesson = new Lesson({
+	title: 'test lesson',
 	author: '56a7d95746b9e7db57417309', // b2006241,
 	desc: 'test description',
 	collaborators: [{
 		user: '56cb76ecd5b3f4b6be5d7ddb' // Martin
 	}],
-	url: 'http://www.mustbebuilt.co.uk/SHU/WAD/wad-wk8-lecture16.html'
+	url: 'http://www.mustbebuilt.co.uk/SHU/WAD/wad-wk8-lesson16.html'
 });
 
-describe('Lecture Model', function() {
-	var api = supertest.agent('http://localhost:9000/api/lectures');
+describe('Lesson Model', function() {
+	var api = supertest.agent('http://localhost:9000/api/lessons');
 
 	before(function(done) {
-		// Clear lectures before testing
-		Lecture.remove().exec().then(function() {
+		// Clear lessons before testing
+		Lesson.remove().exec().then(function() {
 			done();
 		});
 	});
 
 	afterEach(function(done) {
-		Lecture.remove().exec().then(function() {
+		Lesson.remove().exec().then(function() {
 			done();
 		});
 	});
 
-	it('should begin with no lectures', function(done) {
-		Lecture.find({}, function(err, lectures) {
-			lectures.should.have.length(0);
+	it('should begin with no lessons', function(done) {
+		Lesson.find({}, function(err, lessons) {
+			lessons.should.have.length(0);
 			done();
 		});
 	});
 
 	it('should fail when saving without an author', function(done) {
-		lecture.author = '';
-		lecture.save(function(err) {
+		lesson.author = '';
+		lesson.save(function(err) {
 			should.exist(err);
 			done();
 		});
 	});
 
 	it('should fail when saving without an title', function(done) {
-		lecture.title = '';
-		lecture.save(function(err) {
+		lesson.title = '';
+		lesson.save(function(err) {
 			should.exist(err);
 			done();
 		});
 	});
 
-	it('should allow lecture to be created through api', function(done) {
+	it('should allow lesson to be created through api', function(done) {
 		api
 			.post('/')
 			.send({
 				data: {
-					title: 'test lecture',
+					title: 'test lesson',
 					author: '56cb76ecd5b3f4b6be5d7ddb',
 					collaborators: [{
-						user: '22006241'
+						user: '56cb76ebd5b3f4b6be5d7dd1'
 					}]
 				}
 			})
@@ -79,7 +79,7 @@ describe('Lecture Model', function() {
 			.post('/')
 			.send({
 				data: {
-					title: 'test lecture',
+					title: 'test lesson',
 					author: '56a7d95746b9e7db57417309', // b2006241,
 					desc: 'test description',
 					collaborators: [{
@@ -95,7 +95,7 @@ describe('Lecture Model', function() {
 					.put('/' + res.body._id)
 					.send({
 						data: {
-							title: 'updated lecture',
+							title: 'updated lesson',
 							author: '56a7d95746b9e7db57417309', // b2006241,
 							desc: 'updated description',
 							collaborators: [{
@@ -117,7 +117,7 @@ describe('Lecture Model', function() {
 			.post('/')
 			.send({
 				data: {
-					title: 'test lecture',
+					title: 'test lesson',
 					author: '56a7d95746b9e7db57417309', // b2006241,
 					desc: 'test description',
 					collaborators: [{

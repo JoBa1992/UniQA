@@ -1,16 +1,16 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
- * GET     /modules              ->  index
- * POST    /modules              ->  create
- * GET     /modules/:id          ->  show
- * PUT     /modules/:id          ->  update
- * DELETE  /modules/:id          ->  destroy
+ * GET     /moduleGroups              ->  index
+ * POST    /moduleGroups              ->  create
+ * GET     /moduleGroups/:id          ->  show
+ * PUT     /moduleGroups/:id          ->  update
+ * DELETE  /moduleGroups/:id          ->  destroy
  */
 
 'use strict';
 
 var _ = require('lodash');
-var Module = require('./module.model');
+var Module = require('./moduleGroup.model');
 var User = require('../user/user.model');
 
 var fs = require('fs');
@@ -33,7 +33,7 @@ function csvToArray(strData, strDelimiter) {
 		[]
 	];
 	// Create an array to hold our individual pattern
-	// matching modules.
+	// matching moduleGroups.
 	var arrMatches;
 	var strMatchedDelimiter;
 	var strMatchedValue;
@@ -153,7 +153,7 @@ exports.convertCsvToJSON = function(req, res) {
 };
 
 
-// Get list of modules (or limit by querystring)
+// Get list of moduleGroups (or limit by querystring)
 exports.index = function(req, res) {
 	var result = {};
 	Module
@@ -161,11 +161,11 @@ exports.index = function(req, res) {
 		.populate('students.user')
 		.populate('tutors.user')
 		.lean()
-		.exec(function(err, modules) {
+		.exec(function(err, moduleGroups) {
 			if (err) {
 				return handleError(res, err);
 			}
-			result.modules = modules;
+			result.moduleGroups = moduleGroups;
 			Module.count({}, function(err, count) {
 				if (err) {
 					return handleError(res, err);
@@ -177,7 +177,7 @@ exports.index = function(req, res) {
 		});
 };
 
-// Get list of modules with association to user
+// Get list of moduleGroups with association to user
 exports.getForMe = function(req, res) {
 	var result = {};
 	Module
@@ -188,17 +188,17 @@ exports.getForMe = function(req, res) {
 				}
 			}
 		})
-		.populate('groups.group')
+		.populate('students.user')
 		.populate('tutors.user')
 		.lean()
-		.exec(function(err, modules) {
+		.exec(function(err, moduleGroups) {
 			if (err) {
 				return handleError(res, err);
 			}
-			if (_.isEmpty(modules)) {
+			if (_.isEmpty(moduleGroups)) {
 				return res.status(404).send('Not Found');
 			}
-			result.modules = modules;
+			result.moduleGroups = moduleGroups;
 			Module.count({
 				'tutors': {
 					'$elemMatch': {
@@ -214,9 +214,11 @@ exports.getForMe = function(req, res) {
 			});
 
 		});
+
+
 };
 
-// Get list of modules with association to user
+// Get list of moduleGroups with association to user
 exports.getNotForMe = function(req, res) {
 	var result = {};
 	Module
@@ -225,17 +227,17 @@ exports.getNotForMe = function(req, res) {
 				'$ne': req.params.userid
 			}
 		})
-		.populate('groups.group')
+		.populate('students.user')
 		.populate('tutors.user')
 		.lean()
-		.exec(function(err, modules) {
+		.exec(function(err, moduleGroups) {
 			if (err) {
 				return handleError(res, err);
 			}
-			if (_.isEmpty(modules)) {
+			if (_.isEmpty(moduleGroups)) {
 				return res.status(404).send('Not Found');
 			}
-			result.modules = modules;
+			result.moduleGroups = moduleGroups;
 			Module.count({
 				'tutors.user': {
 					'$ne': req.params.userid
@@ -251,31 +253,31 @@ exports.getNotForMe = function(req, res) {
 		});
 };
 
-// Get a single module
+// Get a single moduleGroup
 exports.show = function(req, res) {
 	Module.findById(req.params.id)
 		.populate('students.user')
 		.populate('tutors.user')
-		.exec(function(err, module) {
+		.exec(function(err, moduleGroup) {
 			if (err) {
 				return handleError(res, err);
 			}
-			if (!module) {
+			if (!moduleGroup) {
 				return res.status(404).send('Not Found');
 			}
-			return res.json(module);
+			return res.json(moduleGroup);
 		});
 };
 
-// Creates a new module in the DB. Users are checked against the user model,
-// and if they don't exist they're created and referenced back to the created module
+// Creates a new moduleGroup in the DB. Users are checked against the user model,
+// and if they don't exist they're created and referenced back to the created moduleGroup
 exports.create = function(req, res) {
 	// hack, but no es6 or spread operator :(
-	var moduleStudents = JSON.parse(JSON.stringify(req.body.students));
+	var moduleGroupStudents = JSON.parse(JSON.stringify(req.body.students));
 
 	var studentList = [];
-	for (var x = 0; x < moduleStudents.length; x++) {
-		studentList.push(moduleStudents[x].user);
+	for (var x = 0; x < moduleGroupStudents.length; x++) {
+		studentList.push(moduleGroupStudents[x].user);
 	}
 
 	User.find({
@@ -291,83 +293,83 @@ exports.create = function(req, res) {
 			// temp
 			/* jshint loopfunc:true */
 			for (var x = 0; x < usersWhoExist.length; x++) {
-				moduleStudents = moduleStudents.filter(function(user) {
+				moduleGroupStudents = moduleGroupStudents.filter(function(user) {
 					return usersWhoExist[x]._id !== user.user;
 				});
 			}
 
 			var studentsToCreate = [];
 
-			for (var z = 0; z < moduleStudents.length; z++) {
-				if (moduleStudents[z]) {
+			for (var z = 0; z < moduleGroupStudents.length; z++) {
+				if (moduleGroupStudents[z]) {
 					studentsToCreate.push({
-						_id: moduleStudents[z].user,
-						forename: moduleStudents[z].forename,
-						surname: moduleStudents[z].surname,
+						_id: moduleGroupStudents[z].user,
+						forename: moduleGroupStudents[z].forename,
+						surname: moduleGroupStudents[z].surname,
 						role: 'student'
 					});
 				}
 			}
 
 			// create users who still remain from original request
-			if (!_.isEmpty(moduleStudents)) {
+			if (!_.isEmpty(moduleGroupStudents)) {
 				User.insertMany(studentsToCreate, function(err, docs) {
 					if (err) {
 						console.info(err);
 					}
 
-					Module.create(req.body, function(err, module) {
+					Module.create(req.body, function(err, moduleGroup) {
 						if (err) {
 							return handleError(res, err);
 						}
-						return res.status(201).json(module);
+						return res.status(201).json(moduleGroup);
 					});
 
 				});
 			} else {
-				Module.create(req.body, function(err, module) {
+				Module.create(req.body, function(err, moduleGroup) {
 					if (err) {
 						return handleError(res, err);
 					}
-					return res.status(201).json(module);
+					return res.status(201).json(moduleGroup);
 				});
 			}
 
 		});
 };
 
-// Updates an existing module in the DB.
+// Updates an existing moduleGroup in the DB.
 exports.update = function(req, res) {
 	if (req.body._id) {
 		delete req.body._id;
 	}
-	Module.findById(req.params.id, function(err, module) {
+	Module.findById(req.params.id, function(err, moduleGroup) {
 		if (err) {
 			return handleError(res, err);
 		}
-		if (!module) {
+		if (!moduleGroup) {
 			return res.status(404).send('Not Found');
 		}
-		var updated = _.merge(module, req.body);
+		var updated = _.merge(moduleGroup, req.body);
 		updated.save(function(err) {
 			if (err) {
 				return handleError(res, err);
 			}
-			return res.status(200).json(module);
+			return res.status(200).json(moduleGroup);
 		});
 	});
 };
 
-// Deletes a module from the DB.
+// Deletes a moduleGroup from the DB.
 exports.destroy = function(req, res) {
-	Module.findById(req.params.id, function(err, module) {
+	Module.findById(req.params.id, function(err, moduleGroup) {
 		if (err) {
 			return handleError(res, err);
 		}
-		if (!module) {
+		if (!moduleGroup) {
 			return res.status(404).send('Not Found');
 		}
-		module.remove(function(err) {
+		moduleGroup.remove(function(err) {
 			if (err) {
 				return handleError(res, err);
 			}

@@ -1,16 +1,16 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
- * GET     /lectures              ->  index
- * POST    /lectures              ->  create
- * GET     /lectures/:id          ->  show
- * PUT     /lectures/:id          ->  update
- * DELETE  /lectures/:id          ->  destroy
+ * GET     /lessons              ->  index
+ * POST    /lessons              ->  create
+ * GET     /lessons/:id          ->  show
+ * PUT     /lessons/:id          ->  update
+ * DELETE  /lessons/:id          ->  destroy
  */
 
 // need to convert png image when its created/stored into base64 String, store it in QR collection, and can use this to decode on html side (hopefully!)
 'use strict';
 
-var Lecture = require('./lecture.model');
+var Lesson = require('./lesson.model');
 var Thing = require('../thing/thing.model');
 
 var _ = require('lodash');
@@ -19,12 +19,11 @@ var rmdir = require('rimraf');
 var fs = require('fs');
 var path = require('path');
 var mkdirp = require('mkdirp');
-// var Screenshot = require('url-to-screenshot');
 
 function storeFile(id, name, file, cb) {
-	var apiRoute = path.join('/api/storage/lectures/', String(id), '/', name);
-	var dir = path.join(__dirname, '../../storage/lectures/', String(id), '/');
-	var loc = path.join(__dirname, '../../storage/lectures/', String(id), '/', name);
+	var apiRoute = path.join('/api/storage/lessons/', String(id), '/', name);
+	var dir = path.join(__dirname, '../../storage/lessons/', String(id), '/');
+	var loc = path.join(__dirname, '../../storage/lessons/', String(id), '/', name);
 	mkdirp(dir, function(err) {
 		// path was created unless there was error
 		fs.writeFileSync(loc, file);
@@ -39,7 +38,7 @@ function moveFromTempToAssoc(tempLoc, newLoc, cb) {
 	});
 }
 
-// Get list of lectures (or limit by querystring)
+// Get list of lessons (or limit by querystring)
 exports.index = function(req, res) {
 	// name checking
 	if (req.query.title)
@@ -47,7 +46,7 @@ exports.index = function(req, res) {
 	else
 		req.query.title = new RegExp('', "i");
 
-	Lecture.find({
+	Lesson.find({
 			title: req.query.title,
 			$or: [{
 				author: req.query.createdBy
@@ -61,14 +60,14 @@ exports.index = function(req, res) {
 		.populate('collaborators.user')
 		.sort('title')
 		.lean()
-		.exec(function(err, lectures) {
+		.exec(function(err, lessons) {
 			if (err) {
 				return handleError(res, err);
 			}
-			if (!lectures[0]) {
+			if (!lessons[0]) {
 				return res.status(404).send('Not Found');
 			} else {
-				Lecture.count({
+				Lesson.count({
 					$or: [{
 						author: req.query.createdBy
 					}, {
@@ -76,7 +75,7 @@ exports.index = function(req, res) {
 					}]
 				}, function(err, count) {
 					res.status(200).json({
-						result: lectures,
+						result: lessons,
 						count: count
 					});
 				});
@@ -86,30 +85,13 @@ exports.index = function(req, res) {
 		});
 };
 
-// exports.generatePreview = function(req, res) {
-// 	if (req.body.url) {
-// 		new Screenshot('http://' + req.body.url)
-// 			.width(968)
-// 			.height(968)
-// 			.clip()
-// 			.capture(function(err, img) {
-// 				if (err) throw err;
-// 				res.contentType('image/jpeg');
-// 				res.end(img.toString('base64'), 'binary');
-// 			});
-// 	} else {
-// 		res.status(400).send('no url sent');
-// 	}
-// };
-
 exports.count = function(req, res) {
-	Lecture.count({
+	Lesson.count({
 		author: req.query.createdBy,
 		endTime: {
 			"$gte": new Date()
 		}
 	}, function(err, count) {
-		// console.log(count);
 		res.status(200).json({
 			count: count
 		});
@@ -117,16 +99,16 @@ exports.count = function(req, res) {
 };
 
 
-// Get a single lecture
+// Get a single lesson
 exports.show = function(req, res) {
-	Lecture.findById(req.params.id, function(err, lecture) {
+	Lesson.findById(req.params.id, function(err, lesson) {
 		if (err) {
 			return handleError(res, err);
 		}
-		if (!lecture) {
+		if (!lesson) {
 			return res.status(404).send('Not Found');
 		}
-		return res.json(lecture);
+		return res.json(lesson);
 	});
 };
 
@@ -156,13 +138,14 @@ function getFileType(fileLoc, cb) {
 	}
 	cb(fileType);
 }
+
 exports.attachFiles = function(req, res) {
-	var lectureId = req.params.id;
+	var lessonId = req.params.id;
 	var filesInfo = [];
 
-	var tempLocation = path.join(__dirname, '../../storage/lectures/temp/');
-	var dir = path.join(__dirname, '../../storage/lectures/', String(lectureId), '/');
-	var apiRoute = path.join('/api/storage/lectures/', String(lectureId), '/');
+	var tempLocation = path.join(__dirname, '../../storage/lessons/temp/');
+	var dir = path.join(__dirname, '../../storage/lessons/', String(lessonId), '/');
+	var apiRoute = path.join('/api/storage/lessons/', String(lessonId), '/');
 
 	mkdirp(dir, function(err) {
 
@@ -179,13 +162,13 @@ exports.attachFiles = function(req, res) {
 				filesInfo.push(collectionFileInfo);
 				moveFromTempToAssoc(tempFileLocation, newFileDir, function() {
 					if (file.fieldname === req.files[req.files.length - 1].fieldname) {
-						Lecture.findById(lectureId, function(err, lecture) {
-							lecture.attachments = filesInfo;
-							lecture.save(function(err) {
+						Lesson.findById(lessonId, function(err, lesson) {
+							lesson.attachments = filesInfo;
+							lesson.save(function(err) {
 								if (err) {
 									return handleError(res, err);
 								} else {
-									return res.json(lecture);
+									return res.json(lesson);
 								}
 							})
 						});
@@ -200,7 +183,7 @@ exports.attachFiles = function(req, res) {
 
 };
 
-// Creates a new lecture in the DB.
+// Creates a new lesson in the DB.
 exports.create = function(req, res) {
 	if (req.body.data) {
 		if (req.body.data.url) {
@@ -208,79 +191,61 @@ exports.create = function(req, res) {
 			req.body.data.url = 'http://' + req.body.data.url.split('http://').pop().split('https://').pop();
 		}
 	}
-	Lecture.create(req.body.data, function(err, lecture) {
+	Lesson.create(req.body.data, function(err, lesson) {
 		if (err) {
 			console.log(err);
 			return handleError(res, err);
 		} else {
-			// create preview, save server side, update lecture with preview
-			// if lecture has a url, generate a preview
-			if (lecture.url) {
-				return res.json(lecture);
-				// new Screenshot(lecture.url)
-				// 	.width(968)
-				// 	.height(968)
-				// 	.clip()
-				// 	.capture(function(err, img) {
-				// 		if (err) throw err;
-				// 		// store other files here
-				// 		storeFile(lecture._id, 'preview.png', img, function(loc) {
-				// 			lecture.preview = loc;
-				// 			lecture.save(function(err) {
-				// 				if (err) {
-				// 					return handleError(res, err);
-				// 				} else {
-				// 					return res.json(lecture);
-				// 				}
-				// 			})
-				// 		});
-				// 	});
+			// create preview, save server side, update lesson with preview
+			// if lesson has a url, generate a preview
+			if (lesson.url) {
+				return res.json(lesson);
 			} else {
 				// else res back straight away
-				return res.status(201).json(lecture);
+				return res.status(201).json(lesson);
 			}
 		}
 	});
 };
 
-// Updates an existing lecture in the DB.
+// Updates an existing lesson in the DB.
 exports.update = function(req, res) {
 	if (req.body._id) {
 		delete req.body._id;
 	}
-	Lecture.findById(req.params.id, function(err, lecture) {
+	Lesson.findById(req.params.id, function(err, lesson) {
 		if (err) {
 			return handleError(res, err);
 		}
-		if (!lecture) {
+		if (!lesson) {
 			return res.status(404).send('Not Found');
 		}
-		var updated = _.merge(lecture, req.body);
+		var updated = _.merge(lesson, req.body);
 		updated.save(function(err) {
 			if (err) {
 				return handleError(res, err);
 			}
-			return res.status(200).json(lecture);
+			return res.status(200).json(lesson);
 		});
 	});
 };
 
-// Deletes a lecture from the DB.
+// Deletes a lesson from the DB.
 exports.destroy = function(req, res) {
-	Lecture.findById(req.params.id, function(err, lecture) {
+	Lesson.findById(req.params.id, function(err, lesson) {
 		if (err) {
 			return handleError(res, err);
 		}
-		if (!lecture) {
+		if (!lesson) {
 			return res.status(404).send('Not Found');
 		}
-		lecture.remove(function(err) {
+		lesson.remove(function(err) {
 			if (err) {
 				return handleError(res, err);
 			}
-			// directory for lecture files storage
-			var dir = path.join(__dirname, '../../storage/lectures/', String(lecture._id), '/');
-			// remove files & folder associated with this lecture
+			// directory for lesson files storage
+			var dir = path.join(__dirname, '../../storage/lessons/', String(lesson._id), '/');
+			// remove files & folder associated with this lesson
 			rmdir(dir, function(error) {
 				if (error) {
 					return handleError(res, err);
