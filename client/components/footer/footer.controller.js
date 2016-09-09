@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uniQaApp')
+angular.module('UniQA')
 	.controller('FooterCtrl', function($scope, $location) {
 		$scope.menu = [{
 			'title': 'About',

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uniQaApp')
+angular.module('UniQA')
 	.controller('AdminUserCtrl', function($scope, $http, Auth, User, Thing, Modal, Module) {
 		// attach lodash to scope
 		$scope._ = _;

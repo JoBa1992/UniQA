@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uniQaApp')
+angular.module('UniQA')
 	.controller('NavbarCtrl', function($scope, $location, $stateParams, Auth, Modal) {
 		$scope.isLoggedIn = Auth.isLoggedIn;
 		$scope.isAdmin = Auth.isAdmin;

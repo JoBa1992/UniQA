@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uniQaApp')
+angular.module('UniQA')
 	.controller('ModuleListCtrl', function($scope, $http, $location, Auth, Module, Modal) {
 		$scope.title = 'Module Management';
 		$scope.moduleOption = 'User';

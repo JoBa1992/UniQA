@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uniQaApp')
+angular.module('UniQA')
 	.config(function($stateProvider) {
 		$stateProvider
 			.state('genMgr', {

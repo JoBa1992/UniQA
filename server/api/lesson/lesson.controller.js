@@ -10,6 +10,12 @@
 // need to convert png image when its created/stored into base64 String, store it in QR collection, and can use this to decode on html side (hopefully!)
 'use strict';
 
+// TODO:
+// 	-	Hook up attachments to S3
+//	-	Add possibility to attach a true flag to a particular file as the lesson 'slides'
+//		-	might be done here or client side (I'm unsure)
+//	-	Create lecture clone method, which takes everything from the original apart from the _id
+
 var Lesson = require('./lesson.model');
 var Thing = require('../thing/thing.model');
 
@@ -36,6 +42,33 @@ function moveFromTempToAssoc(tempLoc, newLoc, cb) {
 	fs.rename(tempLoc, newLoc, function(err) {
 		cb();
 	});
+}
+
+// gets anything after file extension (.) on file dir
+function getFileType(fileLoc, cb) {
+	// split file on full stop and pop the last entry off of stack
+	var extension = fileLoc.split('.').pop();
+	// default blank file
+	var fileType = 'file';
+
+	if (extension === 'pdf') {
+		fileType = 'file-pdf';
+	} else if (extension === 'zip') {
+		fileType = 'file-archive';
+	} else if (extension === 'html' || extension === 'cpp' || extension === 'cs' || extension === 'php' || extension === 'css' || extension === 'less' || extension === 'scss') {
+		fileType = 'file-code';
+	} else if (extension === 'txt') {
+		fileType = 'file-text';
+	} else if (extension === 'docx' || extension === 'doc') {
+		fileType = 'file-word';
+	} else if (extension === 'ppt' || extension === 'pptx' || extension === 'pps' || extension === 'ppsx') {
+		fileType = 'file-powerpoint';
+	} else if (extension === 'xls' || extension === 'xlsx' || extension === 'xlsm') {
+		fileType = 'file-excel';
+	} else if (extension === 'jpg' || extension === 'jpeg' || extension === 'png' || extension === 'gif' || extension === 'bmp' || extension === 'psd') {
+		fileType = 'file-image';
+	}
+	cb(fileType);
 }
 
 // Get list of lessons (or limit by querystring)
@@ -85,20 +118,6 @@ exports.index = function(req, res) {
 		});
 };
 
-exports.count = function(req, res) {
-	Lesson.count({
-		author: req.query.createdBy,
-		endTime: {
-			"$gte": new Date()
-		}
-	}, function(err, count) {
-		res.status(200).json({
-			count: count
-		});
-	});
-};
-
-
 // Get a single lesson
 exports.show = function(req, res) {
 	Lesson.findById(req.params.id, function(err, lesson) {
@@ -111,33 +130,6 @@ exports.show = function(req, res) {
 		return res.json(lesson);
 	});
 };
-
-// gets anything after file extension (.) on file dir
-function getFileType(fileLoc, cb) {
-	// split file on full stop and pop the last entry off of stack
-	var extension = fileLoc.split('.').pop();
-	// default blank file
-	var fileType = 'file';
-
-	if (extension === 'pdf') {
-		fileType = 'file-pdf';
-	} else if (extension === 'zip') {
-		fileType = 'file-archive';
-	} else if (extension === 'html' || extension === 'cpp' || extension === 'cs' || extension === 'php' || extension === 'css' || extension === 'less' || extension === 'scss') {
-		fileType = 'file-code';
-	} else if (extension === 'txt') {
-		fileType = 'file-text';
-	} else if (extension === 'docx' || extension === 'doc') {
-		fileType = 'file-word';
-	} else if (extension === 'ppt' || extension === 'pptx' || extension === 'pps' || extension === 'ppsx') {
-		fileType = 'file-powerpoint';
-	} else if (extension === 'xls' || extension === 'xlsx' || extension === 'xlsm') {
-		fileType = 'file-excel';
-	} else if (extension === 'jpg' || extension === 'jpeg' || extension === 'png' || extension === 'gif' || extension === 'bmp' || extension === 'psd') {
-		fileType = 'file-image';
-	}
-	cb(fileType);
-}
 
 exports.attachFiles = function(req, res) {
 	var lessonId = req.params.id;
@@ -176,11 +168,7 @@ exports.attachFiles = function(req, res) {
 				});
 			});
 		});
-
 	});
-
-
-
 };
 
 // Creates a new lesson in the DB.
@@ -188,7 +176,8 @@ exports.create = function(req, res) {
 	if (req.body.data) {
 		if (req.body.data.url) {
 			// strip out http and http from request, and re-add just http
-			req.body.data.url = 'http://' + req.body.data.url.split('http://').pop().split('https://').pop();
+			req.body.data.url = 'http://' +
+				req.body.data.url.split('http://').pop().split('https://').pop();
 		}
 	}
 	Lesson.create(req.body.data, function(err, lesson) {

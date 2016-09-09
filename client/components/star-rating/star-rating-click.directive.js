@@ -3,7 +3,7 @@
 /**
  * Star clicking functionality for lecture session feedback
  */
-angular.module('uniQaApp')
+angular.module('UniQA')
 	.directive('starRatingClick', function() {
 		return {
 			restrict: 'A',

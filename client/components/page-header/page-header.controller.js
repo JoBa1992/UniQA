@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uniQaApp')
+angular.module('UniQA')
 	.controller('PageHeaderCtrl', function($scope, $location, Auth) {
 		$scope.logout = function() {
 			Auth.logout();

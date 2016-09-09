@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uniQaApp')
+angular.module('UniQA')
 	.directive('scrollBottom', ['$timeout', function($timeout) {
 		return {
 			scope: {

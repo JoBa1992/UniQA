@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uniQaApp')
+angular.module('UniQA')
 	.controller('AdminStatsCtrl', function($scope, $http, Auth, User) {
 
 		// Use the User $resource to fetch all users

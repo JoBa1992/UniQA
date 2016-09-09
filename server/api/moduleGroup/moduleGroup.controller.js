@@ -9,8 +9,13 @@
 
 'use strict';
 
+//	-	Create moduleGroup clone endpoint, which can take everything from the original apart from the
+//		_id, giving the options to:
+//		-	clone all details
+//		-	clone all apart from the students
+
 var _ = require('lodash');
-var Module = require('./moduleGroup.model');
+var ModuleGroup = require('./moduleGroup.model');
 var User = require('../user/user.model');
 
 var fs = require('fs');
@@ -89,7 +94,9 @@ function csvToJSON(csv) {
 	return str;
 }
 
-// Convert Csv file to JSON and pass back
+// Convert Csv file to JSON and pass back to client.
+// TODO: needs to be able to show specific errors that occur when trying to create each user, which can be passed back to the client and highlighted on screen
+// TODO: needs to handle more cases when headers in CSV file presented aren't similar to the ones we are expecting (big nasty if statement)
 exports.convertCsvToJSON = function(req, res) {
 	var result = [];
 	if (req.files.length > 0) {
@@ -156,17 +163,16 @@ exports.convertCsvToJSON = function(req, res) {
 // Get list of moduleGroups (or limit by querystring)
 exports.index = function(req, res) {
 	var result = {};
-	Module
+	ModuleGroup
 		.find(req.query)
 		.populate('students.user')
-		.populate('tutors.user')
 		.lean()
 		.exec(function(err, moduleGroups) {
 			if (err) {
 				return handleError(res, err);
 			}
 			result.moduleGroups = moduleGroups;
-			Module.count({}, function(err, count) {
+			ModuleGroup.count({}, function(err, count) {
 				if (err) {
 					return handleError(res, err);
 				}
@@ -174,90 +180,13 @@ exports.index = function(req, res) {
 				return res.status(200).json(result);
 			});
 
-		});
-};
-
-// Get list of moduleGroups with association to user
-exports.getForMe = function(req, res) {
-	var result = {};
-	Module
-		.find({
-			'tutors': {
-				'$elemMatch': {
-					'user': req.params.userid
-				}
-			}
-		})
-		.populate('students.user')
-		.populate('tutors.user')
-		.lean()
-		.exec(function(err, moduleGroups) {
-			if (err) {
-				return handleError(res, err);
-			}
-			if (_.isEmpty(moduleGroups)) {
-				return res.status(404).send('Not Found');
-			}
-			result.moduleGroups = moduleGroups;
-			Module.count({
-				'tutors': {
-					'$elemMatch': {
-						'user': req.params.userid
-					}
-				}
-			}, function(err, count) {
-				if (err) {
-					return handleError(res, err);
-				}
-				result.count = count;
-				return res.status(200).json(result);
-			});
-
-		});
-
-
-};
-
-// Get list of moduleGroups with association to user
-exports.getNotForMe = function(req, res) {
-	var result = {};
-	Module
-		.find({
-			'tutors.user': {
-				'$ne': req.params.userid
-			}
-		})
-		.populate('students.user')
-		.populate('tutors.user')
-		.lean()
-		.exec(function(err, moduleGroups) {
-			if (err) {
-				return handleError(res, err);
-			}
-			if (_.isEmpty(moduleGroups)) {
-				return res.status(404).send('Not Found');
-			}
-			result.moduleGroups = moduleGroups;
-			Module.count({
-				'tutors.user': {
-					'$ne': req.params.userid
-				}
-
-			}, function(err, count) {
-				if (err) {
-					return handleError(res, err);
-				}
-				result.count = count;
-				return res.status(200).json(result);
-			});
 		});
 };
 
 // Get a single moduleGroup
 exports.show = function(req, res) {
-	Module.findById(req.params.id)
+	ModuleGroup.findById(req.params.id)
 		.populate('students.user')
-		.populate('tutors.user')
 		.exec(function(err, moduleGroup) {
 			if (err) {
 				return handleError(res, err);
@@ -290,7 +219,6 @@ exports.create = function(req, res) {
 			//	loop through usersWhoExist, compare against original array,
 			// and pull out users who exist from original array.
 
-			// temp
 			/* jshint loopfunc:true */
 			for (var x = 0; x < usersWhoExist.length; x++) {
 				moduleGroupStudents = moduleGroupStudents.filter(function(user) {
@@ -318,7 +246,7 @@ exports.create = function(req, res) {
 						console.info(err);
 					}
 
-					Module.create(req.body, function(err, moduleGroup) {
+					ModuleGroup.create(req.body, function(err, moduleGroup) {
 						if (err) {
 							return handleError(res, err);
 						}
@@ -327,7 +255,7 @@ exports.create = function(req, res) {
 
 				});
 			} else {
-				Module.create(req.body, function(err, moduleGroup) {
+				ModuleGroup.create(req.body, function(err, moduleGroup) {
 					if (err) {
 						return handleError(res, err);
 					}
@@ -343,7 +271,7 @@ exports.update = function(req, res) {
 	if (req.body._id) {
 		delete req.body._id;
 	}
-	Module.findById(req.params.id, function(err, moduleGroup) {
+	ModuleGroup.findById(req.params.id, function(err, moduleGroup) {
 		if (err) {
 			return handleError(res, err);
 		}
@@ -362,7 +290,7 @@ exports.update = function(req, res) {
 
 // Deletes a moduleGroup from the DB.
 exports.destroy = function(req, res) {
-	Module.findById(req.params.id, function(err, moduleGroup) {
+	ModuleGroup.findById(req.params.id, function(err, moduleGroup) {
 		if (err) {
 			return handleError(res, err);
 		}

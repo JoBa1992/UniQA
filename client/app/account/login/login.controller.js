@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uniQaApp')
+angular.module('UniQA')
 	.controller('LoginCtrl', function($scope, $location, Auth, Thing, ngToast) {
 		$scope.user = {};
 
@@ -33,9 +33,14 @@ angular.module('uniQaApp')
 		$scope.googleSignIn = function() {
 			ngToast.create({
 				className: 'danger',
-				timeout: 5000,
-				content: 'We\'re working on it :)'
+				timeout: 25000,
+				content: 'We\'re&nbsp;working&nbsp;on&nbsp;it&nbsp;:)'
 			});
+			// ngToast.create({
+			// 	className: 'danger',
+			// 	timeout: 25000,
+			// 	content: 'We\'re&nbsp;working&nbsp;on&nbsp;it&nbsp;:)'
+			// });
 		};
 
 		$scope.login = function(form) {

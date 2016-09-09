@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uniQaApp')
+angular.module('UniQA')
   .controller('SettingsCtrl', function($scope, User, Auth) {
     $scope.errors = {};
 

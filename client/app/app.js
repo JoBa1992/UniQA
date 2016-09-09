@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uniQaApp', [
+angular.module('UniQA', [
 		'ngCookies',
 		'ngResource',
 		'ngSanitize',
@@ -34,12 +34,6 @@ angular.module('uniQaApp', [
 				controller: 'LessonList',
 				authenticate: true
 			})
-			// .state('userPlanner', {
-			// 	url: '/planner',
-			// 	templateUrl: 'app/planner/planner.html',
-			// 	controller: 'PlannerCtrl',
-			// 	authenticate: true
-			// })
 			.state('moduleList', {
 				url: '/modules',
 				templateUrl: 'app/modules/moduleList.html',
@@ -91,9 +85,9 @@ angular.module('uniQaApp', [
 	.config(function(ngToastProvider) {
 		ngToastProvider.configure({
 			animation: 'slide', // or 'fade'
-			verticalPosition: 'bottom',
-			horizontalPosition: 'left',
-			maxNumber: 1
+			verticalPosition: 'top',
+			horizontalPosition: 'left'
+				// maxNumber: 1
 		});
 	})
 	.factory('authInterceptor', function($rootScope, $q, $cookieStore, $location) {
@@ -115,7 +109,7 @@ angular.module('uniQaApp', [
 					if (loc[0] === 'qr') {
 						// $location.path('$loca');
 					} else {
-						$location.path('/login');
+						$location.path('/');
 					}
 
 					// remove any stale tokens
@@ -127,81 +121,84 @@ angular.module('uniQaApp', [
 			}
 		};
 	})
-	.run(function($rootScope, $location, socket, Auth, Session, Module) {
-
+	.run(function($rootScope, $location, $window, socket, Auth, Session, Module) {
 		// check for scope state changes
 		// next, current
-		$rootScope.$on('$stateChangeStart', function(event, toState, toParams /*, fromState , fromParams*/ ) {
-			// if not on active lecture, unsync socket listening for questions
-			if (toState.url !== '/session/active/:sessionid') {
-				socket.unsyncUpdates('session');
-
-				if (toState.url === '/modules/:moduleid') {
-					var moduleid = toParams.moduleid;
-
-					Module.getByID(moduleid).then(function() {
-						if (!(Auth.isAdmin() || Auth.isTutor())) {
-							event.preventDefault();
-							return $location.path('/session/register');
-						}
-					}).catch(function() {
-						event.preventDefault();
-						if (Auth.isAdmin() || Auth.isTutor()) {
-							return $location.path('/modules');
-						} else {
-							return $location.path('/session/register');
-						}
-					});
-
-				}
-			} else {
-				if (!toParams.sessionid) {
+		$rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
+			Auth.isLoggedInAsync(function(loggedIn) {
+				if (loggedIn) {
 					event.preventDefault();
-					if (Auth.isAdmin()) {
-						return $location.path('/session/start?m=notReady');
+					// don't want users going to 'homepage' if logged in
+					if (toState.url === '/' || toState.url === '/login' || toState.url === '/register') {
+						return $location.path('/profile');
+					}
+					// if not on active lecture, unsync socket listening for questions
+					if (toState.url !== '/session/active/:sessionid') {
+						socket.unsyncUpdates('session');
+
+						if (toState.url === '/modules/:moduleid') {
+							var moduleid = toParams.moduleid;
+
+							Module.getByID(moduleid).then(function() {
+								if (!(Auth.isAdmin() || Auth.isTutor())) {
+									event.preventDefault();
+									return $location.path('/session/register');
+								}
+							}).catch(function() {
+								event.preventDefault();
+								if (Auth.isAdmin() || Auth.isTutor()) {
+									return $location.path('/modules');
+								} else {
+									return $location.path('/session/register');
+								}
+							});
+
+						}
 					} else {
-						return $location.path('/session/register?m=notReady');
+						if (!toParams.sessionid) {
+							event.preventDefault();
+							if (Auth.isAdmin()) {
+								return $location.path('/session/start?m=notReady');
+							} else {
+								return $location.path('/session/register?m=notReady');
+							}
+						}
+						var sessionid = toParams.sessionid;
+						var now = moment.utc();
+						var _second = 1000;
+						var _minute = _second * 60;
+						// don't want user accessing page if session isn't valid
+						Session.getOne(sessionid).then(function(res) {
+							if (!res) {
+								event.preventDefault();
+								if (Auth.isAdmin()) {
+									return $location.path('/session/start?m=notExist');
+								} else {
+									return $location.path('/session/register?m=notExist');
+								}
+							}
+
+							var start = moment(res.startTime) - (res.timeAllowance * _minute);
+							var end = moment(res.endTime) + (res.timeAllowance * _minute);
+
+							// if session isn't between goalposts kick back to session start
+							if (!(now >= start && now <= end)) {
+								// console.info(Auth.isAdmin());
+								if (Auth.isAdmin()) {
+									return $location.path('/session/start?m=notReady');
+								} else {
+									return $location.path('/session/register?m=notReady');
+								}
+							}
+						});
+					}
+				} else {
+					// strangely can't soft route? so doing hard refresh
+					if ($location.path() !== '/') {
+						return $window.location.href = '/';
 					}
 				}
-				var sessionid = toParams.sessionid;
-				var now = moment.utc();
-				var _second = 1000;
-				var _minute = _second * 60;
-				// don't want user accessing page if session isn't valid
-				Session.getOne(sessionid).then(function(res) {
-					if (!res) {
-						event.preventDefault();
-						if (Auth.isAdmin()) {
-
-							return $location.path('/session/start?m=notExist');
-						} else {
-							return $location.path('/session/register?m=notExist');
-						}
-					}
-
-					var start = moment(res.startTime) - (res.timeAllowance * _minute);
-					var end = moment(res.endTime) + (res.timeAllowance * _minute);
-
-					// if session isn't between goalposts kick back to session start
-					if (!(now >= start && now <= end)) {
-						console.info(Auth.isAdmin());
-						if (Auth.isAdmin()) {
-							return $location.path('/session/start?m=notReady');
-						} else {
-							return $location.path('/session/register?m=notReady');
-						}
-					}
-				});
-			}
-			// don't want users going to 'homepage' if logged in
-			if (toState.url === '/' || toState.url === '/login' || toState.url === '/register') {
-				Auth.isLoggedInAsync(function(loggedIn) {
-					if (loggedIn) {
-						event.preventDefault();
-						$location.path('/profile');
-					}
-				});
-			}
+			});
 		});
 
 	})
@@ -212,7 +209,6 @@ angular.module('uniQaApp', [
 				if ((toState.authenticate && !loggedIn)) {
 					event.preventDefault();
 					$location.path('/login');
-
 				}
 			});
 		});

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uniQaApp')
+angular.module('UniQA')
 	.controller('SessionActiveCtrl', function($scope, $stateParams, $window, $timeout, $location, $sce, ngToast, socket, Auth, Lesson, Session, Modal) {
 		// attach lodash to scope
 		$scope._ = _;

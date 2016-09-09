@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uniQaApp')
+angular.module('UniQA')
 	.factory('Modal', function($rootScope, $uibModal, $parse, $window, $location, $timeout, $interval, $sce, Auth, Thing, Module, Lesson, Session) {
 
 		// Use the User $resource to fetch all users
@@ -1085,41 +1085,41 @@ angular.module('uniQaApp')
 							$rootScope.lesson.type = type;
 						};
 
-						$rootScope.genPreview = function() {
-							// if http is present, rip it out, server adds it
-							if ($rootScope.lesson.url.indexOf('http://') > -1) {
-								// take anything after http
-								$rootScope.lesson.url = $rootScope.lesson.url.split('http://').pop();
-							}
-							if ($rootScope.lesson.url.indexOf('https://') > -1) {
-								// take anything after http
-								$rootScope.lesson.url = $rootScope.lesson.url.split('https://').pop();
-							}
-
-							if ($rootScope.lesson.url && isUrl('http://' + $rootScope.lesson.url)) {
-								$rootScope.preview.loading = true;
-
-								Lecture.generatePreview({
-									url: $rootScope.lesson.url
-								}).then(function(res) {
-									// only returns one element
-									if (_.isEmpty(res)) {
-										$rootScope.lesson.tempPreview = {
-											err: true
-										};
-									}
-									// attach with base64 tag
-									$rootScope.lesson.tempPreview = 'data:image/png;base64,' + res;
-									$rootScope.preview = {
-										loading: false
-									};
-								});
-							} else {
-								if (!isUrl('http://' + $rootScope.lesson.url)) {
-									//throw error
-								}
-							}
-						};
+						// $rootScope.genPreview = function() {
+						// 	// if http is present, rip it out, server adds it
+						// 	if ($rootScope.lesson.url.indexOf('http://') > -1) {
+						// 		// take anything after http
+						// 		$rootScope.lesson.url = $rootScope.lesson.url.split('http://').pop();
+						// 	}
+						// 	if ($rootScope.lesson.url.indexOf('https://') > -1) {
+						// 		// take anything after http
+						// 		$rootScope.lesson.url = $rootScope.lesson.url.split('https://').pop();
+						// 	}
+						//
+						// 	// if ($rootScope.lesson.url && isUrl('http://' + $rootScope.lesson.url)) {
+						// 	// 	$rootScope.preview.loading = true;
+						// 	//
+						// 	// 	Lecture.generatePreview({
+						// 	// 		url: $rootScope.lesson.url
+						// 	// 	}).then(function(res) {
+						// 	// 		// only returns one element
+						// 	// 		if (_.isEmpty(res)) {
+						// 	// 			$rootScope.lesson.tempPreview = {
+						// 	// 				err: true
+						// 	// 			};
+						// 	// 		}
+						// 	// 		// attach with base64 tag
+						// 	// 		$rootScope.lesson.tempPreview = 'data:image/png;base64,' + res;
+						// 	// 		$rootScope.preview = {
+						// 	// 			loading: false
+						// 	// 		};
+						// 	// 	});
+						// 	// } else {
+						// 	// 	if (!isUrl('http://' + $rootScope.lesson.url)) {
+						// 	// 		//throw error
+						// 	// 	}
+						// 	// }
+						// };
 
 						// stop enter key triggering DropzoneJS
 						angular.element($window).on('keydown', function(e) {
@@ -1226,7 +1226,7 @@ angular.module('uniQaApp')
 												.then(function(res) {
 													createdLecture = res;
 
-													$rootScope.dropzone[0].dropzone.options.url += createdLecture._id;
+													$rootScope.dropzone[0].dropzone.options.url += createdLecture._id + '/files';
 
 													if (!_.isEmpty($rootScope.dropzone[0].dropzone.getAcceptedFiles())) {
 														$rootScope.dropzone[0].dropzone.processQueue();
@@ -1258,7 +1258,7 @@ angular.module('uniQaApp')
 						}, 'modal-success', 'lg');
 
 						$rootScope.uploadSuccess = function(res) {
-							console.info(res);
+							// console.info(res);
 							$rootScope.res.received = true;
 							createModal.close();
 						};

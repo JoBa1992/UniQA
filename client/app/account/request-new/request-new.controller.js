@@ -1,4 +1,4 @@
 'use strict';
 
-angular.module('uniQaApp')
+angular.module('UniQA')
 	.controller('ReqNewCtrl', function() {});

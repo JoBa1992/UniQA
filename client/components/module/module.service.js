@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uniQaApp')
+angular.module('UniQA')
 	.factory('Module', function Department($http, $q) {
 		return {
 			get: function(callback) {

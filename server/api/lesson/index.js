@@ -1,6 +1,9 @@
 'use strict';
 
 var express = require('express');
+
+var auth = require('../../auth/auth.service');
+
 var path = require('path');
 var multer = require('multer');
 var mkdirp = require('mkdirp');
@@ -31,15 +34,12 @@ var config = require('../../config/environment');
 
 var router = express.Router();
 
-router.get('/', controller.index);
-router.get('/count', controller.count);
-router.post('/files/:id', upload.any(), controller.attachFiles); // file uploading for lesson
-router.put('/:id', controller.update);
-router.delete('/:id', controller.destroy);
-
-router.get('/:id', controller.show);
-router.post('/', controller.create);
-
-router.patch('/:id', controller.update);
+router.get('/', auth.isAuthenticated(), controller.index);
+router.post('/', auth.isAuthenticated(), controller.create);
+router.post('/:id/files', auth.isAuthenticated(), upload.any(), controller.attachFiles);
+router.put('/:id', auth.isAuthenticated(), controller.update);
+router.delete('/:id', auth.isAuthenticated(), controller.destroy);
+router.get('/:id', auth.isAuthenticated(), controller.show);
+router.patch('/:id', auth.isAuthenticated(), controller.update);
 
 module.exports = router;

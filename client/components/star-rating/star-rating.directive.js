@@ -3,7 +3,7 @@
 /**
  * Removes server error when user updates input
  */
-angular.module('uniQaApp')
+angular.module('UniQA')
 	.directive('starRating', function() {
 		return {
 			restrict: 'A',

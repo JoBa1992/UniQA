@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uniQaApp')
+angular.module('UniQA')
 	.controller('PlannerCtrl', function($scope, $http, $window, Auth, Session, Lesson, Module, Modal) {
 
 		// attach lodash to scope

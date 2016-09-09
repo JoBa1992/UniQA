@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uniQaApp')
+angular.module('UniQA')
 	.factory('Lesson', function Lesson($http, $q) {
 		return {
 

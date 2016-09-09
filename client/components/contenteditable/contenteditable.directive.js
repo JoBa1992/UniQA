@@ -1,7 +1,7 @@
 'use strict';
 
 
-angular.module('uniQaApp')
+angular.module('UniQA')
 	.directive('contenteditable', function() {
 		return {
 			require: 'ngModel',

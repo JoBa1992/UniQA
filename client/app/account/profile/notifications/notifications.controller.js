@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uniQaApp')
+angular.module('UniQA')
 	.controller('NotificationCtrl', function($scope) {
 		$scope.errors = {};
 	});

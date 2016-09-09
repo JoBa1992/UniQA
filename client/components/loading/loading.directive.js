@@ -3,7 +3,7 @@
 /**
  * Custom Directive for loading animation
  */
-angular.module('uniQaApp')
+angular.module('UniQA')
 	.directive('loading', function() {
 		return {
 			restrict: 'A',

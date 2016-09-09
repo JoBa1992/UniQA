@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uniQaApp')
+angular.module('UniQA')
 	.controller('QrRegistrationCtrl', function($scope, $location, $stateParams, Auth, Thing, Session) {
 
 		// if user is logged in already, take them straight to the lecture
