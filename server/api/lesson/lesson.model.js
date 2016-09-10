@@ -49,7 +49,10 @@ var LessonSchema = new Schema({
 			type: String,
 			default: 'fa-file-o'
 		}
-	}]
+	}],
+	type: {
+        type: String
+    },
 });
 
 module.exports = mongoose.model('Lesson', LessonSchema);
