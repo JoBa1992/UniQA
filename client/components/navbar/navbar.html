@@ -1,40 +1,35 @@
-<div ng-if="isLoggedIn()" ng-class="{'sidebar-wrapper': !isNavCollapsed(), 'sidebar-wrapper-min': isNavCollapsed()}">
-  <ul class="sidebar-nav">
-    <li ng-if="!isNavCollapsed()" class="sidebar-brand" ng-include="'assets/images/logo/full-logo-nav.svg'" style=""></li>
-    <li ng-if="isNavCollapsed()" class="sidebar-nav-item sidebar-brand">
-      <div ng-include style="width:100%;" src="'assets/images/logo/bubble.svg'"></div>
-      <!-- <a class="disable-animations" href="#">
-        <i class="fa fa-home" style="margin-top:.4em;margin-left:-.2em;" aria-hidden="true"></i>
-      </a> -->
-    </li>
-    <li ng-repeat="item in leftMenu" ng-class="{active: isActive(item.link)}" class="sidebar-nav-item">
-      <a ng-if="isAdmin() && item.admin || isTutor() && item.tutor || isStudent() && item.student" ng-href="{{item.link}}" class="disable-animations">
-        <i class="fa fa-{{item.icon}} sidebar-nav-icon" aria-hidden="true"></i>
-        <span ng-if="!isNavCollapsed()">{{item.title}}</span>
-        <span ng-if="!isNavCollapsed() && item.action" class="badge nav-badge">{{item.action}}</span>
+<!-- Left Sidenav -->
+<md-sidenav ng-if="isLoggedIn()" layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" style="height:100%;background-color:#414C5A;width: 260px;min-width: 260px;">
+  <md-toolbar>
+    <span flex></span>
+
+    <div layout="column" class="md-toolbar-tools-bottom">
+      <span ng-if="!isNavCollapsed()" class="sidebar-brand" ng-include="'assets/images/logo/full-logo-nav.svg'"></span>
+    </div>
+  </md-toolbar>
+  <md-list>
+    <md-item ng-repeat="item in leftMenu" class="nav-item" ng-class="{active: isActive(item.link)}">
+      <a href="{{item.link}}">
+        <md-item-content ng-if="'isAdmin() && item.admin || isTutor() && item.tutor || isStudent() && item.student'" md-ink-ripple layout="row" layout-align="start center">
+          <div class="inset nav-icon">
+            <i class="fa fa-{{item.icon}} sidebar-nav-icon" aria-hidden="true"></i>
+          </div>
+          <div class="inset">{{item.title}}</div>
+          <!-- <span class="badge nav-badge">{{item.action}}</span> -->
+        </md-item-content>
       </a>
-    </li>
-  </ul>
+    </md-item>
+  </md-list>
   <div class="sidebar-footer">
     <div class="sidebar-account" uib-dropdown ng-if="isLoggedIn()">
-      <button class="dropdown-toggle" type="button" data-toggle="dropdown">
-        <img class="avatar" ng-class="{'avatar-min': isNavCollapsed()}" src="/assets/images/placeholders/profile.jpg" style="border:2px solid #82AECC;">
-        <span ng-if="!isNavCollapsed()" class="avatar-username" style="display:inline-block;">{{currentUser().forename}}&nbsp;{{currentUser().surname}}</span>
-      </button>
-      <ul class="dropdown-menu account-menu" role="menu" style="overflow:hidden;">
-        <!-- <li ng-class="{active: isActive('/profile')}">
-          <a href="/profile">Account</a>
-        </li> -->
-        <!-- <li ng-class="{active: isActive('/profile/settings')}">
-          <a href="/profile/settings">Settings</a>
-        </li> -->
-        <li>
-          <a ng-click="logout()">Logout</a>
-        </li>
-      </ul>
+      <img class="avatar" ng-class="{'avatar-min': isNavCollapsed()}" src="/assets/images/placeholders/profile.jpg" style="border:2px solid #82AECC;">
+      <span ng-if="!isNavCollapsed()" class="avatar-username" style="display:inline-block;font-weight:600;">{{currentUser().forename}}&nbsp;{{currentUser().surname}}</span>
     </div>
     <button class="sidebar-footer-toggle" ng-class="{'sidebar-footer-toggle-min': isNavCollapsed()}" ng-click="toggleNav()">
       <i class="fa fa-{{sidebarIcon}}" aria-hidden="true"></i>
+      <md-tooltip md-autohide="true" md-direction="right" class="tooltip-md">
+        Josh promises he will fix me soon
+      </md-tooltip>
     </button>
   </div>
-</div>
+</md-sidenav>

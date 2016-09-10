@@ -24,18 +24,7 @@
     <!-- build:css(client) app/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/dropzone/downloads/css/dropzone.css"/>
-    <!-- <link rel="stylesheet" href="bower_components/ngtoast/dist/ngToast.css"/> -->
-    <!-- <link rel="stylesheet" href="bower_components/ngtoast/dist/ngToast-animations.min.css"> -->
-
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="bower_components/ngtoast/dist/ngToast.min.css">
-
-    <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
-    <script src="bower_components/ngtoast/dist/ngToast.min.js"></script>
-
-    <script src="bower_components/angular-animate/angular-animate.min.js"></script>
-    <link rel="stylesheet" href="bower_components/ngtoast/dist/ngToast-animations.min.css">
-
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css"/>
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
@@ -47,17 +36,34 @@
 
   </head>
   <body ng-app="UniQA">
-    <toast></toast>
     <!--[if lt IE 7]> <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p> <![endif]-->
 
-    <div ng-controller="NavbarCtrl" ng-class="{'wrapper': isNavCollapsed() === false, 'wrapper-min': isNavCollapsed() === true, 'wrapper-no-side': isNavCollapsed() === null}">
+    <div ng-controller="NavbarCtrl" layout="row" layout-fill ng-cloak="" class="sidenavdemoBasicUsage" style="overflow: auto;">
+
+      <ng-include src="'components/navbar/navbar.html'"></ng-include>
+
+      <div flex layout="column">
+        <!-- Sticky header toolbar -->
+
+        <div ng-controller="PageHeaderCtrl" ng-include="'components/page-header/page-header.html'"></div>
+        <!-- Main Content with scrolling content -->
+        <div layout="row" style="overflow: auto;">
+          <md-content flex layout-padding="">
+            <div flex="" ui-view=""></div>
+          </md-content>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- <div ng-controller="NavbarCtrl" ng-class="{'wrapper': isNavCollapsed() === false, 'wrapper-min': isNavCollapsed() === true, 'wrapper-no-side': isNavCollapsed() === null}">
       <div class="sidebar-container" ng-include="'components/navbar/navbar.html'"></div>
 
-      <!-- Page Content -->
       <div class="page-content-wrapper">
         <div class="container-fluid no-pad" ui-view=""></div>
       </div>
-    </div>
+    </div> -->
   </div>
 
   <!-- Add your site or application content here -->
@@ -121,8 +127,6 @@
   <!-- bower:js -->
   <script src="bower_components/jquery/dist/jquery.js"></script>
   <script src="bower_components/angular/angular.js"></script>
-  <script src="bower_components/matchmedia/matchMedia.js"></script>
-  <script src="bower_components/ngSticky/lib/sticky.js"></script>
   <script src="bower_components/angular-animate/angular-animate.js"></script>
   <script src="bower_components/angular-resource/angular-resource.js"></script>
   <script src="bower_components/angular-cookies/angular-cookies.js"></script>
@@ -134,12 +138,13 @@
   <script src="bower_components/moment/moment.js"></script>
   <script src="bower_components/dropzone/downloads/dropzone.min.js"></script>
   <script src="bower_components/angular-dropzone/lib/angular-dropzone.js"></script>
-  <script src="bower_components/ngtoast/dist/ngToast.js"></script>
+  <script src="bower_components/angular-aria/angular-aria.js"></script>
+  <script src="bower_components/angular-messages/angular-messages.js"></script>
+  <script src="bower_components/angular-material/angular-material.js"></script>
   <!-- endbower -->
   <script src="socket.io-client/socket.io.js"></script>
   <!-- endbuild -->
 
-  <script src="bower_components/ngSticky/dist/sticky.min.js"></script>
   <script src="bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js"></script>
   <script src="bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.templates.js"></script>
 

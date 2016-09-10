@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('UniQA')
-	.controller('LessonList', function($scope, $http, Auth, Lesson, Modal) {
+	.controller('LessonList', function($rootScope, $scope, $http, Auth, Lesson, Modal) {
 		// attach lodash to scope
 		$scope._ = _;
 
-		$scope.title = 'Lesson Management';
+		$rootScope.title = 'Lesson Management';
 
 		$scope.filter = {
 			searchStr: ''
