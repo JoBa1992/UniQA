@@ -22,7 +22,7 @@ var Thing = require('../thing/thing.model');
 var _ = require('lodash');
 var async = require('async');
 var Bucket = require('../../aws/s3/bucket')
-var bucket = new Bucket('uniqa-lesson')
+var bucket = new Bucket('uniqa/lectures')
 
 // Get list of lessons (or limit by querystring)
 exports.index = function(req, res) {
