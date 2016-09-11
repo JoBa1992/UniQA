@@ -46,17 +46,20 @@ class Bucket {
    * @return {Object} The uploaded file.
    */
   _uploadSingleFile (file, cb) {
+    var key = uuid.v4()
     var s3Object = new AWS.S3({
       params: {
         Bucket: this.name,
-        key: uuid.v4()
+        Key: key
       }
     })
     var body = fs.createReadStream(file.path)
 
     s3Object.upload({ Body: body }, (err, data) => {
       if (err) return cb(err)
+      fs.unlinkSync(file.path)
       cb(null, {
+        key: key,
         url: data.Location,
         mimetype: file.mimetype,
         size: file.size,
