@@ -82,6 +82,20 @@ class Bucket {
 
     return s3.getObject(params).createReadStream()
   }
+
+  /**
+   * Remove a file from S3.
+   * @param {string} uuid - The unique id of the file to remove
+   */
+  remove (uuid, cb) {
+    var s3 = new AWS.S3()
+    var params = {
+      Bucket: this.name,
+      Key: uuid
+    }
+
+    s3.deleteObject(params, cb)
+  }
 }
 
 module.exports = Bucket
