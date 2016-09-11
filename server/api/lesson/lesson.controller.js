@@ -82,13 +82,13 @@ exports.index = function(req, res) {
 	Lesson.find({
 			title: req.query.title,
 			$or: [{
-				author: req.query.createdBy
+				author: req.query.author
 			}, {
-				'collaborators.user': req.query.createdBy
+				'collaborators.user': req.query.author
 			}]
 		})
 		.skip((req.query.page - 1) * req.query.paginate)
-		.limit(req.query.paginate)
+		.limit(parseInt(req.query.paginate))
 		.populate('author')
 		.populate('collaborators.user')
 		.populate('module')
@@ -103,9 +103,9 @@ exports.index = function(req, res) {
 			} else {
 				Lesson.count({
 					$or: [{
-						author: req.query.createdBy
+						author: req.query.author
 					}, {
-						'collaborators.user': req.query.createdBy
+						'collaborators.user': req.query.author
 					}]
 				}, function(err, count) {
 					res.status(200).json({

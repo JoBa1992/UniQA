@@ -33,7 +33,8 @@ var UserSchema = new Schema({
 		type: String
 	},
 	hashedPassword: {
-		type: String
+		type: String,
+		select: false
 	},
 	salt: {
 		type: String
