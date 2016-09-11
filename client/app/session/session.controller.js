@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('uniQaApp')
-	.controller('SessionActiveCtrl', function($scope, $stateParams, $window, $timeout, $location, $sce, ngToast, socket, Auth, Lecture, Session, Modal) {
+angular.module('UniQA')
+	.controller('SessionActiveCtrl', function($scope, $stateParams, $window, $timeout, $location, $sce, ngToast, socket, Auth, Lesson, Session, Modal) {
 		// attach lodash to scope
 		$scope._ = _;
 		// attach moment to scope
@@ -56,7 +56,7 @@ angular.module('uniQaApp')
 
 		$scope.session = {};
 
-		// scope load for lecture/tutor
+		// scope load for lesson/tutor
 		$scope.fullScreenToggle = false;
 		$scope.hideQuestions = false;
 		$scope.presViewSizeMd = 'col-md-9';
@@ -64,7 +64,7 @@ angular.module('uniQaApp')
 		$scope.hideQuestionIcon = 'fa-arrow-right';
 		$scope.toggleBtnPosRight = 16;
 		$scope.toggleFullScreenIcon = 'fa-expand';
-		$scope.lecture = {
+		$scope.lesson = {
 			registered: [],
 			questions: [{
 				'asker': {
@@ -115,7 +115,7 @@ angular.module('uniQaApp')
 
 		$scope.getFile = function(file) {
 			Session.getFile({
-				lecture: $scope.lecture._id,
+				lesson: $scope.lesson._id,
 				user: me._id,
 				file: file,
 				session: sessionid
@@ -126,16 +126,16 @@ angular.module('uniQaApp')
 
 		// need to set this id by what gets passed through
 		Session.getOne(sessionid).then(function(res) {
-			var lecture = res.lecture;
+			var lesson = res.lesson;
 			// var modules = res.modules;
 			var questions = res.questions;
 			var authorCollabs = [];
 			var runtime;
 
-			authorCollabs.push(lecture.author.name); // push author in first
+			authorCollabs.push(lesson.author.name); // push author in first
 			// push in collabs
-			for (var i = 0; i < lecture.collaborators.length; i++) {
-				authorCollabs.push(lecture.collaborators[i].user.name);
+			for (var i = 0; i < lesson.collaborators.length; i++) {
+				authorCollabs.push(lesson.collaborators[i].user.name);
 			}
 
 			runtime = moment(res.startTime).utc().format('HH:mm') + ' - ' + moment(res.endTime).utc().format('HH:mm');
@@ -149,7 +149,7 @@ angular.module('uniQaApp')
 				return feedback.user === me._id;
 			});
 
-			// get total users expected to register into lecture
+			// get total users expected to register into lesson
 			var expected = 0;
 			_.some(res.modules, function(module) {
 				// bad nesting due to dodgy model, needs checking
@@ -158,17 +158,17 @@ angular.module('uniQaApp')
 
 			// for animated loading
 			$timeout(function() {
-				$scope.lecture._id = lecture._id;
-				$scope.lecture.title = lecture.title;
-				$scope.lecture.desc = lecture.desc;
-				$scope.lecture.url = lecture.url;
-				$scope.lecture.questions = questions;
-				$scope.lecture.runTime = runtime;
-				$scope.lecture.collaborators = authorCollabs;
-				$scope.lecture.altAccess = res.altAccess;
-				$scope.lecture.registered = res.registered;
-				$scope.lecture.expected = expected;
-				$scope.lecture.attachments = lecture.attachments;
+				$scope.lesson._id = lesson._id;
+				$scope.lesson.title = lesson.title;
+				$scope.lesson.desc = lesson.desc;
+				$scope.lesson.url = lesson.url;
+				$scope.lesson.questions = questions;
+				$scope.lesson.runTime = runtime;
+				$scope.lesson.collaborators = authorCollabs;
+				$scope.lesson.altAccess = res.altAccess;
+				$scope.lesson.registered = res.registered;
+				$scope.lesson.expected = expected;
+				$scope.lesson.attachments = lesson.attachments;
 				$scope.init = true;
 			}, 500);
 		}, function(err) {
@@ -183,21 +183,21 @@ angular.module('uniQaApp')
 		});
 
 		// live socket updates for questions
-		socket.syncUpdates('session', $scope.lecture.questions, function(event, item) {
+		socket.syncUpdates('session', $scope.lesson.questions, function(event, item) {
 			// checking if the event concerns this
 			if (item._id === sessionid) {
 				// if they don't equal the same, somethings changed
 				// stops feedback from triggering noise
-				if ($scope.lecture.questions.length !== item.questions.length) {
+				if ($scope.lesson.questions.length !== item.questions.length) {
 					$scope.questionIconNumber = item.questions.length;
-					$scope.lecture.questions = item.questions;
+					$scope.lesson.questions = item.questions;
 					if ($scope.playSound) {
 						ping.play();
 					}
 				}
 				// if registered values have changed, update scope
-				if ($scope.lecture.registered !== item.registered.length) {
-					$scope.lecture.registered = item.registered;
+				if ($scope.lesson.registered !== item.registered.length) {
+					$scope.lesson.registered = item.registered;
 				}
 			}
 
@@ -231,7 +231,7 @@ angular.module('uniQaApp')
 			} else {
 				$scope.presViewSizeMd = 'col-md-12';
 				$scope.presViewSizeLg = 'col-lg-12';
-				$scope.questionIconNumber = $scope.lecture.questions.length;
+				$scope.questionIconNumber = $scope.lesson.questions.length;
 				$scope.hideQuestionIcon = '';
 				$scope.hideQuestions = true;
 				$scope.toggleBtnPosRight = 16;
@@ -296,15 +296,15 @@ angular.module('uniQaApp')
 
 		$scope.toggleMsgBox = function() {
 			$scope.showQuestionSubmit = !$scope.showQuestionSubmit;
-			if ($scope.lectureHeight === $window.innerHeight) {
-				$scope.lectureHeight = $window.innerHeight - 95;
+			if ($scope.lessonHeight === $window.innerHeight) {
+				$scope.lessonHeight = $window.innerHeight - 95;
 				// if opening msgbox scroll to bottom of container;
 				$timeout(function() {
 					var scroller = document.getElementById('questionFeed');
 					scroller.scrollTop = scroller.scrollHeight;
 				}, 0, false);
 			} else {
-				$scope.lectureHeight = $window.innerHeight;
+				$scope.lessonHeight = $window.innerHeight;
 			}
 		};
 
@@ -344,7 +344,7 @@ angular.module('uniQaApp')
 			}
 		};
 
-		$scope.showSessionContent = Modal.read.sessionContent($scope.lecture, sessionid, function() {
+		$scope.showSessionContent = Modal.read.sessionContent($scope.lesson, sessionid, function() {
 			// $scope.refreshUserList();
 		});
 
@@ -398,7 +398,7 @@ angular.module('uniQaApp')
 
 		$scope.toggleFullScreen = function() {
 			if (!$scope.fullScreenToggle) { // Launch fullscreen for browsers that support it!
-				var element = document.getElementById('lecture-fullscreen');
+				var element = document.getElementById('lesson-fullscreen');
 				if (element.requestFullScreen) {
 					element.requestFullScreen();
 				} else if (element.mozRequestFullScreen) {
@@ -406,8 +406,8 @@ angular.module('uniQaApp')
 				} else if (element.webkitRequestFullScreen) {
 					element.webkitRequestFullScreen();
 				}
-				// $scope.lectureHeightMarginTop = '0em;';
-				$scope.lectureHeight = '890';
+				// $scope.lessonHeightMarginTop = '0em;';
+				$scope.lessonHeight = '890';
 				$scope.toggleFullScreenIcon = 'fa-compress';
 				$scope.fullScreenToggle = true;
 			} else { // Cancel fullscreen for browsers that support it!
@@ -418,16 +418,18 @@ angular.module('uniQaApp')
 				} else if (document.webkitExitFullscreen) {
 					document.webkitExitFullscreen();
 				}
-				// $scope.lectureHeightMarginTop = '-1.4em;';
-				$scope.lectureHeight = '760';
+				// $scope.lessonHeightMarginTop = '-1.4em;';
+				$scope.lessonHeight = '760';
 				$scope.toggleFullScreenIcon = 'fa-expand';
 				$scope.fullScreenToggle = false;
 			}
 		};
 	})
-	.controller('SessionStartCtrl', function($scope, $window, $timeout, $sce, $interval, socket, Auth, Lecture, Module, Session) {
+	.controller('SessionStartCtrl', function($rootScope, $scope, $window, $timeout, $sce, $interval, socket, Auth, Lesson, Module, Session) {
 		// attach lodash to scope
 		$scope._ = _;
+
+		$rootScope.showTopNav = false;
 
 		// attach moment to scope
 		$scope.moment = moment;
@@ -442,38 +444,38 @@ angular.module('uniQaApp')
 		$scope.startSessionQuestions = 'success';
 		$scope.startSessionFeedback = 'success';
 
-		var _second = 1000;
-		var _minute = _second * 60;
-		var _hour = _minute * 60;
-		var _day = _hour * 24;
-		var interval = 100;
+		// var _second = 1000;
+		// var _minute = _second * 60;
+		// var _hour = _minute * 60;
+		// var _day = _hour * 24;
+		// var interval = 100;
 
 		// Module.getMyAssocModules({
-		// 	title: $scope.sForm.lecture,
+		// 	title: $scope.sForm.lesson,
 		// 	createdBy: me._id,
 		// 	page: 1,
 		// 	paginate: 50
 		// }).then(function(res) {
 		// 	console.info(res.result);
-		// 	$scope.myLectures = res.result;
+		// 	$scope.myLessons = res.result;
 		// });
 
-		$scope.searchForMyLectures = function(e) {
+		$scope.searchForMyLessons = function(e) {
 			// checking length to see if id has been sent through
 			if (e.keyCode === 13 || e === 'Submit' || e._id) {
-				// form lecture contains the object that can be used when saving
-				// console.info($scope.sForm.lecture);
+				// form lesson contains the object that can be used when saving
+				// console.info($scope.sForm.lesson);
 			} else {
 				// for no value
-				// $scope.sForm.lecture = $scope.sForm.lecture || '';
-				// console.info($scope.sForm.lecture);
-				Lecture.getForMe({
-					title: $scope.sForm.lecture,
+				// $scope.sForm.lesson = $scope.sForm.lesson || '';
+				// console.info($scope.sForm.lesson);
+				Lesson.getForMe({
+					title: $scope.sForm.lesson,
 					createdBy: me._id,
 					page: 1,
 					paginate: 50
 				}).then(function(res) {
-					$scope.myLectures = res.result;
+					$scope.myLessons = res.result;
 				});
 			}
 		};
@@ -534,20 +536,21 @@ angular.module('uniQaApp')
 			} else {
 				$scope.startSessionQuestions = 'success';
 			}
-		}
+		};
+
 		$scope.switchFeedbackState = function() {
 			if ($scope.startSessionFeedback === 'success') {
 				$scope.startSessionFeedback = 'default';
 			} else {
 				$scope.startSessionFeedback = 'success';
 			}
-		}
+		};
 
 		$scope.createSession = function() {
 			// create session in here
 			$scope.submitted = true;
 
-			if ($scope.sForm.lecture && $scope.sForm.startTime && $scope.sForm.endTime && !_.isEmpty($scope.selectedModules)) {
+			if ($scope.sForm.lesson && $scope.sForm.startTime && $scope.sForm.endTime && !_.isEmpty($scope.selectedModules)) {
 				// setup vars to be sent across to API
 				var presModules = [];
 				// push each selected collaborator into array
@@ -559,7 +562,7 @@ angular.module('uniQaApp')
 
 				var data = {
 					createdBy: me._id,
-					lecture: $scope.sForm.lecture._id,
+					lesson: $scope.sForm.lesson._id,
 					startTime: moment.utc($scope.sForm.startTimeMoment).toISOString(),
 					endTime: moment.utc($scope.sForm.endTimeMoment).toISOString(),
 					modules: presModules,
@@ -570,8 +573,8 @@ angular.module('uniQaApp')
 						data: data
 					})
 					.then(function(res) {
-						// console.info(res);
-						refreshSessions();
+						console.info(res);
+						// refreshSessions();
 						$scope.clearSchedForm();
 					})
 					.catch(function(err) {
@@ -587,12 +590,12 @@ angular.module('uniQaApp')
 						// });
 					});
 			}
-		}
+		};
 
 		// need function which creates the session, and on success sends the page to the newly created session. Need to block UI input throughout this faze, and show a loading animation
 
 	})
-	.controller('SessionRegisterCtrl', function($scope, $location, Auth, Lecture, Session) {
+	.controller('SessionRegisterCtrl', function($scope, $location, Auth, Lesson, Session) {
 		// check querystring
 		var querystring = $location.search();
 		if (querystring.m === 'notReady') {
@@ -607,7 +610,7 @@ angular.module('uniQaApp')
 		// attach moment to scope
 		$scope.moment = moment;
 
-		$scope.lectureHeightMarginTop = '-1.4em;';
+		$scope.lessonHeightMarginTop = '-1.4em;';
 
 		var me = Auth.getCurrentUser();
 

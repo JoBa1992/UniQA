@@ -13,6 +13,12 @@ module.exports = {
 		process.env.PORT ||
 		8080,
 
+	s3: {
+		accessKey: process.env.AWS_ACCESS_KEY_ID,
+		secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+		bucket: process.env.S3_BUCKET
+	},
+
 	// MongoDB connection options
 	mongo: {
 		uri: process.env.MONGOLAB_URI ||

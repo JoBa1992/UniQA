@@ -3,6 +3,8 @@
 var express = require('express');
 var controller = require('./module.controller');
 
+var auth = require('../../auth/auth.service');
+
 var path = require('path');
 var multer = require('multer');
 var mkdirp = require('mkdirp');
@@ -33,15 +35,16 @@ var upload = multer({
 
 var router = express.Router();
 
-router.get('/', controller.index);
-router.post('/users/import', upload.any(), controller.convertCsvToJSON);
+router.get('/', auth.isAuthenticated(), controller.index);
 // used to return tutors part of same software groups
-router.get('/user/:userid', controller.getForMe);
-router.get('/user/:userid/unassoc', controller.getNotForMe);
-router.get('/:id', controller.show);
-router.post('/', controller.create);
-router.put('/:id', controller.update);
-router.patch('/:id', controller.update);
-router.delete('/:id', controller.destroy);
+router.get('/user/:userid', auth.isAuthenticated(), controller.getModulesForUser);
+// not the users - used for exploring
+router.get('/user/:userid/unassoc', auth.isAuthenticated(), controller.getOtherModules);
+
+router.get('/:id', auth.isAuthenticated(), controller.show);
+router.post('/', auth.isAuthenticated(), controller.create);
+router.put('/:id', auth.isAuthenticated(), controller.update);
+router.patch('/:id', auth.isAuthenticated(), controller.update);
+router.delete('/:id', auth.isAuthenticated(), controller.destroy);
 
 module.exports = router;

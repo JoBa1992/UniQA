@@ -11,7 +11,7 @@
 
 var _ = require('lodash');
 var moment = require('moment'); // date handling
-var Lecture = require('../lecture/lecture.model');
+var Lesson = require('../lesson/lesson.model');
 var Session = require('./session.model');
 var Thing = require('../thing/thing.model');
 
@@ -53,12 +53,12 @@ function genKey(length) {
 }
 //
 function isKeyUnique(altAccess, callback) {
-	Lecture.find({
+	Lesson.find({
 		altAccess: altAccess
-	}, function(err, lecture) {
+	}, function(err, lesson) {
 		// if authenticated user exists (find returns back an empty set,
 		// so check to see if it has any elements)
-		if (!lecture[0]) {
+		if (!lesson[0]) {
 			// if it does, go to next middleware
 			callback(true);
 			return true;
@@ -128,7 +128,7 @@ exports.index = function(req, res) {
 	Session.find(query)
 		.populate('createdBy')
 		.populate({
-			path: 'lecture',
+			path: 'lesson',
 			match: getAuthor
 		})
 		.populate('registered.user')
@@ -146,9 +146,9 @@ exports.index = function(req, res) {
 			if (!sessions[0]) {
 				return res.status(404).send('Not Found');
 			} else {
-				// rip out any null lectures
+				// rip out any null lessons
 				sessions = sessions.filter(function(session) {
-					return session.lecture;
+					return session.lesson;
 				});
 
 				Session.populate(sessions, {
@@ -164,27 +164,27 @@ exports.index = function(req, res) {
 
 exports.getFile = function(req, res) {
 	var sessionId = req.params.sessionid;
-	var lectureId = req.params.lectureid;
+	var lessonId = req.params.lessonid;
 	var fileId = req.params.fileid;
 	var userId = req.params.userid;
 
-	// check file exists in db for this lecture first
-	Lecture.findOne({
-			_id: lectureId,
+	// check file exists in db for this lesson first
+	Lesson.findOne({
+			_id: lessonId,
 			'attachments._id': fileId
 		})
 		.lean()
-		.exec(function(err, lecture) {
+		.exec(function(err, lesson) {
 			var fileToServe;
-			for (var i = 0; i < lecture.attachments.length; i++) {
-				if (String(lecture.attachments[i]._id) === fileId) {
-					fileToServe = lecture.attachments[i];
+			for (var i = 0; i < lesson.attachments.length; i++) {
+				if (String(lesson.attachments[i]._id) === fileId) {
+					fileToServe = lesson.attachments[i];
 				}
 			}
 
 			var fileName = fileToServe.loc.split('/').pop();
 
-			res.download(path.join(__dirname, '../../storage/lectures/', lectureId, '/', fileName), fileName, function(err) {
+			res.download(path.join(__dirname, '../../storage/lessons/', lessonId, '/', fileName), fileName, function(err) {
 				if (err) {
 					// Handle error, but keep in mind the response may be partially-sent
 					// so check res.headersSent
@@ -209,7 +209,7 @@ exports.getFile = function(req, res) {
 };
 
 exports.count = function(req, res) {
-	Lecture.count({
+	Lesson.count({
 		createdBy: req.query.createdBy,
 		endTime: {
 			"$gte": new Date()
@@ -229,7 +229,7 @@ exports.getNextFourTutor = function(req, res) {
 			}
 		}) // order by startDate asc
 		.populate({
-			path: 'lecture',
+			path: 'lesson',
 			match: {
 				$or: [{
 					author: req.params.userid
@@ -253,17 +253,17 @@ exports.getNextFourTutor = function(req, res) {
 				return res.status(404).send('Not Found');
 			}
 
-			// rip out any null lectures
+			// rip out any null lessons
 			sessions = sessions.filter(function(session) {
-				return session.lecture;
+				return session.lesson;
 			});
 
 			Session.populate(sessions, {
-				path: 'lecture.author',
+				path: 'lesson.author',
 				model: 'User'
 			}, function(err) {
 				Session.populate(sessions, {
-					path: 'lecture.collaborators.user',
+					path: 'lesson.collaborators.user',
 					model: 'User'
 				}, function(err) {
 					return res.json(sessions);
@@ -279,7 +279,7 @@ exports.getNextFourTutor = function(req, res) {
 // 				$gt: new Date()
 // 			}
 // 		}) // order by startDate asc
-// 		.populate('lecture')
+// 		.populate('lesson')
 // 		.populate('registered.user')
 // 		.populate('questions.asker')
 // 		.populate({
@@ -298,17 +298,17 @@ exports.getNextFourTutor = function(req, res) {
 // 				return res.status(404).send('Not Found');
 // 			}
 // 			console.info(sessions);
-// 			// rip out any null lectures
+// 			// rip out any null lessons
 // 			sessions = sessions.filter(function(session) {
 // 				return session.module;
 // 			});
 //
 // 			Session.populate(sessions, {
-// 				path: 'lecture.author',
+// 				path: 'lesson.author',
 // 				model: 'User'
 // 			}, function(err) {
 // 				Session.populate(sessions, {
-// 					path: 'lecture.collaborators.user',
+// 					path: 'lesson.collaborators.user',
 // 					model: 'User'
 // 				}, function(err) {
 // 					return res.json(sessions);
@@ -322,7 +322,7 @@ exports.getNextFourTutor = function(req, res) {
 exports.show = function(req, res) {
 
 	Session.findById(req.params.id)
-		.populate('lecture')
+		.populate('lesson')
 		.populate('registered.user')
 		.populate('questions.asker')
 		.populate('modules.module')
@@ -334,11 +334,11 @@ exports.show = function(req, res) {
 				return res.status(404).send('Not Found');
 			}
 			Session.populate(session, {
-				path: 'lecture.author',
+				path: 'lesson.author',
 				model: 'User'
 			}, function(err) {
 				Session.populate(session, {
-					path: 'lecture.collaborators.user',
+					path: 'lesson.collaborators.user',
 					model: 'User'
 				}, function(err) {
 					return res.json(session);
@@ -350,8 +350,8 @@ exports.show = function(req, res) {
 
 exports.showForUser = function(req, res) {
 	Session.findById(req.params.id)
-		.populate('lecture', null, {
-			'lecture.author': req.params.user
+		.populate('lesson', null, {
+			'lesson.author': req.params.user
 		})
 		.populate('register')
 		.populate('questions.asker')
@@ -363,11 +363,11 @@ exports.showForUser = function(req, res) {
 				return res.status(404).send('Not Found');
 			}
 			Session.populate(session, {
-				path: 'lecture.author',
+				path: 'lesson.author',
 				model: 'User'
 			}, function(err) {
 				Session.populate(session, {
-					path: 'lecture.collaborators.user',
+					path: 'lesson.collaborators.user',
 					model: 'User'
 				}, function(err) {
 					return res.json(session);
@@ -511,7 +511,7 @@ exports.registerUser = function(req, res) {
 			var checkSession = session.toObject();
 			var expected = false;
 
-			// need to check that user is supposed to be registering to this lecture
+			// need to check that user is supposed to be registering to this lesson
 			for (var i = 0; i < checkSession.modules.length; i++) {
 				for (var x = 0; x < checkSession.modules[i].module.students.length; x++) {
 					if (String(checkSession.modules[i].module.students[x].user) === String(user.user)) {
@@ -543,7 +543,7 @@ exports.registerUser = function(req, res) {
 					return res.status(200).json(session);
 				});
 			} else {
-				return res.status(400).send('User is not authorized to register into this lecture');
+				return res.status(400).send('User is not authorized to register into this lesson');
 			}
 		});
 };

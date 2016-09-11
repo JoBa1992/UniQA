@@ -3,7 +3,7 @@
 /**
  * Injects SVG into frame
  */
-angular.module('uniQaApp')
+angular.module('UniQA')
 	.directive('extSvg', ['$compile', function($compile) {
 		return {
 			restrict: 'E',

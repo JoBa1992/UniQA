@@ -1,66 +1,93 @@
-.sidebar-nav {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  font-size: 14px;
+md-toolbar {
+  .md-button.md-default-theme {
+    border-radius: 99%; // round toolbar buttons
+  }
 }
-.sidebar-brand:hover {
-  background-color: darken(#343D48,2%);
+.nav-item {
+  a {
+    text-decoration: none !important;
+    font-weight: 500;
+    font-size: 1.2em;
+    md-item-content {
+      margin: 0.2em 0;
+      position: relative;
+      padding-left: 1em;
+      padding-right: 1em;
+      .nav-icon {
+        width: 34px;
+      }
+    }
+  }
 }
-.home-icon {
-  margin-top: 0;
-}
-.home-icon i::before {
-  color: white;
-}
-.sidebar-nav {
-  margin-bottom: -4em;
-}
-.sidebar-nav > li.sidebar-nav-item {
-  padding: 0.2em 0;
-  text-indent: 10px;
-  line-height: 40px;
-}
-li.sidebar-nav-item:nth-child(2) {
-  margin-top: 1em;
-}
-.sidebar-nav li a {
-  position: relative;
-  display: block;
-  text-decoration: none;
-}
-.sidebar-nav > li.active,
-.sidebar-nav > li.active > a,
-.sidebar-nav li a:hover {
+.nav-item.active a md-item-content,
+.nav-item.active a md-item-content,
+.nav-item:hover a md-item-content {
   color: #FFF;
   -webkit-box-shadow: inset 3px 0 0 0 #82AECC;
   box-shadow: inset 3px 0 0 0 #82AECC;
   background-color: darken(#343D48,2%);
-  text-decoration: none;
 }
-.sidebar-nav > .sidebar-brand {
-  font-size: 1.8em;
-  line-height: 60px;
+md-sidenav {
+  fill: #737373;
+  ng-md-icon {
+    position: relative;
+    top: 5px; // adjust for svg viewbox
+  }
 }
-.sidebar-nav > .sidebar-brand a {}
-.sidebar-nav > .sidebar-brand a:hover {
-  background: none;
-}
-.sidebar-nav-icon {
-  margin-right: 14px;
-}
-.nav-badge {
-  text-indent: 0;
-  position: absolute;
-  padding-left: 0.9em;
-  padding-right: 0.9em;
-  top: 11px;
-  right: 18px;
-  background-color: #82AECC;
-}
+// .sidebar-nav {
+//   position: absolute;
+//   top: 0;
+//   width: 100%;
+//   margin: 0;
+//   padding: 0;
+//   list-style: none;
+//   font-size: 14px;
+// }
+// .sidebar-brand:hover {
+//   // background-color: darken(#343D48,2%);
+// }
+// .home-icon {
+//   margin-top: 0;
+// }
+// .home-icon i::before {
+//   color: white;
+// }
+// .sidebar-nav {
+//   margin-bottom: -4em;
+// }
+// .sidebar-nav > li.sidebar-nav-item {
+//   padding: 0.2em 0;
+//   text-indent: 10px;
+//   line-height: 40px;
+// }
+// li.sidebar-nav-item:nth-child(2) {
+//   margin-top: 1em;
+// }
+// .sidebar-nav li a {
+//   position: relative;
+//   display: block;
+//   text-decoration: none;
+// }
+// .sidebar-nav > .sidebar-brand {
+//   // font-size: 1.8em;
+//   // line-height: 60px;
+// }
+// .sidebar-nav > .sidebar-brand a {}
+// .sidebar-nav > .sidebar-brand a:hover {
+//   // background: none;
+// }
+// .sidebar-nav-icon {
+//   margin-right: 14px;
+// }
+// .nav-badge {
+//   text-indent: 0;
+//   position: absolute;
+//   padding-left: 0.9em;
+//   padding-right: 0.9em;
+//   top: 11px;
+//   right: 18px;
+//   background-color: #82AECC;
+// }
 .sidebar-footer {
   position: absolute;
   border-top: 1px solid lighten(#343D48,2%);
@@ -73,7 +100,6 @@ li.sidebar-nav-item:nth-child(2) {
   top: -64px;
 }
 .sidebar-account button {
-  cursor: pointer;
   text-decoration: none;
   background: transparent;
   border: none;
@@ -97,15 +123,15 @@ li.sidebar-nav-item:nth-child(2) {
   background-color: darken(#343D48,1%);
   text-decoration: none;
 }
-.avatar {
+.sidebar-avatar {
   float: left;
   /* make it responsive */
   max-width: 50px;
   width: 50px;
-  margin: 0 6px 0 10px;
+  margin: 0 6px 0 20px;
   height: auto;
   display: inline-block;
-  /* make it a cirkle */
+  /* make it a circle */
   border-radius: 50%;
   /* Centering on image`s center*/
   background-position-y: center;
@@ -114,7 +140,7 @@ li.sidebar-nav-item:nth-child(2) {
   /* it makes the clue thing, takes smaller dimention to fill div */
   background-size: cover;
 }
-.avatar-min {
+.sidebar-avatar-min {
   /* make it responsive */
   max-width: 44px;
   width: 44px;
@@ -137,25 +163,25 @@ li.sidebar-nav-item:nth-child(2) {
 .sidebar-footer-toggle:hover {
   background-color: lighten(#343D48,12%);
 }
-/*==========  Mobile First Method  ==========*/
-/* Custom, iPhone Retina */
-// @media only screen and (min-width : 320px) {
-//   .sidebar-wrapper {
-//     position: absolute;
-//     width: 150px;
-//   }
-//   .sidebar-wrapper-min {
-//     width: 56px;
-//   }
-//   .wrapper {
-//     padding-left: 150px;
-//   }
-//   .wrapper-min {
-//     padding-left: 56px;
-//   }
-//   .page-content-wrapper {
-//     position: relative;
-//     margin-right: 0;
+// /*==========  Mobile First Method  ==========*/
+// /* Custom, iPhone Retina */
+// // @media only screen and (min-width : 320px) {
+// //   .sidebar-wrapper {
+// //     position: absolute;
+// //     width: 150px;
+// //   }
+// //   .sidebar-wrapper-min {
+// //     width: 56px;
+// //   }
+// //   .wrapper {
+// //     padding-left: 150px;
+// //   }
+// //   .wrapper-min {
+// //     padding-left: 56px;
+// //   }
+// //   .page-content-wrapper {
+// //     position: relative;
+// //     margin-right: 0;
 //   }
 // }
 /* Extra Small Devices, Phones */
@@ -180,31 +206,32 @@ li.sidebar-nav-item:nth-child(2) {
 // }
 /* Small Devices, Tablets */
 @media only screen and (min-width : 768px) {
-  // .sidebar-wrapper {
-  //   position: absolute;
-  //   width: 250px;
-  // }
-  .avatar-username {
+  .sidebar-avatar-username {
     float: left;
     font-size: 1.1em;
     font-weight: 300;
     line-height: 1;
-    margin: 1em 0.4em;
+    margin: 1.2em 0.4em;
     color: white;
   }
 }
 /* Medium Devices, Desktops */
-@media only screen and (min-width : 992px) {}
+@media only screen and (min-width : 992px) {
+  .sidebar-avatar-username {
+    float: left;
+    font-size: 1.1em;
+    font-weight: 300;
+    line-height: 1;
+    margin: 1.1em 0.4em;
+    color: white;
+  }
+}
 /* Large Devices, Wide Screens */
 @media only screen and (min-width : 1200px) {}
 /*==========  Non-Mobile First Method  ==========*/
 /* Large Devices, Wide Screens */
 @media only screen and (max-width : 1200px) {
-  // .sidebar-wrapper {
-  //   position: absolute;
-  //   width: 250px;
-  // }
-  .avatar-username {
+  .sidebar-avatar-username {
     float: left;
     font-size: 1.1em;
     font-weight: 300;
@@ -215,16 +242,12 @@ li.sidebar-nav-item:nth-child(2) {
 }
 /* Medium Devices, Desktops */
 @media only screen and (max-width : 992px) {
-  // .sidebar-wrapper {
-  //   position: absolute;
-  //   width: 200px;
-  // }
-  .avatar-username {
+  .sidebar-avatar-username {
     float: left;
     font-size: 0.9em;
     font-weight: 300;
     line-height: 1;
-    margin: 1em 0.4em;
+    margin: 1.6em 0.4em;
     color: white;
   }
 }

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uniQaApp')
+angular.module('UniQA')
 	.directive('dropZone', function($rootScope) {
 		return {
 			scope: {
@@ -54,9 +54,8 @@ angular.module('uniQaApp')
 				if (scope.noFileDisplay === 'true') {
 
 				} else {
-					var previewTemp = '<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\" style=\"width:100%;\"><span style=\"width:100%;\" data-dz-name> </span>\n<i style=\"color:#bbb;margin-top:.3em;width:100%;\" class=\"fa " + iconType + " fa-3x\"></i></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div>\n  <div class=\"dz-success-mark\"><span>✔</span></div>\n  <div class=\"dz-error-mark\"><span>✘</span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>';
+					previewTemp = '<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\" style=\"width:100%;\"><span style=\"width:100%;\" data-dz-name> </span>\n<i style=\"color:#bbb;margin-top:.3em;width:100%;\" class=\"fa " + iconType + " fa-3x\"></i></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div>\n  <div class=\"dz-success-mark\"><span>✔</span></div>\n  <div class=\"dz-error-mark\"><span>✘</span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>';
 				}
-
 
 				$rootScope.dropzone = element.dropzone({
 					url: scope.url,
@@ -70,19 +69,13 @@ angular.module('uniQaApp')
 					dictDefaultMessage: scope.message,
 					autoProcessQueue: scope.autoProcess,
 					previewTemplate: previewTemp,
-					// processing: function() {
-					// 	this.options.autoProcessQueue = true;
-					// },
 					success: function(file, response) {
 						if (scope.callBack !== null) {
 							scope.callBack({
 								response: response
 							});
 						}
-					},
-					// queuecomplete: function(response) {
-					// 	console.info(response);
-					// }
+					}
 				});
 			}
 		};

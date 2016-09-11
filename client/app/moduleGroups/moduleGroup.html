@@ -15,7 +15,7 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="background-color:#DDDDDD;padding-top:1em;padding-bottom:1em;">
       <div class="input-group">
-        <input type="{{password.inputType}}" name="password" class="form-control" aria-describedby="basic-addon2" ng-model="module.search" placeholder="Filter" ng-keyup="something()" mongoose-error>
+        <input type="{{password.inputType}}" name="password" class="form-control" aria-describedby="basic-addon2" ng-model="module.search" placeholder="Filter" ng-keyup="filterUsersModules()" mongoose-error>
         <span class="input-group-addon btn-success" style="background-color: #5cb85c;border-color: #4cae4c; color:white;cursor:pointer;" id="basic-addon2" ng-click="openCreateModal()">
           Add Module
         </span>
@@ -23,7 +23,7 @@
 
     </div>
     <div ng-if="moduleOption === 'User'" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="background-color:#FFF;border:1px solid #EEE;cursor:pointer;">
-      <div class="row module-row" ng-repeat="module in modules" ng-click="routeToModuleChild(module._id)">
+      <div class="row module-row" ng-repeat="module in userModules" ng-click="routeToModuleChild(module._id)">
         <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
           <h4>
             <strong>{{module._id}}</strong>
@@ -41,7 +41,22 @@
     </div>
 
     <div ng-if="moduleOption === 'Explore'" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="background-color:#FFF;border:1px solid #EEE;cursor:pointer;">
-      Return back top 50 results that are similar to the tutors
+      <div class="row module-row" ng-repeat="module in explorableModules" ng-click="routeToModuleChild(module._id)">
+        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+          <h4>
+            <strong>{{module._id}}</strong>
+            <small>{{module.name}}</small>
+          </h4>
+        </div>
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 pull-right" style="text-align: right;position:relative;">
+
+          <h5 style="position:relative;">
+            <i class="fa fa-users" style="position:absolute;right:24px;top:10px;color:#555;"></i>
+            <span style="position:absolute;right:0px;top:10px;color:#555;">{{module.students.length}}</span>
+          </h5>
+        </div>
+      </div>
+      <!-- Return back top 50 results that are similar to the tutors -->
       <!-- <div class="row module-row" ng-repeat="module in modules" ng-click="routeToModuleChild(module._id)">
         <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
           <h4>{{module._id}}

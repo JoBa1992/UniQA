@@ -5,38 +5,47 @@ var mongoose = require('mongoose'),
 
 var SessionSchema = new Schema({
 	createdBy: {
-		type: String,
+		type: Schema.Types.ObjectId,
 		ref: 'User'
 	},
-	modules: [{
-		module: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Module'
+	// needs to handle modules/module groups, but allowing it to contain
+	// just groups means we can handle this on the front end
+	groups: [{
+		moduleGroup: {
+			type: Schema.Types.ObjectId,
+			ref: 'ModuleGroup'
 		},
 		_id: false
 	}],
-	lecture: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Lecture'
+	lesson: {
+		type: Schema.Types.ObjectId,
+		ref: 'Lesson'
 	},
+	// reference is optional, (e.g. week 4 catch-up, etc.)
 	reference: {
 		type: String,
 		default: null
 	},
-	startTime: Date,
-	endTime: Date,
-	qr: {
+	// runtime is an array of start and end times.
+	// when creating a session, they can setup multiple runtimes to allow them
+	// the possibility of booking against an entire module to attain their attendance record
+	runTime: [{
+		start: Date,
+		end: Date,
+	}],
+	qr: { // generated
 		url: String,
 		svg: String
 	},
-	altAccess: {
+	altAccess: { // generated
 		type: String,
 		default: null,
+		lowercase: true, // makes it easier to diff i from l in-app
 		max: 6
 	},
 	registered: [{
 		user: {
-			type: String,
+			type: Schema.Types.ObjectId,
 			ref: 'User'
 		},
 		_id: false
@@ -51,7 +60,7 @@ var SessionSchema = new Schema({
 	},
 	questions: [{
 		asker: {
-			type: String,
+			type: Schema.Types.ObjectId,
 			ref: 'User'
 		},
 		question: {
@@ -66,7 +75,7 @@ var SessionSchema = new Schema({
 		},
 		response: {
 			tutor: {
-				type: String,
+				type: Schema.Types.ObjectId,
 				ref: 'User'
 			},
 			body: {
@@ -77,7 +86,7 @@ var SessionSchema = new Schema({
 	}],
 	feedback: [{
 		user: {
-			type: String,
+			type: Schema.Types.ObjectId,
 			ref: 'User'
 		},
 		rating: {
@@ -91,11 +100,11 @@ var SessionSchema = new Schema({
 	}],
 	downloads: [{
 		user: {
-			type: String,
+			type: Schema.Types.ObjectId,
 			ref: 'User'
 		},
 		file: {
-			type: mongoose.Schema.Types.ObjectId
+			type: Schema.Types.ObjectId
 		}
 	}]
 });

@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('uniQaApp')
-	.factory('Lecture', function Lecture($http, $q) {
+angular.module('UniQA')
+	.factory('Lesson', function Lesson($http, $q) {
 		return {
 
 			/**
@@ -11,7 +11,7 @@ angular.module('uniQaApp')
 			 * @param  {Function} callback - optional
 			 * @return {Promise}
 			 */
-			createLecture: function(obj, callback) {
+			createLesson: function(obj, callback) {
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();
 				var data = angular.copy(obj.data);
@@ -19,7 +19,7 @@ angular.module('uniQaApp')
 				// remove
 				delete data.tempPreview;
 
-				$http.post('/api/lectures', {
+				$http.post('/api/lessons', {
 					data: data
 				}).success(function(data) {
 					deferred.resolve(data);
@@ -35,7 +35,7 @@ angular.module('uniQaApp')
 				var deferred = $q.defer();
 				var url = obj.url;
 
-				$http.post('/api/lectures/preview', {
+				$http.post('/api/lessons/preview', {
 					url: url
 				}).success(function(data) {
 					deferred.resolve(data);
@@ -46,11 +46,11 @@ angular.module('uniQaApp')
 				}.bind(this));
 				return deferred.promise;
 			},
-			getOne: function(id, callback) {
+			getByID: function(id, callback) {
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();
 
-				$http.get('/api/lectures/' + id).success(function(data) {
+				$http.get('/api/lessons/' + id).success(function(data) {
 					deferred.resolve(data);
 					return cb();
 				}).error(function(err) {
@@ -63,7 +63,7 @@ angular.module('uniQaApp')
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();
 
-				$http.get('/api/lectures', {
+				$http.get('/api/lessons', {
 					params: {
 						title: obj.title,
 						createdBy: obj.createdBy,
@@ -83,7 +83,7 @@ angular.module('uniQaApp')
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();
 				// console.info(obj.createdBy);
-				$http.get('/api/lectures/count', {
+				$http.get('/api/lessons/count', {
 					params: {
 						createdBy: obj.createdBy
 					}
@@ -96,10 +96,10 @@ angular.module('uniQaApp')
 				}.bind(this));
 				return deferred.promise;
 			},
-			remove: function(lecture, callback) {
+			remove: function(lesson, callback) {
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();
-				$http.delete('/api/lectures/' + lecture).success(function(data) {
+				$http.delete('/api/lessons/' + lesson).success(function(data) {
 					deferred.resolve(data);
 					return cb();
 				}).error(function(err) {

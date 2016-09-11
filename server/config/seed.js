@@ -8,7 +8,8 @@
 var Thing = require('../api/thing/thing.model');
 var User = require('../api/user/user.model');
 var Module = require('../api/module/module.model');
-var Lecture = require('../api/lecture/lecture.model');
+var ModuleGroup = require('../api/moduleGroup/moduleGroup.model');
+var Lesson = require('../api/lesson/lesson.model');
 var Session = require('../api/session/session.model');
 
 // USED FOR QR GENERATION
@@ -35,12 +36,12 @@ function genKey(length) {
 }
 
 function isKeyUnique(altAccess, callback) {
-	Lecture.find({
+	Lesson.find({
 		altAccess: altAccess
-	}, function(err, lecture) {
+	}, function(err, lesson) {
 		// if authenticated user exists (find returns back an empty set,
 		// so check to see if it has any elements)
-		if (!lecture[0]) {
+		if (!lesson[0]) {
 			// if it does, go to next middleware
 			callback(true);
 			return true;
@@ -84,7 +85,7 @@ Thing.find({}).remove(function() {
 		name: 'minPassLength',
 		content: 8
 	}, {
-		name: 'lectureTypes',
+		name: 'lessonTypes',
 		content: ["URL", "Powerpoint"]
 	}, {
 		name: 'explicitWords',
@@ -94,120 +95,103 @@ Thing.find({}).remove(function() {
 
 User.find({}).remove(function() {
 	User.create({
-		_id: '22006241',
-		role: 'tutor',
+		_id: '56cb76ebd5b3f4b6be5d7dd1',
+		role: 'admin',
 		forename: 'Joshua',
 		surname: 'Bates',
-		email: 'JoBa@uniqa.co.uk',
-		teachingArea: 'Software Engineering',
-		password: 'Josh1992'
-	}, {
-		_id: '56cb76ebd5b3f4b6be5d7dd4',
-		role: 'tutor',
-		forename: 'Andrew',
-		surname: 'Dearden',
-		email: 'ande@shu.ac.uk',
-		teachingArea: 'Software Engineering',
-		password: 'tutor'
-	}, {
-		_id: '56cb76ebd5b3f4b6be5d7dd5',
-		role: 'tutor',
-		forename: 'Andrew',
-		surname: 'Stratton',
-		email: 'anst@shu.ac.uk',
-		teachingArea: 'Software Engineering',
-		password: 'tutor'
-	}, {
-		_id: '56cb76ebd5b3f4b6be5d7dd6',
-		role: 'tutor',
-		forename: 'Mehmet',
-		surname: 'Özcan',
-		email: 'meoz@shu.ac.uk',
-		teachingArea: 'Software Engineering',
-		password: 'tutor'
-	}, {
-		_id: '56cb76ebd5b3f4b6be5d7dd7',
-		role: 'tutor',
-		forename: 'Chris',
-		surname: 'Bates',
-		email: 'chba@shu.ac.uk',
-		teachingArea: 'Software Engineering',
-		password: 'tutor'
-	}, {
-		_id: '56cb76ebd5b3f4b6be5d7dd8',
-		role: 'tutor',
-		forename: "Peter",
-		surname: 'O\'Neill',
-		email: 'peon@shu.ac.uk',
-		teachingArea: 'Software Engineering',
-		password: 'tutor'
-	}, {
-		_id: '56cb76ebd5b3f4b6be5d7dd9',
-		role: 'tutor',
-		forename: 'Andrew',
-		surname: 'Bisset',
-		email: 'anbi@shu.ac.uk',
-		teachingArea: 'Software Engineering',
-		password: 'tutor'
-	}, {
-		_id: '56cb76ebd5b3f4b6be5d7dda',
-		role: 'tutor',
-		forename: 'Ivan',
-		surname: 'Phelan',
-		email: 'ivph@shu.ac.uk',
-		teachingArea: 'Software Engineering',
-		password: 'tutor'
-	}, {
-		_id: '56cb76ecd5b3f4b6be5d7ddb',
-		role: 'tutor',
-		forename: 'Martin',
-		surname: 'Cooper',
-		email: 'maco@shu.ac.uk',
-		teachingArea: 'Software Engineering',
-		password: 'mcooper'
-	}, {
-		_id: '56cb76ecd5b3f4b6be5d7ddc',
-		role: 'tutor',
-		forename: 'Adrian',
-		surname: 'Oram',
-		email: 'ador@shu.ac.uk',
-		teachingArea: 'Software Engineering',
-		password: 'tutor'
-	}, {
-		_id: '56cb76ecd5b3f4b6be5d7ddd',
-		role: 'tutor',
-		forename: 'Pascale',
-		surname: 'Vacher',
-		email: 'pava@shu.ac.uk',
-		teachingArea: 'Software Engineering',
-		password: 'tutor'
-	}, {
-		_id: '56cb76ecd5b3f4b6be5d7dde',
-		role: 'tutor',
-		forename: 'Mark',
-		surname: 'Featherstone',
-		email: 'mafe@shu.ac.uk',
-		teachingArea: 'Software Engineering',
-		password: 'tutor'
-	}, {
-		_id: '56c86c25099777e930372eb7',
-		forename: 'Test',
-		surname: 'Student',
-		role: 'student',
-		email: 'student@shu.ac.uk',
-		password: 'student'
-	}, {
-		_id: '56a7bf8a800c479155488fcb',
-		forename: 'Joshua',
-		surname: 'Bates',
-		role: 'student'
+		username: 'joba@uniqa.co.uk',
+		password: 'password'
 	}, {
 		_id: '56a7bf8a800c479155488fce',
 		forename: 'Jonathon',
 		surname: 'Dickson',
 		role: 'admin',
-		email: 'jd912@uniqa.co.uk',
+		username: 'jd912@uniqa.co.uk',
 		password: 'password'
+	}, {
+		_id: '56cb76ecd5b3f4b6be5d7def',
+		forename: 'Ben',
+		surname: 'Parnell',
+		role: 'admin',
+		password: 'password',
+		username: 'bparnell@uniqa.co.uk'
+	}, {
+		_id: '56cb76ebd5b3f4b6be5d7dd1',
+		role: 'tutor',
+		forename: 'Martin',
+		surname: 'Cooper',
+		username: 'maco@shu.ac.uk'
+	}, {
+		_id: '56cb76ebd5b3f4b6be5d7dd4',
+		role: 'tutor',
+		forename: 'Andrew',
+		surname: 'Dearden',
+		username: 'ande@shu.ac.uk'
+	}, {
+		_id: '56cb76ebd5b3f4b6be5d7dd5',
+		role: 'tutor',
+		forename: 'Andrew',
+		surname: 'Stratton',
+		username: 'anst@shu.ac.uk'
+	}, {
+		_id: '56cb76ebd5b3f4b6be5d7dd6',
+		role: 'tutor',
+		forename: 'Mehmet',
+		surname: 'Özcan',
+		username: 'meoz@shu.ac.uk'
+	}, {
+		_id: '56cb76ebd5b3f4b6be5d7dd7',
+		role: 'tutor',
+		forename: 'Chris',
+		surname: 'Bates',
+		username: 'chba@shu.ac.uk'
+	}, {
+		_id: '56cb76ebd5b3f4b6be5d7dd8',
+		role: 'tutor',
+		forename: "Peter",
+		surname: 'O\'Neill',
+		username: 'peon@shu.ac.uk'
+	}, {
+		_id: '56cb76ebd5b3f4b6be5d7dd9',
+		role: 'tutor',
+		forename: 'Andrew',
+		surname: 'Bisset',
+		username: 'anbi@shu.ac.uk'
+	}, {
+		_id: '56cb76ebd5b3f4b6be5d7dda',
+		role: 'tutor',
+		forename: 'Ivan',
+		surname: 'Phelan',
+		username: 'ivph@shu.ac.uk'
+	}, {
+		_id: '56cb76ecd5b3f4b6be5d7ddc',
+		role: 'tutor',
+		forename: 'Adrian',
+		surname: 'Oram',
+		username: 'ador@shu.ac.uk'
+	}, {
+		_id: '56cb76ecd5b3f4b6be5d7ddd',
+		role: 'tutor',
+		forename: 'Pascale',
+		surname: 'Vacher',
+		username: 'pava@shu.ac.uk'
+	}, {
+		_id: '56cb76ecd5b3f4b6be5d7dde',
+		role: 'tutor',
+		forename: 'Mark',
+		surname: 'Featherstone',
+		username: 'mafe@shu.ac.uk'
+	}, {
+		_id: '56c86c25099777e930372eb7',
+		forename: 'Test',
+		surname: 'Student',
+		role: 'student',
+		username: 'student@shu.ac.uk'
+	}, {
+		_id: '56a7bf8a800c479155488fcb',
+		forename: 'Joshua',
+		surname: 'Bates',
+		role: 'student'
 	}, {
 		_id: '56cb76ecd5b3f4b6be5d7ddf',
 		forename: 'Jack',
@@ -304,13 +288,6 @@ User.find({}).remove(function() {
 		surname: '',
 		role: 'student'
 	}, {
-		_id: '56cb76ecd5b3f4b6be5d7def',
-		forename: 'Ben',
-		surname: 'Parnell',
-		role: 'admin',
-		email: 'bparnell@uniqa.co.uk',
-		password: 'password'
-	}, {
 		_id: '56cb76ecd5b3f4b6be5d7df0',
 		forename: 'Jacob',
 		surname: 'Burns',
@@ -361,11 +338,10 @@ User.find({}).remove(function() {
 		surname: 'Irwin',
 		role: 'student'
 	}, function() {
-		// console.log('finished populating users');
-		Module.find({}).remove(function() {
-			Module.create({
-				_id: '6200-01',
-				name: 'Web Application Dev',
+		ModuleGroup.find({}).remove(function() {
+			ModuleGroup.create({
+				_id: '56cb91bdc3464f14678934ca',
+				ref: '2d',
 				students: [{
 					user: '56a7bf8a800c479155488fcb'
 				}, {
@@ -406,22 +382,10 @@ User.find({}).remove(function() {
 					user: '56cb76edd5b3f4b6be5d7df8'
 				}, {
 					user: '56cb76edd5b3f4b6be5d7df9'
-				}],
-				tutors: [{
-					user: '22006241'
-				}, {
-					user: '56cb76ebd5b3f4b6be5d7dd4'
-				}, {
-					user: '56cb76ebd5b3f4b6be5d7dd6'
-				}, {
-					user: '56cb76ebd5b3f4b6be5d7dd7'
-				}, {
-					user: '56cb76ecd5b3f4b6be5d7ddb'
-				}],
-				deleted: false
+				}]
 			}, {
-				_id: '6200-02',
-				name: 'Mobile Application Dev',
+				_id: '56cb91bdc3464f14678934cb',
+				ref: '2u',
 				students: [{
 					user: '56cb76ecd5b3f4b6be5d7def'
 				}, {
@@ -438,500 +402,575 @@ User.find({}).remove(function() {
 					user: '56cb76ecd5b3f4b6be5d7df5'
 				}, {
 					user: '56cb76edd5b3f4b6be5d7df6'
-				}],
-				tutors: [{
-					user: '56cb76ebd5b3f4b6be5d7dd7'
-				}, {
-					user: '56cb76ecd5b3f4b6be5d7ddc'
-				}, {
-					user: '56cb76ecd5b3f4b6be5d7ddb'
-				}, {
-					user: '56cb76ecd5b3f4b6be5d7ddd'
-				}, {
-					user: '56cb76ecd5b3f4b6be5d7dde'
-				}],
-				deleted: false
-			}, function(err) {
-				if (err) console.log(err);
-				// console.log('finished populating modules');
-				Lecture.find({}).remove(function() {
-					Lecture.create({
-						_id: '56d1ca2e4f6973280ce025e6',
-						author: '56cb76ecd5b3f4b6be5d7ddb', // 56a7bf8a800c479155488fce
-						title: "WAD Week 1",
-						desc: "Descriptive element for WAD no1",
-						collaborators: [{
-							user: '22006241'
-						}],
-						url: '',
-						attachments: []
-					}, {
-						_id: '56d1ca2e4f6973280ce025e7',
-						author: '56cb76ecd5b3f4b6be5d7ddb',
-						title: "WAD Week 2",
-						collaborators: [{
-							user: '22006241'
-						}],
-						url: '',
-						attachments: []
-					}, {
-						_id: '56d1ca2e4f6973280ce025e8',
-						author: '56cb76ecd5b3f4b6be5d7ddb',
-						title: "WAD Week 3",
-						collaborators: [{
-							user: '22006241'
-						}],
-						url: '',
-						attachments: []
-					}, {
-						_id: '56d1ca2e4f6973280ce025e9',
-						author: '56cb76ecd5b3f4b6be5d7ddb',
-						title: "WAD Week 4",
-						collaborators: [{
-							user: '22006241'
-						}],
-						url: '',
-						attachments: []
-					}, {
-						_id: '56d1ca2e4f6973280ce025ea',
-						author: '56cb76ecd5b3f4b6be5d7ddb',
-						title: "WAD Week 5",
-						collaborators: [{
-							user: '22006241'
-						}],
-						url: '',
-						attachments: []
-					}, {
-						_id: '56d1ca2e4f6973280ce025eb',
-						author: '56cb76ecd5b3f4b6be5d7ddb',
-						title: "WAD Week 6",
-						collaborators: [{
-							user: '22006241'
-						}],
-						url: '',
-						attachments: []
-					}, {
-						author: '56cb76ecd5b3f4b6be5d7ddb',
-						title: "WAD Week 7"
-					}, {
-						_id: "56c868096bd3f7b730a051f4",
-						author: '22006241',
-						title: "WAD Week 8",
-						collaborators: [{
-							user: "56cb76ecd5b3f4b6be5d7ddb"
-						}],
-						url: 'http://www.mustbebuilt.co.uk/SHU/WAD/wad-wk8-lecture16.html#/step-1',
-						attachments: [{
-							"loc": "/Applications/XAMPP/xamppfiles/htdocs/Website/UniQA/server/storage/lectures/22006241/Application_Demo_Marking_Scheme(1).pdf",
-							"url": "/api/storage/lectures/22006241/Application_Demo_Marking_Scheme(1).pdf",
-							"_id": "5702d39c4826bef0959ebadf",
-							"type": "file-pdf"
+				}]
+			}, function() {
+				Module.find({}).remove(function() {
+					Module.create({
+						_id: '56cb91bdc3464f14678934cc',
+						code: '55-5252-00L',
+						name: 'Web Application Dev',
+						groups: [{
+							group: '56cb91bdc3464f14678934ca'
 						}, {
-							"loc": "/Applications/XAMPP/xamppfiles/htdocs/Website/UniQA/server/storage/lectures/22006241/childcare_proof.pdf",
-							"url": "/api/storage/lectures/22006241/childcare_proof.pdf",
-							"_id": "5702d39c4826bef0959ebade",
-							"type": "file-pdf"
+							group: '56cb91bdc3464f14678934cb'
 						}],
-					}, {
-						author: '56cb76ecd5b3f4b6be5d7ddb',
-						title: "WAD Week 9",
-						collaborators: [{
-							user: '22006241'
+						tutors: [{
+							user: '56cb76ebd5b3f4b6be5d7dd1'
+						}, {
+							user: '56cb76ebd5b3f4b6be5d7dd4'
+						}, {
+							user: '56cb76ebd5b3f4b6be5d7dd6'
 						}],
-						url: '',
-						attachments: []
+						deleted: false
 					}, {
-						author: '56cb76ecd5b3f4b6be5d7ddb',
-						title: "MAD No1",
-						collaborators: [{
-							user: '22006241'
+						_id: '56cb91bdc3464f14678934ca',
+						code: '6200-02-HL4',
+						name: 'Mobile Application Dev',
+						groups: [{
+							group: '56cb91bdc3464f14678934ca'
 						}],
-						url: '',
-						attachments: []
-					}, {
-						author: '56cb76ecd5b3f4b6be5d7ddb',
-						title: "CSSD No1",
-						collaborators: [{
-							user: '22006241'
+						tutors: [{
+							user: '56a7bf8a800c479155488fce'
+						}, {
+							user: '56cb76ecd5b3f4b6be5d7def'
+						}, {
+							user: '56cb76ebd5b3f4b6be5d7dd1'
 						}],
-						url: '',
-						attachments: []
-					}, {
-						author: '56cb76ecd5b3f4b6be5d7ddb',
-						title: "CSSD No2",
-						collaborators: [{
-							user: '22006241'
-						}],
-						url: '',
-						attachments: []
-					}, {
-						author: '56cb76ecd5b3f4b6be5d7ddb',
-						title: "CSSD No3",
-						collaborators: [{
-							user: '22006241'
-						}],
-						url: '',
-						attachments: []
-					}, {
-						author: '56cb76ecd5b3f4b6be5d7ddb',
-						title: "MAD No2",
-						collaborators: [{
-							user: '22006241'
-						}],
-						url: '',
-						attachments: []
-					}, {
-						author: '56cb76ecd5b3f4b6be5d7ddb',
-						title: "SEGM No1",
-						collaborators: [],
-						url: '',
-						attachments: []
-					}, {
-						author: '22006241',
-						title: "UniQA - Week 1",
-						collaborators: [],
-						url: '',
-						attachments: []
-					}, {
-						author: '22006241',
-						title: "UniQA - Week 2",
-						collaborators: [],
-						url: '',
-						attachments: []
-					}, {
-						author: '56cb76ecd5b3f4b6be5d7ddb',
-						title: "SEGM No2",
-						collaborators: [],
-						url: '',
-						attachments: []
-					}, {
-						author: '56cb76ecd5b3f4b6be5d7ddb',
-						title: "AAF No1",
-						collaborators: [],
-						url: '',
-						attachments: []
-					}, {
-						author: '56cb76ecd5b3f4b6be5d7ddb',
-						title: "AAF No2",
-						collaborators: [],
-						url: '',
-						attachments: []
-					}, {
-						author: '56cb76ecd5b3f4b6be5d7ddb',
-						title: "AAF No3",
-						collaborators: [],
-						url: '',
-						attachments: []
-					}, {
-						author: '56cb76ecd5b3f4b6be5d7ddb',
-						title: "MAD No3",
-						collaborators: [],
-						url: '',
-						attachments: []
-					}, function(error) {
-						if (error) {
-							console.log(error);
-						} else {
-							Session.find({}).remove(function() {
-								Session.create({
-										createdBy: '22006241',
-										_id: '56c87667bcd6f3c431cb8681',
-										lecture: '56c868096bd3f7b730a051f4',
-										startTime: moment("27-08-2016 14:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
-										endTime: moment("27-08-2016 15:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
-										modules: [{
-											module: '56cb7c2e7bbe028ebfbe56a2'
-										}, {
-											module: '56cb7c2e7bbe028ebfbe56a3'
-										}]
-									}, {
-										createdBy: '22006241',
-										lecture: '56d1ca2e4f6973280ce025e6',
-										startTime: moment("27-08-2016 16:40:00", "DD-MM-YYYY HH:mm:ss").utc(),
-										endTime: moment("27-08-2016 17:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
-										modules: [{
-											module: '56cb7c2e7bbe028ebfbe56a2'
-										}, {
-											module: '56cb7c2e7bbe028ebfbe56a3'
-										}]
-									}, {
-										createdBy: '22006241',
-										lecture: '56d1ca2e4f6973280ce025e7',
-										startTime: moment("27-08-2016 18:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
-										endTime: moment("27-08-2016 19:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
-										modules: [{
-											module: '56cb7c2e7bbe028ebfbe56a3'
-										}]
-									}, {
-										createdBy: '22006241',
-										lecture: '56d1ca2e4f6973280ce025e8',
-										startTime: moment("27-08-2016 21:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
-										endTime: moment("27-08-2016 22:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
-										modules: [{
-											module: '56cb7c2e7bbe028ebfbe56a2'
-										}]
-									}, {
-										createdBy: '22006241',
-										lecture: '56c868096bd3f7b730a051f4',
-										startTime: moment("28-08-2016 14:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
-										endTime: moment("28-08-2016 15:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
-										feedback: [{
-											comment: "A good lecture, was interesting to see how AJAX works",
-											rating: "4",
-											user: "56cb76ecd5b3f4b6be5d7dec"
-										}, {
-											comment: "I never quite understood sessions until this one!",
-											rating: "5",
-											user: "56cb76ecd5b3f4b6be5d7dea"
-										}, {
-											comment: "Your slides are a great way of showing how slideshows can be done without PowerPoint!",
-											rating: "5",
-											user: "56cb76ecd5b3f4b6be5d7deb"
-										}],
-										questions: [{
-											asker: "56a7886405ab050a54d4eaa6",
-											question: "How do I do this?",
-											time: "2016-02-12T13:35:00Z",
-											_id: "56dc84edd4357803006a440d",
-											anon: false
-										}, {
-											asker: "56c86c25099777e930372eb7",
-											question: "more questions...",
-											time: "2016-02-12T13:40:00Z",
-											_id: "56dc84edd4357803006a440c",
-											anon: false
-										}, {
-											asker: "56a7afd3259ef46f559880c9",
-											question: "Ridiculously stupidly incredibily long comment to test out how it looks",
-											time: "2016-02-12T13:50:00Z",
-											_id: "56dc84edd4357803006a440b",
-											anon: false
-										}, {
-											question: "Send message",
-											asker: "56a7bf8a800c479155488fcb",
-											time: "2016-03-06T19:30:13Z",
-											_id: "56dc8545d4357803006a4414",
-											anon: null
-										}, {
-											question: "lexiva",
-											asker: "56a7bf8a800c479155488fcb",
-											time: "2016-03-06T19:30:40Z",
-											_id: "56dc8560d4357803006a4415",
-											anon: null
-										}, {
-											question: "Hey you guys",
-											asker: "56a7bf8a800c479155488fcb",
-											time: "2016-03-06T19:35:52Z",
-											_id: "56dc8698d4357803006a4416",
-											anon: null
-										}, {
-											question: "Loving the live action",
-											asker: "56a7bf8a800c479155488fcb",
-											time: "2016-03-06T19:35:59Z",
-											_id: "56dc869fd4357803006a4417",
-											anon: null
-										}, {
-											question: "Anon aswell",
-											asker: "56a7bf8a800c479155488fcb",
-											time: "2016-03-06T19:36:04Z",
-											_id: "56dc86a4d4357803006a4418",
-											anon: true
-										}, {
-											question: "Different",
-											asker: "56cb76ecd5b3f4b6be5d7df0",
-											time: "2016-03-06T19:38:42Z",
-											_id: "56dc8742d4357803006a4419",
-											anon: null
-										}, {
-											question: "Try something else",
-											asker: "56cb76ecd5b3f4b6be5d7df0",
-											time: "2016-03-06T19:40:42Z",
-											_id: "56dc87bad4357803006a441a",
-											anon: true
-										}],
-										registered: [{
-											user: '56a7bf8a800c479155488fcb'
-										}, {
-											user: '56a7bf8a800c479155488fce'
-										}, {
-											user: '56cb76ecd5b3f4b6be5d7ddf'
-										}, {
-											user: '56cb76ecd5b3f4b6be5d7de0'
-										}, {
-											user: '56cb76ecd5b3f4b6be5d7de1'
-										}, {
-											user: '56cb76ecd5b3f4b6be5d7de2'
-										}, {
-											user: '56cb76ecd5b3f4b6be5d7de3'
-										}, {
-											user: '56cb76ecd5b3f4b6be5d7de4'
-										}, {
-											user: '56cb76ecd5b3f4b6be5d7de5'
-										}, {
-											user: '56cb76ecd5b3f4b6be5d7de6'
-										}, {
-											user: '56cb76ecd5b3f4b6be5d7de7'
-										}, {
-											user: '56cb76ecd5b3f4b6be5d7de8'
-										}, {
-											user: '56cb76ecd5b3f4b6be5d7de9'
-										}, {
-											user: '56cb76ecd5b3f4b6be5d7dea'
-										}, {
-											user: '56cb76ecd5b3f4b6be5d7deb'
-										}, {
-											user: '56cb76ecd5b3f4b6be5d7dec'
-										}, {
-											user: '56cb76ecd5b3f4b6be5d7ded'
-										}],
-										modules: [{
-											module: '56cb7c2e7bbe028ebfbe56a2'
-										}, {
-											module: '56cb7c2e7bbe028ebfbe56a3'
-										}]
-									}, {
-										createdBy: '22006241',
-										lecture: '56c868096bd3f7b730a051f4',
-										startTime: moment.utc([2016, 8, 21, 16, 0, 0]),
-										endTime: moment.utc([2016, 8, 21, 17, 30, 0]),
-										modules: [{
-											module: '56cb7c2e7bbe028ebfbe56a3'
-										}]
-									}, {
-										createdBy: '22006241',
-										lecture: '56c868096bd3f7b730a051f4',
-										startTime: moment.utc([2016, 9, 22, 10, 0, 0]),
-										endTime: moment.utc([2016, 9, 22, 11, 0, 0]),
-										registered: [{
-											user: '56cb76ecd5b3f4b6be5d7def'
-										}, {
-											user: '56cb76ecd5b3f4b6be5d7df0'
-										}, {
-											user: '56cb76ecd5b3f4b6be5d7df1'
-										}, {
-											user: '56cb76ecd5b3f4b6be5d7df2'
-										}, {
-											user: '56cb76ecd5b3f4b6be5d7df3'
-										}, {
-											user: '56cb76ecd5b3f4b6be5d7df4'
-										}, {
-											user: '56cb76ecd5b3f4b6be5d7df5'
-										}, {
-											user: '56cb76edd5b3f4b6be5d7df6'
-										}],
-										feedback: [{
-											comment: "A good lecture, was interesting to see how AJAX works",
-											rating: "4",
-											user: "56cb76ecd5b3f4b6be5d7df0"
-										}, {
-											comment: "I never quite understood sessions until this one!",
-											rating: "5",
-											user: "56a7bf8a800c479155488fcb"
-										}, {
-											comment: "Your slides are a great way of showing how slideshows can be done without PowerPoint!",
-											rating: "5",
-											user: "56cb76ecd5b3f4b6be5d7def"
-										}],
-										modules: [{
-											module: '56cb7c2e7bbe028ebfbe56a2'
-										}, {
-											module: '56cb7c2e7bbe028ebfbe56a3'
-										}]
-									}, {
-										createdBy: '22006241',
-										lecture: '56d1ca2e4f6973280ce025eb',
-										startTime: moment.utc([2016, 10, 28, 12, 0, 0]),
-										endTime: moment.utc([2016, 10, 28, 14, 0, 0]),
-										altAccess: '',
-										modules: [{
-											module: '56cb7c2e7bbe028ebfbe56a2'
-										}, {
-											module: '56cb7c2e7bbe028ebfbe56a3'
-										}]
-									}, {
-										createdBy: '22006241',
-										lecture: '56d1ca2e4f6973280ce025e7',
-										startTime: moment.utc([2016, 10, 29, 12, 0, 0]),
-										endTime: moment.utc([2016, 10, 29, 14, 0, 0]),
-										modules: [{
-											module: '56cb7c2e7bbe028ebfbe56a3'
-										}]
-									}, {
-										createdBy: '22006241',
-										lecture: '56d1ca2e4f6973280ce025e7',
-										startTime: moment.utc([2016, 10, 29, 14, 30, 0]),
-										endTime: moment.utc([2016, 10, 29, 16, 0, 0]),
-										modules: [{
-											module: '56cb7c2e7bbe028ebfbe56a3'
-										}]
-									}, {
-										createdBy: '22006241',
-										lecture: '56d1ca2e4f6973280ce025e7',
-										startTime: moment.utc([2016, 5, 27, 12, 0, 0]),
-										endTime: moment.utc([2016, 5, 27, 14, 0, 0]),
-										modules: [{
-											module: '56cb7c2e7bbe028ebfbe56a3'
-										}]
-									}, {
-										createdBy: '22006241',
-										lecture: '56d1ca2e4f6973280ce025e7',
-										startTime: moment.utc([2016, 10, 28, 12, 0, 0]),
-										endTime: moment.utc([2016, 10, 28, 14, 0, 0]),
-										modules: [{
-											module: '56cb7c2e7bbe028ebfbe56a3'
-										}]
-									},
-									function(err, sessions) {
-										if (err)
-											console.log(err);
-										// populate QRs for these lectures
-										Session.find({}, function(err, sessions) {
-											sessions.forEach(function(session) {
-												if (err) {
-													console.info(err);
-												} else {
-													//   console.log(lecture.name);
-													Thing.find({
-														name: 'accessCodeLen'
-													}, function(err, thing) {
-														var altAccKeyLen = thing[0].content; // just the one
-														createUniqueAccKey(altAccKeyLen, function(altAccessKey) {
-															session.altAccess = altAccessKey;
+						deleted: false
+					}, function(err) {
+						if (err) console.log(err);
+						Lesson.find({}).remove(function() {
+							Lesson.create({
+								_id: '56d1ca2e4f6973280ce025e6',
+								author: '56cb76ebd5b3f4b6be5d7dd1',
+								title: "Week 1",
+								desc: "Descriptive element for Week *",
+								collaborators: [{
+									user: '56a7bf8a800c479155488fce'
+								}, {
+									user: '56cb76ecd5b3f4b6be5d7def'
+								}],
+								attachments: []
+							}, {
+								_id: '56d1ca2e4f6973280ce025e7',
+								author: '56cb76ebd5b3f4b6be5d7dd1',
+								module: '56cb91bdc3464f14678934cc',
+								title: "Week 2",
+								desc: "Descriptive element for Week *",
+								collaborators: [{
+									user: '56a7bf8a800c479155488fce'
+								}, {
+									user: '56cb76ecd5b3f4b6be5d7def'
+								}],
+								attachments: []
+							}, {
+								_id: '56d1ca2e4f6973280ce025e8',
+								author: '56cb76ebd5b3f4b6be5d7dd1',
+								module: '56cb91bdc3464f14678934cc',
+								title: "Week 3",
+								desc: "Descriptive element for Week *",
+								collaborators: [{
+									user: '56a7bf8a800c479155488fce'
+								}, {
+									user: '56cb76ecd5b3f4b6be5d7def'
+								}],
+								attachments: []
+							}, {
+								_id: '56d1ca2e4f6973280ce025e9',
+								author: '56cb76ebd5b3f4b6be5d7dd1',
+								module: '56cb91bdc3464f14678934cc',
+								title: "Week 4",
+								desc: "Descriptive element for Week *",
+								collaborators: [{
+									user: '56a7bf8a800c479155488fce'
+								}, {
+									user: '56cb76ecd5b3f4b6be5d7def'
+								}],
+								attachments: []
+							}, {
+								_id: '56d1ca2e4f6973280ce025ea',
+								author: '56cb76ebd5b3f4b6be5d7dd1',
+								module: '56cb91bdc3464f14678934cc',
+								title: "Week 5",
+								desc: "Descriptive element for Week *",
+								collaborators: [{
+									user: '56a7bf8a800c479155488fce'
+								}, {
+									user: '56cb76ecd5b3f4b6be5d7def'
+								}],
+								attachments: []
+							}, {
+								_id: '56d1ca2e4f6973280ce025eb',
+								author: '56cb76ebd5b3f4b6be5d7dd1',
+								module: '56cb91bdc3464f14678934cc',
+								title: "Week 6",
+								desc: "Descriptive element for Week *",
+								collaborators: [{
+									user: '56a7bf8a800c479155488fce'
+								}, {
+									user: '56cb76ecd5b3f4b6be5d7def'
+								}],
+								attachments: []
+							}, {
+								author: '56cb76ebd5b3f4b6be5d7dd1',
+								module: '56cb91bdc3464f14678934cc',
+								title: "Week 7",
+								desc: "Descriptive element for Week *",
+							}, {
+								_id: "56c868096bd3f7b730a051f4",
+								author: '56cb76ebd5b3f4b6be5d7dd1',
+								module: '56cb91bdc3464f14678934cc',
+								title: "Week 8",
+								desc: "Descriptive element for Week *",
+								collaborators: [{
+									user: '56a7bf8a800c479155488fce'
+								}, {
+									user: '56cb76ecd5b3f4b6be5d7def'
+								}],
+								url: 'http://www.mustbebuilt.co.uk/SHU/WAD/wad-wk8-lesson16.html',
+								attachments: [{
+									"loc": "/Applications/XAMPP/xamppfiles/htdocs/Website/UniQA/server/storage/lessons/56cb76ebd5b3f4b6be5d7dd1/Application_Demo_Marking_Scheme(1).pdf",
+									"url": "/api/storage/lessons/56cb76ebd5b3f4b6be5d7dd1/Application_Demo_Marking_Scheme(1).pdf",
+									"_id": "5702d39c4826bef0959ebadf",
+									"type": "file-pdf"
+								}, {
+									"loc": "/Applications/XAMPP/xamppfiles/htdocs/Website/UniQA/server/storage/lessons/56cb76ebd5b3f4b6be5d7dd1/childcare_proof.pdf",
+									"url": "/api/storage/lessons/56cb76ebd5b3f4b6be5d7dd1/childcare_proof.pdf",
+									"_id": "5702d39c4826bef0959ebade",
+									"type": "file-pdf"
+								}],
+							}, {
+								author: '56cb76ebd5b3f4b6be5d7dd1',
+								title: "Week 9",
+								desc: "Descriptive element for Week *",
+								module: '56cb91bdc3464f14678934ca',
+								collaborators: [{
+									user: '56a7bf8a800c479155488fce'
+								}, {
+									user: '56cb76ecd5b3f4b6be5d7def'
+								}],
+								attachments: []
+							}, {
+								author: '56cb76ebd5b3f4b6be5d7dd1',
+								title: "MAD No1",
+								module: '56cb91bdc3464f14678934ca',
+								collaborators: [{
+									user: '56a7bf8a800c479155488fce'
+								}, {
+									user: '56cb76ecd5b3f4b6be5d7def'
+								}],
+								attachments: []
+							}, {
+								author: '56cb76ebd5b3f4b6be5d7dd1',
+								title: "CSSD No1",
+								module: '56cb91bdc3464f14678934ca',
+								collaborators: [{
+									user: '56a7bf8a800c479155488fce'
+								}, {
+									user: '56cb76ecd5b3f4b6be5d7def'
+								}],
+								attachments: []
+							}, {
+								author: '56cb76ebd5b3f4b6be5d7dd1',
+								title: "CSSD No2",
+								collaborators: [{
+									user: '56a7bf8a800c479155488fce'
+								}, {
+									user: '56cb76ecd5b3f4b6be5d7def'
+								}],
+								attachments: []
+							}, {
+								author: '56cb76ebd5b3f4b6be5d7dd1',
+								title: "CSSD No3",
+								collaborators: [{
+									user: '56a7bf8a800c479155488fce'
+								}, {
+									user: '56cb76ecd5b3f4b6be5d7def'
+								}],
+								attachments: []
+							}, {
+								author: '56cb76ebd5b3f4b6be5d7dd1',
+								title: "MAD No2",
+								collaborators: [{
+									user: '56a7bf8a800c479155488fce'
+								}, {
+									user: '56cb76ecd5b3f4b6be5d7def'
+								}],
+								attachments: []
+							}, {
+								author: '56cb76ebd5b3f4b6be5d7dd1',
+								title: "SEGM No1",
+								collaborators: [{
+									user: '56a7bf8a800c479155488fce'
+								}, {
+									user: '56cb76ecd5b3f4b6be5d7def'
+								}],
+								attachments: []
+							}, {
+								author: '56cb76ebd5b3f4b6be5d7dd1',
+								title: "UniQA - Week 1",
+								collaborators: [{
+									user: '56a7bf8a800c479155488fce'
+								}, {
+									user: '56cb76ecd5b3f4b6be5d7def'
+								}],
+								attachments: []
+							}, {
+								author: '56cb76ebd5b3f4b6be5d7dd1',
+								title: "UniQA - Week 2",
+								collaborators: [{
+									user: '56a7bf8a800c479155488fce'
+								}, {
+									user: '56cb76ecd5b3f4b6be5d7def'
+								}],
+								attachments: []
+							}, {
+								author: '56cb76ebd5b3f4b6be5d7dd1',
+								title: "SEGM No2",
+								collaborators: [{
+									user: '56a7bf8a800c479155488fce'
+								}, {
+									user: '56cb76ecd5b3f4b6be5d7def'
+								}],
+								attachments: []
+							}, {
+								author: '56cb76ebd5b3f4b6be5d7dd1',
+								title: "AAF No1",
+								collaborators: [{
+									user: '56a7bf8a800c479155488fce'
+								}, {
+									user: '56cb76ecd5b3f4b6be5d7def'
+								}],
+								attachments: []
+							}, {
+								author: '56cb76ebd5b3f4b6be5d7dd1',
+								title: "AAF No2",
+								collaborators: [{
+									user: '56a7bf8a800c479155488fce'
+								}, {
+									user: '56cb76ecd5b3f4b6be5d7def'
+								}],
+								attachments: []
+							}, {
+								author: '56cb76ebd5b3f4b6be5d7dd1',
+								title: "AAF No3",
+								collaborators: [{
+									user: '56a7bf8a800c479155488fce'
+								}, {
+									user: '56cb76ecd5b3f4b6be5d7def'
+								}],
+								attachments: []
+							}, {
+								author: '56cb76ebd5b3f4b6be5d7dd1',
+								title: "MAD No3",
+								collaborators: [],
+								attachments: []
+							}, function(error) {
+								if (error) {
+									console.log(error);
+								} else {
+									Session.find({}).remove(function() {
+										Session.create({
+												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
+												_id: '56c87667bcd6f3c431cb8681',
+												lesson: '56c868096bd3f7b730a051f4',
+												startTime: moment("27-08-2016 14:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
+												endTime: moment("27-08-2016 15:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
+												modules: [{
+													module: '56cb7c2e7bbe028ebfbe56a2'
+												}, {
+													module: '56cb7c2e7bbe028ebfbe56a3'
+												}]
+											}, {
+												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
+												lesson: '56d1ca2e4f6973280ce025e6',
+												startTime: moment("27-08-2016 16:40:00", "DD-MM-YYYY HH:mm:ss").utc(),
+												endTime: moment("27-08-2016 17:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
+												modules: [{
+													module: '56cb7c2e7bbe028ebfbe56a2'
+												}, {
+													module: '56cb7c2e7bbe028ebfbe56a3'
+												}]
+											}, {
+												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
+												lesson: '56d1ca2e4f6973280ce025e7',
+												startTime: moment("27-08-2016 18:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
+												endTime: moment("27-08-2016 19:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
+												modules: [{
+													module: '56cb7c2e7bbe028ebfbe56a3'
+												}]
+											}, {
+												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
+												lesson: '56d1ca2e4f6973280ce025e8',
+												startTime: moment("27-08-2016 21:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
+												endTime: moment("27-08-2016 22:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
+												modules: [{
+													module: '56cb7c2e7bbe028ebfbe56a2'
+												}]
+											}, {
+												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
+												lesson: '56c868096bd3f7b730a051f4',
+												startTime: moment("28-08-2016 14:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
+												endTime: moment("28-08-2016 15:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
+												feedback: [{
+													comment: "A good lesson, was interesting to see how AJAX works",
+													rating: "4",
+													user: "56cb76ecd5b3f4b6be5d7dec"
+												}, {
+													comment: "I never quite understood sessions until this one!",
+													rating: "5",
+													user: "56cb76ecd5b3f4b6be5d7dea"
+												}, {
+													comment: "Your slides are a great way of showing how slideshows can be done without PowerPoint!",
+													rating: "5",
+													user: "56cb76ecd5b3f4b6be5d7deb"
+												}],
+												questions: [{
+													asker: "56a7886405ab050a54d4eaa6",
+													question: "How do I do this?",
+													time: "2016-02-12T13:35:00Z",
+													_id: "56dc84edd4357803006a440d",
+													anon: false
+												}, {
+													asker: "56c86c25099777e930372eb7",
+													question: "more questions...",
+													time: "2016-02-12T13:40:00Z",
+													_id: "56dc84edd4357803006a440c",
+													anon: false
+												}, {
+													asker: "56a7afd3259ef46f559880c9",
+													question: "Ridiculously stupidly incredibily long comment to test out how it looks",
+													time: "2016-02-12T13:50:00Z",
+													_id: "56dc84edd4357803006a440b",
+													anon: false
+												}, {
+													question: "Send message",
+													asker: "56a7bf8a800c479155488fcb",
+													time: "2016-03-06T19:30:13Z",
+													_id: "56dc8545d4357803006a4414",
+													anon: null
+												}, {
+													question: "lexiva",
+													asker: "56a7bf8a800c479155488fcb",
+													time: "2016-03-06T19:30:40Z",
+													_id: "56dc8560d4357803006a4415",
+													anon: null
+												}, {
+													question: "Hey you guys",
+													asker: "56a7bf8a800c479155488fcb",
+													time: "2016-03-06T19:35:52Z",
+													_id: "56dc8698d4357803006a4416",
+													anon: null
+												}, {
+													question: "Loving the live action",
+													asker: "56a7bf8a800c479155488fcb",
+													time: "2016-03-06T19:35:59Z",
+													_id: "56dc869fd4357803006a4417",
+													anon: null
+												}, {
+													question: "Anon aswell",
+													asker: "56a7bf8a800c479155488fcb",
+													time: "2016-03-06T19:36:04Z",
+													_id: "56dc86a4d4357803006a4418",
+													anon: true
+												}, {
+													question: "Different",
+													asker: "56cb76ecd5b3f4b6be5d7df0",
+													time: "2016-03-06T19:38:42Z",
+													_id: "56dc8742d4357803006a4419",
+													anon: null
+												}, {
+													question: "Try something else",
+													asker: "56cb76ecd5b3f4b6be5d7df0",
+													time: "2016-03-06T19:40:42Z",
+													_id: "56dc87bad4357803006a441a",
+													anon: true
+												}],
+												registered: [{
+													user: '56a7bf8a800c479155488fcb'
+												}, {
+													user: '56a7bf8a800c479155488fce'
+												}, {
+													user: '56cb76ecd5b3f4b6be5d7ddf'
+												}, {
+													user: '56cb76ecd5b3f4b6be5d7de0'
+												}, {
+													user: '56cb76ecd5b3f4b6be5d7de1'
+												}, {
+													user: '56cb76ecd5b3f4b6be5d7de2'
+												}, {
+													user: '56cb76ecd5b3f4b6be5d7de3'
+												}, {
+													user: '56cb76ecd5b3f4b6be5d7de4'
+												}, {
+													user: '56cb76ecd5b3f4b6be5d7de5'
+												}, {
+													user: '56cb76ecd5b3f4b6be5d7de6'
+												}, {
+													user: '56cb76ecd5b3f4b6be5d7de7'
+												}, {
+													user: '56cb76ecd5b3f4b6be5d7de8'
+												}, {
+													user: '56cb76ecd5b3f4b6be5d7de9'
+												}, {
+													user: '56cb76ecd5b3f4b6be5d7dea'
+												}, {
+													user: '56cb76ecd5b3f4b6be5d7deb'
+												}, {
+													user: '56cb76ecd5b3f4b6be5d7dec'
+												}, {
+													user: '56cb76ecd5b3f4b6be5d7ded'
+												}],
+												modules: [{
+													module: '56cb7c2e7bbe028ebfbe56a2'
+												}, {
+													module: '56cb7c2e7bbe028ebfbe56a3'
+												}]
+											}, {
+												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
+												lesson: '56c868096bd3f7b730a051f4',
+												startTime: moment.utc([2016, 8, 21, 16, 0, 0]),
+												endTime: moment.utc([2016, 8, 21, 17, 30, 0]),
+												modules: [{
+													module: '56cb7c2e7bbe028ebfbe56a3'
+												}]
+											}, {
+												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
+												lesson: '56c868096bd3f7b730a051f4',
+												startTime: moment.utc([2016, 9, 22, 10, 0, 0]),
+												endTime: moment.utc([2016, 9, 22, 11, 0, 0]),
+												registered: [{
+													user: '56cb76ecd5b3f4b6be5d7def'
+												}, {
+													user: '56cb76ecd5b3f4b6be5d7df0'
+												}, {
+													user: '56cb76ecd5b3f4b6be5d7df1'
+												}, {
+													user: '56cb76ecd5b3f4b6be5d7df2'
+												}, {
+													user: '56cb76ecd5b3f4b6be5d7df3'
+												}, {
+													user: '56cb76ecd5b3f4b6be5d7df4'
+												}, {
+													user: '56cb76ecd5b3f4b6be5d7df5'
+												}, {
+													user: '56cb76edd5b3f4b6be5d7df6'
+												}],
+												feedback: [{
+													comment: "A good lesson, was interesting to see how AJAX works",
+													rating: "4",
+													user: "56cb76ecd5b3f4b6be5d7df0"
+												}, {
+													comment: "I never quite understood sessions until this one!",
+													rating: "5",
+													user: "56a7bf8a800c479155488fcb"
+												}, {
+													comment: "Your slides are a great way of showing how slideshows can be done without PowerPoint!",
+													rating: "5",
+													user: "56cb76ecd5b3f4b6be5d7def"
+												}],
+												modules: [{
+													module: '56cb7c2e7bbe028ebfbe56a2'
+												}, {
+													module: '56cb7c2e7bbe028ebfbe56a3'
+												}]
+											}, {
+												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
+												lesson: '56d1ca2e4f6973280ce025eb',
+												startTime: moment.utc([2016, 10, 28, 12, 0, 0]),
+												endTime: moment.utc([2016, 10, 28, 14, 0, 0]),
+												altAccess: '',
+												modules: [{
+													module: '56cb7c2e7bbe028ebfbe56a2'
+												}, {
+													module: '56cb7c2e7bbe028ebfbe56a3'
+												}]
+											}, {
+												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
+												lesson: '56d1ca2e4f6973280ce025e7',
+												startTime: moment.utc([2016, 10, 29, 12, 0, 0]),
+												endTime: moment.utc([2016, 10, 29, 14, 0, 0]),
+												modules: [{
+													module: '56cb7c2e7bbe028ebfbe56a3'
+												}]
+											}, {
+												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
+												lesson: '56d1ca2e4f6973280ce025e7',
+												startTime: moment.utc([2016, 10, 29, 14, 30, 0]),
+												endTime: moment.utc([2016, 10, 29, 16, 0, 0]),
+												modules: [{
+													module: '56cb7c2e7bbe028ebfbe56a3'
+												}]
+											}, {
+												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
+												lesson: '56d1ca2e4f6973280ce025e7',
+												startTime: moment.utc([2016, 5, 27, 12, 0, 0]),
+												endTime: moment.utc([2016, 5, 27, 14, 0, 0]),
+												modules: [{
+													module: '56cb7c2e7bbe028ebfbe56a3'
+												}]
+											}, {
+												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
+												lesson: '56d1ca2e4f6973280ce025e7',
+												startTime: moment.utc([2016, 10, 28, 12, 0, 0]),
+												endTime: moment.utc([2016, 10, 28, 14, 0, 0]),
+												modules: [{
+													module: '56cb7c2e7bbe028ebfbe56a3'
+												}]
+											},
+											function(err, sessions) {
+												if (err)
+													console.log(err);
+												// populate QRs for these lessons
+												Session.find({}, function(err, sessions) {
+													sessions.forEach(function(session) {
+														if (err) {
+															console.info(err);
+														} else {
+															//   console.log(lesson.name);
+															Thing.find({
+																name: 'accessCodeLen'
+															}, function(err, thing) {
+																var altAccKeyLen = thing[0].content; // just the one
+																createUniqueAccKey(altAccKeyLen, function(altAccessKey) {
+																	session.altAccess = altAccessKey;
 
-															var url = String('http://uniqa-shu.herokuapp.com/qr/register/' + session._id);
+																	var url = String('http://uniqa-shu.herokuapp.com/qr/register/' + session._id);
 
-															var qrSvgString = qrEncoder.imageSync(url, {
-																type: 'svg',
-																ec_level: 'Q',
-																parse_url: false,
-																margin: 1,
-																size: 4
+																	var qrSvgString = qrEncoder.imageSync(url, {
+																		type: 'svg',
+																		ec_level: 'Q',
+																		parse_url: false,
+																		margin: 1,
+																		size: 4
+																	});
+
+																	// REMOVE Inject elements on svg, problem with plugin
+																	qrSvgString = qrSvgString.replace('<svg xmlns="http://www.w3.org/2000/svg" width="172" height="172" viewBox="0 0 43 43">', "");
+																	qrSvgString = qrSvgString.replace('</svg>', "");
+																	qrSvgString = qrSvgString.replace('\"', "\'");
+																	qrSvgString = qrSvgString.replace('\"/', "\'/");
+
+																	session.qr.url = '/qr/register/' + session._id;
+																	session.qr.svg = qrSvgString;
+
+																	session.save(function(err) {
+																		if (err) {
+																			console.info(err);
+																		}
+
+																	});
+																});
 															});
-
-															// REMOVE Inject elements on svg, problem with plugin
-															qrSvgString = qrSvgString.replace('<svg xmlns="http://www.w3.org/2000/svg" width="172" height="172" viewBox="0 0 43 43">', "");
-															qrSvgString = qrSvgString.replace('</svg>', "");
-															qrSvgString = qrSvgString.replace('\"', "\'");
-															qrSvgString = qrSvgString.replace('\"/', "\'/");
-
-															session.qr.url = '/qr/register/' + session._id;
-															session.qr.svg = qrSvgString;
-
-															session.save(function(err) {
-																if (err) {
-																	console.info(err);
-																}
-
-															});
-														});
+														}
 													});
-												}
+												});
 											});
-										});
-									});
 
+									});
+								}
 							});
-						}
+						});
 					});
 				});
 			});

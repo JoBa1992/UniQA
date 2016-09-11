@@ -47,18 +47,6 @@ body {
 .no-marg {
   margin: 0 !important;
 }
-.pad-fix {
-  padding: 0 15px;
-}
-.marg-fix {
-  margin: 0 15px;
-}
-.header-margin-offset {
-  margin-top: 70px;
-}
-.body-min-height {
-  min-height: 600px;
-}
 /*==========  Mobile First Method  ==========*/
 /* Custom, iPhone Retina */
 // @media only screen and (min-width : 320px) {
@@ -123,7 +111,8 @@ body {
     cursor: pointer;
     border-bottom: 1px solid lighten(#343D48,3%);
     color: white;
-    padding: 0.8em 1em 0.2em 1.4em;
+    text-align: center;
+    padding: 1em 0;
     -webkit-font-smoothing: antialiased;
     text-shadow: rgba(0,0,0,.01) 0 0 1px;
   }
@@ -156,41 +145,22 @@ body {
     cursor: pointer;
     border-bottom: 1px solid lighten(#343D48,3%);
     color: white;
-    padding: 0.8em 1em 0.2em 1.4em;
+    text-align: center;
+    padding: 1em 0;
     -webkit-font-smoothing: antialiased;
     text-shadow: rgba(0,0,0,.01) 0 0 1px;
   }
+}
+.notransition {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
 }
 /* Medium Devices, Desktops */
-@media only screen and (max-width : 992px) {
-  .sidebar-wrapper {
-    position: absolute;
-    width: 200px;
-  }
-  .sidebar-wrapper-min {
-    width: 56px;
-  }
-  .wrapper {
-    padding-left: 200px;
-  }
-  .wrapper-min {
-    padding-left: 56px;
-  }
-  .page-content-wrapper {
-    position: relative;
-    margin-right: 0;
-  }
-  .sidebar-brand {
-    cursor: pointer;
-    border-bottom: 1px solid lighten(#343D48,3%);
-    color: white;
-    padding: 0.8em 1em 0.2em 0.65em;
-    -webkit-font-smoothing: antialiased;
-    text-shadow: rgba(0,0,0,.01) 0 0 1px;
-  }
-}
+@media only screen and (max-width : 992px) {}
 .resource-state-picker {
-  background-color: #EEEEEE;
+  background-color: #FAFAFA;
   padding-top: 1em;
   text-align: center;
 }
@@ -212,6 +182,9 @@ body {
   color: black;
   -webkit-box-shadow: inset 0 -3px 0 #82AECC;
   box-shadow: inset 0 -3px 0 #82AECC;
+}
+.body-min-height {
+  min-height: 600px;
 }
 /* Small Devices, Tablets */
 // @media only screen and (max-width : 768px) {

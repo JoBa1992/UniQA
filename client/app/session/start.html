@@ -6,8 +6,8 @@
         <input type="text" name="module" class="form-control" placeholder="Select Module" ng-model="session.module" required>
       </div>
       <div class="form-group">
-        <label>Lecture dropdown w/search</label>
-        <input type="text" name="lecture" class="form-control" placeholder="" ng-model="session.lecture" required>
+        <label>Lesson dropdown w/search</label>
+        <input type="text" name="lesson" class="form-control" placeholder="" ng-model="session.lesson" required>
       </div>
       <div class="form-group">
         <label>Session Reference
@@ -22,11 +22,11 @@
         <input type="number" name="runtime" class="form-control" ng-model="session.runtime" required>
       </div>
       <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <button type="button" class="btn btn-{{startSessionQuestions}} btn-block" ng-click="switchQuestionState()" tooltip="{{startSessionQuestions === 'default' ? 'allow questions in this session' : 'disable questions in this session'}}" tooltip-trigger tooltip-animation="false" tooltip-placement="top">
+        <button type="button" class="btn btn-{{startSessionQuestions}} btn-block" ng-click="switchQuestionState()" uib-tooltip="{{startSessionQuestions === 'default' ? 'allow questions in this session' : 'disable questions in this session'}}" tooltip-trigger tooltip-animation="false" tooltip-placement="top">
           Questions?</button>
       </div>
       <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <button type="button" class="btn btn-{{startSessionFeedback}} btn-block" ng-click="switchFeedbackState()" tooltip="{{startSessionFeedback === 'default' ? 'allow feedback in this session' : 'disable feedback in this session'}}" tooltip-trigger tooltip-animation="false" tooltip-placement="top">
+        <button type="button" class="btn btn-{{startSessionFeedback}} btn-block" ng-click="switchFeedbackState()" uib-tooltip="{{startSessionFeedback === 'default' ? 'allow feedback in this session' : 'disable feedback in this session'}}" tooltip-trigger tooltip-animation="false" tooltip-placement="top">
           Feedback?</button>
       </div>
       <div class="form-group has-error">
@@ -48,13 +48,13 @@
   </div>
 </div>
 <!-- <div class="marg-fix">
-  <div id="lecture-fullscreen">
-    <div ng-if="timeUntil>0" id="lectureView">
+  <div id="lesson-fullscreen">
+    <div ng-if="timeUntil>0" id="lessonView">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 presentation-view">
         <h1 class="col-md-12" style="margin:5em 0 3em;text-align:center;color:#343D48;">There's nothing to start yet</h1>
         <h3 class="col-md-12" style="margin:2em 0 2em;color:#343D48;">
-          Your next lecture,
-          <strong>{{nextLecture.title}}</strong>, will be accessible in...
+          Your next lesson,
+          <strong>{{nextLesson.title}}</strong>, will be accessible in...
         </h3>
         <div class="col-md-3">
           <div class="countdown-circle">{{days}}
@@ -83,43 +83,43 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-if="timeUntil<=0">
       <div>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <h1 class="" style="padding-left:4px;">{{nextLecture.title}}</h1>
+          <h1 class="" style="padding-left:4px;">{{nextLesson.title}}</h1>
           <hr class="resource-hr">
 
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top:2em;">
 
-            <div href="#" class="hidden-xs hidden-sm col-md-2 col-lg-2 visible-sm visible-md visible-lg lecture-start-preview" style="padding:0;">
-              <h4 ng-if="!nextLecture.preview">No Preview Available
+            <div href="#" class="hidden-xs hidden-sm col-md-2 col-lg-2 visible-sm visible-md visible-lg lesson-start-preview" style="padding:0;">
+              <h4 ng-if="!nextLesson.preview">No Preview Available
                 <i style="display:block;margin-top:.4em;" class="fa fa-frown-o fa-2x"></i>
               </h4>
             </div>
 
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 lecture-start-info" style="margin-top:.6em;">
-              <p style="font-size:1.1em;margin:0;">{{nextLecture.desc}}</p>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 lesson-start-info" style="margin-top:.6em;">
+              <p style="font-size:1.1em;margin:0;">{{nextLesson.desc}}</p>
             </div>
 
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 lecture-start-info">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 lesson-start-info">
               <i class="fa fa-clock-o fa-3x"></i>
               <h2>{{moment(nextSession.startTime).format('HH:mm')}}
                 -
                 {{moment(nextSession.endTime).format('HH:mm')}}</h2>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 lecture-start-info">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 lesson-start-info">
               <i class="fa fa-graduation-cap fa-3x"></i>
               <div style="padding-left:.4em;display:inline-block;">
-                <div ng-repeat="user in nextLecture.collaborators" style="display:inline-block;">
+                <div ng-repeat="user in nextLesson.collaborators" style="display:inline-block;">
                   <a style="font-size:2.1em;padding:0;margin:0;color:#343D48;display:inline-block;" href="#">{{user}}
                   </a>
                   <span style="font-size:2.1em;padding:0;margin:0;display:inline-block;" ng-if="!$last">,&nbsp;</span>
                 </div>
               </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 lecture-start-info">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 lesson-start-info">
               <i class="fa fa-users fa-3x"></i>
-              <h2 style="padding:0; margin:0; padding-left:.4em; display:inline-block; color:#343D48;">{{nextLectureStudentCount}}</h2>
+              <h2 style="padding:0; margin:0; padding-left:.4em; display:inline-block; color:#343D48;">{{nextLessonStudentCount}}</h2>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 lecture-start-info" style="margin-top:2em;">
-              <h5 ng-repeat="item in nextLecture.attachments" target="_blank" href="{{item.loc}}" style="margin:0 .3em;padding:.5em .3em .3em;text-decoration:none;color:#343D48;display:inline-block;">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 lesson-start-info" style="margin-top:2em;">
+              <h5 ng-repeat="item in nextLesson.attachments" target="_blank" href="{{item.loc}}" style="margin:0 .3em;padding:.5em .3em .3em;text-decoration:none;color:#343D48;display:inline-block;">
                 <i class="fa fa-file-{{item.type}}-o fa-4x"></i>
               </h5>
             </div>
@@ -128,16 +128,16 @@
       </div>
       <div style="margin-top:6em;">
         <div class="col-md-12 col-lg-12">
-          <a class="btn btn-warning btn-lg pull-right" href="/session/active/{{nextLecture.sessionId}}">Start Lecture</a>
+          <a class="btn btn-warning btn-lg pull-right" href="/session/active/{{nextLesson.sessionId}}">Start Lesson</a>
         </div>
       </div>
     </div>
-    <div ng-if="_.isEmpty(nextLecture)" id="lectureView">
+    <div ng-if="_.isEmpty(nextLesson)" id="lessonView">
       <div class="col-xs-12 col-sm-112 col-md-112 col-lg-12 presentation-view">
         <h1 class="col-md-12" style="margin:5em 0 3em;text-align:center;color:#343D48;">Looks like theres nothing to start.</h1>
         <h3 class="col-md-12" style="margin:2em 0 2em;color:#343D48;">
           <a href="/my/schedule" style="color:#FFA700;">Click here</a>
-          to get started with adding some more lectures to your schedule.</h3>
+          to get started with adding some more lessons to your schedule.</h3>
         <div class="col-md-3">
           <div class="countdown-circle">
             0
@@ -171,19 +171,19 @@
   <div ng-if="!_.isEmpty(upcomingSessions)" class="">
     <div>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 presentation-view" style="padding:0;position:relative;">
-        <h3 class="" style="padding-left:4px;">Next lectures scheduled...</h3>
+        <h3 class="" style="padding-left:4px;">Next lessons scheduled...</h3>
         <hr class="resource-hr">
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" style="margin:0 0 2em;text-align:center;" ng-repeat="session in upcomingSessions">
           <div class="col-xs-12 col-sm-8 col-md-10 col-lg-8 col-sm-offset-2 col-md-offset-1 col-lg-offset-2 visible-sm visible-md visible-lg" style="padding:0;">
-            <div class="lecture-start-preview-mini">
+            <div class="lesson-start-preview-mini">
               <h4 ng-if="!session.preview" style="margin:4.45em 0">No Preview Available
                 <i style="display:block;" class="fa fa-frown-o"></i>
               </h4>
-              <img ng-if="session.preview" src="{{nextLecture.preview}}" style="width:100%;">
+              <img ng-if="session.preview" src="{{nextLesson.preview}}" style="width:100%;">
             </div>
           </div>
           <h2>
-            <a href="#">{{session.lecture.title}}</a>
+            <a href="#">{{session.lesson.title}}</a>
           </h2>
           <h5>{{moment.utc(session.startTime).isSame(now, 'day') ? "Today: " + (moment(session.startTime).format('HH:mm')): (moment(session.startTime).format('DD/MM/YYYY HH:mm'))}}
             -

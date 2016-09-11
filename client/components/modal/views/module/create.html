@@ -1,6 +1,6 @@
 <div class="form-group" ng-class="{ 'has-success': form.id.$valid && submitted,'has-error': form.id.$invalid && submitted }">
   <label>Module ID</label>
-  <input type="text" name="id" class="form-control" placeholder="e.g. 6200-01" ng-model="module._id" required/>
+  <input type="text" name="id" class="form-control" placeholder="e.g. 55-5533-00L" ng-model="module._id" required/>
   <p class="help-block" ng-show="form.id.$error.required && submitted">Module ID is required</p>
   <p class="help-block" ng-show="moduleAlreadyExists && submitted">
     A module with this ID already exists

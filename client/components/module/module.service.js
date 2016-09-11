@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uniQaApp')
+angular.module('UniQA')
 	.factory('Module', function Department($http, $q) {
 		return {
 			get: function(callback) {
@@ -50,6 +50,20 @@ angular.module('uniQaApp')
 				var userid = obj.user;
 
 				$http.get('/api/modules/user/' + userid).success(function(data) {
+					deferred.resolve(data);
+					return cb;
+				}).error(function(err) {
+					deferred.reject(err);
+					return cb(err);
+				}.bind(this));
+				return deferred.promise;
+			},
+			getExplorableModules: function(obj, callback) {
+				var cb = callback || angular.noop;
+				var deferred = $q.defer();
+				var userid = obj.user;
+
+				$http.get('/api/modules/user/' + userid + '/unassoc').success(function(data) {
 					deferred.resolve(data);
 					return cb;
 				}).error(function(err) {

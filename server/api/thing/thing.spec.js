@@ -32,16 +32,6 @@ describe('Thing Model', function() {
 		});
 	});
 
-	it('should fail when saving a duplicate thing', function(done) {
-		thing.save(function() {
-			var thingDup = new Thing(thing);
-			thingDup.save(function(err) {
-				should.exist(err);
-				done();
-			});
-		});
-	});
-
 	it('should fail when saving without a name', function(done) {
 		thing.name = '';
 		thing.save(function(err) {
@@ -50,7 +40,7 @@ describe('Thing Model', function() {
 		});
 	});
 
-	it('should allow lecture to be created through api', function(done) {
+	it('should allow thing to be created through api', function(done) {
 		api
 			.post('/')
 			.send({

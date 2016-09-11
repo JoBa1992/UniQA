@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uniQaApp')
+angular.module('UniQA')
 	.factory('Auth', function Auth($location, $rootScope, $http, User, $cookieStore, $q) {
 		var currentUser = {};
 		if ($cookieStore.get('token')) {
@@ -21,7 +21,7 @@ angular.module('uniQaApp')
 				var deferred = $q.defer();
 
 				$http.post('/auth/local', {
-					email: user.email,
+					username: user.username,
 					password: user.password
 				}).success(function(data) {
 					$cookieStore.put('token', data.token);

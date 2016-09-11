@@ -1,32 +1,21 @@
-<div class="page-sub-header" ng-class="{'page-sub-header-min': isNavCollapsed()}">
-  <div class="marg-fix">
-    <div class="row">
-      <div class="col-sm-4 col-med-4 col-lg-4 pull-left">
-        <h1>{{title}}</h1>
-      </div>
-      <div class="col-sm-8 col-med-8 col-lg-8 pull-right">
-        <div class="pull-right" style="margin:0.56em .4em;display:inline-block;">
-          <!-- ng-click="openCreateModal()"  -->
-          <a class="btn page-sub-header-action-btn" tooltip="Coming&nbsp;soon" tooltip-trigger tooltip-animation="false" popover-append-to-body="true" tooltip-placement="bottom">
-            <i class="fa fa-plus" aria-hidden="true" style="font-size:1.4em;"></i>
-          </a>
-          <!-- href="/notifications" -->
-          <a class="btn page-sub-header-action-btn" tooltip="Coming&nbsp;soon" tooltip-trigger tooltip-animation="false" popover-append-to-body="true" tooltip-placement="bottom">
-            <i class="fa fa-bell-o" aria-hidden="true" style="font-weight:900;"></i>
-          </a>
-        </div>
-        <form id="search-form" class="form-inline pull-right" role="form" style="margin:0.56em .4em;display:inline-block;">
-          <div style="position:relative;width:100%;">
-            <!-- ng-keyup="checkForSubmit($event)" -->
-            <input type="text" class="form-control search-form" placeholder="Search" ng-model="filter.searchStr" style='width:200px;'>
-            <!-- ng-click="searchStrFilter($event)" -->
-            <button tooltip="Coming&nbsp;soon" tooltip-trigger tooltip-animation="false" popover-append-to-body="true" tooltip-placement="bottom" type="submit" class="search-btn" name="q" style="">
-              <span style="" class="glyphicon glyphicon-search"></span>
-            </button>
-            <!-- </span> -->
-          </div>
-        </form>
-      </div>
-    </div>
+<md-toolbar ng-if="isLoggedIn() && showTopNav" layout="column" layout-align="center start" layout-padding="50" class="page-head">
+  <!-- <span flex=""></span> -->
+  <div class="md-toolbar-tools">
+    <h2>
+      <span>{{pageHeadTitle}}</span>
+    </h2>
+    <span flex=""></span>
+    <md-button class="md-icon-button page-sub-header-action-btn" aria-label="Favorite" ng-click="openCreateModal()">
+      <i class="fa fa-plus" aria-hidden="true" style="font-weight:900;font-size:1.2em;"></i>
+    </md-button>
+    <md-button class="md-icon-button page-sub-header-action-btn" aria-label="More">
+      <i class="fa fa-bell-o" aria-hidden="true" style="font-weight:900;font-size:1.2em;"></i>
+      <md-tooltip md-autohide="true" md-direction="bottom" class="tooltip-md">
+        Coming soon
+      </md-tooltip>
+    </md-button>
+    <md-button class="md-icon-button page-sub-header-action-btn" aria-label="More" ng-click="logout()">
+      <i class="fa fa-sign-out" aria-hidden="true" style="font-weight:900;font-size:1.2em;"></i>
+    </md-button>
   </div>
-</div>
+</md-toolbar>

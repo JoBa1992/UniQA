@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('uniQaApp')
-	.factory('Modal', function($rootScope, $modal, $parse, $window, $location, $timeout, $interval, $sce, Auth, Thing, Module, Lecture, Session) {
+angular.module('UniQA')
+	.factory('Modal', function($rootScope, $uibModal, $parse, $window, $location, $timeout, $interval, $sce, Auth, Thing, Module, Lesson, Session) {
 
 		// Use the User $resource to fetch all users
 		$rootScope.user = {};
@@ -16,7 +16,7 @@ angular.module('uniQaApp')
 		 * Opens a modal
 		 * @param  {Object} scope      - an object to be merged with modal's scope
 		 * @param  {String} modalClass - (optional) class(es) to be applied to the modal
-		 * @return {Object}            - the instance $modal.open() returns
+		 * @return {Object}            - the instance $uibModal.open() returns
 		 */
 		function openModal(scope, modalClass, modalSize) {
 			var modalScope = $rootScope.$new();
@@ -29,7 +29,7 @@ angular.module('uniQaApp')
 			var modalTemplate = modalScope.modal.template || 'components/modal/views/standard.html';
 			var modalBackdrop = modalScope.modal.backdrop || true;
 
-			return $modal.open({
+			return $uibModal.open({
 				templateUrl: modalTemplate,
 				windowClass: modalClass,
 				backdrop: modalBackdrop,
@@ -110,12 +110,12 @@ angular.module('uniQaApp')
 						});
 					};
 				},
-				lecture: function(cb) {
+				lesson: function(cb) {
 					cb = cb || angular.noop;
 					return function() {
 						var readModal;
 						var args = Array.prototype.slice.call(arguments);
-						var lecture = args.shift();
+						var lesson = args.shift();
 
 						$rootScope._ = _;
 						// attach moment to rootScope
@@ -168,7 +168,7 @@ angular.module('uniQaApp')
 
 						// url parameter passed through
 						// var sessionid = $stateParams.sessionid;
-						// console.info(lecture);
+						// console.info(lesson);
 
 						// var me = Auth.getCurrentUser();
 
@@ -182,9 +182,9 @@ angular.module('uniQaApp')
 
 						$rootScope.session = {};
 
-						// rootScope load for lecture/tutor
-						$rootScope.lectureHeight = $window.innerHeight - 10;
-						// $rootScope.lectureHeightMarginTop = '-1.4em;';
+						// rootScope load for lesson/tutor
+						$rootScope.lessonHeight = $window.innerHeight - 10;
+						// $rootScope.lessonHeightMarginTop = '-1.4em;';
 						$rootScope.fullScreenToggle = false;
 						$rootScope.hideQuestions = false;
 						$rootScope.hideQuestionIcon = 'fa-arrow-right';
@@ -194,7 +194,7 @@ angular.module('uniQaApp')
 
 						$rootScope.toggleFullScreen = function() {
 							if (!$rootScope.fullScreenToggle) { // Launch fullscreen for browsers that support it!
-								var element = document.getElementById('lecture-fullscreen');
+								var element = document.getElementById('lesson-fullscreen');
 								if (element.requestFullScreen) {
 									element.requestFullScreen();
 								} else if (element.mozRequestFullScreen) {
@@ -202,8 +202,8 @@ angular.module('uniQaApp')
 								} else if (element.webkitRequestFullScreen) {
 									element.webkitRequestFullScreen();
 								}
-								// $rootScope.lectureHeightMarginTop = '0em;';
-								$rootScope.lectureHeight = '890';
+								// $rootScope.lessonHeightMarginTop = '0em;';
+								$rootScope.lessonHeight = '890';
 								$rootScope.toggleFullScreenIcon = 'fa-compress';
 								$rootScope.fullScreenToggle = true;
 							} else { // Cancel fullscreen for browsers that support it!
@@ -214,8 +214,8 @@ angular.module('uniQaApp')
 								} else if (document.webkitExitFullscreen) {
 									document.webkitExitFullscreen();
 								}
-								// $rootScope.lectureHeightMarginTop = '-1.4em;';
-								$rootScope.lectureHeight = '760';
+								// $rootScope.lessonHeightMarginTop = '-1.4em;';
+								$rootScope.lessonHeight = '760';
 								$rootScope.toggleFullScreenIcon = 'fa-expand';
 								$rootScope.fullScreenToggle = false;
 							}
@@ -232,14 +232,14 @@ angular.module('uniQaApp')
 							} else {
 								$rootScope.presViewSizeMd = 'col-md-12';
 								$rootScope.presViewSizeLg = 'col-lg-12';
-								$rootScope.questionIconNumber = $rootScope.lecture.questions.length;
+								$rootScope.questionIconNumber = $rootScope.lesson.questions.length;
 								$rootScope.hideQuestionIcon = '';
 								$rootScope.hideQuestions = true;
 								$rootScope.toggleBtnPosRight = 16;
 
 							}
 						};
-						$rootScope.lecture = lecture;
+						$rootScope.lesson = lesson;
 
 						$timeout(function() {
 							$rootScope.init = true;
@@ -250,7 +250,7 @@ angular.module('uniQaApp')
 								name: 'createrUserForm',
 								dismissable: true,
 								template: 'components/modal/views/splash.html',
-								form: 'components/modal/views/lecture/preview.html',
+								form: 'components/modal/views/lesson/preview.html',
 								title: '',
 								buttons: [{
 									classes: 'btn-primary',
@@ -267,18 +267,18 @@ angular.module('uniQaApp')
 				sessionContent: function(cb) {
 					cb = cb || angular.noop;
 					var args = Array.prototype.slice.call(arguments);
-					var lecture = args.shift();
+					var lesson = args.shift();
 					var sessionid = args.shift();
 					var me = Auth.getCurrentUser();
 
 					return function() {
 						var readModal;
 
-						// console.info(lecture);
+						// console.info(lesson);
 
 						$rootScope.getFile = function(file) {
 							Session.getFile({
-								lecture: lecture._id,
+								lesson: lesson._id,
 								user: me._id,
 								file: file,
 								session: sessionid
@@ -288,19 +288,19 @@ angular.module('uniQaApp')
 						};
 
 						Session.getOne(sessionid).then(function(res) {
-							var lecture = res.lecture._id;
-							Lecture.getOne(lecture).then(function(res) {
+							var lesson = res.lesson._id;
+							Lesson.getOne(lesson).then(function(res) {
 								for (var item in res.attachments) {
 									res.attachments[item].name = res.attachments[item].loc.split('/').pop();
 								}
-								$rootScope.lecture = res; // need to elaborate on this
+								$rootScope.lesson = res; // need to elaborate on this
 
 								readModal = openModal({
 									modal: {
 										name: 'showSessionContent',
 										dismissable: true,
 										form: 'components/modal/views/session/content.html',
-										title: 'Lecture Content',
+										title: 'Lesson Content',
 										buttons: [{
 											classes: 'btn-primary',
 											text: 'Dismiss',
@@ -386,7 +386,7 @@ angular.module('uniQaApp')
 								name: 'FeedbackForm',
 								dismissable: true,
 								form: 'components/modal/views/feedback/read.html',
-								title: '{{feedback.lecture.title}}: {{feedback.startTime| date:\'HH:mm\'}} - {{feedback.endTime| date:\'HH:mm\'}}, {{moment.utc(feedback.startTime).format("dddd Do MMMM YYYY")}}',
+								title: '{{feedback.lesson.title}}: {{feedback.startTime| date:\'HH:mm\'}} - {{feedback.endTime| date:\'HH:mm\'}}, {{moment.utc(feedback.startTime).format("dddd Do MMMM YYYY")}}',
 								buttons: [{
 									classes: 'btn-primary',
 									text: 'Close',
@@ -615,25 +615,12 @@ angular.module('uniQaApp')
 							$rootScope.roles = val.content;
 							$rootScope.user.role = 'Select Role';
 						});
-						// Department.get().then(function(val) {
-						// 	val.forEach(function(dep) {
-						// 		var subs = [];
-						// 		dep.subdepartment.forEach(function(subdep) {
-						// 			subs.push(subdep.name);
-						// 		});
-						// 		$rootScope.departments[dep.name] = subs;
-						// 	});
-						// 	// add to start of array
-						// 	$rootScope.user.department = 'Select Department';
-						// });
 
 						Thing.getByName('uniEmail').then(function(val) {
 							// add Any to start of array
 							$rootScope.uniEmail = val.content[0];
 						});
 
-						// creates a unique access code everytime the modal is opened.
-						// createUniqueAccessCode();
 						createModal = openModal({
 							modal: {
 								name: 'createrUserForm',
@@ -705,9 +692,9 @@ angular.module('uniQaApp')
 						};
 
 						Session.getOne(session).then(function(res) {
-							var lecture = res.lecture._id;
-							Lecture.getOne(lecture).then(function(res) {
-								$rootScope.lecture = res; // need to elaborate on this
+							var lesson = res.lesson._id;
+							Lesson.getOne(lesson).then(function(res) {
+								$rootScope.lesson = res; // need to elaborate on this
 								createModal = openModal({
 									modal: {
 										name: 'showSessionContent',
@@ -752,6 +739,9 @@ angular.module('uniQaApp')
 
 						$rootScope.me = Auth.getCurrentUser();
 
+						// used to determine whether user wants to continue creating modules
+						$rootScope.continuing = false;
+
 						$rootScope.module = {
 							_id: '',
 							name: '',
@@ -793,13 +783,13 @@ angular.module('uniQaApp')
 								surname: 'Smith',
 								placeholder: true
 							});
-						}
+						};
 						$rootScope.deleteModuleTableRow = function(uid) {
 							$rootScope.importUsers = $rootScope.importUsers.filter(function(item) {
 								return item.user !== uid;
 							});
 							addPlaceholderInIfEmpty();
-						}
+						};
 
 						var addPlaceholderInIfEmpty = function() {
 							if (_.isEmpty($rootScope.importUsers)) {
@@ -810,7 +800,7 @@ angular.module('uniQaApp')
 									placeholder: true
 								});
 							}
-						}
+						};
 
 						$rootScope.dissolveIfPlaceholder = function(user, placeholder) {
 							if (placeholder) {
@@ -819,12 +809,11 @@ angular.module('uniQaApp')
 								user.surname = '';
 								user.placeholder = false;
 							}
-						}
+						};
 
 						$rootScope.checkForSubmit = function(e) {
 							// checking length to see if id has been sent through
 							if (e.keyCode === 13 || e === 'Submit' || e._id) {
-
 								// if name isn't on the list, break out of function
 								if ($rootScope.possibleTutors.length === 0) {
 									return;
@@ -842,10 +831,12 @@ angular.module('uniQaApp')
 								if ($rootScope.module.tutor instanceof Object) {
 									$rootScope.selectedTutors.push($rootScope.module.tutor);
 									$rootScope.selectedTutors.sort(function compare(a, b) {
-										if (a.name < b.name)
+										if (a.name < b.name) {
 											return -1;
-										if (a.name > b.name)
+										}
+										if (a.name > b.name) {
 											return 1;
+										}
 										return 0;
 									});
 								}
@@ -853,9 +844,9 @@ angular.module('uniQaApp')
 								$rootScope.possibleTutors = [];
 								$rootScope.module.tutor = '';
 							}
-						}
+						};
 
-						$rootScope.searchPossibleTutors = function(e) {
+						$rootScope.searchPossibleTutors = function() {
 							Module.getTutors({
 								user: $rootScope.me._id,
 								search: $rootScope.module.tutor
@@ -881,7 +872,7 @@ angular.module('uniQaApp')
 									}
 								}
 							});
-						}
+						};
 
 						// creates a unique access code everytime the modal is opened.
 						// createUniqueAccessCode();
@@ -898,14 +889,16 @@ angular.module('uniQaApp')
 									click: function(e) {
 										// reset submit state
 										$rootScope.submitted = false;
+										$rootScope.continuing = false;
 										$rootScope.moduleAlreadyExists = false;
 										createModal.dismiss(e);
 									}
 								}, {
 									classes: 'btn-success',
-									text: 'Create',
+									text: 'Create & Continue',
 									click: function(e, form) {
 										$rootScope.submitted = true;
+										$rootScope.continuing = false;
 										$rootScope.res.received = false;
 
 										// filter students for placeholder
@@ -913,6 +906,68 @@ angular.module('uniQaApp')
 											return item.id !== '01234567' &&
 												item.forename !== 'John' &&
 												item.surname !== 'Smith';
+										});
+
+										if ($rootScope.module._id !== '' && $rootScope.module.name !== '') {
+											Module.create({
+													_id: $rootScope.module._id,
+													name: $rootScope.module.name,
+													tutors: $rootScope.selectedTutors,
+													students: $rootScope.importUsers
+												})
+												.then(function(res) {
+													$rootScope.res.received = true;
+													// reset submit state
+													$rootScope.submitted = false;
+													$rootScope.moduleAlreadyExists = false;
+													form.$setUntouched();
+													form.$setPristine();
+													createdModule = res;
+													$rootScope.continuing = true;
+													createModal.close(e);
+												})
+												.catch(function(err) {
+													$rootScope.res.received = true;
+													$rootScope.continuing = false;
+													$rootScope.errors = {};
+
+													// if module already exists
+													if (err.code === 11000) {
+														form.id.$setValidity('mongoose', false);
+														$rootScope.moduleAlreadyExists = true;
+														// add placeholder back in if empty
+														addPlaceholderInIfEmpty();
+													} else {
+														// Update validity of form fields that match the mongoose errors
+														angular.forEach(err.errors, function(error, field) {
+															form[field].$setValidity('mongoose', false);
+															$rootScope.errors[field] = error.message;
+														});
+													}
+												});
+										} else {
+											$rootScope.res.received = true;
+											$rootScope.errors = {};
+											// add placeholder back in if empty
+											addPlaceholderInIfEmpty();
+										}
+									}
+								}, {
+									classes: 'btn-success',
+									text: 'Create & Finish',
+									click: function(e, form) {
+										$rootScope.submitted = true;
+										$rootScope.continuing = false;
+										$rootScope.res.received = false;
+
+										// filter students for placeholder
+										$rootScope.importUsers = $rootScope.importUsers.filter(function(item) {
+											return (item.id !== '01234567' &&
+													item.forename !== 'John' &&
+													item.surname !== 'Smith') ||
+												item.id !== '' ||
+												item.forename !== '' ||
+												item.surname !== '';
 										});
 
 										if ($rootScope.module._id !== '' && $rootScope.module.name !== '') {
@@ -939,7 +994,7 @@ angular.module('uniQaApp')
 
 													// if module already exists
 													if (err.code === 11000) {
-														form['id'].$setValidity('mongoose', false);
+														form.id.$setValidity('mongoose', false);
 														$rootScope.moduleAlreadyExists = true;
 														// add placeholder back in if empty
 														addPlaceholderInIfEmpty();
@@ -982,20 +1037,20 @@ angular.module('uniQaApp')
 							$timeout(function() {
 								$('.csv-dropzone').focus();
 							});
-						}
+						};
 
 						createModal.result.then(function() {
-							cb(createdModule);
+							cb(createdModule, $rootScope.continuing);
 						});
 					};
 				},
-				lecture: function(cb) {
+				lesson: function(cb) {
 					cb = cb || angular.noop;
 
 					return function() {
-						var createModal, createdLecture;
+						var createModal, createdLesson;
 						var me = Auth.getCurrentUser();
-						$rootScope.lecture = {
+						$rootScope.lesson = {
 							title: '',
 							type: 'Select Type',
 							url: '',
@@ -1008,63 +1063,63 @@ angular.module('uniQaApp')
 							loading: false
 						};
 
-						$rootScope.lectureTypes = [];
+						$rootScope.lessonTypes = [];
 						$rootScope.possibleCollaborators = [];
 						$rootScope.selectedCollaborators = [];
 						$rootScope.formBackdrop = 'static';
 
-						// get back types of lectures available
-						Thing.getByName('lectureTypes').then(function(val) {
-							$rootScope.lectureTypes = val.content;
+						// get back types of lessons available
+						Thing.getByName('lessonTypes').then(function(val) {
+							$rootScope.lessonTypes = val.content;
 						});
 
-						$rootScope.lectureTypeDropdownSel = function(type) {
+						$rootScope.lessonTypeDropdownSel = function(type) {
 							if (type === 'URL') {
-								$rootScope.lectureDescHeight = 150;
+								$rootScope.lessonDescHeight = 150;
 							} else {
-								$rootScope.lectureDescHeight = 220;
+								$rootScope.lessonDescHeight = 220;
 								// reset url/prev vars
-								$rootScope.lecture.url = '';
-								$rootScope.lecture.tempPreview = '';
+								$rootScope.lesson.url = '';
+								$rootScope.lesson.tempPreview = '';
 							}
-							$rootScope.lecture.type = type;
+							$rootScope.lesson.type = type;
 						};
 
-						$rootScope.genPreview = function() {
-							// if http is present, rip it out, server adds it
-							if ($rootScope.lecture.url.indexOf('http://') > -1) {
-								// take anything after http
-								$rootScope.lecture.url = $rootScope.lecture.url.split('http://').pop();
-							}
-							if ($rootScope.lecture.url.indexOf('https://') > -1) {
-								// take anything after http
-								$rootScope.lecture.url = $rootScope.lecture.url.split('https://').pop();
-							}
-
-							if ($rootScope.lecture.url && isUrl('http://' + $rootScope.lecture.url)) {
-								$rootScope.preview.loading = true;
-
-								Lecture.generatePreview({
-									url: $rootScope.lecture.url
-								}).then(function(res) {
-									// only returns one element
-									if (_.isEmpty(res)) {
-										$rootScope.lecture.tempPreview = {
-											err: true
-										};
-									}
-									// attach with base64 tag
-									$rootScope.lecture.tempPreview = 'data:image/png;base64,' + res;
-									$rootScope.preview = {
-										loading: false
-									};
-								});
-							} else {
-								if (!isUrl('http://' + $rootScope.lecture.url)) {
-									//throw error
-								}
-							}
-						};
+						// $rootScope.genPreview = function() {
+						// 	// if http is present, rip it out, server adds it
+						// 	if ($rootScope.lesson.url.indexOf('http://') > -1) {
+						// 		// take anything after http
+						// 		$rootScope.lesson.url = $rootScope.lesson.url.split('http://').pop();
+						// 	}
+						// 	if ($rootScope.lesson.url.indexOf('https://') > -1) {
+						// 		// take anything after http
+						// 		$rootScope.lesson.url = $rootScope.lesson.url.split('https://').pop();
+						// 	}
+						//
+						// 	// if ($rootScope.lesson.url && isUrl('http://' + $rootScope.lesson.url)) {
+						// 	// 	$rootScope.preview.loading = true;
+						// 	//
+						// 	// 	Lesson.generatePreview({
+						// 	// 		url: $rootScope.lesson.url
+						// 	// 	}).then(function(res) {
+						// 	// 		// only returns one element
+						// 	// 		if (_.isEmpty(res)) {
+						// 	// 			$rootScope.lesson.tempPreview = {
+						// 	// 				err: true
+						// 	// 			};
+						// 	// 		}
+						// 	// 		// attach with base64 tag
+						// 	// 		$rootScope.lesson.tempPreview = 'data:image/png;base64,' + res;
+						// 	// 		$rootScope.preview = {
+						// 	// 			loading: false
+						// 	// 		};
+						// 	// 	});
+						// 	// } else {
+						// 	// 	if (!isUrl('http://' + $rootScope.lesson.url)) {
+						// 	// 		//throw error
+						// 	// 	}
+						// 	// }
+						// };
 
 						// stop enter key triggering DropzoneJS
 						angular.element($window).on('keydown', function(e) {
@@ -1089,24 +1144,24 @@ angular.module('uniQaApp')
 									return;
 								} else {
 									// need to either get selected here, or select first
-									if (!($rootScope.lecture.collaborator instanceof Object)) {
+									if (!($rootScope.lesson.collaborator instanceof Object)) {
 										if (e === 'Submit') {
 											// gets index of child with active class from typeahead property
-											$rootScope.lecture.collaborator = $rootScope.possibleCollaborators[angular.element(document.querySelector('[id*=\'typeahead\']')).find('.active').index()];
+											$rootScope.lesson.collaborator = $rootScope.possibleCollaborators[angular.element(document.querySelector('[id*=\'typeahead\']')).find('.active').index()];
 										}
 									}
 								}
 
 								// only add if we have a collaborator
-								if ($rootScope.lecture.collaborator instanceof Object) {
-									$rootScope.selectedCollaborators.push($rootScope.lecture.collaborator);
+								if ($rootScope.lesson.collaborator instanceof Object) {
+									$rootScope.selectedCollaborators.push($rootScope.lesson.collaborator);
 								}
 								$rootScope.possibleCollaborators = [];
-								$rootScope.lecture.collaborator = '';
+								$rootScope.lesson.collaborator = '';
 							} else {
 								Module.getPossibleCollabs({
 									user: me._id,
-									search: $rootScope.lecture.collaborator
+									search: $rootScope.lesson.collaborator
 								}).then(function(res) {
 									// reset before continuing
 									$rootScope.possibleCollaborators = [];
@@ -1132,8 +1187,8 @@ angular.module('uniQaApp')
 								name: 'createrUserForm',
 								dismissable: true,
 								backdrop: $rootScope.formBackdrop,
-								form: 'components/modal/views/lecture/create.html',
-								title: 'Create Lecture',
+								form: 'components/modal/views/lesson/create.html',
+								title: 'Create Lesson',
 								buttons: [{
 									classes: 'btn-default',
 									text: 'Cancel',
@@ -1146,7 +1201,7 @@ angular.module('uniQaApp')
 									text: 'Create',
 									click: function(e, form) {
 										$rootScope.submitted = true;
-										if ($rootScope.lecture.title && $rootScope.lecture.desc) {
+										if ($rootScope.lesson.title && $rootScope.lesson.desc) {
 											// setup vars to be sent across to API
 											var collabs = [];
 											// push each selected collaborator into array
@@ -1157,26 +1212,26 @@ angular.module('uniQaApp')
 											}
 
 											// set createdBy to the ID for model
-											$rootScope.lecture.author = me._id;
+											$rootScope.lesson.author = me._id;
 
 											// remove this entry, and add the array collection
-											delete $rootScope.lecture.collaborator;
-											$rootScope.lecture.collaborators = collabs;
+											delete $rootScope.lesson.collaborator;
+											$rootScope.lesson.collaborators = collabs;
 
 											$rootScope.res.received = false;
 
-											Lecture.createLecture({
-													data: $rootScope.lecture
+											Lesson.createLesson({
+													data: $rootScope.lesson
 												})
 												.then(function(res) {
-													createdLecture = res;
+													createdLesson = res;
 
-													$rootScope.dropzone[0].dropzone.options.url += createdLecture._id;
+													$rootScope.dropzone[0].dropzone.options.url += createdLesson._id + '/files';
 
 													if (!_.isEmpty($rootScope.dropzone[0].dropzone.getAcceptedFiles())) {
 														$rootScope.dropzone[0].dropzone.processQueue();
 													} else {
-														// lecture created with no files, close the modal
+														// lesson created with no files, close the modal
 														$rootScope.res.received = true;
 														$rootScope.submitted = false;
 														form.$setUntouched();
@@ -1203,13 +1258,13 @@ angular.module('uniQaApp')
 						}, 'modal-success', 'lg');
 
 						$rootScope.uploadSuccess = function(res) {
-							console.info(res);
+							// console.info(res);
 							$rootScope.res.received = true;
 							createModal.close();
 						};
 
 						createModal.result.then(function() {
-							cb(createdLecture);
+							cb(createdLesson);
 						});
 					};
 				},
@@ -1408,7 +1463,7 @@ angular.module('uniQaApp')
 						});
 					};
 				},
-				lecture: function(cb) {
+				lesson: function(cb) {
 					cb = cb || angular.noop;
 					return function() {
 						//   var args = Array.prototype.slice.call(arguments),
@@ -1420,11 +1475,11 @@ angular.module('uniQaApp')
 						//   $rootScope.updatedUser = angular.copy(user);
 
 						var args = Array.prototype.slice.call(arguments),
-							updateModal, updatedLecture;
-						var lecture = args.shift();
-						$rootScope.updatedLecture = angular.copy(lecture);
+							updateModal, updatedLesson;
+						var lesson = args.shift();
+						$rootScope.updatedLesson = angular.copy(lesson);
 						$rootScope.me = Auth.getCurrentUser();
-						// $rootScope.lecture = {
+						// $rootScope.lesson = {
 						//   startTime: new Date(),
 						//   endTime: new Date(new Date().getTime() + 60 * 60000),
 						//   createdBy: $rootScope.me.name,
@@ -1433,10 +1488,10 @@ angular.module('uniQaApp')
 						// refresh validation on new modal open - remove details
 						updateModal = openModal({
 							modal: {
-								name: 'updateLectureForm',
+								name: 'updateLessonForm',
 								dismissable: true,
-								title: 'Update Lecture',
-								form: 'components/modal/views/lecture/update.html',
+								title: 'Update Lesson',
+								form: 'components/modal/views/lesson/update.html',
 								buttons: [{
 									classes: 'btn-default',
 									text: 'Cancel',
@@ -1483,7 +1538,7 @@ angular.module('uniQaApp')
 						}, 'modal-warning', 'lg');
 
 						updateModal.result.then(function() {
-							cb(updatedLecture);
+							cb(updatedLesson);
 						});
 					};
 				},
@@ -1689,7 +1744,7 @@ angular.module('uniQaApp')
 						});
 					};
 				},
-				lecture: function(cb) {
+				lesson: function(cb) {
 					cb = cb || angular.noop;
 					/**
 					 * Open a delete confirmation modal
@@ -1698,16 +1753,17 @@ angular.module('uniQaApp')
 					 */
 					return function() {
 						var args = Array.prototype.slice.call(arguments),
-							lecture = args.shift(),
+							lesson = args.shift(),
 							deleteModal;
 
-						$rootScope.lectureToDelete = angular.copy(lecture);
+						$rootScope.lessonToDelete = angular.copy(lesson);
+						console.info($rootScope.lessonToDelete);
 						deleteModal = openModal({
 							modal: {
 								name: 'deleteConf',
 								dismissable: true,
 								title: 'Confirm Delete',
-								form: 'components/modal/views/lecture/delete.html',
+								form: 'components/modal/views/lesson/delete.html',
 								buttons: [{
 									classes: 'btn-default',
 									text: 'Cancel',
@@ -1729,7 +1785,7 @@ angular.module('uniQaApp')
 						}, 'modal-danger', null);
 
 						deleteModal.result.then(function() {
-							cb(lecture);
+							cb(lesson);
 						});
 
 					};

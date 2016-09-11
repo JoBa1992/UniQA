@@ -5,43 +5,41 @@ var Schema = mongoose.Schema;
 var crypto = require('crypto');
 
 var UserSchema = new Schema({
-	_id: {
-		type: String,
-		unique: true,
-		required: true
+	fullName: {
+		type: String
 	},
 	forename: {
-		type: String,
-		required: true
+		type: String
 	},
 	surname: {
+		type: String
+	},
+	avatar: {
 		type: String,
-		required: true
+		default: '/assets/images/placeholders/profile.jpg'
 	},
 	role: {
 		type: String,
 		lowercase: true,
 		default: 'student'
 	},
-	teachingArea: { // don't want to overcomplicate it
-		type: String
-	},
-	email: { // only have an email address if they're a tutor/admin
+	username: {
 		type: String,
+		unique: true,
 		lowercase: true
 	},
-	passcode: {
-		type: String,
-		max: 10
+	oAuthToken: {
+		// for OAuth?
+		type: String
 	},
 	hashedPassword: {
-		type: String
+		type: String,
+		select: false
 	},
 	salt: {
 		type: String
 	},
-	lastLoggedIn: Date,
-	lastUpdated: Date
+	lastLoggedIn: Date
 });
 
 /**
@@ -64,7 +62,7 @@ UserSchema
 	.virtual('profile')
 	.get(function() {
 		return {
-			'name': this.name,
+			'name': this.fullName,
 			'role': this.role
 		};
 	});
@@ -83,19 +81,19 @@ UserSchema
  * Validations
  */
 
-// Validate empty email
+// Validate empty username
 UserSchema
-	.path('email')
-	.validate(function(email) {
-		return email.length;
-	}, 'Email cannot be blank');
+	.path('username')
+	.validate(function(username) {
+		return username.length;
+	}, 'Username cannot be blank');
 
-// Validate empty email
+// Validate empty username
 UserSchema
-	.path('email')
-	.validate(function(email) {
-		return email.length;
-	}, 'Email cannot be blank');
+	.path('username')
+	.validate(function(username) {
+		return username.length;
+	}, 'Username cannot be blank');
 
 // Validate empty password
 // UserSchema
@@ -104,13 +102,13 @@ UserSchema
 //     return hashedPassword.length;
 //   }, 'Password cannot be blank');
 
-// Validate email is not taken
+// Validate username is not taken
 UserSchema
-	.path('email')
+	.path('username')
 	.validate(function(value, respond) {
 		var self = this;
 		this.constructor.findOne({
-			email: value
+			username: value
 		}, function(err, user) {
 			if (err)
 				throw err;
@@ -120,7 +118,7 @@ UserSchema
 			}
 			respond(true);
 		});
-	}, 'The specified email address is already in use.');
+	}, 'The specified username address is already in use.');
 
 var validatePresenceOf = function(value) {
 	return value && value.length;

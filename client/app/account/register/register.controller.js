@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uniQaApp')
+angular.module('UniQA')
 	.controller('RegisterCtrl', function($scope, Auth, Thing, $location) {
 		$scope.user = {};
 		$scope.roles = {};
