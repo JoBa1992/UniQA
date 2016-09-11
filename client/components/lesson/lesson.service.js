@@ -46,7 +46,7 @@ angular.module('UniQA')
 				}.bind(this));
 				return deferred.promise;
 			},
-			getOne: function(id, callback) {
+			getByID: function(id, callback) {
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();
 

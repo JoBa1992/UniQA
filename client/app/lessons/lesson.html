@@ -1,45 +1,7 @@
-<div class="marg-fix header-margin-offset body-min-height">
-  <div class="row" ng-repeat="lesson in lessons">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 presentation-view" style="">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="position:relative;">
-        <h3 class="" style="margin:.2em 0 0;">{{lesson.title}}
-          <!-- <a href="#" ng-click="openUpdateModal(lesson._id)" class="text-warning">
-            <i class="fa fa-pencil fa"></i>
-          </a> -->
-          <!-- <a href="#" ng-if="isMyLecture(lesson.author._id)" ng-click="openDeleteModal(lesson)" class="trash" style="font-size:.6em;">
-            <span class="fa-stack pull-right">
-              <i class="fa fa-circle fa-stack-2x"></i>
-              <i class="fa fa-trash fa-stack-1x fa-inverse"></i>
-            </span>
-          </a>
-          <a href="#" ng-if="!isMyLecture(lesson.author._id)" ng-click="openRequestDeleteLectureModal(lesson)" class="trash" style="font-size:.6em;">
-            <span class="fa-stack pull-right">
-              <i class="fa fa-circle fa-stack-2x"></i>
-              <i class="fa fa-chain-broken fa-stack-1x fa-inverse"></i>
-            </span>
-          </a> -->
-        </h3>
-
-        <hr class="lesson-title-hr">
-        <h5 class="">Author:
-          <a href="#" class="text-primary">{{lesson.author.forename}}&nbsp;{{lesson.author.surname}}</a>
-        </h5>
-        <h5 class="" ng-if="!_.isEmpty(lesson.collaborators)">Collaborators:
-          <a href="#" class="text-primary" ng-repeat="collab in lesson.collaborators">{{collab.user.forename}}&nbsp;{{collab.user.surname}}
-            <span ng-if="!$last">,</span>
-          </a>
-        </h5>
-        <div style="position:absolute;bottom:-3em;left:.8em;" ng-if="!_.isEmpty(lesson.attachments)">
-          <h5 ng-repeat="item in lesson.attachments" tooltip="{{item.filename}}" tooltip-trigger tooltip-animation="false" tooltip-placement="top" style="margin:0 .4em;text-decoration:none;display:inline-block;">
-            <i class="fa fa-{{item.type}}-o fa-2x"></i>
-          </h5>
-        </div>
-      </div>
-    </div>
-    <div ng-if="!$last" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin:2em 0;">
-      <hr class="resource-hr">
-    </div>
-  </div>
+<div class="body-min-height">
+  <h5>
+    Individual Lesson
+  </h5>
 </div>
 <!-- FOOTER -->
 <div ng-include="'components/footer/footer.html'"></div>

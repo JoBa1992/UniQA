@@ -116,7 +116,7 @@ User.find({}).remove(function() {
 		password: 'password',
 		username: 'bparnell@uniqa.co.uk'
 	}, {
-		_id: '56cb76ecd5b3f4b6be5d7ddb',
+		_id: '56cb76ebd5b3f4b6be5d7dd1',
 		role: 'tutor',
 		forename: 'Martin',
 		surname: 'Cooper',
@@ -341,7 +341,7 @@ User.find({}).remove(function() {
 		ModuleGroup.find({}).remove(function() {
 			ModuleGroup.create({
 				_id: '56cb91bdc3464f14678934ca',
-				ref: 'catchup',
+				ref: '2d',
 				students: [{
 					user: '56a7bf8a800c479155488fcb'
 				}, {
@@ -385,7 +385,7 @@ User.find({}).remove(function() {
 				}]
 			}, {
 				_id: '56cb91bdc3464f14678934cb',
-				ref: 'catchup',
+				ref: '2u',
 				students: [{
 					user: '56cb76ecd5b3f4b6be5d7def'
 				}, {
@@ -434,7 +434,7 @@ User.find({}).remove(function() {
 						}, {
 							user: '56cb76ecd5b3f4b6be5d7def'
 						}, {
-							user: '56cb76ecd5b3f4b6be5d7ddb'
+							user: '56cb76ebd5b3f4b6be5d7dd1'
 						}],
 						deleted: false
 					}, function(err) {
@@ -442,10 +442,9 @@ User.find({}).remove(function() {
 						Lesson.find({}).remove(function() {
 							Lesson.create({
 								_id: '56d1ca2e4f6973280ce025e6',
-								author: '56cb76ecd5b3f4b6be5d7ddb',
-								module: '56cb91bdc3464f14678934cc',
+								author: '56cb76ebd5b3f4b6be5d7dd1',
 								title: "Week 1",
-								desc: "Descriptive element for WAD no1",
+								desc: "Descriptive element for Week *",
 								collaborators: [{
 									user: '56a7bf8a800c479155488fce'
 								}, {
@@ -454,9 +453,10 @@ User.find({}).remove(function() {
 								attachments: []
 							}, {
 								_id: '56d1ca2e4f6973280ce025e7',
-								author: '56cb76ecd5b3f4b6be5d7ddb',
+								author: '56cb76ebd5b3f4b6be5d7dd1',
 								module: '56cb91bdc3464f14678934cc',
 								title: "Week 2",
+								desc: "Descriptive element for Week *",
 								collaborators: [{
 									user: '56a7bf8a800c479155488fce'
 								}, {
@@ -465,9 +465,10 @@ User.find({}).remove(function() {
 								attachments: []
 							}, {
 								_id: '56d1ca2e4f6973280ce025e8',
-								author: '56cb76ecd5b3f4b6be5d7ddb',
+								author: '56cb76ebd5b3f4b6be5d7dd1',
 								module: '56cb91bdc3464f14678934cc',
 								title: "Week 3",
+								desc: "Descriptive element for Week *",
 								collaborators: [{
 									user: '56a7bf8a800c479155488fce'
 								}, {
@@ -476,9 +477,10 @@ User.find({}).remove(function() {
 								attachments: []
 							}, {
 								_id: '56d1ca2e4f6973280ce025e9',
-								author: '56cb76ecd5b3f4b6be5d7ddb',
+								author: '56cb76ebd5b3f4b6be5d7dd1',
 								module: '56cb91bdc3464f14678934cc',
 								title: "Week 4",
+								desc: "Descriptive element for Week *",
 								collaborators: [{
 									user: '56a7bf8a800c479155488fce'
 								}, {
@@ -487,9 +489,10 @@ User.find({}).remove(function() {
 								attachments: []
 							}, {
 								_id: '56d1ca2e4f6973280ce025ea',
-								author: '56cb76ecd5b3f4b6be5d7ddb',
+								author: '56cb76ebd5b3f4b6be5d7dd1',
 								module: '56cb91bdc3464f14678934cc',
 								title: "Week 5",
+								desc: "Descriptive element for Week *",
 								collaborators: [{
 									user: '56a7bf8a800c479155488fce'
 								}, {
@@ -498,9 +501,10 @@ User.find({}).remove(function() {
 								attachments: []
 							}, {
 								_id: '56d1ca2e4f6973280ce025eb',
-								author: '56cb76ecd5b3f4b6be5d7ddb',
+								author: '56cb76ebd5b3f4b6be5d7dd1',
 								module: '56cb91bdc3464f14678934cc',
 								title: "Week 6",
+								desc: "Descriptive element for Week *",
 								collaborators: [{
 									user: '56a7bf8a800c479155488fce'
 								}, {
@@ -508,14 +512,16 @@ User.find({}).remove(function() {
 								}],
 								attachments: []
 							}, {
-								author: '56cb76ecd5b3f4b6be5d7ddb',
+								author: '56cb76ebd5b3f4b6be5d7dd1',
 								module: '56cb91bdc3464f14678934cc',
-								title: "Week 7"
+								title: "Week 7",
+								desc: "Descriptive element for Week *",
 							}, {
 								_id: "56c868096bd3f7b730a051f4",
-								author: '56cb76ecd5b3f4b6be5d7ddb',
+								author: '56cb76ebd5b3f4b6be5d7dd1',
 								module: '56cb91bdc3464f14678934cc',
 								title: "Week 8",
+								desc: "Descriptive element for Week *",
 								collaborators: [{
 									user: '56a7bf8a800c479155488fce'
 								}, {
@@ -536,6 +542,8 @@ User.find({}).remove(function() {
 							}, {
 								author: '56cb76ebd5b3f4b6be5d7dd1',
 								title: "Week 9",
+								desc: "Descriptive element for Week *",
+								module: '56cb91bdc3464f14678934ca',
 								collaborators: [{
 									user: '56a7bf8a800c479155488fce'
 								}, {
@@ -545,6 +553,7 @@ User.find({}).remove(function() {
 							}, {
 								author: '56cb76ebd5b3f4b6be5d7dd1',
 								title: "MAD No1",
+								module: '56cb91bdc3464f14678934ca',
 								collaborators: [{
 									user: '56a7bf8a800c479155488fce'
 								}, {
@@ -554,6 +563,7 @@ User.find({}).remove(function() {
 							}, {
 								author: '56cb76ebd5b3f4b6be5d7dd1',
 								title: "CSSD No1",
+								module: '56cb91bdc3464f14678934ca',
 								collaborators: [{
 									user: '56a7bf8a800c479155488fce'
 								}, {

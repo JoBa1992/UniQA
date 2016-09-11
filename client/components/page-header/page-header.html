@@ -1,15 +1,12 @@
-<md-toolbar ng-if="isLoggedIn()" layout="column" layout-align="center start" layout-padding="50" class="page-head">
+<md-toolbar ng-if="isLoggedIn() && showTopNav" layout="column" layout-align="center start" layout-padding="50" class="page-head">
   <!-- <span flex=""></span> -->
   <div class="md-toolbar-tools">
     <h2>
-      <span>{{title}}</span>
+      <span>{{pageHeadTitle}}</span>
     </h2>
     <span flex=""></span>
-    <md-button class="md-icon-button page-sub-header-action-btn" aria-label="Favorite">
+    <md-button class="md-icon-button page-sub-header-action-btn" aria-label="Favorite" ng-click="openCreateModal()">
       <i class="fa fa-plus" aria-hidden="true" style="font-weight:900;font-size:1.2em;"></i>
-      <md-tooltip md-autohide="true" md-direction="bottom" class="tooltip-md">
-        Coming soon
-      </md-tooltip>
     </md-button>
     <md-button class="md-icon-button page-sub-header-action-btn" aria-label="More">
       <i class="fa fa-bell-o" aria-hidden="true" style="font-weight:900;font-size:1.2em;"></i>

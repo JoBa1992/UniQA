@@ -1,6 +1,141 @@
 <div class="body-min-height">
-  <div class="row">
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" style="height:300px;" ng-repeat="lesson in lessons">
+
+  <h2 ng-repeat-start="(key,module) in moduleLessons" ng-if="$index === 0 || (key !== moduleLessons[$index-1].module.name)" style="clear:both;">
+    {{key}}
+    <hr></hr>
+  </h2>
+  <md-content ng-repeat-end class="md-padding" layout-xs="column" layout="row" style="margin-bottom:3em;">
+    <div ng-repeat="lesson in module" layout="column" style="padding-bottom:1em">
+      <md-card class="lesson-card" style="width:315px;">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">{{lesson.title}}</span>
+          </md-card-title-text>
+          <md-button class="md-icon-button lesson-action-button" aria-label="Clone" style="margin-top:-.34em;">
+            <i class="fa fa-star" aria-hidden="true"></i>
+            <md-tooltip md-autohide="true" md-direction="top" class="tooltip-md">
+              Favourites - coming soon
+            </md-tooltip>
+          </md-button>
+        </md-card-title>
+        <md-card-content>
+          <p ng-if="lesson.desc">{{lesson.desc}}</p>
+          <p ng-if="!lesson.desc" style="color:#757575;">No description</p>
+        </md-card-content>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-menu md-offset="0 -5">
+            <md-button aria-label="Show more options" class="md-icon-button lesson-action-button" ng-click="openMoreLessonOptions($mdOpenMenu, $event)">
+              <i md-menu-origin class="fa fa-ellipsis-h" aria-hidden="true" style="font-size:1.5em;color:#757575;"></i>
+            </md-button>
+            <md-menu-content width="3" class="lesson-sub-menu notransition">
+              <md-menu-item>
+                <md-button ng-click="announceClick('edit',lesson)" style="color:#202020;">
+                  <i md-menu-align-target class="fa fa-pencil-square-o" aria-hidden="true" style="width:26px;"></i>
+                  Edit
+                </md-button>
+              </md-menu-item>
+              <md-menu-item>
+                <md-button ng-click="announceClick('clone',lesson)" style="color:#202020;">
+                  <i md-menu-align-target class="fa fa-clone" aria-hidden="true" style="width:26px;"></i>
+                  Clone
+                </md-button>
+              </md-menu-item>
+              <md-menu-item>
+                <md-button ng-click="announceClick('delete',lesson)" style="color:#202020;">
+                  <i md-menu-align-target class="fa fa-minus" aria-hidden="true" style="width:26px;"></i>
+                  Delete
+                </md-button>
+              </md-menu-item>
+            </md-menu-content>
+          </md-menu>
+          <!--
+          <md-button class="md-icon-button lesson-action-button" aria-label="Clone">
+            <i class="fa fa-ellipsis-h" aria-hidden="true" style="font-size:1.5em;color:#757575;"></i>
+          </md-button>
+          -->
+          <!-- <md-button class="md-icon-button lesson-action-button" aria-label="Delete" ng-click="openDeleteModal(lesson)">
+            <i class="fa fa-trash-o" aria-hidden="true" style="font-size:1.4em;color:#757575;"></i>
+            <md-tooltip md-autohide="true" md-direction="top" class="tooltip-md">
+              Delete
+            </md-tooltip>
+          </md-button> -->
+          <md-button class="md-icon-button lesson-action-button" aria-label="Share">
+            <i class="fa fa-share" aria-hidden="true" style="font-size:1.3em;color:#757575;"></i>
+            <md-tooltip md-autohide="true" md-direction="top" class="tooltip-md">
+              Share - coming soon
+            </md-tooltip>
+          </md-button>
+        </md-card-actions>
+      </md-card>
+    </div>
+  </md-content>
+
+  <h2 ng-if="lessonsWithoutModules.length > 0" style="clear:both;">Unassigned Lectures
+    <hr></hr>
+  </h2>
+  <md-content class="md-padding" layout-xs="column" layout="row" style="margin-bottom:3em;">
+    <div ng-repeat="lesson in lessonsWithoutModules" layout="column" style="padding-bottom:1em">
+      <md-card class="lesson-card" style="width:315px;">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">{{lesson.title}}</span>
+          </md-card-title-text>
+          <md-button class="md-icon-button lesson-action-button" aria-label="Clone" style="margin-top:-.34em;">
+            <i class="fa fa-star" aria-hidden="true"></i>
+            <md-tooltip md-autohide="true" md-direction="top" class="tooltip-md">
+              Favourites - coming soon
+            </md-tooltip>
+          </md-button>
+        </md-card-title>
+        <md-card-content>
+          <p ng-if="lesson.desc">{{lesson.desc}}</p>
+          <p ng-if="!lesson.desc" style="color:#757575;">No description</p>
+        </md-card-content>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-menu md-offset="0 -5">
+            <md-button aria-label="Show more options" class="md-icon-button lesson-action-button" ng-click="openMoreLessonOptions($mdOpenMenu, $event)">
+              <i md-menu-origin class="fa fa-ellipsis-h" aria-hidden="true" style="font-size:1.5em;color:#757575;"></i>
+            </md-button>
+            <md-menu-content width="3" class="lesson-sub-menu notransition">
+              <md-menu-item>
+                <md-button ng-click="announceClick('edit',lesson)" style="color:#202020;">
+                  <i md-menu-align-target class="fa fa-pencil-square-o" aria-hidden="true" style="width:26px;"></i>
+                  Edit
+                </md-button>
+              </md-menu-item>
+              <md-menu-item>
+                <md-button ng-click="announceClick('clone',lesson)" style="color:#202020;">
+                  <i md-menu-align-target class="fa fa-clone" aria-hidden="true" style="width:26px;"></i>
+                  Clone
+                </md-button>
+              </md-menu-item>
+              <md-menu-item>
+                <md-button ng-click="announceClick('delete',lesson)" style="color:#202020;">
+                  <i md-menu-align-target class="fa fa-minus" aria-hidden="true" style="width:26px;"></i>
+                  Delete
+                </md-button>
+              </md-menu-item>
+            </md-menu-content>
+          </md-menu>
+          <!-- <md-button class="md-icon-button lesson-action-button" aria-label="Delete" ng-click="openDeleteModal(lesson)">
+              <i class="fa fa-trash-o" aria-hidden="true" style="font-size:1.4em;color:#757575;"></i>
+              <md-tooltip md-autohide="true" md-direction="top" class="tooltip-md">
+                Delete
+              </md-tooltip>
+            </md-button> -->
+          <md-button class="md-icon-button lesson-action-button" aria-label="Share">
+            <i class="fa fa-share" aria-hidden="true" style="font-size:1.3em;color:#757575;"></i>
+            <md-tooltip md-autohide="true" md-direction="top" class="tooltip-md">
+              Share - coming soon
+            </md-tooltip>
+          </md-button>
+        </md-card-actions>
+      </md-card>
+    </div>
+  </md-content>
+</div>
+
+<!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" style="height:300px;" ng-repeat="lesson in lessons">
       <div class="lesson-container">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="position:relative;">
           <h4 class="" style="margin:1em 0;">{{lesson.title}}</h4>
@@ -19,12 +154,10 @@
           </div>
         </div>
       </div>
-    </div>
-    <!-- <div ng-if="!$last" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin:2em 0;">
+    </div> -->
+<!-- <div ng-if="!$last" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin:2em 0;">
       <hr class="resource-hr">
     </div> -->
-  </div>
-</div>
 <!-- FOOTER -->
 <div ng-include="'components/footer/footer.html'"></div>
 <!-- /FOOTER -->

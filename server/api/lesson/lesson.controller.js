@@ -91,7 +91,8 @@ exports.index = function(req, res) {
 		.limit(req.query.paginate)
 		.populate('author')
 		.populate('collaborators.user')
-		.sort('title')
+		.populate('module')
+		.sort('module')
 		.lean()
 		.exec(function(err, lessons) {
 			if (err) {

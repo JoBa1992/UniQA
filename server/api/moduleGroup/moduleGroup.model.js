@@ -10,7 +10,7 @@ var ModuleGroupSchema = new Schema({
 	},
 	students: [{
 		user: {
-			type: String,
+			type: Schema.Types.ObjectId,
 			ref: 'User'
 		},
 		_id: false

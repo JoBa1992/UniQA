@@ -22,8 +22,8 @@
   </md-list>
   <div class="sidebar-footer">
     <div class="sidebar-account" uib-dropdown ng-if="isLoggedIn()">
-      <img class="avatar" ng-class="{'avatar-min': isNavCollapsed()}" src="/assets/images/placeholders/profile.jpg" style="border:2px solid #82AECC;">
-      <span ng-if="!isNavCollapsed()" class="avatar-username" style="display:inline-block;font-weight:600;">{{currentUser().forename}}&nbsp;{{currentUser().surname}}</span>
+      <img class="sidebar-avatar" ng-class="{'avatar-min': isNavCollapsed()}" src="/assets/images/placeholders/profile.jpg" style="border:2px solid #82AECC;">
+      <span ng-if="!isNavCollapsed()" class="sidebar-avatar-username" style="display:inline-block;font-weight:600;">{{currentUser().forename}}&nbsp;{{currentUser().surname}}</span>
     </div>
     <button class="sidebar-footer-toggle" ng-class="{'sidebar-footer-toggle-min': isNavCollapsed()}" ng-click="toggleNav()">
       <i class="fa fa-{{sidebarIcon}}" aria-hidden="true"></i>

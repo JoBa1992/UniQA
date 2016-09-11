@@ -3,9 +3,9 @@
 var should = require('should');
 var app = require('../../app');
 var supertest = require('supertest');
-var Module = require('./module.model');
+var ModuleGroup = require('./moduleGroup.model');
 
-var mod = new Module({
+var mod = new ModuleGroup({
 	course: 'test-course',
 	students: [{
 		user: '56a7bf8a800c479155488fcb' // b2006241
@@ -17,25 +17,25 @@ var mod = new Module({
 	deleted: false
 });
 
-describe('Module Model', function() {
-	var api = supertest.agent('http://localhost:9000/api/modules');
+describe('ModuleGroup Model', function() {
+	var api = supertest.agent('http://localhost:9000/api/moduleGroups');
 	before(function(done) {
 		// Clear users before testing
-		Module.remove().exec().then(function() {
+		ModuleGroup.remove().exec().then(function() {
 			done();
 		});
 	});
 
 	// rip down after each test
 	afterEach(function(done) {
-		Module.remove().exec().then(function() {
+		ModuleGroup.remove().exec().then(function() {
 			done();
 		});
 	});
 
-	it('should begin with no modules', function(done) {
-		Module.find({}, function(err, modules) {
-			modules.should.have.length(0);
+	it('should begin with no moduleGroups', function(done) {
+		ModuleGroup.find({}, function(err, moduleGroups) {
+			moduleGroups.should.have.length(0);
 			done();
 		});
 	});

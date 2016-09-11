@@ -34,7 +34,7 @@ var config = require('../../config/environment');
 
 var router = express.Router();
 
-router.get('/', auth.isAuthenticated(), controller.index);
+router.get('/', controller.index);
 router.post('/', auth.isAuthenticated(), controller.create);
 router.post('/:id/files', auth.isAuthenticated(), upload.any(), controller.attachFiles);
 router.put('/:id', auth.isAuthenticated(), controller.update);

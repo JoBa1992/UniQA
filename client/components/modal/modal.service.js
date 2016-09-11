@@ -289,7 +289,7 @@ angular.module('UniQA')
 
 						Session.getOne(sessionid).then(function(res) {
 							var lesson = res.lesson._id;
-							Lecture.getOne(lesson).then(function(res) {
+							Lesson.getOne(lesson).then(function(res) {
 								for (var item in res.attachments) {
 									res.attachments[item].name = res.attachments[item].loc.split('/').pop();
 								}
@@ -300,7 +300,7 @@ angular.module('UniQA')
 										name: 'showSessionContent',
 										dismissable: true,
 										form: 'components/modal/views/session/content.html',
-										title: 'Lecture Content',
+										title: 'Lesson Content',
 										buttons: [{
 											classes: 'btn-primary',
 											text: 'Dismiss',
@@ -693,7 +693,7 @@ angular.module('UniQA')
 
 						Session.getOne(session).then(function(res) {
 							var lesson = res.lesson._id;
-							Lecture.getOne(lesson).then(function(res) {
+							Lesson.getOne(lesson).then(function(res) {
 								$rootScope.lesson = res; // need to elaborate on this
 								createModal = openModal({
 									modal: {
@@ -1048,7 +1048,7 @@ angular.module('UniQA')
 					cb = cb || angular.noop;
 
 					return function() {
-						var createModal, createdLecture;
+						var createModal, createdLesson;
 						var me = Auth.getCurrentUser();
 						$rootScope.lesson = {
 							title: '',
@@ -1099,7 +1099,7 @@ angular.module('UniQA')
 						// 	// if ($rootScope.lesson.url && isUrl('http://' + $rootScope.lesson.url)) {
 						// 	// 	$rootScope.preview.loading = true;
 						// 	//
-						// 	// 	Lecture.generatePreview({
+						// 	// 	Lesson.generatePreview({
 						// 	// 		url: $rootScope.lesson.url
 						// 	// 	}).then(function(res) {
 						// 	// 		// only returns one element
@@ -1188,7 +1188,7 @@ angular.module('UniQA')
 								dismissable: true,
 								backdrop: $rootScope.formBackdrop,
 								form: 'components/modal/views/lesson/create.html',
-								title: 'Create Lecture',
+								title: 'Create Lesson',
 								buttons: [{
 									classes: 'btn-default',
 									text: 'Cancel',
@@ -1220,13 +1220,13 @@ angular.module('UniQA')
 
 											$rootScope.res.received = false;
 
-											Lecture.createLecture({
+											Lesson.createLesson({
 													data: $rootScope.lesson
 												})
 												.then(function(res) {
-													createdLecture = res;
+													createdLesson = res;
 
-													$rootScope.dropzone[0].dropzone.options.url += createdLecture._id + '/files';
+													$rootScope.dropzone[0].dropzone.options.url += createdLesson._id + '/files';
 
 													if (!_.isEmpty($rootScope.dropzone[0].dropzone.getAcceptedFiles())) {
 														$rootScope.dropzone[0].dropzone.processQueue();
@@ -1264,7 +1264,7 @@ angular.module('UniQA')
 						};
 
 						createModal.result.then(function() {
-							cb(createdLecture);
+							cb(createdLesson);
 						});
 					};
 				},
@@ -1475,9 +1475,9 @@ angular.module('UniQA')
 						//   $rootScope.updatedUser = angular.copy(user);
 
 						var args = Array.prototype.slice.call(arguments),
-							updateModal, updatedLecture;
+							updateModal, updatedLesson;
 						var lesson = args.shift();
-						$rootScope.updatedLecture = angular.copy(lesson);
+						$rootScope.updatedLesson = angular.copy(lesson);
 						$rootScope.me = Auth.getCurrentUser();
 						// $rootScope.lesson = {
 						//   startTime: new Date(),
@@ -1488,9 +1488,9 @@ angular.module('UniQA')
 						// refresh validation on new modal open - remove details
 						updateModal = openModal({
 							modal: {
-								name: 'updateLectureForm',
+								name: 'updateLessonForm',
 								dismissable: true,
-								title: 'Update Lecture',
+								title: 'Update Lesson',
 								form: 'components/modal/views/lesson/update.html',
 								buttons: [{
 									classes: 'btn-default',
@@ -1538,7 +1538,7 @@ angular.module('UniQA')
 						}, 'modal-warning', 'lg');
 
 						updateModal.result.then(function() {
-							cb(updatedLecture);
+							cb(updatedLesson);
 						});
 					};
 				},
@@ -1757,6 +1757,7 @@ angular.module('UniQA')
 							deleteModal;
 
 						$rootScope.lessonToDelete = angular.copy(lesson);
+						console.info($rootScope.lessonToDelete);
 						deleteModal = openModal({
 							modal: {
 								name: 'deleteConf',

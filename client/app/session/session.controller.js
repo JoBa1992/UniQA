@@ -425,9 +425,11 @@ angular.module('UniQA')
 			}
 		};
 	})
-	.controller('SessionStartCtrl', function($scope, $window, $timeout, $sce, $interval, socket, Auth, Lesson, Module, Session) {
+	.controller('SessionStartCtrl', function($rootScope, $scope, $window, $timeout, $sce, $interval, socket, Auth, Lesson, Module, Session) {
 		// attach lodash to scope
 		$scope._ = _;
+
+		$rootScope.showTopNav = false;
 
 		// attach moment to scope
 		$scope.moment = moment;

@@ -1,14 +1,17 @@
 'use strict';
 
 angular.module('UniQA')
-	.controller('LessonCtrl', function($scope, $http, Auth, Lesson, Modal) {
+	.controller('LessonCtrl', function($rootScope, $scope, $http, $stateParams, Auth, Lesson, Modal) {
 		// attach lodash to scope
 		$scope._ = _;
 
-		$scope.title = 'Lesson Management / ' + $scope.lesson.title;
+		$rootScope.pageHeadTitle = 'Lesson Management';
+		$rootScope.showTopNav = true;
+
 
 		Lesson.getByID($stateParams.lessonid).then(function(res) {
 			$scope.lesson = res;
+			$rootScope.pageHeadTitle = 'Lesson Management / ' + res.title;
 			console.info(res);
 		});
 

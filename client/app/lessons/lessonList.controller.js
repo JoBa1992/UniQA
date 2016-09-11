@@ -1,11 +1,22 @@
 'use strict';
 
 angular.module('UniQA')
-	.controller('LessonList', function($rootScope, $scope, $http, Auth, Lesson, Modal) {
+	.controller('LessonListCtrl', function($rootScope, $scope, $http, $mdToast, $location, Auth, Lesson, Modal) {
 		// attach lodash to scope
 		$scope._ = _;
 
-		$rootScope.title = 'Lesson Management';
+		$rootScope.pageHeadTitle = 'Lesson Management';
+		$rootScope.showTopNav = true;
+
+		var last = {
+			bottom: true,
+			top: false,
+			left: false,
+			right: true
+		};
+		var originatorEv;
+
+		$scope.toastPosition = angular.extend({}, last);
 
 		$scope.filter = {
 			searchStr: ''
@@ -13,7 +24,7 @@ angular.module('UniQA')
 
 		var me = Auth.getCurrentUser();
 		$scope.currentPage = 1;
-		$scope.paginate = 50;
+		$scope.paginate = 100;
 
 		var refreshLessons = function() {
 			Lesson.getForMe({
@@ -29,15 +40,39 @@ angular.module('UniQA')
 				} else {
 					// set init state of hover event on each lesson
 					for (var lesson in res.result) {
-						res.result[lesson].preHover = false;
-
 						for (var files in res.result[lesson].attachments) {
 							res.result[lesson].attachments[files].filename = res.result[lesson].attachments[files].loc.split('/').pop();
 						}
 					}
 
-					$scope.lessons = res.result;
-					$scope.myLessonCount = res.count;
+					var moduleLessons = {};
+					var lessonsWithoutModules = [];
+
+					// construct results of arrays
+					for (var lesson in res.result) {
+						if (res.result[lesson].module && res.result[lesson].module.name) {
+							if ((moduleLessons[res.result[lesson].module.name] === null ||
+									moduleLessons[res.result[lesson].module.name] == undefined) ||
+								moduleLessons[res.result[lesson].module.name].length < 1) {
+								moduleLessons[res.result[lesson].module.name] = [];
+							}
+							moduleLessons[res.result[lesson].module.name].push(res.result[lesson]);
+						} else {
+							lessonsWithoutModules.push(res.result[lesson]);
+						}
+					}
+					// sort internal sets
+					for (var item in moduleLessons) {
+						moduleLessons[item].sort(function(a, b) {
+							if (a.title < b.title)
+								return -1;
+							if (a.title > b.title)
+								return 1;
+							return 0;
+						});
+					}
+					$scope.moduleLessons = moduleLessons;
+					$scope.lessonsWithoutModules = lessonsWithoutModules;
 				}
 			});
 		};
@@ -48,22 +83,84 @@ angular.module('UniQA')
 			refreshLessons();
 		};
 
-		$scope.openCreateModal = Modal.create.lesson(function() {
+		$scope.takeToLesson = function(id) {
+			console.info(id);
+		}
+
+		$rootScope.openCreateModal = Modal.create.lesson(function() {
 			refreshLessons();
 		});
 
-		$scope.openPreviewLessonModal = Modal.read.lesson(function() {
+		$scope.openMoreLessonOptions = function($mdOpenMenu, ev) {
+			originatorEv = ev;
+			$mdOpenMenu(ev);
+		}
 
-		});
+		$scope.announceClick = function(index, lesson) {
+			originatorEv = null;
+			switch (index) {
+				case ('edit'):
+					$location.path('/lessons/' + lesson._id);
+					break;
+				case ('clone'):
+					alert('Cloning - coming soon');
+					console.info('feature needs implementing');
+					break;
+				case ('delete'):
+					$scope.openDeleteModal(lesson);
+					break;
+				default:
+					console.info('feature needs implementing');
+					break;
+			}
+		};
 
 		$scope.openDeleteModal = Modal.delete.lesson(function(lesson) {
 			// when modal is confirmed, callback
 			if (lesson) {
 				Lesson.remove(lesson._id).then(function() {
 					refreshLessons();
+					$scope.showUndoDeleteToast();
 				});
 			}
 		});
+
+		$scope.getToastPosition = function() {
+			sanitizePosition();
+
+			return Object.keys($scope.toastPosition)
+				.filter(function(pos) {
+					return $scope.toastPosition[pos];
+				})
+				.join(' ');
+		};
+
+		function sanitizePosition() {
+			var current = $scope.toastPosition;
+
+			if (current.bottom && last.top) current.top = false;
+			if (current.top && last.bottom) current.bottom = false;
+			if (current.right && last.left) current.left = false;
+			if (current.left && last.right) current.right = false;
+
+			last = angular.extend({}, current);
+		}
+		$scope.showUndoDeleteToast = function() {
+			var pinTo = $scope.getToastPosition();
+			var toast = $mdToast.simple()
+				.textContent('Lesson deleted')
+				.action('UNDO')
+				.highlightAction(true)
+				.highlightClass('md-danger') // Accent is used by default, this just demonstrates the usage.
+				.hideDelay(5000)
+				.position(pinTo);
+
+			$mdToast.show(toast).then(function(response) {
+				if (response == 'ok') {
+					alert('Go Call DB');
+				}
+			});
+		}
 
 		$scope.checkForSubmit = function(e) {
 			if (e.keyCode === 13) {
@@ -74,43 +171,4 @@ angular.module('UniQA')
 		$scope.isMyLesson = function(lectAuthor) {
 			return me._id === lectAuthor;
 		};
-
-		//
-		// Lesson.getForMe({
-		//     createdBy: me._id,
-		//     page: $scope.currentPage,
-		//     paginate: $scope.resultsPerPage
-		// }).then(function(res) {
-		// 	var lesson = res.lesson;
-		// 	var groups = res.groups;
-		// 	var questions = res.questions;
-		// 	var authorCollabs = [];
-		// 	var runtime;
-		//
-		// 	authorCollabs.push(lesson.author.name); // push author in first
-		// 	// push in collabs
-		// 	for (var i = 0; i < lesson.collaborators.length; i++) {
-		// 		authorCollabs.push(lesson.collaborators[i].user.name);
-		// 	}
-		//
-		// 	runtime = moment(res.startTime).utc().format("HH:mm") + ' - ' + moment(res.endTime).utc().format("HH:mm")
-		//
-		//
-		// 	console.info(runtime);
-		//
-		// 	// for animated loading
-		// 	$timeout(function() {
-		// 		$scope.lesson['title'] = lesson.title;
-		// 		$scope.lesson['desc'] = lesson.desc;
-		// 		$scope.lesson['url'] = lesson.url;
-		// 		$scope.lesson['questions'] = questions;
-		// 		$scope.lesson['runTime'] = runtime;
-		// 		$scope.lesson['collaborators'] = authorCollabs;
-		// 		$scope.lesson['registered'] = ['This bit still needs sorting', 'John Bloomer', 'Fred Durst', 'Bob Ross', 'Jack McClone', 'Chadwick Simpson', 'Jonathon Dickson', 'Alexis Parks', 'Sandra Bates', 'Steve Bates', 'Bob the Dog'];
-		// 		$scope.lesson['expected'] = 15;
-		// 		$scope.lesson['resources'] = lesson.attachments;
-		// 		$scope.init = true;
-		// 	}, 500);
-		// });
-
 	});

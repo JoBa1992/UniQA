@@ -1,11 +1,13 @@
 'use strict';
 
 angular.module('UniQA')
-	.controller('ProfileCtrl', function($scope, $location, Auth, Session, Modal) {
+	.controller('DashboardCtrl', function($rootScope, $scope, $location, Auth, Session, Modal) {
 		// attach lodash to scope
 		$scope._ = _;
 		// attach moment to scope
 		$scope.moment = moment;
+
+		$rootScope.showTopNav = false;
 
 		$scope.me = Auth.getCurrentUser();
 		// temporary until student profile is sorted

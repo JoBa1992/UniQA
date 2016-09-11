@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('UniQA')
-	.controller('ModuleListCtrl', function($scope, $http, $location, Auth, Module, Modal) {
-		$scope.title = 'Module Management';
-		$scope.moduleOption = 'User';
+	.controller('ModuleListCtrl', function($scope, $rootScope, $http, $location, Auth, Module, Modal) {
+		$rootScope.pageHeadTitle = 'Module Management';
+		$rootScope.showTopNav = true;
+
 		var currentUser = Auth.getCurrentUser;
 
 		Module.getMyAssocModules({
@@ -48,7 +49,7 @@ angular.module('UniQA')
 			$scope.moduleOption = newVal;
 		};
 
-		$scope.openCreateModal = Modal.create.module(function(createModule, continuing) {
+		$rootScope.openCreateModal = Modal.create.module(function(createModule, continuing) {
 			if (continuing) {
 				$scope.userModules.push(createModule);
 				return $scope.openCreateModal();
