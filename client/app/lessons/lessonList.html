@@ -11,7 +11,7 @@
           <md-card-title-text>
             <span class="md-headline">{{lesson.title}}</span>
           </md-card-title-text>
-          <md-button class="md-icon-button lesson-action-button" aria-label="Clone" style="margin-top:-.34em;">
+          <md-button class="md-icon-button lesson-action-button lesson-favourite" aria-label="Clone" style="margin-top:-.34em;">
             <i class="fa fa-star" aria-hidden="true"></i>
             <md-tooltip md-autohide="true" md-direction="top" class="tooltip-md">
               Favourites - coming soon
@@ -70,7 +70,7 @@
     </div>
   </md-content>
 
-  <h2 ng-if="lessonsWithoutModules.length > 0" style="clear:both;">Unassigned Lectures
+  <h2 ng-if="lessonsWithoutModules.length > 0" style="clear:both;">Everything else...
     <hr></hr>
   </h2>
   <md-content class="md-padding" layout-xs="column" layout="row" style="margin-bottom:3em;">
@@ -80,7 +80,7 @@
           <md-card-title-text>
             <span class="md-headline">{{lesson.title}}</span>
           </md-card-title-text>
-          <md-button class="md-icon-button lesson-action-button" aria-label="Clone" style="margin-top:-.34em;">
+          <md-button class="md-icon-button lesson-action-button lesson-favourite" aria-label="Clone" style="margin-top:-.34em;">
             <i class="fa fa-star" aria-hidden="true"></i>
             <md-tooltip md-autohide="true" md-direction="top" class="tooltip-md">
               Favourites - coming soon

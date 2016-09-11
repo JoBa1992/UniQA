@@ -4,23 +4,40 @@ angular.module('UniQA')
 	.controller('ModuleListCtrl', function($scope, $rootScope, $http, $location, Auth, Module, Modal) {
 		$rootScope.pageHeadTitle = 'Module Management';
 		$rootScope.showTopNav = true;
+		$scope.noUserResults = false;
+		$scope.noExplorableResults = false;
 
 		var currentUser = Auth.getCurrentUser;
 
 		Module.getMyAssocModules({
 			user: currentUser()._id
 		}).then(function(res) {
-			attachModGroupsStudCount(res.modules);
-			$scope.userModules = res.modules;
-			$scope.userModCount = res.count;
+			if (res.modules && res.modules.length > 0) {
+				$scope.noUserResults = false;
+				attachModGroupsStudCount(res.modules);
+				$scope.userModules = res.modules;
+				$scope.userModCount = res.count;
+			} else {
+				$scope.noUserResults = true;
+				console.info('no results for user returned');
+			}
+		}).catch(function(err) {
+			console.info(err);
 		});
 
 		Module.getExplorableModules({
 			user: currentUser()._id
 		}).then(function(res) {
-			attachModGroupsStudCount(res.modules);
-			$scope.explorableModules = res.modules;
-			$scope.explorModCount = res.count;
+			if (res.modules && res.modules.length > 0) {
+				$scope.noExplorableResults = false;
+				attachModGroupsStudCount(res.modules);
+				$scope.explorableModules = res.modules;
+				$scope.explorModCount = res.count;
+			} else {
+				$scope.noExplorableResults = true;
+			}
+		}).catch(function(err) {
+			console.info(err);
 		});
 
 		// attaches module group count by ref

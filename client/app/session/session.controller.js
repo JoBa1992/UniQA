@@ -452,7 +452,7 @@ angular.module('UniQA')
 
 		// Module.getMyAssocModules({
 		// 	title: $scope.sForm.lesson,
-		// 	createdBy: me._id,
+		// 	author: me._id,
 		// 	page: 1,
 		// 	paginate: 50
 		// }).then(function(res) {
@@ -471,7 +471,7 @@ angular.module('UniQA')
 				// console.info($scope.sForm.lesson);
 				Lesson.getForMe({
 					title: $scope.sForm.lesson,
-					createdBy: me._id,
+					author: me._id,
 					page: 1,
 					paginate: 50
 				}).then(function(res) {
@@ -561,7 +561,7 @@ angular.module('UniQA')
 				}
 
 				var data = {
-					createdBy: me._id,
+					author: me._id,
 					lesson: $scope.sForm.lesson._id,
 					startTime: moment.utc($scope.sForm.startTimeMoment).toISOString(),
 					endTime: moment.utc($scope.sForm.endTimeMoment).toISOString(),

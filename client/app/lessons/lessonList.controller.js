@@ -29,7 +29,7 @@ angular.module('UniQA')
 		var refreshLessons = function() {
 			Lesson.getForMe({
 				title: $scope.filter.searchStr,
-				createdBy: me._id,
+				author: me._id,
 				page: $scope.currentPage,
 				paginate: $scope.resultsPerPage
 			}).then(function(res) {
@@ -61,23 +61,36 @@ angular.module('UniQA')
 							lessonsWithoutModules.push(res.result[lesson]);
 						}
 					}
-					// sort internal sets
-					for (var item in moduleLessons) {
-						moduleLessons[item].sort(function(a, b) {
-							if (a.title < b.title)
-								return -1;
-							if (a.title > b.title)
-								return 1;
-							return 0;
-						});
-					}
-					$scope.moduleLessons = moduleLessons;
-					$scope.lessonsWithoutModules = lessonsWithoutModules;
+
+					$scope.moduleLessons = sortLessonLists(moduleLessons);
+					$scope.lessonsWithoutModules = sortLessonLists(lessonsWithoutModules);
 				}
 			});
 		};
-
 		refreshLessons();
+		// sort internal sets
+		var sortLessonLists = function(list) {
+			if (list.length) {
+				list.sort(function(a, b) {
+					if (a.title < b.title)
+						return -1;
+					if (a.title > b.title)
+						return 1;
+					return 0;
+				});
+			} else {
+				for (var item in list) {
+					list[item].sort(function(a, b) {
+						if (a.title < b.title)
+							return -1;
+						if (a.title > b.title)
+							return 1;
+						return 0;
+					});
+				}
+			}
+			return list;
+		}
 
 		$scope.searchStrFilter = function() {
 			refreshLessons();

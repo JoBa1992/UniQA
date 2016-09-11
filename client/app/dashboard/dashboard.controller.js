@@ -32,7 +32,7 @@ angular.module('UniQA')
 			$scope.canLoadMore = false;
 			$scope.timelineIcon = 'fa fa-refresh rotating';
 			Session.getForMe({
-				createdBy: me._id,
+				author: me._id,
 				historic: true,
 				order: '-startTime',
 				page: page,

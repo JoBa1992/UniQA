@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('UniQA')
-	.factory('Modal', function($rootScope, $uibModal, $parse, $window, $location, $timeout, $interval, $sce, Auth, Thing, Module, Lesson, Session) {
+	.factory('Modal', function($rootScope, $uibModal, $window, $location, $timeout, $interval, $sce, Auth, Thing, Module, Lesson, Session) {
 
 		// Use the User $resource to fetch all users
 		$rootScope.user = {};
@@ -45,40 +45,6 @@ angular.module('UniQA')
 
 		// Public API here
 		return {
-			// option: {
-			// 	module: function(cb) {
-			// 		cb = cb || angular.noop;
-			// 		return function() {
-			// 			var moduleOptionModel, optionResult;
-			// 			// refresh validation on new modal open - remove details
-			// 			$rootScope.me = Auth.getCurrentUser();
-			//
-			// 			$rootScope.onImportSelect = function(e) {
-			// 				optionResult = 'import';
-			// 				moduleOptionModel.close(e);
-			// 			}
-			// 			$rootScope.onManualSelect = function(e) {
-			// 				optionResult = 'manual';
-			// 				moduleOptionModel.close(e);
-			// 			}
-			//
-			// 			moduleOptionModel = openModal({
-			// 				modal: {
-			// 					name: 'createModuleForm',
-			// 					dismissable: true,
-			// 					template: 'components/modal/views/standard.html',
-			// 					form: 'components/modal/views/module/option.html',
-			// 					footer: false,
-			// 					title: 'Select Option...'
-			// 				}
-			// 			}, 'modal-success', 'lg');
-			//
-			// 			moduleOptionModel.result.then(function() {
-			// 				cb(optionResult);
-			// 			});
-			// 		};
-			// 	}
-			// },
 			read: {
 				qr: function(cb) {
 					cb = cb || angular.noop;
@@ -87,11 +53,8 @@ angular.module('UniQA')
 
 					return function() {
 						var readModal;
-						// var me = Auth.getCurrentUser();
-						console.info(session);
 						Session.getOne(session).then(function(res) {
 							$rootScope.session = res;
-							console.info(res);
 							readModal = openModal({
 								modal: {
 									name: 'View QR',
@@ -166,12 +129,6 @@ angular.module('UniQA')
 
 						};
 
-						// url parameter passed through
-						// var sessionid = $stateParams.sessionid;
-						// console.info(lesson);
-
-						// var me = Auth.getCurrentUser();
-
 						$rootScope.trustSrc = function(src) {
 							return $sce.trustAsResourceUrl(src);
 						};
@@ -184,7 +141,6 @@ angular.module('UniQA')
 
 						// rootScope load for lesson/tutor
 						$rootScope.lessonHeight = $window.innerHeight - 10;
-						// $rootScope.lessonHeightMarginTop = '-1.4em;';
 						$rootScope.fullScreenToggle = false;
 						$rootScope.hideQuestions = false;
 						$rootScope.hideQuestionIcon = 'fa-arrow-right';
@@ -274,7 +230,6 @@ angular.module('UniQA')
 					return function() {
 						var readModal;
 
-						// console.info(lesson);
 
 						$rootScope.getFile = function(file) {
 							Session.getFile({
@@ -282,9 +237,7 @@ angular.module('UniQA')
 								user: me._id,
 								file: file,
 								session: sessionid
-							}).then(function( /*res*/ ) {
-								// console.info(res);
-							});
+							}).then(function( /*res*/ ) {});
 						};
 
 						Session.getOne(sessionid).then(function(res) {
@@ -326,7 +279,6 @@ angular.module('UniQA')
 						$rootScope.feedback = args.shift(); // gets feedback passed through from main view
 
 						var readModal;
-						// var me = Auth.getCurrentUser();
 
 						$rootScope.showQuestions = false;
 						$rootScope.showRegister = false;
@@ -490,106 +442,6 @@ angular.module('UniQA')
 					};
 				}
 			},
-			import: {
-				module: function(cb) {
-					cb = cb || angular.noop;
-					return function() {
-						var importModal;
-						// var me = Auth.getCurrentUser();
-						$rootScope.importViewData = false;
-						$rootScope.importBtnText = 'Next...';
-						$rootScope.importCancelText = 'Cancel';
-						$rootScope.importUsers = [];
-
-						Thing.getByName('uniEmail').then(function(val) {
-							// add Any to start of array
-							$rootScope.uniEmail = val.content[0];
-						});
-
-						$rootScope.deleteImportableUser = function(userid) {
-							console.info(userid);
-							angular.forEach($rootScope.importUsers, function(u, i) {
-								if (u.id === userid) {
-									$rootScope.importUsers.splice(i, 1);
-								}
-							});
-						};
-
-						importModal = openModal({
-							modal: {
-								name: 'createrUserForm',
-								dismissable: true,
-								form: 'components/modal/views/module/import.html',
-								title: 'Importing module...',
-								buttons: [{
-									classes: 'btn-default',
-									text: '{{importCancelText}}',
-									click: function(e) {
-										if ($rootScope.importViewData) {
-											$rootScope.importBtnText = 'Next...';
-											$rootScope.importCancelText = 'Cancel';
-											$rootScope.importViewData = false;
-										} else {
-											$rootScope.submitted = false;
-											importModal.dismiss(e);
-										}
-
-									}
-								}, {
-									classes: 'btn-success',
-									text: '{{importBtnText}}',
-									click: function(e, form) {
-										if ($rootScope.dropzone[0].dropzone.files[0]) {
-											// if dropzone has files in it
-
-											// when importing via csv, data just needs to be attached into a json object, the user can then look through it and make any ammendments, and then when they click save the second time, it'll send it off to the server as a multiple creation.
-
-											// only access if first success click on this modal
-											if (!$rootScope.importViewData) {
-
-												$rootScope.importViewData = true;
-												$rootScope.importCancelText = 'Back';
-												$rootScope.importBtnText = 'Save';
-												$rootScope.res.received = true;
-												console.info('Importing Data');
-											} else {
-												console.info('Ammending & Saving');
-												$rootScope.res.received = false;
-												Auth.createUsers({
-														users: $rootScope.importUsers
-													})
-													.then(function(res) {
-														console.info(res);
-														$rootScope.res.received = true;
-														$rootScope.submitted = false;
-														form.$setUntouched();
-														form.$setPristine();
-														importModal.close(e);
-													})
-													.catch(function(err) {
-														$rootScope.res.received = true;
-														$rootScope.errors = {};
-
-														// Update validity of form fields that match the mongoose errors
-														angular.forEach(err.errors, function(error, field) {
-															//console.info(form[field]);
-															form[field].$setValidity('mongoose', false);
-															$rootScope.errors[field] = error.message;
-														});
-													});
-											}
-										}
-									}
-								}]
-							}
-						}, 'modal-success', 'lg');
-
-						importModal.result.then(function() {
-							cb();
-						});
-					};
-				}
-			},
 			create: {
 				user: function(cb) {
 					cb = cb || angular.noop;
@@ -664,7 +516,6 @@ angular.module('UniQA')
 
 													// Update validity of form fields that match the mongoose errors
 													angular.forEach(err.errors, function(error, field) {
-														//console.info(form[field]);
 														form[field].$setValidity('mongoose', false);
 														$rootScope.errors[field] = error.message;
 													});
@@ -733,6 +584,186 @@ angular.module('UniQA')
 					};
 				},
 				module: function(cb) {
+					cb = cb || angular.noop;
+					return function() {
+						var createModal, createdModule;
+
+						$rootScope.me = Auth.getCurrentUser();
+
+						$rootScope.module = {
+							code: '',
+							name: '',
+							tutor: ''
+						};
+
+						$rootScope.formBackdrop = 'static';
+
+						$rootScope.possibleTutors = [];
+						$rootScope.selectedTutors = [{
+							user: $rootScope.me._id,
+							name: $rootScope.me.forename + ' ' + $rootScope.me.surname,
+							username: $rootScope.me.email,
+							role: $rootScope.me.role,
+							currentUser: true
+						}];
+
+						$rootScope.removeTutor = function(user) {
+							for (var tutor in $rootScope.selectedTutors) {
+								if ($rootScope.selectedTutors[tutor] === user) {
+									$rootScope.selectedTutors.splice(tutor, 1);
+								}
+							}
+						};
+
+						$rootScope.checkForSubmit = function(e) {
+							// checking length to see if id has been sent through
+							if (e.keyCode === 13 || e === 'Submit' || e._id) {
+								// if name isn't on the list, break out of function
+								if ($rootScope.possibleTutors.length === 0) {
+									return;
+								} else {
+									// need to either get selected here, or select first
+									if (!($rootScope.module.tutor instanceof Object)) {
+										if (e === 'Submit') {
+											// gets index of child with active class from typeahead property
+											$rootScope.module.tutor = $rootScope.possibleTutors[angular.element(document.querySelector('[id*=\'typeahead\']')).find('.active').index()];
+										}
+									}
+								}
+
+								// only add if we have a tutor
+								if ($rootScope.module.tutor instanceof Object) {
+									$rootScope.selectedTutors.push($rootScope.module.tutor);
+									$rootScope.selectedTutors.sort(function compare(a, b) {
+										if (a.name < b.name) {
+											return -1;
+										}
+										if (a.name > b.name) {
+											return 1;
+										}
+										return 0;
+									});
+								}
+
+								$rootScope.possibleTutors = [];
+								$rootScope.module.tutor = '';
+							}
+						};
+
+						$rootScope.searchPossibleTutors = function() {
+							Module.getTutors({
+								user: $rootScope.me._id,
+								search: $rootScope.module.tutor
+							}).then(function(res) {
+								// reset before continuing
+								$rootScope.possibleTutors = [];
+								// filter through possibleTutors here, check against already existing tutors and only allow them to stay if they don't exist
+								for (var x = 0; x < res.length; x++) {
+									var isIn = false;
+									for (var y = 0; y < $rootScope.selectedTutors.length; y++) {
+										if (res[x]._id === $rootScope.selectedTutors[y].user) {
+											isIn = true;
+										}
+									}
+									if (!isIn && res[x]._id !== $rootScope.me._id) {
+										// only used internally, _id is the only referenced part in module model
+										$rootScope.possibleTutors.push({
+											user: res[x]._id,
+											name: res[x].forename + ' ' + res[x].surname,
+											email: res[x]._id,
+											role: res[x]._id
+										});
+									}
+								}
+							});
+						};
+
+						// creates a unique access code everytime the modal is opened.
+						// createUniqueAccessCode();
+						createModal = openModal({
+							modal: {
+								name: 'createrModuleForm',
+								dismissable: true,
+								backdrop: $rootScope.formBackdrop,
+								form: 'components/modal/views/module/create.html',
+								title: 'Creating module...',
+								buttons: [{
+									classes: 'btn-default',
+									text: 'Cancel',
+									click: function(e) {
+										// reset submit state
+										$rootScope.submitted = false;
+										$rootScope.moduleAlreadyExists = false;
+										createModal.dismiss(e);
+									}
+								}, {
+									classes: 'btn-success',
+									text: 'Create',
+									click: function(e, form) {
+										$rootScope.submitted = true;
+										$rootScope.res.received = false;
+
+										// filter students for placeholder
+										$rootScope.importUsers = $rootScope.importUsers.filter(function(item) {
+											return (item.id !== '01234567' &&
+													item.forename !== 'John' &&
+													item.surname !== 'Smith') ||
+												item.id !== '' ||
+												item.forename !== '' ||
+												item.surname !== '';
+										});
+
+										if ($rootScope.module._id !== '' && $rootScope.module.name !== '') {
+											Module.create({
+													_id: $rootScope.module._id,
+													name: $rootScope.module.name,
+													tutors: $rootScope.selectedTutors,
+													students: $rootScope.importUsers
+												})
+												.then(function(res) {
+													$rootScope.res.received = true;
+													// reset submit state
+													$rootScope.submitted = false;
+													$rootScope.moduleAlreadyExists = false;
+													form.$setUntouched();
+													form.$setPristine();
+													createdModule = res;
+													// user created, close the modal
+													createModal.close(e);
+												})
+												.catch(function(err) {
+													$rootScope.res.received = true;
+													$rootScope.errors = {};
+
+													// if module already exists
+													if (err.code === 11000) {
+														form.id.$setValidity('mongoose', false);
+														$rootScope.moduleAlreadyExists = true;
+														// add placeholder back in if empty
+														addPlaceholderInIfEmpty();
+													} else {
+														// Update validity of form fields that match the mongoose errors
+														angular.forEach(err.errors, function(error, field) {
+															form[field].$setValidity('mongoose', false);
+															$rootScope.errors[field] = error.message;
+														});
+													}
+												});
+										} else {
+											$rootScope.res.received = true;
+											$rootScope.errors = {};
+										}
+									}
+								}]
+							}
+						}, 'modal-success', 'lg');
+
+						createModal.result.then(function() {
+							cb(createdModule, $rootScope.continuing);
+						});
+					};
+				},
+				moduleGroup: function(cb) {
 					cb = cb || angular.noop;
 					return function() {
 						var createModal, createdModule;
@@ -1059,9 +1090,9 @@ angular.module('UniQA')
 							collaborator: '',
 							files: []
 						};
-						$rootScope.preview = {
-							loading: false
-						};
+						// $rootScope.preview = {
+						// 	loading: false
+						// };
 
 						$rootScope.lessonTypes = [];
 						$rootScope.possibleCollaborators = [];
@@ -1084,42 +1115,6 @@ angular.module('UniQA')
 							}
 							$rootScope.lesson.type = type;
 						};
-
-						// $rootScope.genPreview = function() {
-						// 	// if http is present, rip it out, server adds it
-						// 	if ($rootScope.lesson.url.indexOf('http://') > -1) {
-						// 		// take anything after http
-						// 		$rootScope.lesson.url = $rootScope.lesson.url.split('http://').pop();
-						// 	}
-						// 	if ($rootScope.lesson.url.indexOf('https://') > -1) {
-						// 		// take anything after http
-						// 		$rootScope.lesson.url = $rootScope.lesson.url.split('https://').pop();
-						// 	}
-						//
-						// 	// if ($rootScope.lesson.url && isUrl('http://' + $rootScope.lesson.url)) {
-						// 	// 	$rootScope.preview.loading = true;
-						// 	//
-						// 	// 	Lesson.generatePreview({
-						// 	// 		url: $rootScope.lesson.url
-						// 	// 	}).then(function(res) {
-						// 	// 		// only returns one element
-						// 	// 		if (_.isEmpty(res)) {
-						// 	// 			$rootScope.lesson.tempPreview = {
-						// 	// 				err: true
-						// 	// 			};
-						// 	// 		}
-						// 	// 		// attach with base64 tag
-						// 	// 		$rootScope.lesson.tempPreview = 'data:image/png;base64,' + res;
-						// 	// 		$rootScope.preview = {
-						// 	// 			loading: false
-						// 	// 		};
-						// 	// 	});
-						// 	// } else {
-						// 	// 	if (!isUrl('http://' + $rootScope.lesson.url)) {
-						// 	// 		//throw error
-						// 	// 	}
-						// 	// }
-						// };
 
 						// stop enter key triggering DropzoneJS
 						angular.element($window).on('keydown', function(e) {
@@ -1201,7 +1196,7 @@ angular.module('UniQA')
 									text: 'Create',
 									click: function(e, form) {
 										$rootScope.submitted = true;
-										if ($rootScope.lesson.title && $rootScope.lesson.desc) {
+										if ($rootScope.lesson.title) {
 											// setup vars to be sent across to API
 											var collabs = [];
 											// push each selected collaborator into array
@@ -1246,7 +1241,6 @@ angular.module('UniQA')
 
 													// Update validity of form fields that match the mongoose errors
 													angular.forEach(err.errors, function(error, field) {
-														//console.info(form[field]);
 														form[field].$setValidity('mongoose', false);
 														$rootScope.errors[field] = error.message;
 													});
@@ -1258,7 +1252,6 @@ angular.module('UniQA')
 						}, 'modal-success', 'lg');
 
 						$rootScope.uploadSuccess = function(res) {
-							// console.info(res);
 							$rootScope.res.received = true;
 							createModal.close();
 						};
@@ -1447,7 +1440,6 @@ angular.module('UniQA')
 
 													// Update validity of form fields that match the mongoose errors
 													angular.forEach(err.errors, function(error, field) {
-														//console.info(form[field]);
 														form[field].$setValidity('mongoose', false);
 														$rootScope.errors[field] = error.message;
 													});
@@ -1526,7 +1518,6 @@ angular.module('UniQA')
 										//
 										// 			// Update validity of form fields that match the mongoose errors
 										// 			angular.forEach(err.errors, function(error, field) {
-										// 				//console.info(form[field]);
 										// 				form[field].$setValidity('mongoose', false);
 										// 				$rootScope.errors[field] = error.message;
 										// 			});
@@ -1561,7 +1552,6 @@ angular.module('UniQA')
 							$rootScope.selectedModules.push(session.modules[module].module);
 						}
 
-						console.info(session);
 
 						updateModal = openModal({
 							modal: {
@@ -1609,7 +1599,6 @@ angular.module('UniQA')
 
 													// Update validity of form fields that match the mongoose errors
 													angular.forEach(err.errors, function(error, field) {
-														//console.info(form[field]);
 														form[field].$setValidity('mongoose', false);
 														$rootScope.errors[field] = error.message;
 													});
@@ -1757,7 +1746,6 @@ angular.module('UniQA')
 							deleteModal;
 
 						$rootScope.lessonToDelete = angular.copy(lesson);
-						console.info($rootScope.lessonToDelete);
 						deleteModal = openModal({
 							modal: {
 								name: 'deleteConf',
