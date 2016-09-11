@@ -1,7 +1,17 @@
+'use strict'
+
 var AWS = require('aws-sdk')
 var async = require('async')
 var uuid = require('uuid')
 var fs = require('fs')
+
+class BucketError extends Error {
+  constructor (message) {
+    super(message)
+    this.message = message
+    this.name = 'BucketError'
+  }
+}
 
 /**
  * Represents an AWS S3 bucket.
@@ -18,6 +28,11 @@ class Bucket {
    * @param {Object[]} files - The files to be uploaded. Expects objects created by multer.
    */
   upload (files, cb) {
+    if (!files) {
+      var error = new BucketError('No files to be uploaded.')
+      return cb(error)
+    }
+
     if (!Array.isArray(files)) {
       files = [ files ]
     }
