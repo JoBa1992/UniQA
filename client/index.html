@@ -23,8 +23,8 @@
     <link rel="stylesheet" href="bower_components/angular-bootstrap-datetimepicker/src/css/datetimepicker.css"/>
     <!-- build:css(client) app/vendor.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/dropzone/downloads/css/dropzone.css"/>
-    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css"/>
+    <link rel="stylesheet" href="bower_components/dropzone/downloads/css/dropzone.css" />
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
@@ -45,7 +45,9 @@
       <div flex layout="column">
         <!-- Sticky header toolbar -->
 
-        <div ng-controller="PageHeaderCtrl" ng-include="'components/page-header/page-header.html'"></div>
+        <div ng-controller="PageHeaderCtrl">
+          <ng-include src="'components/page-header/page-header.html'"></ng-include>
+        </div>
         <!-- Main Content with scrolling content -->
         <div layout="row" style="overflow: auto;">
           <md-content flex layout-padding="">
@@ -54,7 +56,6 @@
         </div>
 
       </div>
-
     </div>
 
     <!-- <div ng-controller="NavbarCtrl" ng-class="{'wrapper': isNavCollapsed() === false, 'wrapper-min': isNavCollapsed() === true, 'wrapper-no-side': isNavCollapsed() === null}">
@@ -163,6 +164,7 @@
   <script src="app/admin/admin.js"></script>
   <script src="app/admin/general/general.controller.js"></script>
   <script src="app/admin/users/users.controller.js"></script>
+  <script src="app/dashboard/dashboard.controller.js"></script>
   <script src="app/index/index.js"></script>
   <script src="app/lessons/lesson.controller.js"></script>
   <script src="app/lessons/lessonList.controller.js"></script>
@@ -170,7 +172,6 @@
   <script src="app/modules/module.controller.js"></script>
   <script src="app/modules/moduleList.controller.js"></script>
   <script src="app/planner/planner.controller.js"></script>
-  <script src="app/profile/profile.controller.js"></script>
   <script src="app/qr/qr.controller.js"></script>
   <script src="app/session/session.controller.js"></script>
   <script src="app/stats/statistics.controller.js"></script>

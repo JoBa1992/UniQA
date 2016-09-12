@@ -13,7 +13,7 @@
 // 	-	Module Pagination
 //		-	Your modules should show a list of up to 20 modules
 //		-	Explorable modules should show a list of up to 50 modules
-//	-	Create module clone endpoint, which can take everything from the original apart from the _id, 
+//	-	Create module clone endpoint, which can take everything from the original apart from the _id,
 //		giving the options to:
 //		-	clone all details
 //		-	clone all apart from the module groups
@@ -64,7 +64,7 @@ exports.getModulesForUser = function(req, res) {
 				return handleError(res, err);
 			}
 			if (_.isEmpty(modules)) {
-				return res.status(404).send('Not Found');
+				return res.status(200).send([]);
 			}
 			result.modules = modules;
 			Module.count({
@@ -101,7 +101,7 @@ exports.getOtherModules = function(req, res) {
 				return handleError(res, err);
 			}
 			if (_.isEmpty(modules)) {
-				return res.status(404).send('Not Found');
+				return res.status(200).send([]);
 			}
 			result.modules = modules;
 			Module.count({

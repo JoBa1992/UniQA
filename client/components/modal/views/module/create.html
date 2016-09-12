@@ -1,9 +1,9 @@
 <div class="form-group" ng-class="{ 'has-success': form.id.$valid && submitted,'has-error': form.id.$invalid && submitted }">
-  <label>Module ID</label>
-  <input type="text" name="id" class="form-control" placeholder="e.g. 55-5533-00L" ng-model="module._id" required/>
+  <label>Module Code</label>
+  <input type="text" name="code" class="form-control" placeholder="e.g. 55-5533-00L" ng-model="module.code" required/>
   <p class="help-block" ng-show="form.id.$error.required && submitted">Module ID is required</p>
   <p class="help-block" ng-show="moduleAlreadyExists && submitted">
-    A module with this ID already exists
+    A module with this code already exists
   </p>
 </div>
 <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,'has-error': form.name.$invalid && submitted }">
@@ -31,7 +31,7 @@
     </a>
   </h3>
 </div>
-<div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,'has-error': form.name.$invalid && submitted }">
+<!-- <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,'has-error': form.name.$invalid && submitted }">
   <h5>Students
     <span class="pull-right" style="color:#BBBBBB;">Unsure of the CSV structure?
       <a href="#">Check the docs</a>
@@ -39,12 +39,6 @@
   </h5>
   <div id="table" class="table-editable">
     <table class="table csv-dropzone" url="'/api/modules/users/import'" autoprocessdz="'true'" no-file-display="'true'" dz-type="'csvImport'" class="dropzone" drop-zone call-back="showCsvData(response)" name="csvUserData" data-max="5" mimetypes="'.csv, .txt'" id="csv-dropzone" style="overflow:visible;">
-      <!-- could show dropable class here -->
-      <!-- <div ng-dragover="!res.received">
-        <div class="loading">
-          <i class="fa fa-refresh fa-5x fa-spin"></i>
-        </div>
-      </div> -->
       <thead>
         <th style="width:18%;">ID</th>
         <th style="width:38%;">Forename</th>
@@ -66,4 +60,4 @@
   </div>
   <button class="btn btn-default" ng-click="addRowToModuleTable()">
     Add User</button>
-</div>
+</div> -->

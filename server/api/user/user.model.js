@@ -14,6 +14,10 @@ var UserSchema = new Schema({
 	surname: {
 		type: String
 	},
+	avatar: {
+		type: String,
+		default: '/assets/images/placeholders/profile.jpg'
+	},
 	role: {
 		type: String,
 		lowercase: true,

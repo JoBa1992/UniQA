@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
 
 var LessonSchema = new Schema({
 	author: {
-		type: String,
+		type: Schema.Types.ObjectId,
 		ref: 'User',
 		required: true
 	},
@@ -17,14 +17,15 @@ var LessonSchema = new Schema({
 	// Doesn't need to be input, and doesn't stop lessons being taught to
 	// other modules.
 	module: {
-		type: Schema.Types.ObjectId
+		type: Schema.Types.ObjectId,
+		ref: 'Module'
 	},
 	desc: {
 		type: String
 	},
 	collaborators: [{
 		user: {
-			type: String,
+			type: Schema.Types.ObjectId,
 			ref: 'User'
 		},
 		_id: false

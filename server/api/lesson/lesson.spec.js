@@ -8,6 +8,7 @@ var Lesson = require('./lesson.model');
 var lesson = new Lesson({
 	title: 'test lesson',
 	author: '56a7d95746b9e7db57417309', // b2006241,
+	module: '56a7d95746b9e7db57417303',
 	desc: 'test description',
 	collaborators: [{
 		user: '56cb76ecd5b3f4b6be5d7ddb' // Martin

@@ -93,9 +93,9 @@ angular.module('UniQA')
 			// 	student: false
 			// },
 			{
-				title: 'Statistics',
+				title: 'Dashboard',
 				icon: 'bar-chart',
-				link: '/profile',
+				link: '/dashboard',
 				login: true,
 				admin: true,
 				tutor: true,

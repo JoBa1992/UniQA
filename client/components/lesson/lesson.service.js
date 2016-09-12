@@ -46,7 +46,7 @@ angular.module('UniQA')
 				}.bind(this));
 				return deferred.promise;
 			},
-			getOne: function(id, callback) {
+			getByID: function(id, callback) {
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();
 
@@ -66,7 +66,7 @@ angular.module('UniQA')
 				$http.get('/api/lessons', {
 					params: {
 						title: obj.title,
-						createdBy: obj.createdBy,
+						author: obj.author,
 						page: obj.page,
 						paginate: obj.paginate
 					}
@@ -82,10 +82,10 @@ angular.module('UniQA')
 			getMyTotal: function(obj, callback) {
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();
-				// console.info(obj.createdBy);
+				// console.info(obj.author);
 				$http.get('/api/lessons/count', {
 					params: {
-						createdBy: obj.createdBy
+						author: obj.author
 					}
 				}).success(function(data) {
 					deferred.resolve(data);

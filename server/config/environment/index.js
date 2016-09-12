@@ -26,7 +26,7 @@ var all = {
 	// Server IP
 	ip: process.env.IP || '0.0.0.0',
 
-	// Should we populate the DB with sample data?
+	// Need to rip out when in production
 	seedDB: true,
 
 	// Secret for session, you will want to change this and make it an environment variable

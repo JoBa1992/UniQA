@@ -117,7 +117,13 @@ angular.module('UniQA', [
 			.state('lessonList', {
 				url: '/lessons',
 				templateUrl: 'app/lessons/lessonList.html',
-				controller: 'LessonList',
+				controller: 'LessonListCtrl',
+				authenticate: true
+			})
+			.state('lesson', {
+				url: '/lessons/:lessonid',
+				templateUrl: 'app/lessons/lesson.html',
+				controller: 'LessonCtrl',
 				authenticate: true
 			})
 			.state('moduleList', {
@@ -138,10 +144,10 @@ angular.module('UniQA', [
 				controller: 'ModuleGroupCtrl',
 				authenticate: true
 			})
-			.state('profile', {
-				url: '/profile',
-				templateUrl: 'app/profile/profile.html',
-				controller: 'ProfileCtrl',
+			.state('dashboard', {
+				url: '/dashboard',
+				templateUrl: 'app/dashboard/dashboard.html',
+				controller: 'DashboardCtrl',
 				authenticate: true
 			})
 			.state('notifications', {
@@ -208,7 +214,7 @@ angular.module('UniQA', [
 					event.preventDefault();
 					// don't want users going to 'homepage' if logged in
 					if (toState.url === '/' || toState.url === '/login' || toState.url === '/register') {
-						return $location.path('/profile');
+						return $location.path('/dashboard');
 					}
 					// if not on active lecture, unsync socket listening for questions
 					if (toState.url !== '/session/active/:sessionid') {
