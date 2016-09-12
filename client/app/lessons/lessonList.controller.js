@@ -100,7 +100,8 @@ angular.module('UniQA')
 			console.info(id);
 		}
 
-		$rootScope.openCreateModal = Modal.create.lesson(function() {
+		$rootScope.openCreateModal = Modal.create.lesson(function(res) {
+			console.info(res);
 			refreshLessons();
 		});
 
@@ -164,8 +165,9 @@ angular.module('UniQA')
 				.textContent('Lesson deleted')
 				.action('UNDO')
 				.highlightAction(true)
-				.highlightClass('md-danger') // Accent is used by default, this just demonstrates the usage.
+				.highlightClass('md-default') // Accent is used by default, this just demonstrates the usage.
 				.hideDelay(5000)
+				// .theme('danger-toast')
 				.position(pinTo);
 
 			$mdToast.show(toast).then(function(response) {

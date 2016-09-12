@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('UniQA')
-	.factory('Modal', function($rootScope, $uibModal, $window, $location, $timeout, $interval, $sce, Auth, Thing, Module, Lesson, Session) {
+	.factory('Modal', function($rootScope, $mdDialog, $window, $location, $timeout, $interval, $sce, Auth, Thing, Module, Lesson, Session) {
 
 		// Use the User $resource to fetch all users
 		$rootScope.user = {};
@@ -16,32 +16,35 @@ angular.module('UniQA')
 		 * Opens a modal
 		 * @param  {Object} scope      - an object to be merged with modal's scope
 		 * @param  {String} modalClass - (optional) class(es) to be applied to the modal
-		 * @return {Object}            - the instance $uibModal.open() returns
+		 * @return {Object}            - the instance $mdDialog.open() returns
 		 */
-		function openModal(scope, modalClass, modalSize) {
+		function openModal(scope) {
 			var modalScope = $rootScope.$new();
 			scope = scope || {};
-			modalClass = modalClass || 'modal-default';
-			modalSize = modalSize || 'md';
 
 			angular.extend(modalScope, scope);
 
+			var modalCtrl = modalScope.modal.controller || undefined;
 			var modalTemplate = modalScope.modal.template || 'components/modal/views/standard.html';
-			var modalBackdrop = modalScope.modal.backdrop || true;
-
-			return $uibModal.open({
+			//
+			return $mdDialog.show({
 				templateUrl: modalTemplate,
-				windowClass: modalClass,
-				backdrop: modalBackdrop,
 				scope: modalScope,
-				size: modalSize
+				controller: modalCtrl,
+				// parent: angular.element(document.body),
+				// targetEvent: ev,
+				clickOutsideToClose: true
 			});
 		}
 
-		var isUrl = function(string) {
-			var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
-			return regexp.test(string);
-		};
+		$rootScope.cancel = function(e) {
+			$mdDialog.cancel();
+		}
+
+		// var isUrl = function(string) {
+		// 	var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+		// 	return regexp.test(string);
+		// };
 
 		// Public API here
 		return {
@@ -73,153 +76,153 @@ angular.module('UniQA')
 						});
 					};
 				},
-				lesson: function(cb) {
-					cb = cb || angular.noop;
-					return function() {
-						var readModal;
-						var args = Array.prototype.slice.call(arguments);
-						var lesson = args.shift();
-
-						$rootScope._ = _;
-						// attach moment to rootScope
-						$rootScope.moment = moment;
-
-						$rootScope.isAdmin = Auth.isAdmin;
-						$rootScope.isStudent = Auth.isStudent;
-
-						var interval = 100; // for accuracy
-						var getTimer;
-						$rootScope.timer = '0:00:00';
-						$rootScope.timerRunning = false;
-						var timerReset = true;
-						var now, duration;
-
-						var counter = function() {
-							duration = moment.duration(moment.utc().diff(now));
-							$rootScope.timer = Math.floor(duration.asHours()) + moment.utc(duration.asMilliseconds()).format(':mm:ss');
-						};
-
-						$rootScope.startTimer = function() {
-							if (!$rootScope.timerRunning) {
-								if (timerReset) {
-									now = moment.utc();
-									timerReset = false;
-								}
-								$rootScope.timerRunning = true;
-								getTimer = $interval(counter, interval);
-							}
-						};
-
-						$rootScope.resetTimer = function() {
-							$rootScope.timerRunning = false;
-							$interval.cancel(getTimer);
-							$rootScope.timer = '0:00:00';
-							timerReset = true;
-						};
-
-
-						$rootScope.pauseTimer = function() {
-							if (!$rootScope.timerRunning) {
-								$rootScope.timerRunning = true;
-								getTimer = $interval(counter, interval);
-							} else {
-								$rootScope.timerRunning = false;
-								$interval.cancel(getTimer);
-							}
-
-						};
-
-						$rootScope.trustSrc = function(src) {
-							return $sce.trustAsResourceUrl(src);
-						};
-
-						// rootScope load for user
-						$rootScope.showQuestionSubmit = false;
-						$rootScope.fedback = true;
-
-						$rootScope.session = {};
-
-						// rootScope load for lesson/tutor
-						$rootScope.lessonHeight = $window.innerHeight - 10;
-						$rootScope.fullScreenToggle = false;
-						$rootScope.hideQuestions = false;
-						$rootScope.hideQuestionIcon = 'fa-arrow-right';
-						$rootScope.toggleBtnPosRight = 16;
-						$rootScope.toggleFullScreenIcon = 'fa-expand';
-						$rootScope.init = false;
-
-						$rootScope.toggleFullScreen = function() {
-							if (!$rootScope.fullScreenToggle) { // Launch fullscreen for browsers that support it!
-								var element = document.getElementById('lesson-fullscreen');
-								if (element.requestFullScreen) {
-									element.requestFullScreen();
-								} else if (element.mozRequestFullScreen) {
-									element.mozRequestFullScreen();
-								} else if (element.webkitRequestFullScreen) {
-									element.webkitRequestFullScreen();
-								}
-								// $rootScope.lessonHeightMarginTop = '0em;';
-								$rootScope.lessonHeight = '890';
-								$rootScope.toggleFullScreenIcon = 'fa-compress';
-								$rootScope.fullScreenToggle = true;
-							} else { // Cancel fullscreen for browsers that support it!
-								if (document.exitFullscreen) {
-									document.exitFullscreen();
-								} else if (document.mozCancelFullScreen) {
-									document.mozCancelFullScreen();
-								} else if (document.webkitExitFullscreen) {
-									document.webkitExitFullscreen();
-								}
-								// $rootScope.lessonHeightMarginTop = '-1.4em;';
-								$rootScope.lessonHeight = '760';
-								$rootScope.toggleFullScreenIcon = 'fa-expand';
-								$rootScope.fullScreenToggle = false;
-							}
-						};
-
-						$rootScope.toggleQuestions = function() {
-							if ($rootScope.hideQuestions) {
-								$rootScope.presViewSizeMd = 'col-md-9';
-								$rootScope.presViewSizeLg = 'col-lg-9';
-								$rootScope.hideQuestionIcon = 'fa-arrow-right';
-								$rootScope.hideQuestions = false;
-								$rootScope.toggleBtnPosRight = 16;
-
-							} else {
-								$rootScope.presViewSizeMd = 'col-md-12';
-								$rootScope.presViewSizeLg = 'col-lg-12';
-								$rootScope.questionIconNumber = $rootScope.lesson.questions.length;
-								$rootScope.hideQuestionIcon = '';
-								$rootScope.hideQuestions = true;
-								$rootScope.toggleBtnPosRight = 16;
-
-							}
-						};
-						$rootScope.lesson = lesson;
-
-						$timeout(function() {
-							$rootScope.init = true;
-						}, 5000);
-
-						readModal = openModal({
-							modal: {
-								name: 'createrUserForm',
-								dismissable: true,
-								template: 'components/modal/views/splash.html',
-								form: 'components/modal/views/lesson/preview.html',
-								title: '',
-								buttons: [{
-									classes: 'btn-primary',
-									text: 'Dismiss',
-									click: function(e) {
-										$rootScope.resetTimer();
-										readModal.close(e);
-									}
-								}]
-							}
-						}, 'modal-primary', 'fs');
-					};
-				},
+				// lesson: function(cb) {
+				// 	cb = cb || angular.noop;
+				// 	return function() {
+				// 		var readModal;
+				// 		var args = Array.prototype.slice.call(arguments);
+				// 		var lesson = args.shift();
+				//
+				// 		$rootScope._ = _;
+				// 		// attach moment to rootScope
+				// 		$rootScope.moment = moment;
+				//
+				// 		$rootScope.isAdmin = Auth.isAdmin;
+				// 		$rootScope.isStudent = Auth.isStudent;
+				//
+				// 		var interval = 100; // for accuracy
+				// 		var getTimer;
+				// 		$rootScope.timer = '0:00:00';
+				// 		$rootScope.timerRunning = false;
+				// 		var timerReset = true;
+				// 		var now, duration;
+				//
+				// 		var counter = function() {
+				// 			duration = moment.duration(moment.utc().diff(now));
+				// 			$rootScope.timer = Math.floor(duration.asHours()) + moment.utc(duration.asMilliseconds()).format(':mm:ss');
+				// 		};
+				//
+				// 		$rootScope.startTimer = function() {
+				// 			if (!$rootScope.timerRunning) {
+				// 				if (timerReset) {
+				// 					now = moment.utc();
+				// 					timerReset = false;
+				// 				}
+				// 				$rootScope.timerRunning = true;
+				// 				getTimer = $interval(counter, interval);
+				// 			}
+				// 		};
+				//
+				// 		$rootScope.resetTimer = function() {
+				// 			$rootScope.timerRunning = false;
+				// 			$interval.cancel(getTimer);
+				// 			$rootScope.timer = '0:00:00';
+				// 			timerReset = true;
+				// 		};
+				//
+				//
+				// 		$rootScope.pauseTimer = function() {
+				// 			if (!$rootScope.timerRunning) {
+				// 				$rootScope.timerRunning = true;
+				// 				getTimer = $interval(counter, interval);
+				// 			} else {
+				// 				$rootScope.timerRunning = false;
+				// 				$interval.cancel(getTimer);
+				// 			}
+				//
+				// 		};
+				//
+				// 		$rootScope.trustSrc = function(src) {
+				// 			return $sce.trustAsResourceUrl(src);
+				// 		};
+				//
+				// 		// rootScope load for user
+				// 		$rootScope.showQuestionSubmit = false;
+				// 		$rootScope.fedback = true;
+				//
+				// 		$rootScope.session = {};
+				//
+				// 		// rootScope load for lesson/tutor
+				// 		$rootScope.lessonHeight = $window.innerHeight - 10;
+				// 		$rootScope.fullScreenToggle = false;
+				// 		$rootScope.hideQuestions = false;
+				// 		$rootScope.hideQuestionIcon = 'fa-arrow-right';
+				// 		$rootScope.toggleBtnPosRight = 16;
+				// 		$rootScope.toggleFullScreenIcon = 'fa-expand';
+				// 		$rootScope.init = false;
+				//
+				// 		$rootScope.toggleFullScreen = function() {
+				// 			if (!$rootScope.fullScreenToggle) { // Launch fullscreen for browsers that support it!
+				// 				var element = document.getElementById('lesson-fullscreen');
+				// 				if (element.requestFullScreen) {
+				// 					element.requestFullScreen();
+				// 				} else if (element.mozRequestFullScreen) {
+				// 					element.mozRequestFullScreen();
+				// 				} else if (element.webkitRequestFullScreen) {
+				// 					element.webkitRequestFullScreen();
+				// 				}
+				// 				// $rootScope.lessonHeightMarginTop = '0em;';
+				// 				$rootScope.lessonHeight = '890';
+				// 				$rootScope.toggleFullScreenIcon = 'fa-compress';
+				// 				$rootScope.fullScreenToggle = true;
+				// 			} else { // Cancel fullscreen for browsers that support it!
+				// 				if (document.exitFullscreen) {
+				// 					document.exitFullscreen();
+				// 				} else if (document.mozCancelFullScreen) {
+				// 					document.mozCancelFullScreen();
+				// 				} else if (document.webkitExitFullscreen) {
+				// 					document.webkitExitFullscreen();
+				// 				}
+				// 				// $rootScope.lessonHeightMarginTop = '-1.4em;';
+				// 				$rootScope.lessonHeight = '760';
+				// 				$rootScope.toggleFullScreenIcon = 'fa-expand';
+				// 				$rootScope.fullScreenToggle = false;
+				// 			}
+				// 		};
+				//
+				// 		$rootScope.toggleQuestions = function() {
+				// 			if ($rootScope.hideQuestions) {
+				// 				$rootScope.presViewSizeMd = 'col-md-9';
+				// 				$rootScope.presViewSizeLg = 'col-lg-9';
+				// 				$rootScope.hideQuestionIcon = 'fa-arrow-right';
+				// 				$rootScope.hideQuestions = false;
+				// 				$rootScope.toggleBtnPosRight = 16;
+				//
+				// 			} else {
+				// 				$rootScope.presViewSizeMd = 'col-md-12';
+				// 				$rootScope.presViewSizeLg = 'col-lg-12';
+				// 				$rootScope.questionIconNumber = $rootScope.lesson.questions.length;
+				// 				$rootScope.hideQuestionIcon = '';
+				// 				$rootScope.hideQuestions = true;
+				// 				$rootScope.toggleBtnPosRight = 16;
+				//
+				// 			}
+				// 		};
+				// 		$rootScope.lesson = lesson;
+				//
+				// 		$timeout(function() {
+				// 			$rootScope.init = true;
+				// 		}, 5000);
+				//
+				// 		readModal = openModal({
+				// 			modal: {
+				// 				name: 'createrUserForm',
+				// 				dismissable: true,
+				// 				template: 'components/modal/views/splash.html',
+				// 				form: 'components/modal/views/lesson/preview.html',
+				// 				title: '',
+				// 				buttons: [{
+				// 					classes: 'btn-primary',
+				// 					text: 'Dismiss',
+				// 					click: function(e) {
+				// 						$rootScope.resetTimer();
+				// 						readModal.close(e);
+				// 					}
+				// 				}]
+				// 			}
+				// 		}, 'modal-primary', 'fs');
+				// 	};
+				// },
 				sessionContent: function(cb) {
 					cb = cb || angular.noop;
 					var args = Array.prototype.slice.call(arguments);
@@ -381,7 +384,7 @@ angular.module('UniQA')
 							}
 						}, 'modal-danger', 'md');
 
-						confirmModal.result.then(function() {
+						confirmModal.then(function() {
 							cb();
 						});
 					};
@@ -436,7 +439,7 @@ angular.module('UniQA')
 							}
 						}, 'modal-danger', 'md');
 
-						confirmModal.result.then(function() {
+						confirmModal.then(function() {
 							cb();
 						});
 					};
@@ -526,7 +529,7 @@ angular.module('UniQA')
 							}
 						}, 'modal-success', null);
 
-						createModal.result.then(function() {
+						createModal.then(function() {
 							cb(createdUser);
 						});
 					};
@@ -576,7 +579,7 @@ angular.module('UniQA')
 									}
 								}, 'modal-primary', 'md');
 
-								createModal.result.then(function() {
+								createModal.then(function() {
 									cb();
 								});
 							});
@@ -598,85 +601,160 @@ angular.module('UniQA')
 
 						$rootScope.formBackdrop = 'static';
 
-						$rootScope.possibleTutors = [];
-						$rootScope.selectedTutors = [{
-							user: $rootScope.me._id,
-							name: $rootScope.me.forename + ' ' + $rootScope.me.surname,
-							username: $rootScope.me.email,
-							role: $rootScope.me.role,
-							currentUser: true
-						}];
+						$rootScope.loadVegetables = function() {
+							var veggies = [{
+								'name': 'Broccoli',
+								'type': 'Brassica'
+							}, {
+								'name': 'Cabbage',
+								'type': 'Brassica'
+							}, {
+								'name': 'Carrot',
+								'type': 'Umbelliferous'
+							}, {
+								'name': 'Lettuce',
+								'type': 'Composite'
+							}, {
+								'name': 'Spinach',
+								'type': 'Goosefoot'
+							}];
 
-						$rootScope.removeTutor = function(user) {
-							for (var tutor in $rootScope.selectedTutors) {
-								if ($rootScope.selectedTutors[tutor] === user) {
-									$rootScope.selectedTutors.splice(tutor, 1);
-								}
-							}
-						};
-
-						$rootScope.checkForSubmit = function(e) {
-							// checking length to see if id has been sent through
-							if (e.keyCode === 13 || e === 'Submit' || e._id) {
-								// if name isn't on the list, break out of function
-								if ($rootScope.possibleTutors.length === 0) {
-									return;
-								} else {
-									// need to either get selected here, or select first
-									if (!($rootScope.module.tutor instanceof Object)) {
-										if (e === 'Submit') {
-											// gets index of child with active class from typeahead property
-											$rootScope.module.tutor = $rootScope.possibleTutors[angular.element(document.querySelector('[id*=\'typeahead\']')).find('.active').index()];
-										}
-									}
-								}
-
-								// only add if we have a tutor
-								if ($rootScope.module.tutor instanceof Object) {
-									$rootScope.selectedTutors.push($rootScope.module.tutor);
-									$rootScope.selectedTutors.sort(function compare(a, b) {
-										if (a.name < b.name) {
-											return -1;
-										}
-										if (a.name > b.name) {
-											return 1;
-										}
-										return 0;
-									});
-								}
-
-								$rootScope.possibleTutors = [];
-								$rootScope.module.tutor = '';
-							}
-						};
-
-						$rootScope.searchPossibleTutors = function() {
-							Module.getTutors({
-								user: $rootScope.me._id,
-								search: $rootScope.module.tutor
-							}).then(function(res) {
-								// reset before continuing
-								$rootScope.possibleTutors = [];
-								// filter through possibleTutors here, check against already existing tutors and only allow them to stay if they don't exist
-								for (var x = 0; x < res.length; x++) {
-									var isIn = false;
-									for (var y = 0; y < $rootScope.selectedTutors.length; y++) {
-										if (res[x]._id === $rootScope.selectedTutors[y].user) {
-											isIn = true;
-										}
-									}
-									if (!isIn && res[x]._id !== $rootScope.me._id) {
-										// only used internally, _id is the only referenced part in module model
-										$rootScope.possibleTutors.push({
-											user: res[x]._id,
-											name: res[x].forename + ' ' + res[x].surname,
-											email: res[x]._id,
-											role: res[x]._id
-										});
-									}
-								}
+							return veggies.map(function(veg) {
+								veg._lowername = veg.name.toLowerCase();
+								veg._lowertype = veg.type.toLowerCase();
+								return veg;
 							});
-						};
+						}
+
+						$rootScope.readonly = false;
+						$rootScope.selectedItem = null;
+						$rootScope.searchText = null;
+						$rootScope.querySearch = $rootScope.querySearch;
+						$rootScope.vegetables = $rootScope.loadVegetables();
+						$rootScope.selectedVegetables = [];
+						$rootScope.numberChips = [];
+						$rootScope.numberChips2 = [];
+						$rootScope.numberBuffer = '';
+						$rootScope.autocompleteDemoRequireMatch = true;
+						$rootScope.transformChip = $rootScope.transformChip;
+
+						/**
+						 * Return the proper object when the append is called.
+						 */
+						$rootScope.transformChip = function(chip) {
+							// If it is an object, it's already a known chip
+							if (angular.isObject(chip)) {
+								return chip;
+							}
+
+							// Otherwise, create a new one
+							return {
+								name: chip,
+								type: 'new'
+							}
+						}
+
+						/**
+						 * Search for vegetables.
+						 */
+						$rootScope.querySearch = function(query) {
+							var results = query ? $rootScope.vegetables.filter(createFilterFor(query)) : [];
+							return results;
+						}
+
+						/**
+						 * Create filter function for a query string
+						 */
+						var createFilterFor = function(query) {
+							var lowercaseQuery = angular.lowercase(query);
+
+							return function filterFn(vegetable) {
+								return (vegetable._lowername.indexOf(lowercaseQuery) === 0) ||
+									(vegetable._lowertype.indexOf(lowercaseQuery) === 0);
+							};
+
+						}
+
+						// $rootScope.possibleTutors = [];
+						// $rootScope.selectedTutors = [{
+						// 	user: $rootScope.me._id,
+						// 	name: $rootScope.me.forename + ' ' + $rootScope.me.surname,
+						// 	username: $rootScope.me.email,
+						// 	role: $rootScope.me.role,
+						// 	currentUser: true
+						// }];
+
+						// $rootScope.removeTutor = function(user) {
+						// 	for (var tutor in $rootScope.selectedTutors) {
+						// 		if ($rootScope.selectedTutors[tutor] === user) {
+						// 			$rootScope.selectedTutors.splice(tutor, 1);
+						// 		}
+						// 	}
+						// };
+						//
+						// $rootScope.checkForSubmit = function(e) {
+						// 	// checking length to see if id has been sent through
+						// 	if (e.keyCode === 13 || e === 'Submit' || e._id) {
+						// 		// if name isn't on the list, break out of function
+						// 		if ($rootScope.possibleTutors.length === 0) {
+						// 			return;
+						// 		} else {
+						// 			// need to either get selected here, or select first
+						// 			if (!($rootScope.module.tutor instanceof Object)) {
+						// 				if (e === 'Submit') {
+						// 					// gets index of child with active class from typeahead property
+						// 					$rootScope.module.tutor = $rootScope.possibleTutors[angular.element(document.querySelector('[id*=\'typeahead\']')).find('.active').index()];
+						// 				}
+						// 			}
+						// 		}
+						//
+						// 		// only add if we have a tutor
+						// 		if ($rootScope.module.tutor instanceof Object) {
+						// 			$rootScope.selectedTutors.push($rootScope.module.tutor);
+						// 			$rootScope.selectedTutors.sort(function compare(a, b) {
+						// 				if (a.name < b.name) {
+						// 					return -1;
+						// 				}
+						// 				if (a.name > b.name) {
+						// 					return 1;
+						// 				}
+						// 				return 0;
+						// 			});
+						// 		}
+						//
+						// 		$rootScope.possibleTutors = [];
+						// 		$rootScope.module.tutor = '';
+						// 	}
+						// };
+						//
+						// $rootScope.searchPossibleTutors = function() {
+						// 	Module.getTutors({
+						// 		user: $rootScope.me._id,
+						// 		search: $rootScope.module.tutor
+						// 	}).then(function(res) {
+						// 		console.info(res);
+						// 		// reset before continuing
+						// 		$rootScope.possibleTutors = [];
+						// 		// filter through possibleTutors here, check against already existing tutors and only allow them to stay if they don't exist
+						// 		for (var x = 0; x < res.length; x++) {
+						// 			var isIn = false;
+						// 			for (var y = 0; y < $rootScope.selectedTutors.length; y++) {
+						// 				if (res[x].username === $rootScope.selectedTutors[y].username) {
+						// 					isIn = true;
+						// 				}
+						// 			}
+						// 			if (!isIn && res[x]._id !== $rootScope.me._id) {
+						// 				// only used internally, _id is the only referenced part in module model
+						// 				$rootScope.possibleTutors.push({
+						// 					user: res[x]._id,
+						// 					name: res[x].forename + ' ' + res[x].surname,
+						// 					email: res[x].username,
+						// 					role: res[x].role
+						// 				});
+						// 			}
+						// 		}
+						// 	});
+						// };
 
 						// creates a unique access code everytime the modal is opened.
 						// createUniqueAccessCode();
@@ -758,7 +836,7 @@ angular.module('UniQA')
 							}
 						}, 'modal-success', 'lg');
 
-						createModal.result.then(function() {
+						createModal.then(function() {
 							cb(createdModule, $rootScope.continuing);
 						});
 					};
@@ -1070,153 +1148,54 @@ angular.module('UniQA')
 							});
 						};
 
-						createModal.result.then(function() {
+						createModal.then(function() {
 							cb(createdModule, $rootScope.continuing);
 						});
 					};
 				},
 				lesson: function(cb) {
 					cb = cb || angular.noop;
+					var createModal, createdLesson;
+					$rootScope.submitted = false;
 
 					return function() {
-						var createModal, createdLesson;
-						var me = Auth.getCurrentUser();
-						$rootScope.lesson = {
-							title: '',
-							type: 'Select Type',
-							url: '',
-							tempPreview: '',
-							desc: '',
-							collaborator: '',
-							files: []
-						};
-						// $rootScope.preview = {
-						// 	loading: false
-						// };
-
-						$rootScope.lessonTypes = [];
-						$rootScope.possibleCollaborators = [];
-						$rootScope.selectedCollaborators = [];
-						$rootScope.formBackdrop = 'static';
-
-						// get back types of lessons available
-						Thing.getByName('lessonTypes').then(function(val) {
-							$rootScope.lessonTypes = val.content;
-						});
-
-						$rootScope.lessonTypeDropdownSel = function(type) {
-							if (type === 'URL') {
-								$rootScope.lessonDescHeight = 150;
-							} else {
-								$rootScope.lessonDescHeight = 220;
-								// reset url/prev vars
-								$rootScope.lesson.url = '';
-								$rootScope.lesson.tempPreview = '';
-							}
-							$rootScope.lesson.type = type;
-						};
-
-						// stop enter key triggering DropzoneJS
-						angular.element($window).on('keydown', function(e) {
-							if (e.keyCode === 13) {
-								e.preventDefault();
-							}
-						});
-
-						$rootScope.removeCollaborator = function(user) {
-							for (var tutor in $rootScope.selectedCollaborators) {
-								if ($rootScope.selectedCollaborators[tutor] === user) {
-									$rootScope.selectedCollaborators.splice(tutor, 1);
-								}
-							}
-						};
-
-						$rootScope.searchPossibleCollaborators = function(e) {
-							// checking length to see if id has been sent through
-							if (e.keyCode === 13 || e === 'Submit' || e._id) {
-								// if name isn't on the list, break out of function
-								if ($rootScope.possibleCollaborators.length === 0) {
-									return;
-								} else {
-									// need to either get selected here, or select first
-									if (!($rootScope.lesson.collaborator instanceof Object)) {
-										if (e === 'Submit') {
-											// gets index of child with active class from typeahead property
-											$rootScope.lesson.collaborator = $rootScope.possibleCollaborators[angular.element(document.querySelector('[id*=\'typeahead\']')).find('.active').index()];
-										}
-									}
-								}
-
-								// only add if we have a collaborator
-								if ($rootScope.lesson.collaborator instanceof Object) {
-									$rootScope.selectedCollaborators.push($rootScope.lesson.collaborator);
-								}
-								$rootScope.possibleCollaborators = [];
-								$rootScope.lesson.collaborator = '';
-							} else {
-								Module.getPossibleCollabs({
-									user: me._id,
-									search: $rootScope.lesson.collaborator
-								}).then(function(res) {
-									// reset before continuing
-									$rootScope.possibleCollaborators = [];
-									// filter through possibleCollaborators here, check against already existing collaborators and only allow them to stay if they don't exist
-									for (var x = 0; x < res.collaborators.length; x++) {
-										var isIn = false;
-										for (var y = 0; y < $rootScope.selectedCollaborators.length; y++) {
-											if (res.collaborators[x]._id === $rootScope.selectedCollaborators[y]._id) {
-												isIn = true;
-											}
-										}
-										if (!isIn) {
-											$rootScope.possibleCollaborators.push(res.collaborators[x]);
-										}
-									}
-								});
-							}
-
-						};
-
 						createModal = openModal({
 							modal: {
 								name: 'createrUserForm',
+								controller: 'LessonCreateModalCtrl',
 								dismissable: true,
-								backdrop: $rootScope.formBackdrop,
 								form: 'components/modal/views/lesson/create.html',
-								title: 'Create Lesson',
+								title: 'Creating Lesson...',
 								buttons: [{
 									classes: 'btn-default',
 									text: 'Cancel',
 									click: function(e) {
 										$rootScope.submitted = false;
-										createModal.dismiss(e);
+										$mdDialog.cancel();
 									}
 								}, {
 									classes: 'btn-success',
 									text: 'Create',
 									click: function(e, form) {
 										$rootScope.submitted = true;
-										if ($rootScope.lesson.title) {
+										if (form.lesson.title) {
 											// setup vars to be sent across to API
 											var collabs = [];
 											// push each selected collaborator into array
-											for (var i = 0; i < $rootScope.selectedCollaborators.length; i++) {
+											for (var i = 0; i < form.selectedCollaborators.length; i++) {
 												collabs.push({
-													user: $rootScope.selectedCollaborators[i]._id
+													user: form.selectedCollaborators[i]._id
 												});
 											}
 
-											// set createdBy to the ID for model
-											$rootScope.lesson.author = me._id;
-
 											// remove this entry, and add the array collection
-											delete $rootScope.lesson.collaborator;
-											$rootScope.lesson.collaborators = collabs;
+											delete form.lesson.collaborator;
+											form.lesson['collaborators'] = collabs;
 
 											$rootScope.res.received = false;
 
 											Lesson.createLesson({
-													data: $rootScope.lesson
+													data: form.lesson
 												})
 												.then(function(res) {
 													createdLesson = res;
@@ -1229,14 +1208,13 @@ angular.module('UniQA')
 														// lesson created with no files, close the modal
 														$rootScope.res.received = true;
 														$rootScope.submitted = false;
-														form.$setUntouched();
-														form.$setPristine();
-														createModal.close(e);
+														// form.$setUntouched();
+														// form.$setPristine();
+														$mdDialog.hide(form.lesson);
 													}
 												})
 												.catch(function(err) {
 													$rootScope.errors = {};
-
 													$rootScope.res.received = true;
 
 													// Update validity of form fields that match the mongoose errors
@@ -1249,15 +1227,17 @@ angular.module('UniQA')
 									}
 								}]
 							}
-						}, 'modal-success', 'lg');
+						});
 
 						$rootScope.uploadSuccess = function(res) {
 							$rootScope.res.received = true;
-							createModal.close();
+							$mdDialog.hide(res);
 						};
 
-						createModal.result.then(function() {
-							cb(createdLesson);
+						createModal.then(function(res) {
+							cb(res);
+						}, function() {
+							// on err?
 						});
 					};
 				},
@@ -1354,7 +1334,7 @@ angular.module('UniQA')
 							}
 						}, 'modal-warning', null);
 
-						updateModal.result.then(function() {
+						updateModal.then(function() {
 							cb(updatedUser);
 						});
 					};
@@ -1450,7 +1430,7 @@ angular.module('UniQA')
 							}
 						}, 'modal-warning', null);
 
-						updateModal.result.then(function() {
+						updateModal.then(function() {
 							cb(updatedUser);
 						});
 					};
@@ -1528,7 +1508,7 @@ angular.module('UniQA')
 							}
 						}, 'modal-warning', 'lg');
 
-						updateModal.result.then(function() {
+						updateModal.then(function() {
 							cb(updatedLesson);
 						});
 					};
@@ -1609,7 +1589,7 @@ angular.module('UniQA')
 							}
 						}, 'modal-warning', 'md');
 
-						updateModal.result.then(function() {
+						updateModal.then(function() {
 							cb(updatedSession);
 						});
 					};
@@ -1655,7 +1635,7 @@ angular.module('UniQA')
 								}
 							}, 'modal-warning');
 
-							deleteModal.result.then(function() {
+							deleteModal.then(function() {
 								cb(null);
 							});
 						} else {
@@ -1685,7 +1665,7 @@ angular.module('UniQA')
 								}
 							}, 'modal-danger', null);
 
-							deleteModal.result.then(function() {
+							deleteModal.then(function() {
 								cb(user);
 							});
 						}
@@ -1728,7 +1708,7 @@ angular.module('UniQA')
 							}
 						}, 'modal-danger', null);
 
-						deleteModal.result.then(function() {
+						deleteModal.then(function() {
 							cb(user);
 						});
 					};
@@ -1772,7 +1752,7 @@ angular.module('UniQA')
 							}
 						}, 'modal-danger', null);
 
-						deleteModal.result.then(function() {
+						deleteModal.then(function() {
 							cb(lesson);
 						});
 

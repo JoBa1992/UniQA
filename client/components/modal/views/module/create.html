@@ -13,14 +13,28 @@
 </div>
 <div class="form-group">
   <label>Module Tutors</label>
-  <div class="input-group">
-    <input type="text" name="tutor" class="form-control" typeahead="tutor as tutor.name for tutor in possibleTutors | filter:{name:$viewValue} | limitTo:14" typeahead-on-select="searchPossibleTutors($item)" ng-change="searchPossibleTutors($event)" ng-keyup="checkForSubmit($event)" ng-model="module.tutor" required/>
+  <md-chips ng-model="selectedVegetables" md-autocomplete-snap md-transform-chip="transformChip($chip)" md-require-match="autocompleteDemoRequireMatch">
+    <md-autocomplete md-selected-item="selectedItem" md-search-text="searchText" md-items="item in querySearch(searchText)" md-item-text="item.name" placeholder="Search for a vegetable">
+      <span md-highlight-text="searchText">{{item.name}}
+        ::
+        {{item.type}}</span>
+    </md-autocomplete>
+    <md-chip-template>
+      <span>
+        <strong>{{$chip.name}}</strong>
+        <em>({{$chip.type}})</em>
+      </span>
+    </md-chip-template>
+  </md-chips>
+
+  <!-- <div class="input-group">
+    <input type="text" name="tutor" class="form-control" typeahead="tutor as tutor.fullName for tutor in possibleTutors | filter:{fullName:$viewValue} | limitTo:14" typeahead-on-select="searchPossibleTutors($item)" ng-change="searchPossibleTutors($event)" ng-keyup="checkForSubmit($event)" ng-model="module.tutor" required/>
     <div class="input-group-btn">
       <button type="button" class="btn btn-default" style="border-color:#cccccc;" ng-click="checkForSubmit('Submit')" ng-disabled="_.isEmpty(possibleTutors)">
         <i class="fa fa-plus"></i>
       </button>
     </div>
-  </div>
+  </div> -->
 </div>
 <div style="margin:0 0 1em;">
   <h3 ng-repeat="user in selectedTutors" class="label" ng-class="{'label-primary': user.currentUser, 'label-warning' : !user.currentUser} " style="display:inline-block;font-size:.9em;margin:.2em .4em .2em 0;padding:.6em;">

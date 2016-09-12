@@ -2,37 +2,37 @@
   <div class="row">
     <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6" ng-class="{ 'has-success': form.name.$valid && submitted,'has-error': form.name.$invalid && submitted }">
       <label>Title</label>
-      <input type="text" name="name" class="form-control" ng-model="lesson.title" placeholder="My Lesson" required mongoose-error>
+      <input type="text" name="name" class="form-control" ng-model="form.lesson.title" placeholder="My Lesson" md-autofocus required mongoose-error>
       <p class="help-block" ng-show="form.name.$error.required && submitted">Lesson must have a name</p>
       <p class="help-block" name="titleVal" ng-show="form.name.$error.mongoose">{{ errors.name }}</p>
     </div>
     <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6" style="clear:left;" ng-class="{ 'has-success': form.createdBy.$valid && submitted,'has-error': form.createdBy.$invalid && submitted }">
       <label>Type</label>
-      <md-select ng-model="lesson.type" placeholder="Select one" class="md-no-underline" style="margin-top:5px;margin-bottom:10px;">
+      <md-select ng-model="form.lesson.type" placeholder="Select one" class="md-no-underline" style="margin-top:5px;margin-bottom:10px;">
         <md-option ng-value="type" ng-repeat="type in lessonTypes">{{ type }}</md-option>
       </md-select>
       <p class="help-block" ng-show="form.createdBy.$error.required && submitted">Something was not right there.</p>
       <p class="help-block" name="createdByVal" ng-show="form.createdBy.$error.mongoose">{{ errors.createdBy }}</p>
     </div>
-    <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6" ng-if="lesson.type == 'URL'" ng-class="{ 'has-success': form.createdBy.$valid && submitted,'has-error': form.createdBy.$invalid && submitted }">
+    <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6" ng-if="form.lesson.type == 'URL'" ng-class="{ 'has-success': form.createdBy.$valid && submitted,'has-error': form.createdBy.$invalid && submitted }">
       <label>URL</label>
       <div class="input-group input-group-md">
         <span class="input-group-addon" id="sizing-addon1">http://</span>
-        <input type="text" class="form-control" placeholder="www.myslideshow.com" aria-describedby="sizing-addon1" ng-model="lesson.url" ng-blur="genPreview()" mongoose-error>
+        <input type="text" class="form-control" placeholder="www.myslideshow.com" aria-describedby="sizing-addon1" ng-model="form.lesson.url" ng-blur="genPreview()" mongoose-error>
       </div>
       <p class="help-block" ng-show="form.createdBy.$error.required && submitted">Something was not right there.</p>
       <p class="help-block" name="createdByVal" ng-show="form.createdBy.$error.mongoose">{{ errors.createdBy }}</p>
     </div>
     <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-class="{'has-success': form.desc.$valid && submitted,'has-error': form.desc.$invalid && submitted }">
       <label>Lecture Description</label>
-      <textarea class="form-control" name="desc" rows="2" ng-model="lesson.desc" style="max-height:200px;max-width:100%;" placeholder="optional" required mongoose-error></textarea>
+      <textarea class="form-control" name="desc" rows="2" ng-model="form.lesson.desc" style="max-height:140px;max-width:100%;" placeholder="optional" required mongoose-error></textarea>
       <p class="help-block" ng-show="form.desc.$error.required && submitted">Lecture must have a description</p>
       <p class="help-block" name="descVal" ng-show="form.desc.$error.mongoose">{{ errors.desc }}</p>
     </div>
     <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-class="{ 'has-success': form.qActAllowance.$valid && submitted,'has-error': (form.qActAllowance.$invalid && submitted) || (form.qActAllowance < 0) || (form.qActAllowance > 60) }">
       <label>Collaborators</label>
       <div class="input-group">
-        <input type="text" class="form-control" placeholder="e.g. Brian Smith" ng-model="lesson.collaborator" typeahead="tutor as tutor.name for tutor in possibleCollaborators | filter:{name:$viewValue} | limitTo:10" typeahead-on-select="searchPossibleCollaborators($item)" ng-keyup="searchPossibleCollaborators($event)">
+        <input type="text" class="form-control" placeholder="e.g. Brian Smith" ng-model="form.lesson.collaborator" typeahead="tutor as tutor.name for tutor in possibleCollaborators | filter:{name:$viewValue} | limitTo:10" typeahead-on-select="searchPossibleCollaborators($item)" ng-keyup="searchPossibleCollaborators($event)">
         <div class="input-group-btn">
           <button type="button" class="btn btn-default" style="border-color:#cccccc;" ng-click="searchPossibleCollaborators('Submit')">
             <i class="fa fa-plus"></i>

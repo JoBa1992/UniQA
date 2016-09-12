@@ -1,19 +1,32 @@
-<div class="modal-header">
-  <button ng-if="modal.dismissable" type="button" ng-click="$dismiss()" class="close">&times;</button>
-  <h4 ng-if="modal.title" bind-unsafe-html="modal.title" class="modal-title"></h4>
-</div>
-<form class="form" name="form" novalidate data-backdrop="static">
-  <div ng-if="!res.received">
-    <div class="loading">
-      <i class="fa fa-refresh fa-5x fa-spin"></i>
-    </div>
-  </div>
+<md-dialog aria-label="{{modal.title}}">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2 ng-if="modal.title" bind-unsafe-html="modal.title" style="color:white;"></h2>
+        <span flex></span>
+        <md-button ng-if="modal.dismissable" class="md-icon-button" ng-click="cancel($event)">
+          <i class="fa fa-times" aria-label="Close dialog"></i>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div ng-if="!res.received">
+        <div class="loading">
+          <i class="fa fa-refresh fa-5x fa-spin"></i>
+        </div>
+      </div>
+      <div class="md-dialog-content">
+        <p ng-if="modal.text" ng-bind="modal.text"></p>
+        <ng-include src="modal.form"></ng-include>
+      </div>
+    </md-dialog-content>
 
-  <div class="modal-body">
-    <p ng-if="modal.text" ng-bind="modal.text"></p>
-    <ng-include src="modal.form"></ng-include>
-  </div>
-  <div ng-if="modal.footer !== false" class="modal-footer">
-    <button ng-repeat="button in modal.buttons" ng-class="button.classes" ng-click="button.click($event, form)" bind-unsafe-html="button.text" class="btn"></button>
-  </div>
-</form>
+    <md-dialog-actions layout="row" ng-if="modal.footer !== false">
+      <span flex></span>
+      <md-dialog-actions layout="row" ng-if="modal.footer !== false">
+        <span flex></span>
+        <md-button ng-repeat="button in modal.buttons" ng-click="button.click($event, form)" bind-unsafe-html="button.text" aria-label="button.text"></md-button>
+      </md-dialog-actions>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

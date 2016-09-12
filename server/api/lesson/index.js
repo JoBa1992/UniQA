@@ -36,7 +36,7 @@ var router = express.Router();
 
 router.get('/', controller.index);
 router.post('/', auth.isAuthenticated(), controller.create);
-router.post('/:id/files', auth.isAuthenticated(), upload.any(), controller.attachFiles);
+router.post('/:id/files', upload.any(), controller.attachFiles);
 router.put('/:id', auth.isAuthenticated(), controller.update);
 router.delete('/:id', auth.isAuthenticated(), controller.destroy);
 router.get('/:id', auth.isAuthenticated(), controller.show);
