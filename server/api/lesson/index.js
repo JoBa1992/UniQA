@@ -34,14 +34,14 @@ var config = require('../../config/environment');
 
 var router = express.Router();
 
-router.get('/', controller.index);
-router.post('/', controller.create);
-router.post('/:id/files', upload.any(), controller.attachFiles);
-router.put('/:id', controller.update);
-router.delete('/:id', controller.destroy);
-router.get('/:id', controller.show);
-router.patch('/:id', controller.update);
-router.post('/:id/clone', controller.clone);
+// router.get('/', controller.index);
+// router.post('/', controller.create);
+// router.post('/:id/files', upload.any(), controller.attachFiles);
+// router.put('/:id', controller.update);
+// router.delete('/:id', controller.destroy);
+// router.get('/:id', controller.show);
+// router.patch('/:id', controller.update);
+// router.post('/:id/clone', controller.clone);
 
 router.get('/', auth.isAuthenticated(), controller.index);
 router.post('/', auth.isAuthenticated(), controller.create);

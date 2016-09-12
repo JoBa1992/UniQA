@@ -106,7 +106,11 @@ var SessionSchema = new Schema({
 		file: {
 			type: Schema.Types.ObjectId
 		}
-	}]
+	}],
+	deleted: {
+		type: Boolean,
+        default: false
+	}
 });
 
 module.exports = mongoose.model('Session', SessionSchema);

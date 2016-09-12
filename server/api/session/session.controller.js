@@ -135,6 +135,7 @@ exports.index = function(req, res) {
 		.populate('questions.asker')
 		.populate('feedback.user')
 		.populate('modules.module')
+		.where('deleted', false)
 		.sort(order)
 		.skip((page - 1) * paginate)
 		.limit(paginate)
@@ -326,6 +327,7 @@ exports.show = function(req, res) {
 		.populate('registered.user')
 		.populate('questions.asker')
 		.populate('modules.module')
+		.where('deleted', false)
 		.exec(function(err, session) {
 			if (err) {
 				return handleError(res, err);
@@ -629,6 +631,42 @@ exports.update = function(req, res) {
 		}
 		var updated = _.merge(session, req.body);
 		updated.save(function(err) {
+			if (err) {
+				return handleError(res, err);
+			}
+			return res.status(200).json(session);
+		});
+	});
+};
+
+exports.undoDelete = function(req, res) {
+	Session.findById(req.params.id, function(err, session) {
+		if (err) {
+			return handleError(res, err);
+		}
+		if (!session) {
+			return res.status(404).send('Not Found');
+		}
+		session.deleted = false;
+		session.save(function(err) {
+			if (err) {
+				return handleError(res, err);
+			}
+			return res.status(200).json(session);
+		});
+	});
+};
+
+exports.softDelete = function(req, res) {
+	Session.findById(req.params.id, function(err, session) {
+		if (err) {
+			return handleError(res, err);
+		}
+		if (!session) {
+			return res.status(404).send('Not Found');
+		}
+		session.deleted = true;
+		session.save(function(err) {
 			if (err) {
 				return handleError(res, err);
 			}
