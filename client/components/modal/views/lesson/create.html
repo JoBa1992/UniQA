@@ -25,11 +25,15 @@
     </div>
     <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-class="{'has-success': form.desc.$valid && submitted,'has-error': form.desc.$invalid && submitted }">
       <label>Lecture Description</label>
-      <textarea class="form-control" name="desc" rows="2" ng-model="form.lesson.desc" style="max-height:140px;max-width:100%;" placeholder="optional" required mongoose-error></textarea>
+      <textarea class="form-control" name="desc" rows="2" ng-model="form.lesson.desc" style="max-height:140px;min-width:100%;max-width:100%;" placeholder="optional" required mongoose-error></textarea>
       <p class="help-block" ng-show="form.desc.$error.required && submitted">Lecture must have a description</p>
       <p class="help-block" name="descVal" ng-show="form.desc.$error.mongoose">{{ errors.desc }}</p>
     </div>
-    <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-class="{ 'has-success': form.qActAllowance.$valid && submitted,'has-error': (form.qActAllowance.$invalid && submitted) || (form.qActAllowance < 0) || (form.qActAllowance > 60) }">
+    <md-content class="md-padding autocomplete" layout="column" style="clear:both;margin-bottom:1.2em;">
+      <label>Collaborators</label>
+      <md-contact-chips ng-model="form.selectedCollaborators" md-contacts="delayedQuerySearch($query)" md-contact-name="fullName" md-contact-image="image" md-contact-email="username" md-require-match="true" md-highlight-flags="i" filter-selected="filterSelected" placeholder="Tutor name"></md-contact-chips>
+    </md-content>
+    <!-- <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-class="{ 'has-success': form.qActAllowance.$valid && submitted,'has-error': (form.qActAllowance.$invalid && submitted) || (form.qActAllowance < 0) || (form.qActAllowance > 60) }">
       <label>Collaborators</label>
       <div class="input-group">
         <input type="text" class="form-control" placeholder="e.g. Brian Smith" ng-model="form.lesson.collaborator" typeahead="tutor as tutor.name for tutor in possibleCollaborators | filter:{name:$viewValue} | limitTo:10" typeahead-on-select="searchPossibleCollaborators($item)" ng-keyup="searchPossibleCollaborators($event)">
@@ -49,7 +53,7 @@
       </div>
       <p class="help-block" ng-show="(form.qActAllowance.$error.minlength || form.qActAllowance.$error.required) && (form.qActAllowance < 0) || (form.qActAllowance > 60) && submitted">Must be between 0 and 60</p>
       <p class="help-block" ng-show="form.qActAllowance.$error.mongoose">{{ errors.qActAllowance }}</p>
-    </div>
+    </div> -->
     <form>
       <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-class="{ 'has-success': form.qActAllowance.$valid && submitted,'has-error': (form.qActAllowance.$invalid && submitted) || (form.qActAllowance < 0) || (form.qActAllowance > 60) }">
         <label>Attachments

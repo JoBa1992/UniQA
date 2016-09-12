@@ -9,7 +9,7 @@
   </md-toolbar>
   <md-list>
     <md-item ng-repeat="item in leftMenu" class="nav-item" ng-class="{active: isActive(item.link)}">
-      <a href="{{item.link}}">
+      <a href="{{item.link}}" ng-click="toggleLeftMenu()">
         <md-item-content ng-if="'isAdmin() && item.admin || isTutor() && item.tutor || isStudent() && item.student'" md-ink-ripple layout="row" layout-align="start center">
           <div class="inset nav-icon">
             <i class="fa fa-{{item.icon}} sidebar-nav-icon" aria-hidden="true"></i>

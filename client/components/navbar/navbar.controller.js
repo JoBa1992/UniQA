@@ -14,6 +14,14 @@ angular.module('UniQA')
 			return $mdSidenav('right').isOpen();
 		};
 
+		$scope.isLeftOpen = function() {
+			return $mdSidenav('left').isOpen();
+		};
+
+		$scope.toggleLeftMenu = function() {
+			$mdSidenav('left').toggle();
+		};
+
 		/**
 		 * Supplies a function that will continue to operate until the
 		 * time is up.

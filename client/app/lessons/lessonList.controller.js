@@ -5,7 +5,7 @@ angular.module('UniQA')
 		// attach lodash to scope
 		$scope._ = _;
 
-		$rootScope.pageHeadTitle = 'Lesson Management';
+		$rootScope.pageHeadTitle = 'Lesson Mgr';
 		$rootScope.showTopNav = true;
 
 		var last = {
