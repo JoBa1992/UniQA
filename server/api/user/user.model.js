@@ -37,7 +37,8 @@ var UserSchema = new Schema({
 		select: false
 	},
 	salt: {
-		type: String
+		type: String,
+		select: false
 	},
 	lastLoggedIn: Date
 });

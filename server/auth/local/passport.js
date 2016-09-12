@@ -9,7 +9,7 @@ exports.setup = function(User, config) {
 		function(username, password, done) {
 			User.findOne({
 				username: username.toLowerCase()
-			}).select('+hashedPassword').exec(function(err, user) {
+			}).select('+hashedPassword +salt').exec(function(err, user) {
 				if (err) return done(err);
 
 				if (!user) {
