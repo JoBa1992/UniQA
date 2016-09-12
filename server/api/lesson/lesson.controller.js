@@ -173,13 +173,6 @@ exports.attachFiles = function(req, res) {
 
 // Creates a new lesson in the DB.
 exports.create = function(req, res) {
-	if (req.body.data) {
-		if (req.body.data.url) {
-			// strip out http and http from request, and re-add just http
-			req.body.data.url = 'http://' +
-				req.body.data.url.split('http://').pop().split('https://').pop();
-		}
-	}
 	Lesson.create(req.body.data, function(err, lesson) {
 		if (err) {
 			console.log(err);
@@ -215,6 +208,37 @@ exports.update = function(req, res) {
 				return handleError(res, err);
 			}
 			return res.status(200).json(lesson);
+		});
+	});
+};
+
+exports.clone = function(req, res) {
+
+	Lesson.findById(req.params.id, function(err, lesson) {
+		if (err) {
+			return handleError(res, err);
+		}
+		if (!lesson) {
+			return res.status(404).send('Not Found');
+		}
+
+		var clonedLesson = new Lesson(lesson);
+		clonedLesson._id = undefined;
+
+		Lesson.create(lesson, function(err, lesson) {
+			if (err) {
+				console.log(err);
+				return handleError(res, err);
+			} else {
+				// create preview, save server side, update lesson with preview
+				// if lesson has a url, generate a preview
+				if (lesson.url) {
+					return res.json(lesson);
+				} else {
+					// else res back straight away
+					return res.status(201).json(lesson);
+				}
+			}
 		});
 	});
 };
