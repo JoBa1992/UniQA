@@ -31,6 +31,8 @@ angular.module('UniQA')
 				templateUrl: modalTemplate,
 				scope: modalScope,
 				controller: modalCtrl,
+				parent: angular.element(document.body),
+				fullscreen: modalScope.modal.fullScreen, // Only for -xs, -sm breakpoints.
 				// parent: angular.element(document.body),
 				// targetEvent: ev,
 				clickOutsideToClose: true
@@ -591,180 +593,22 @@ angular.module('UniQA')
 					return function() {
 						var createModal, createdModule;
 
-						$rootScope.me = Auth.getCurrentUser();
-
 						$rootScope.module = {
 							code: '',
 							name: '',
 							tutor: ''
 						};
 
-						$rootScope.formBackdrop = 'static';
-
-						$rootScope.loadVegetables = function() {
-							var veggies = [{
-								'name': 'Broccoli',
-								'type': 'Brassica'
-							}, {
-								'name': 'Cabbage',
-								'type': 'Brassica'
-							}, {
-								'name': 'Carrot',
-								'type': 'Umbelliferous'
-							}, {
-								'name': 'Lettuce',
-								'type': 'Composite'
-							}, {
-								'name': 'Spinach',
-								'type': 'Goosefoot'
-							}];
-
-							return veggies.map(function(veg) {
-								veg._lowername = veg.name.toLowerCase();
-								veg._lowertype = veg.type.toLowerCase();
-								return veg;
-							});
-						}
-
-						$rootScope.readonly = false;
-						$rootScope.selectedItem = null;
-						$rootScope.searchText = null;
-						$rootScope.querySearch = $rootScope.querySearch;
-						$rootScope.vegetables = $rootScope.loadVegetables();
-						$rootScope.selectedVegetables = [];
-						$rootScope.numberChips = [];
-						$rootScope.numberChips2 = [];
-						$rootScope.numberBuffer = '';
-						$rootScope.autocompleteDemoRequireMatch = true;
-						$rootScope.transformChip = $rootScope.transformChip;
-
-						/**
-						 * Return the proper object when the append is called.
-						 */
-						$rootScope.transformChip = function(chip) {
-							// If it is an object, it's already a known chip
-							if (angular.isObject(chip)) {
-								return chip;
-							}
-
-							// Otherwise, create a new one
-							return {
-								name: chip,
-								type: 'new'
-							}
-						}
-
-						/**
-						 * Search for vegetables.
-						 */
-						$rootScope.querySearch = function(query) {
-							var results = query ? $rootScope.vegetables.filter(createFilterFor(query)) : [];
-							return results;
-						}
-
-						/**
-						 * Create filter function for a query string
-						 */
-						var createFilterFor = function(query) {
-							var lowercaseQuery = angular.lowercase(query);
-
-							return function filterFn(vegetable) {
-								return (vegetable._lowername.indexOf(lowercaseQuery) === 0) ||
-									(vegetable._lowertype.indexOf(lowercaseQuery) === 0);
-							};
-
-						}
-
-						// $rootScope.possibleTutors = [];
-						// $rootScope.selectedTutors = [{
-						// 	user: $rootScope.me._id,
-						// 	name: $rootScope.me.forename + ' ' + $rootScope.me.surname,
-						// 	username: $rootScope.me.email,
-						// 	role: $rootScope.me.role,
-						// 	currentUser: true
-						// }];
-
-						// $rootScope.removeTutor = function(user) {
-						// 	for (var tutor in $rootScope.selectedTutors) {
-						// 		if ($rootScope.selectedTutors[tutor] === user) {
-						// 			$rootScope.selectedTutors.splice(tutor, 1);
-						// 		}
-						// 	}
-						// };
-						//
-						// $rootScope.checkForSubmit = function(e) {
-						// 	// checking length to see if id has been sent through
-						// 	if (e.keyCode === 13 || e === 'Submit' || e._id) {
-						// 		// if name isn't on the list, break out of function
-						// 		if ($rootScope.possibleTutors.length === 0) {
-						// 			return;
-						// 		} else {
-						// 			// need to either get selected here, or select first
-						// 			if (!($rootScope.module.tutor instanceof Object)) {
-						// 				if (e === 'Submit') {
-						// 					// gets index of child with active class from typeahead property
-						// 					$rootScope.module.tutor = $rootScope.possibleTutors[angular.element(document.querySelector('[id*=\'typeahead\']')).find('.active').index()];
-						// 				}
-						// 			}
-						// 		}
-						//
-						// 		// only add if we have a tutor
-						// 		if ($rootScope.module.tutor instanceof Object) {
-						// 			$rootScope.selectedTutors.push($rootScope.module.tutor);
-						// 			$rootScope.selectedTutors.sort(function compare(a, b) {
-						// 				if (a.name < b.name) {
-						// 					return -1;
-						// 				}
-						// 				if (a.name > b.name) {
-						// 					return 1;
-						// 				}
-						// 				return 0;
-						// 			});
-						// 		}
-						//
-						// 		$rootScope.possibleTutors = [];
-						// 		$rootScope.module.tutor = '';
-						// 	}
-						// };
-						//
-						// $rootScope.searchPossibleTutors = function() {
-						// 	Module.getTutors({
-						// 		user: $rootScope.me._id,
-						// 		search: $rootScope.module.tutor
-						// 	}).then(function(res) {
-						// 		console.info(res);
-						// 		// reset before continuing
-						// 		$rootScope.possibleTutors = [];
-						// 		// filter through possibleTutors here, check against already existing tutors and only allow them to stay if they don't exist
-						// 		for (var x = 0; x < res.length; x++) {
-						// 			var isIn = false;
-						// 			for (var y = 0; y < $rootScope.selectedTutors.length; y++) {
-						// 				if (res[x].username === $rootScope.selectedTutors[y].username) {
-						// 					isIn = true;
-						// 				}
-						// 			}
-						// 			if (!isIn && res[x]._id !== $rootScope.me._id) {
-						// 				// only used internally, _id is the only referenced part in module model
-						// 				$rootScope.possibleTutors.push({
-						// 					user: res[x]._id,
-						// 					name: res[x].forename + ' ' + res[x].surname,
-						// 					email: res[x].username,
-						// 					role: res[x].role
-						// 				});
-						// 			}
-						// 		}
-						// 	});
-						// };
-
 						// creates a unique access code everytime the modal is opened.
 						// createUniqueAccessCode();
 						createModal = openModal({
 							modal: {
-								name: 'createrModuleForm',
+								name: 'createModuleForm',
+								controller: 'ModuleCreateModalCtrl',
 								dismissable: true,
-								backdrop: $rootScope.formBackdrop,
+								fullScreen: true,
 								form: 'components/modal/views/module/create.html',
-								title: 'Creating module...',
+								title: 'Creating Module...',
 								buttons: [{
 									classes: 'btn-default',
 									text: 'Cancel',
@@ -772,42 +616,29 @@ angular.module('UniQA')
 										// reset submit state
 										$rootScope.submitted = false;
 										$rootScope.moduleAlreadyExists = false;
-										createModal.dismiss(e);
+										$mdDialog.cancel();
 									}
 								}, {
 									classes: 'btn-success',
 									text: 'Create',
 									click: function(e, form) {
 										$rootScope.submitted = true;
-										$rootScope.res.received = false;
-
-										// filter students for placeholder
-										$rootScope.importUsers = $rootScope.importUsers.filter(function(item) {
-											return (item.id !== '01234567' &&
-													item.forename !== 'John' &&
-													item.surname !== 'Smith') ||
-												item.id !== '' ||
-												item.forename !== '' ||
-												item.surname !== '';
-										});
-
-										if ($rootScope.module._id !== '' && $rootScope.module.name !== '') {
+										if (form.module.code !== '' && form.module.name !== '') {
 											Module.create({
-													_id: $rootScope.module._id,
-													name: $rootScope.module.name,
-													tutors: $rootScope.selectedTutors,
-													students: $rootScope.importUsers
+													code: form.module.code,
+													name: form.module.name,
+													tutors: form.selectedTutors
 												})
 												.then(function(res) {
-													$rootScope.res.received = true;
+													// $rootScope.res.received = true;
 													// reset submit state
 													$rootScope.submitted = false;
 													$rootScope.moduleAlreadyExists = false;
-													form.$setUntouched();
-													form.$setPristine();
-													createdModule = res;
-													// user created, close the modal
-													createModal.close(e);
+													// form.$setUntouched();
+													// form.$setPristine();
+
+													// module created, close the modal
+													$mdDialog.hide(res);
 												})
 												.catch(function(err) {
 													$rootScope.res.received = true;
@@ -815,7 +646,7 @@ angular.module('UniQA')
 
 													// if module already exists
 													if (err.code === 11000) {
-														form.id.$setValidity('mongoose', false);
+														form.code.$setValidity('mongoose', false);
 														$rootScope.moduleAlreadyExists = true;
 														// add placeholder back in if empty
 														addPlaceholderInIfEmpty();
@@ -836,8 +667,8 @@ angular.module('UniQA')
 							}
 						}, 'modal-success', 'lg');
 
-						createModal.then(function() {
-							cb(createdModule, $rootScope.continuing);
+						createModal.then(function(res) {
+							cb(res, true);
 						});
 					};
 				},

@@ -7,6 +7,7 @@ angular.module('UniQA')
 
 		$rootScope.pageHeadTitle = 'Lesson Mgr';
 		$rootScope.showTopNav = true;
+		$rootScope.pageHeadType = 'base';
 
 		var last = {
 			bottom: true,
