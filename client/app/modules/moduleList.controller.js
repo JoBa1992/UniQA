@@ -2,7 +2,7 @@
 
 angular.module('UniQA')
 	.controller('ModuleListCtrl', function($scope, $rootScope, $http, $location, Auth, Module, Modal) {
-		$rootScope.pageHeadTitle = 'Module Management';
+		$rootScope.pageHeadTitle = 'Module Mgr';
 		$rootScope.showTopNav = true;
 		$scope.noUserResults = false;
 		$scope.noExplorableResults = false;

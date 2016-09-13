@@ -1,0 +1,41 @@
+/* Individual Chip CSS */
+md-chip {
+  background: rgb(65,76,90) !important;
+}
+.md-contact-avatar {
+  margin-top: -2px;
+  margin-left: 4px;
+}
+.md-contact-avatar img {
+  width: 24px;
+  height: 24px !important;
+}
+.md-contact-name {
+  color: white;
+}
+.md-chip-remove md-icon {
+  color: white;
+}
+/* Dropdown list CSS */
+.md-contact-chips-suggestions {
+  li {
+    md-autocomplete-parent-scope {
+      .md-contact-suggestion {
+        img {
+          float: left;
+          margin-top: 10px;
+        }
+        .md-contact-name {
+          color: #999;
+          margin-top: 7px;
+          .highlight {
+            color: black;
+          }
+        }
+      }
+    }
+  }
+  li.selected {
+    background: #CCC;
+  }
+}

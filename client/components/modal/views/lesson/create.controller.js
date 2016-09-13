@@ -1,5 +1,8 @@
 angular.module('UniQA')
-	.controller('LessonCreateModalCtrl', function($scope, $window, Auth, Thing, Lesson, Modal) {
+	.controller('LessonCreateModalCtrl', function($scope, $window, $q, $timeout, Auth, Thing, Module, Modal) {
+		var pendingSearch, cancelSearch = angular.noop;
+		var cachedQuery, lastSearch;
+
 		var me = Auth.getCurrentUser();
 		$scope.form = {
 			lesson: {
@@ -12,9 +15,10 @@ angular.module('UniQA')
 				collaborator: '',
 				files: []
 			},
-			possibleCollaborators: [],
+			possibleCollaborators: loadContacts(),
 			selectedCollaborators: []
 		};
+		loadContacts();
 		$scope.lessonTypes = [];
 
 		// get back types of lessons available
@@ -41,57 +45,74 @@ angular.module('UniQA')
 			}
 		});
 
-		$scope.removeCollaborator = function(user) {
-			for (var tutor in $scope.form.selectedCollaborators) {
-				if ($scope.form.selectedCollaborators[tutor] === user) {
-					$scope.form.selectedCollaborators.splice(tutor, 1);
-				}
-			}
+		var debounceSearch = function() {
+			var now = new Date().getMilliseconds();
+			$scope.lastSearch = $scope.lastSearch || now;
+
+			return ((now - $scope.lastSearch) < 300);
 		};
 
-		$scope.searchPossibleCollaborators = function(e) {
-			// checking length to see if id has been sent through
-			if (e.keyCode === 13 || e === 'Submit' || e._id) {
-				// if name isn't on the list, break out of function
-				if ($scope.form.possibleCollaborators.length === 0) {
-					return;
-				} else {
-					// need to either get selected here, or select first
-					if (!($scope.lesson.collaborator instanceof Object)) {
-						if (e === 'Submit') {
-							// gets index of child with active class from typeahead property
-							$scope.lesson.collaborator = $scope.form.possibleCollaborators[angular.element(document.querySelector('[id*=\'typeahead\']')).find('.active').index()];
-						}
-					}
-				}
+		/**
+		 * Create filter function for a query string
+		 */
+		function createFilterFor(query) {
+			var lowercaseQuery = angular.lowercase(query);
 
-				// only add if we have a collaborator
-				if ($scope.lesson.collaborator instanceof Object) {
-					$scope.form.selectedCollaborators.push($scope.lesson.collaborator);
-				}
-				$scope.form.possibleCollaborators = [];
-				$scope.lesson.collaborator = '';
-			} else {
-				Module.getPossibleCollabs({
-					user: me._id,
-					search: $scope.lesson.collaborator
-				}).then(function(res) {
-					// reset before continuing
-					$scope.form.possibleCollaborators = [];
-					// filter through form.possibleCollaborators here, check against already existing collaborators and only allow them to stay if they don't exist
-					for (var x = 0; x < res.collaborators.length; x++) {
-						var isIn = false;
-						for (var y = 0; y < $scope.form.selectedCollaborators.length; y++) {
-							if (res.collaborators[x]._id === $scope.form.selectedCollaborators[y]._id) {
-								isIn = true;
-							}
-						}
-						if (!isIn) {
-							$scope.form.possibleCollaborators.push(res.collaborators[x]);
-						}
-					}
+			return function filterFn(contact) {
+				return (contact._lowername.indexOf(lowercaseQuery) != -1);;
+			};
+
+		}
+
+		function refreshDebounce() {
+			lastSearch = 0;
+			pendingSearch = null;
+			cancelSearch = angular.noop;
+		}
+
+		$scope.querySearch = function(criteria) {
+			cachedQuery = cachedQuery || criteria;
+			return cachedQuery ? $scope.form.possibleCollaborators.filter(createFilterFor(cachedQuery)) : [];
+		}
+
+		$scope.delayedQuerySearch = function(criteria) {
+			cachedQuery = criteria;
+			if (!pendingSearch || !debounceSearch()) {
+				cancelSearch();
+
+				return pendingSearch = $q(function(resolve, reject) {
+					// Simulate async search... (after debouncing)
+					cancelSearch = reject;
+					$timeout(function() {
+
+						resolve($scope.querySearch());
+
+						refreshDebounce();
+					}, Math.random() * 500, true)
 				});
 			}
 
-		};
+			return pendingSearch;
+		}
+
+		function loadContacts() {
+			Module.getTutors({
+				user: me._id,
+				search: ''
+			}).then(function(res) {
+				$scope.form.possibleCollaborators = res.map(function(c, index) {
+					var contact = {
+						_id: c._id,
+						role: c.role,
+						fullName: c.forename + ' ' + c.surname,
+						email: c.username.toLowerCase(),
+						image: '/assets/images/placeholders/profile.jpg'
+					};
+					contact._lowername = contact.fullName.toLowerCase();
+					return contact;
+				});
+			}).catch(function(err) {
+				$scope.form.possibleCollaborators = [];
+			});
+		}
 	});
