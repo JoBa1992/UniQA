@@ -164,12 +164,4 @@ angular.module('UniQA')
 		// 	Auth.logout();
 		// 	$location.path('/');
 		// };
-
-		//
-		// $scope.isRoot = function() {
-		// 	if ($location.path() === '/') {
-		// 		return 'navbar-inverse';
-		// 	}
-		// 	return 'navbar-default';
-		// };
 	});

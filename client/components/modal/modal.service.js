@@ -995,6 +995,7 @@ angular.module('UniQA')
 								name: 'createrUserForm',
 								controller: 'LessonCreateModalCtrl',
 								dismissable: true,
+								fullScreen: true,
 								form: 'components/modal/views/lesson/create.html',
 								title: 'Creating Lesson...',
 								buttons: [{
@@ -1568,16 +1569,14 @@ angular.module('UniQA')
 									text: 'Cancel',
 									click: function(e) {
 										$rootScope.submitted = false;
-										deleteModal.dismiss(e);
+										$mdDialog.cancel();
 									}
 								}, {
 									classes: 'btn-danger',
 									text: 'Delete',
 									click: function(e, form) {
 										$rootScope.submitted = false;
-										form.$setUntouched();
-										form.$setPristine();
-										deleteModal.close(e);
+										$mdDialog.hide(e);
 									}
 								}]
 							}

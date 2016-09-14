@@ -6,7 +6,7 @@
   </h2>
   <md-content ng-repeat-end class="md-padding" layout-xs="column" layout="row" style="margin-bottom:3em;">
     <div ng-repeat="lesson in module" layout="column" style="padding-bottom:1em">
-      <md-card class="lesson-card" style="width:315px;">
+      <md-card class="lesson-card" style="min-width:260px;">
         <md-card-title>
           <md-card-title-text>
             <span class="md-headline">{{lesson.title}}</span>
@@ -75,7 +75,7 @@
   </h2>
   <md-content class="md-padding" layout-xs="column" layout="row" style="margin-bottom:3em;">
     <div ng-repeat="lesson in lessonsWithoutModules" layout="column" style="padding-bottom:1em">
-      <md-card class="lesson-card" style="width:315px;">
+      <md-card class="lesson-card" style="min-width:260px;">
         <md-card-title>
           <md-card-title-text>
             <span class="md-headline">{{lesson.title}}</span>

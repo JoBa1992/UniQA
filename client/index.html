@@ -23,8 +23,8 @@
     <link rel="stylesheet" href="bower_components/angular-bootstrap-datetimepicker/src/css/datetimepicker.css"/>
     <!-- build:css(client) app/vendor.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/dropzone/downloads/css/dropzone.css" />
-    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+    <link rel="stylesheet" href="bower_components/dropzone/downloads/css/dropzone.css"/>
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css"/>
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
@@ -38,20 +38,23 @@
   <body ng-app="UniQA">
     <!--[if lt IE 7]> <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p> <![endif]-->
 
-    <div ng-controller="NavbarCtrl" layout="row" layout-fill ng-cloak="" class="sidenavdemoBasicUsage" style="overflow: auto;">
+    <div ng-controller="NavbarCtrl" layout="row" layout-fill ng-cloak="" class="sidenavdemoBasicUsage">
+      <div ng-if="!isLoggedIn()" ng-include="'app/account/login/login.html'" ng-controller="LoginCtrl">
+        Peanuts
+      </div>
+      <div ng-show="isLoggedIn()" ng-include="'components/navbar/navbar.html'"></div>
 
-      <ng-include src="'components/navbar/navbar.html'"></ng-include>
-
-      <div flex layout="column">
+      <div ng-show="isLoggedIn()" flex layout="column">
         <!-- Sticky header toolbar -->
 
         <div ng-controller="PageHeaderCtrl">
-          <ng-include src="'components/page-header/page-header.html'"></ng-include>
+          <div ng-include="'components/page-header/page-header.html'"></div>
         </div>
+
         <!-- Main Content with scrolling content -->
-        <div layout="row" style="overflow: auto;">
+        <div layout="row">
           <md-content flex layout-padding="">
-            <div flex="" ui-view=""></div>
+            <div ui-view=""></div>
           </md-content>
         </div>
 
