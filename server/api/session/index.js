@@ -17,7 +17,7 @@ router.put('/:id', auth.isAuthenticated(), controller.update);
 router.delete('/:id/permDelete', auth.isAuthenticated(), controller.destroy);
 router.delete('/:id', auth.isAuthenticated(), controller.softDelete);
 router.get('/:id', auth.isAuthenticated(), controller.show);
-router.post('/:id/undoDelete', auth.isAuthenticated(), controller.undoDelete);
+router.put('/:id/undoDelete', controller.undoDelete);
 
 router.get('/:id/question', auth.isAuthenticated(), controller.getQuestions);
 router.post('/:id/question', auth.isAuthenticated(), controller.addQuestion);
