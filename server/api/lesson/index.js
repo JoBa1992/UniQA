@@ -47,8 +47,10 @@ router.get('/', auth.isAuthenticated(), controller.index);
 router.post('/', auth.isAuthenticated(), controller.create);
 router.post('/:id/files', upload.any(), controller.attachFiles);
 router.put('/:id', auth.isAuthenticated(), controller.update);
-router.delete('/:id', auth.isAuthenticated(), controller.destroy);
+router.delete('/:id/permDelete', auth.isAuthenticated(), controller.destroy);
+router.delete('/:id', auth.isAuthenticated(), controller.softDelete);
 router.get('/:id', auth.isAuthenticated(), controller.show);
+router.put('/:id/undoDelete', auth.isAuthenticated(), controller.undoDelete);
 router.patch('/:id', auth.isAuthenticated(), controller.update);
 router.post('/:id/clone', auth.isAuthenticated(), controller.clone);
 

@@ -54,6 +54,10 @@ var LessonSchema = new Schema({
 	type: {
         type: String
     },
+	deleted: {
+		type: Boolean,
+        default: false
+	}
 });
 
 module.exports = mongoose.model('Lesson', LessonSchema);

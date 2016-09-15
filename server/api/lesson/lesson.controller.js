@@ -92,6 +92,7 @@ exports.index = function(req, res) {
 		.populate('author')
 		.populate('collaborators.user')
 		.populate('module')
+		.where('deleted', false)
 		.sort('module')
 		.lean()
 		.exec(function(err, lessons) {
@@ -121,7 +122,7 @@ exports.index = function(req, res) {
 
 // Get a single lesson
 exports.show = function(req, res) {
-	Lesson.findById(req.params.id, function(err, lesson) {
+	Lesson.findById(req.params.id).where('deleted', false).exec(function(err, lesson) {
 		if (err) {
 			return handleError(res, err);
 		}
@@ -240,6 +241,42 @@ exports.clone = function(req, res) {
 					return res.status(201).json(lesson);
 				}
 			}
+		});
+	});
+};
+
+exports.undoDelete = function(req, res) {
+	Lesson.findById(req.params.id, function(err, lesson) {
+		if (err) {
+			return handleError(res, err);
+		}
+		if (!lesson) {
+			return res.status(404).send('Not Found');
+		}
+		lesson.deleted = false;
+		lesson.save(function(err) {
+			if (err) {
+				return handleError(res, err);
+			}
+			return res.status(200).json(lesson);
+		});
+	});
+};
+
+exports.softDelete = function(req, res) {
+	Lesson.findById(req.params.id, function(err, lesson) {
+		if (err) {
+			return handleError(res, err);
+		}
+		if (!lesson) {
+			return res.status(404).send('Not Found');
+		}
+		lesson.deleted = true;
+		lesson.save(function(err) {
+			if (err) {
+				return handleError(res, err);
+			}
+			return res.status(200).json(lesson);
 		});
 	});
 };
