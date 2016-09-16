@@ -1,7 +1,12 @@
 <div class="body-min-height">
   <div class="row" style="margin:0;">
     <md-content>
-      <md-tabs md-dynamic-height md-border-bottom>
+      <div style="float:right;text-align:center;">
+        <md-button class="md-button md-primary md-raised" aria-label="Favorite" ng-click="openCreateModal()">
+          <span style="color:white;">Create</span>
+        </md-button>
+      </div>
+      <md-tabs md-dynamic-height md-border-bottom style="clear:both;">
         <md-tab label="Your modules">
           <md-content class="md-padding">
             <div class="row module-row" ng-repeat="module in userModules" ng-click="routeToModuleChild(module._id)">

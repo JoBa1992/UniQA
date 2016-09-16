@@ -6,12 +6,12 @@ md-toolbar {
 .nav-item {
   a {
     text-decoration: none !important;
-    font-weight: 500;
-    font-size: 1.2em;
+    font-weight: bold;
+    color: #757575;
     md-item-content {
       margin: 0.2em 0;
       position: relative;
-      padding-left: 1em;
+      padding-left: 0.8em;
       padding-right: 1em;
       .nav-icon {
         width: 34px;
@@ -22,10 +22,10 @@ md-toolbar {
 .nav-item.active a md-item-content,
 .nav-item.active a md-item-content,
 .nav-item:hover a md-item-content {
-  color: #FFF;
+  color: #82AECC;
   -webkit-box-shadow: inset 3px 0 0 0 #82AECC;
   box-shadow: inset 3px 0 0 0 #82AECC;
-  background-color: darken(#343D48,2%);
+  // background-color: darken(#343D48,2%);
 }
 md-sidenav {
   fill: #737373;
@@ -79,18 +79,18 @@ md-sidenav {
 // .sidebar-nav-icon {
 //   margin-right: 14px;
 // }
-// .nav-badge {
-//   text-indent: 0;
-//   position: absolute;
-//   padding-left: 0.9em;
-//   padding-right: 0.9em;
-//   top: 11px;
-//   right: 18px;
-//   background-color: #82AECC;
-// }
+.nav-badge {
+  text-indent: 0;
+  position: absolute;
+  padding-left: 0.9em;
+  padding-right: 0.9em;
+  top: 11px;
+  right: 18px;
+  background-color: #82AECC;
+}
 .sidebar-footer {
   position: absolute;
-  border-top: 1px solid lighten(#343D48,2%);
+  border-top: 1px solid #ECECEC;
   left: 0;
   bottom: 0;
   right: 0;
@@ -144,7 +144,7 @@ md-sidenav {
   /* make it responsive */
   max-width: 44px;
   width: 44px;
-  margin-left: 0;
+  margin-left: 0.5em;
 }
 .sidebar-footer-toggle,
 .sidebar-footer-toggle-min {
@@ -161,7 +161,8 @@ md-sidenav {
   outline: none;
 }
 .sidebar-footer-toggle:hover {
-  background-color: lighten(#343D48,12%);
+  background-color: #82AECC;
+  color: white;
 }
 // /*==========  Mobile First Method  ==========*/
 // /* Custom, iPhone Retina */
@@ -212,7 +213,7 @@ md-sidenav {
     font-weight: 300;
     line-height: 1;
     margin: 1.2em 0.4em;
-    color: white;
+    color: #7B7B7B;
   }
 }
 /* Medium Devices, Desktops */
@@ -223,7 +224,7 @@ md-sidenav {
     font-weight: 300;
     line-height: 1;
     margin: 1.1em 0.4em;
-    color: white;
+    color: #7B7B7B;
   }
 }
 /* Large Devices, Wide Screens */
@@ -236,19 +237,19 @@ md-sidenav {
     font-size: 1.1em;
     font-weight: 300;
     line-height: 1;
-    margin: 1em 0.4em;
-    color: white;
+    margin: 1.2em 0.4em;
+    color: #7B7B7B;
   }
 }
 /* Medium Devices, Desktops */
 @media only screen and (max-width : 992px) {
   .sidebar-avatar-username {
     float: left;
-    font-size: 0.9em;
+    font-size: 1.1em;
     font-weight: 300;
     line-height: 1;
-    margin: 1.6em 0.4em;
-    color: white;
+    margin: 1em 0.4em;
+    color: #999;
   }
 }
 /* Small Devices, Tablets */

@@ -1,5 +1,10 @@
 <div class="body-min-height">
 
+  <div style="float:right;text-align:center;">
+    <md-button class="md-button md-primary md-raised" aria-label="Favorite" ng-click="openCreateModal()">
+      <span style="color:white;">Add</span>
+    </md-button>
+  </div>
   <h2 ng-repeat-start="(key,module) in moduleLessons" ng-if="$index === 0 || (key !== moduleLessons[$index-1].module.name)" style="clear:both;">
     {{key}}
     <hr></hr>
@@ -48,17 +53,6 @@
               </md-menu-item>
             </md-menu-content>
           </md-menu>
-          <!--
-          <md-button class="md-icon-button lesson-action-button" aria-label="Clone">
-            <i class="fa fa-ellipsis-h" aria-hidden="true" style="font-size:1.5em;color:#757575;"></i>
-          </md-button>
-          -->
-          <!-- <md-button class="md-icon-button lesson-action-button" aria-label="Delete" ng-click="openDeleteModal(lesson)">
-            <i class="fa fa-trash-o" aria-hidden="true" style="font-size:1.4em;color:#757575;"></i>
-            <md-tooltip md-autohide="true" md-direction="top" class="tooltip-md">
-              Delete
-            </md-tooltip>
-          </md-button> -->
           <md-button class="md-icon-button lesson-action-button" aria-label="Share">
             <i class="fa fa-share" aria-hidden="true" style="font-size:1.3em;color:#757575;"></i>
             <md-tooltip md-autohide="true" md-direction="top" class="tooltip-md">
@@ -117,12 +111,6 @@
               </md-menu-item>
             </md-menu-content>
           </md-menu>
-          <!-- <md-button class="md-icon-button lesson-action-button" aria-label="Delete" ng-click="openDeleteModal(lesson)">
-              <i class="fa fa-trash-o" aria-hidden="true" style="font-size:1.4em;color:#757575;"></i>
-              <md-tooltip md-autohide="true" md-direction="top" class="tooltip-md">
-                Delete
-              </md-tooltip>
-            </md-button> -->
           <md-button class="md-icon-button lesson-action-button" aria-label="Share">
             <i class="fa fa-share" aria-hidden="true" style="font-size:1.3em;color:#757575;"></i>
             <md-tooltip md-autohide="true" md-direction="top" class="tooltip-md">
@@ -135,29 +123,6 @@
   </md-content>
 </div>
 
-<!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" style="height:300px;" ng-repeat="lesson in lessons">
-      <div class="lesson-container">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="position:relative;">
-          <h4 class="" style="margin:1em 0;">{{lesson.title}}</h4>
-          <h5 style="font-size:.8em;">Author:
-            <a class="text-primary">{{lesson.author.forename}}&nbsp;{{lesson.author.surname}}</a>
-          </h5>
-          <h5 style="font-size:.8em;" class="" ng-if="!_.isEmpty(lesson.collaborators)">Collaborators:
-            <a class="text-primary" ng-repeat="collab in lesson.collaborators">{{collab.user.forename}}&nbsp;{{collab.user.surname}}
-              <span ng-if="!$last">,</span>
-            </a>
-          </h5>
-          <div style="position:absolute;bottom:-3em;left:.8em;" ng-if="!_.isEmpty(lesson.attachments)">
-            <h5 ng-repeat="item in lesson.attachments" tooltip="{{item.filename}}" tooltip-trigger tooltip-animation="false" tooltip-placement="top" style="margin:0 .4em;text-decoration:none;display:inline-block;">
-              <i class="fa fa-{{item.type}}-o fa-2x"></i>
-            </h5>
-          </div>
-        </div>
-      </div>
-    </div> -->
-<!-- <div ng-if="!$last" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin:2em 0;">
-      <hr class="resource-hr">
-    </div> -->
 <!-- FOOTER -->
 <div ng-include="'components/footer/footer.html'"></div>
 <!-- /FOOTER -->

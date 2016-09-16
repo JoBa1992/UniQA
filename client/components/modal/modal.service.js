@@ -367,6 +367,7 @@ angular.module('UniQA')
 							modal: {
 								name: 'leaveSessionForm',
 								dismissable: true,
+								sizePercent: 30,
 								form: 'components/modal/views/session/leave.html',
 								title: 'Leaving Session',
 								buttons: [{
@@ -605,6 +606,7 @@ angular.module('UniQA')
 							modal: {
 								name: 'createModuleForm',
 								controller: 'ModuleCreateModalCtrl',
+								sizePercent: 70,
 								dismissable: true,
 								fullScreen: true,
 								form: 'components/modal/views/module/create.html',
@@ -819,6 +821,7 @@ angular.module('UniQA')
 						createModal = openModal({
 							modal: {
 								name: 'createrModuleForm',
+								sizePercent: 70,
 								dismissable: true,
 								backdrop: $rootScope.formBackdrop,
 								form: 'components/modal/views/module/create.html',
@@ -994,6 +997,7 @@ angular.module('UniQA')
 							modal: {
 								name: 'createrUserForm',
 								controller: 'LessonCreateModalCtrl',
+								sizePercent: 70,
 								dismissable: true,
 								fullScreen: true,
 								form: 'components/modal/views/lesson/create.html',
@@ -1452,6 +1456,7 @@ angular.module('UniQA')
 								modal: {
 									name: 'deleteUserForm',
 									dismissable: true,
+									sizePercent: 30,
 									title: 'Warning',
 									form: 'components/modal/views/user/cannot-delete.html',
 									buttons: [{
@@ -1475,6 +1480,7 @@ angular.module('UniQA')
 								modal: {
 									name: 'deleteConf',
 									dismissable: true,
+									sizePercent: 30,
 									title: 'Confirm Delete',
 									form: 'components/modal/views/user/delete.html',
 									buttons: [{
@@ -1518,6 +1524,7 @@ angular.module('UniQA')
 							modal: {
 								name: 'deleteConf',
 								dismissable: true,
+								sizePercent: 30,
 								title: 'Confirm Delete',
 								form: 'components/modal/views/module/delete.html',
 								buttons: [{
@@ -1562,6 +1569,7 @@ angular.module('UniQA')
 							modal: {
 								name: 'deleteConf',
 								dismissable: true,
+								sizePercent: 30,
 								title: 'Confirm Delete',
 								form: 'components/modal/views/lesson/delete.html',
 								buttons: [{

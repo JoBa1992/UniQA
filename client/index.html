@@ -38,19 +38,17 @@
   <body ng-app="UniQA">
     <!--[if lt IE 7]> <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p> <![endif]-->
 
-    <div ng-controller="NavbarCtrl" layout="row" layout-fill ng-cloak="" class="sidenavdemoBasicUsage">
-      <div ng-if="!isLoggedIn()" ng-include="'app/account/login/login.html'" ng-controller="LoginCtrl">
-        Peanuts
-      </div>
+    <!-- Sticky header toolbar -->
+    <div ng-controller="PageHeaderCtrl">
+      <div ng-include="'components/page-header/page-header.html'"></div>
+    </div>
+
+    <div ng-controller="NavbarCtrl" layout-fill layout="row" ng-cloak="" class="main-nav-height" style="height:calc(100% - 50px);min-height:calc(100% - 50px);">
+      <!-- Safety precaution -->
+      <div ng-if="!isLoggedIn()" ng-include="'app/account/login/login.html'" ng-controller="LoginCtrl"></div>
+
       <div ng-show="isLoggedIn()" ng-include="'components/navbar/navbar.html'"></div>
-
       <div ng-show="isLoggedIn()" flex layout="column">
-        <!-- Sticky header toolbar -->
-
-        <div ng-controller="PageHeaderCtrl">
-          <div ng-include="'components/page-header/page-header.html'"></div>
-        </div>
-
         <!-- Main Content with scrolling content -->
         <div layout="row">
           <md-content flex layout-padding="">
