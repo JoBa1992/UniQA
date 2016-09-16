@@ -1,8 +1,8 @@
 <div class="body-min-height">
 
   <div style="float:right;text-align:center;">
-    <md-button class="md-button md-primary md-raised" aria-label="Favorite" ng-click="openCreateModal()">
-      <span style="color:white;">Add</span>
+    <md-button class="md-button md-raised" style="color:#7B7B7B;background-color:#F5F5F5;" aria-label="Favorite" ng-click="openCreateModal()">
+      <span style="color:#757575;font-weight:600;">Add</span>
     </md-button>
   </div>
   <h2 ng-repeat-start="(key,module) in moduleLessons" ng-if="$index === 0 || (key !== moduleLessons[$index-1].module.name)" style="clear:both;">
