@@ -11,7 +11,7 @@ angular.module('UniQA')
 			 * @param  {Function} callback - optional
 			 * @return {Promise}
 			 */
-			getOne: function(id, callback) {
+			getById: function(id, callback) {
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();
 
@@ -24,34 +24,10 @@ angular.module('UniQA')
 				}.bind(this));
 				return deferred.promise;
 			},
-			getNextFourTutor: function(id, callback) {
-				var cb = callback || angular.noop;
-				var deferred = $q.defer();
-				$http.get('/api/sessions/' + id + '/getnextfour/tutor').success(function(data) {
-					deferred.resolve(data);
-					return cb();
-				}).error(function(err) {
-					deferred.reject(err);
-					return cb(err);
-				}.bind(this));
-				return deferred.promise;
-			},
-			// getNextForStudent: function(id, callback) {
-			// 	var cb = callback || angular.noop;
-			// 	var deferred = $q.defer();
-			// 	$http.get('/api/sessions/' + id + '/getnext/student').success(function(data) {
-			// 		deferred.resolve(data);
-			// 		return cb();
-			// 	}).error(function(err) {
-			// 		deferred.reject(err);
-			// 		return cb(err);
-			// 	}.bind(this));
-			// 	return deferred.promise;
-			// },
 			createSession: function(obj, callback) {
 				var cb = callback || angular.noop;
 				var deferred = $q.defer();
-				var session = obj.data;
+				var session = obj;
 
 				$http.post('/api/sessions', session).success(function(data) {
 					deferred.resolve(data);
@@ -92,23 +68,6 @@ angular.module('UniQA')
 						order: obj.order || null //,
 							// page: obj.page,
 							// paginate: obj.paginate
-					}
-				}).success(function(data) {
-					deferred.resolve(data);
-					return cb();
-				}).error(function(err) {
-					deferred.reject(err);
-					return cb(err);
-				}.bind(this));
-				return deferred.promise;
-			},
-			getMyTotal: function(obj, callback) {
-				var cb = callback || angular.noop;
-				var deferred = $q.defer();
-
-				$http.get('/api/lectures/count', {
-					params: {
-						createdBy: obj.createdBy
 					}
 				}).success(function(data) {
 					deferred.resolve(data);

@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('UniQA')
-	.controller('ModuleListCtrl', function($rootScope, $scope, $http, $location, Auth, Module, Modal) {
-		$rootScope.pageHeadTitle = 'Module Mgr';
-		$rootScope.showTopNav = true;
-		$rootScope.pageHeadType = 'base';
+	.controller('ModuleListCtrl', function($scope, $http, $location, Auth, Module, Modal) {
+		// $rootScope.pageHeadTitle = 'Module Mgr';
+		// $rootScope.showTopNav = true;
+		// $scope.pageHeadType = 'base';
+		$scope.currentNavItem = 'userMods';
 
 		$scope.noUserResults = false;
 		$scope.noExplorableResults = false;
@@ -71,7 +72,7 @@ angular.module('UniQA')
 			$scope.moduleOption = newVal;
 		};
 
-		$rootScope.openCreateModal = Modal.create.module(function(res, continuing) {
+		$scope.openCreateModal = Modal.create.module(function(res, continuing) {
 			if (continuing) {
 				// TEMP: Attaching 0 group count to mod
 				res.modGroupStudCount = 0;

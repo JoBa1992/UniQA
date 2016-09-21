@@ -1,53 +1,58 @@
-<div class="body-min-height">
-  <div class="row" style="margin:0;">
-    <md-content>
-      <div style="float:right;text-align:center;">
-        <md-button class="md-button md-raised" style="background-color:#F5F5F5;" aria-label="Favorite" ng-click="openCreateModal()">
-          <span style="color:#757575;font-weight:600;">Create</span>
-        </md-button>
+<md-content flex layout-padding class="body-min-height">
+
+  <div flex class="col-md-12">
+    <md-button class="md-button md-raised pull-right" style="background-color:#F5F5F5;" aria-label="Favorite" ng-click="openCreateModal()">
+      <span style="color:#757575;font-weight:600;">Create</span>
+    </md-button>
+  </div>
+  <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
+    <md-nav-item md-nav-click="goto('userMods')" name="userMods">Your Modules</md-nav-item>
+    <md-nav-item md-nav-click="goto('exploreMods')" name="exploreMods">Explore Modules</md-nav-item>
+  </md-nav-bar>
+  <div ng-if="currentNavItem === 'userMods'">
+    <md-content class="md-padding">
+      <div class="row module-row" ng-repeat="module in userModules" ng-click="routeToModuleChild(module._id)">
+        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+          <h4>
+            <strong>{{module.code}}</strong>
+            <small>{{module.name}}</small>
+          </h4>
+        </div>
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 pull-right" style="text-align: right;position:relative;">
+
+          <h5 style="position:relative;">
+            <i class="fa fa-users" style="position:absolute;right:24px;top:10px;color:#555;"></i>
+            <span style="position:absolute;right:0px;top:10px;color:#555;">{{module.groupStudCount}}</span>
+          </h5>
+        </div>
       </div>
-      <md-tabs md-dynamic-height md-border-bottom style="clear:both;">
-        <md-tab label="Your modules">
-          <md-content class="md-padding">
-            <div class="row module-row" ng-repeat="module in userModules" ng-click="routeToModuleChild(module._id)">
-              <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                <h4>
-                  <strong>{{module.code}}</strong>
-                  <small>{{module.name}}</small>
-                </h4>
-              </div>
-              <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 pull-right" style="text-align: right;position:relative;">
-
-                <h5 style="position:relative;">
-                  <i class="fa fa-users" style="position:absolute;right:24px;top:10px;color:#555;"></i>
-                  <span style="position:absolute;right:0px;top:10px;color:#555;">{{module.groupStudCount}}</span>
-                </h5>
-              </div>
-            </div>
-          </md-content>
-        </md-tab>
-        <md-tab label="Explore Modules">
-          <md-content class="md-padding">
-            <div class="row module-row" ng-repeat="module in explorableModules" ng-click="routeToModuleChild(module._id)">
-              <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                <h4>
-                  <strong>{{module.code}}</strong>
-                  <small>{{module.name}}</small>
-                </h4>
-              </div>
-              <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 pull-right" style="text-align: right;position:relative;">
-
-                <h5 style="position:relative;">
-                  <i class="fa fa-users" style="position:absolute;right:24px;top:10px;color:#555;"></i>
-                  <span style="position:absolute;right:0px;top:10px;color:#555;">{{module.groupStudCount}}</span>
-                </h5>
-              </div>
-            </div>
-          </md-content>
-        </md-tab>
-      </md-tabs>
     </md-content>
   </div>
-</div>
+  <div ng-if="currentNavItem === 'exploreMods'">
+    <md-content class="md-padding">
+      <div class="row module-row" ng-repeat="module in explorableModules" ng-click="routeToModuleChild(module._id)">
+        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+          <h4>
+            <strong>{{module.code}}</strong>
+            <small>{{module.name}}</small>
+          </h4>
+        </div>
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 pull-right" style="text-align: right;position:relative;">
+
+          <h5 style="position:relative;">
+            <i class="fa fa-users" style="position:absolute;right:24px;top:10px;color:#555;"></i>
+            <span style="position:absolute;right:0px;top:10px;color:#555;">{{module.groupStudCount}}</span>
+          </h5>
+        </div>
+      </div>
+    </md-content>
+  </div>
+  <!-- <md-tabs md-dynamic-height md-border-bottom style="clear:both;">
+
+        <md-tab label="Explore Modules">
+
+        </md-tab>
+      </md-tabs> -->
+</md-content>
 
 <div ng-include="'components/footer/footer.html'"></div>

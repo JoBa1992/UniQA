@@ -48,7 +48,7 @@
       <div ng-if="!isLoggedIn()" ng-include="'app/account/login/login.html'" ng-controller="LoginCtrl"></div>
 
       <div ng-show="isLoggedIn()" ng-include="'components/navbar/navbar.html'"></div>
-      <div ng-show="isLoggedIn()" flex layout="column">
+      <div ng-show="isLoggedIn()" flex layout="column" class="content-container">
         <!-- Main Content with scrolling content -->
         <div layout="row">
           <md-content flex layout-padding="">

@@ -76,8 +76,8 @@ angular.module('UniQA')
 		}, {
 			title: 'Continue',
 			icon: 'play',
-			link: '/session/continue',
-			action: 5,
+			link: '#', // /session/continue
+			action: 'x',
 			login: true,
 			admin: true,
 			tutor: true,
@@ -103,7 +103,7 @@ angular.module('UniQA')
 		}, {
 			title: 'Planner',
 			icon: 'calendar',
-			link: '/planner',
+			link: '#',
 			cs: true,
 			login: true,
 			admin: true,

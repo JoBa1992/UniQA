@@ -5,16 +5,18 @@
       <span style="color:#757575;font-weight:600;">Add</span>
     </md-button>
   </div>
-  <h2 ng-repeat-start="(key,module) in moduleLessons" ng-if="$index === 0 || (key !== moduleLessons[$index-1].module.name)" style="clear:both;">
-    {{key}}
+  <h3 ng-repeat-start="(key,module) in moduleLessons" ng-if="$index === 0 || (key !== moduleLessons[$index-1].module.name)" style="clear:both;">
+    <strong>{{key}}</strong>
     <hr></hr>
-  </h2>
+  </h3>
   <md-content ng-repeat-end class="md-padding" layout-xs="column" layout="row" style="margin-bottom:3em;">
     <div ng-repeat="lesson in module" layout="column" style="padding-bottom:1em">
       <md-card class="lesson-card" style="min-width:260px;">
         <md-card-title>
           <md-card-title-text>
-            <span class="md-headline">{{lesson.title}}</span>
+            <span class="md-headline" style="font-size:1.3em;">
+              <strong>{{lesson.title}}</strong>
+            </span>
           </md-card-title-text>
           <md-button class="md-icon-button lesson-action-button lesson-favourite" aria-label="Clone" style="margin-top:-.34em;">
             <i class="fa fa-star" aria-hidden="true"></i>
@@ -35,8 +37,8 @@
             <md-menu-content width="3" class="lesson-sub-menu notransition">
               <md-menu-item>
                 <md-button ng-click="announceClick('edit',lesson)" style="color:#202020;">
-                  <i md-menu-align-target class="fa fa-pencil-square-o" aria-hidden="true" style="width:26px;"></i>
-                  Edit
+                  <i md-menu-align-target class="fa fa-file-text-o" aria-hidden="true" style="width:26px;"></i>
+                  View
                 </md-button>
               </md-menu-item>
               <md-menu-item>
@@ -64,15 +66,18 @@
     </div>
   </md-content>
 
-  <h2 ng-if="lessonsWithoutModules.length > 0" style="clear:both;">Everything else...
+  <h3 ng-if="lessonsWithoutModules.length > 0" style="clear:both;">
+    <strong>Everything else...</strong>
     <hr></hr>
-  </h2>
+  </h3>
   <md-content class="md-padding" layout-xs="column" layout="row" style="margin-bottom:3em;">
     <div ng-repeat="lesson in lessonsWithoutModules" layout="column" style="padding-bottom:1em">
       <md-card class="lesson-card" style="min-width:260px;">
         <md-card-title>
           <md-card-title-text>
-            <span class="md-headline">{{lesson.title}}</span>
+            <span class="md-headline" style="font-size:1.3em;">
+              <strong>{{lesson.title}}</strong>
+            </span>
           </md-card-title-text>
           <md-button class="md-icon-button lesson-action-button lesson-favourite" aria-label="Clone" style="margin-top:-.34em;">
             <i class="fa fa-star" aria-hidden="true"></i>
@@ -93,8 +98,8 @@
             <md-menu-content width="3" class="lesson-sub-menu notransition">
               <md-menu-item>
                 <md-button ng-click="announceClick('edit',lesson)" style="color:#202020;">
-                  <i md-menu-align-target class="fa fa-pencil-square-o" aria-hidden="true" style="width:26px;"></i>
-                  Edit
+                  <i md-menu-align-target class="fa fa-file-text-o" aria-hidden="true" style="width:26px;"></i>
+                  View
                 </md-button>
               </md-menu-item>
               <md-menu-item>
