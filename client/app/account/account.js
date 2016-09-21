@@ -3,21 +3,16 @@
 angular.module('UniQA')
 	.config(function($stateProvider) {
 		$stateProvider
-			.state('login', {
-				url: '/',
-				templateUrl: 'app/account/login/login.html',
-				controller: 'LoginCtrl'
-			})
-			.state('register', {
-				url: '/register',
-				templateUrl: 'app/account/register/register.html',
-				controller: 'RegisterCtrl'
-			})
-			.state('qrListener', {
-				url: '/qr/register/:sessionid',
-				templateUrl: 'app/account/login/login.html',
-				controller: 'QrRegistrationCtrl'
-			})
+		// .state('login', {
+		// 	url: '/',
+		// 	templateUrl: 'app/account/login/login.html',
+		// 	controller: 'LoginCtrl'
+		// })
+		// .state('register', {
+		// 	url: '/register',
+		// 	templateUrl: 'app/account/register/register.html',
+		// 	controller: 'RegisterCtrl'
+		// })
 			.state('messages', {
 				url: '/profile/messages',
 				templateUrl: 'app/account/profile/messages/messages.html',

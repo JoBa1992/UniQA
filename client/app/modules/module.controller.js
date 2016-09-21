@@ -1,40 +1,15 @@
 'use strict';
 
 angular.module('UniQA')
-	.controller('ModuleCtrl', function($scope, $http, $location, $stateParams, Auth, Module, Modal) {
-		$scope.title = 'Module Management';
+	.controller('ModuleCtrl', function($rootScope, $scope, $http, $location, $stateParams, Auth, Module, Modal) {
+		$rootScope.pageHeadTitle = 'Module Mgr / this module';
+		$rootScope.showTopNav = true;
+		$rootScope.navType = 'module';
 
-		// Check for when query returns no modules
-		$scope.isEmpty = function(obj) {
-			for (var i in obj) {
-				if (obj.hasOwnProperty(i)) {
-					return false;
-				}
-			}
-			return true;
-		};
+		$scope.module = {};
 
 		Module.getByID($stateParams.moduleid).then(function(res) {
 			$scope.module = res;
-			console.info(res);
-		});
-
-		$scope.routeToModuleChild = function(id) {
-			$location.path('/modules/' + id);
-		};
-
-		//
-		$scope.openCreateModal = Modal.create.module(function(module) { // callback when modal is confirmed
-			$scope.modules.push(module);
-		});
-
-		$scope.openUpdateModal = Modal.update.module(function() { // callback when modal is confirmed
-			//   $scope.refreshUserList();
-		});
-
-		$scope.openImportModal = Modal.import.module(function() { // callback when modal is confirmed
-			// refreshUserStats();
-			// $scope.refreshUserList();
 		});
 
 		$scope.openDeleteModal = Modal.delete.module(function(module) {
@@ -44,18 +19,5 @@ angular.module('UniQA')
 					id: module._id
 				});
 			}
-
-			//   //     // this no longer works for $scope.users... it doesn't splice off the one - check it out
-			//   //     // angular.forEach($scope.users, function(u, i) {
-			//   //     //   console.info("does " + u + " == " + user);
-			//   //     //   if (u === user) {
-			//   //     //     $scope.users.splice(i, 1);
-			//   //     //   }
-			//   //     // });
-			//   //     refreshUserStats();
-			//   //     $scope.users = User.query(); // bodge for foreach not working
-			//   //     $scope.refreshUserList();
-			//   //   }
-			// });
 		});
 	});

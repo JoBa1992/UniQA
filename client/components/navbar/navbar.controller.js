@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('UniQA')
-	.controller('NavbarCtrl', function($scope, $location, $stateParams, $timeout, $mdSidenav, $log, Auth, Modal) {
+	.controller('NavbarCtrl', function($rootScope, $scope, $location, $stateParams, $timeout, $mdSidenav, $log, Auth, Modal) {
 		$scope.isLoggedIn = Auth.isLoggedIn;
 		$scope.isAdmin = Auth.isAdmin;
 		$scope.isTutor = Auth.isTutor;
@@ -10,15 +10,16 @@ angular.module('UniQA')
 		$scope.sidebarIcon = 'chevron-left';
 		$scope.toggleLeft = buildDelayedToggler('left');
 		$scope.toggleRight = buildToggler('right');
-		$scope.isOpenRight = function() {
+
+		$rootScope.isOpenRight = function() {
 			return $mdSidenav('right').isOpen();
 		};
 
-		$scope.isLeftOpen = function() {
+		$rootScope.isLeftOpen = function() {
 			return $mdSidenav('left').isOpen();
 		};
 
-		$scope.toggleLeftMenu = function() {
+		$rootScope.toggleLeftMenu = function() {
 			$mdSidenav('left').toggle();
 		};
 
@@ -63,64 +64,76 @@ angular.module('UniQA')
 					});
 			}
 		}
-		// $scope.collapsed = false;
-
 		//
-		$scope.leftMenu = [{
-				title: 'Start Session',
-				icon: 'play',
-				link: '/session/start',
-				login: true,
-				admin: true,
-				tutor: true,
-				student: false
-			}, {
-				title: 'Modules',
-				icon: 'users',
-				link: '/modules',
-				login: true,
-				admin: true,
-				tutor: true,
-				student: false
-			}, {
-				title: 'Lessons',
-				icon: 'archive',
-				link: '/lessons',
-				login: true,
-				admin: true,
-				tutor: true,
-				student: false
-			},
-			// {
-			// 	title: 'Planner',
-			// 	icon: 'calendar',
-			// 	link: '/planner',
-			// 	action: 'y',
-			// 	login: true,
-			// 	admin: true,
-			// 	student: false
-			// },
-			{
-				title: 'Dashboard',
-				icon: 'bar-chart',
-				link: '/dashboard',
-				login: true,
-				admin: true,
-				tutor: true,
-				student: false
-			}
-			// , {
-			// 	title: 'Lesson Reg',
-			// 	link: '/session/register',
-			// 	//   link: '#',
-			// 	login: true,
-			// 	admin: false,
-			// 	student: true
-			// }
-		];
+		$scope.sessionsMenu = [{
+			title: 'Start',
+			icon: 'plus',
+			link: '/session/start',
+			login: true,
+			admin: true,
+			tutor: true,
+			student: false
+		}, {
+			title: 'Continue',
+			icon: 'play',
+			link: '#', // /session/continue
+			action: 'x',
+			login: true,
+			admin: true,
+			tutor: true,
+			student: false
+		}];
+
+		$scope.resourceMenu = [{
+			title: 'Modules',
+			icon: 'users',
+			link: '/modules',
+			login: true,
+			admin: true,
+			tutor: true,
+			student: false
+		}, {
+			title: 'Lessons',
+			icon: 'archive',
+			link: '/lessons',
+			login: true,
+			admin: true,
+			tutor: true,
+			student: false
+		}, {
+			title: 'Planner',
+			icon: 'calendar',
+			link: '#',
+			cs: true,
+			login: true,
+			admin: true,
+			student: false
+		}, ];
+
+		$scope.personalMenu = [{
+			title: 'Dashboard',
+			icon: 'bar-chart',
+			link: '/dashboard',
+			login: true,
+			admin: true,
+			tutor: true,
+			student: false
+		}, {
+			title: 'Settings',
+			icon: 'cogs',
+			link: '/profile/settings',
+			login: true,
+			admin: true,
+			tutor: true,
+			student: false
+		}];
+
 		$scope.isActive = function(route) {
 			return $location.path().includes(route);
 		};
+
+		$scope.navMinnied = false;
+
 		// $scope.checkLocation = function() {
 		// 	if ($scope.isLoggedIn()) {
 		// 		// check if user is in an active session,
@@ -138,38 +151,30 @@ angular.module('UniQA')
 		// 	}
 		// };
 		//
-		// $scope.toggleNav = function() {
-		// 	if ($scope.collapsed !== null) {
-		// 		$scope.collapsed = !$scope.collapsed;
-		// 		if ($scope.sidebarIcon === 'chevron-left') {
-		// 			$scope.sidebarIcon = 'chevron-right';
-		// 		} else {
-		// 			$scope.sidebarIcon = 'chevron-left';
-		// 		}
-		// 	}
-		// };
-		//
-		// $scope.calculateCookieTrail = function() {
-		//
-		// };
-		//
-		// $scope.isNavCollapsed = function() {
-		// 	if (!$scope.isLoggedIn()) {
-		// 		return null;
-		// 	}
-		// 	return $scope.collapsed;
-		// };
+		$scope.toggleNav = function() {
+			if ($scope.navMinnied !== null) {
+				$scope.navMinnied = !$scope.navMinnied;
+				if ($scope.sidebarIcon === 'chevron-left') {
+					$scope.sidebarIcon = 'chevron-right';
+				} else {
+					$scope.sidebarIcon = 'chevron-left';
+				}
+			}
+		};
+
+		$scope.calculateCookieTrail = function() {
+
+		};
+
+		$scope.isNavMin = function() {
+			if (!$scope.isLoggedIn()) {
+				return null;
+			}
+			return $scope.navMinnied;
+		};
 		//
 		// $scope.logout = function() {
 		// 	Auth.logout();
 		// 	$location.path('/');
-		// };
-
-		//
-		// $scope.isRoot = function() {
-		// 	if ($location.path() === '/') {
-		// 		return 'navbar-inverse';
-		// 	}
-		// 	return 'navbar-default';
 		// };
 	});

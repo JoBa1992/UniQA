@@ -1,13 +1,19 @@
 'use strict';
 
 angular.module('UniQA')
-	.controller('ModuleListCtrl', function($scope, $rootScope, $http, $location, Auth, Module, Modal) {
-		$rootScope.pageHeadTitle = 'Module Mgr';
-		$rootScope.showTopNav = true;
+	.controller('ModuleListCtrl', function($scope, $http, $location, Auth, Module, Modal) {
+		// $rootScope.pageHeadTitle = 'Module Mgr';
+		// $rootScope.showTopNav = true;
+		// $scope.pageHeadType = 'base';
+		$scope.currentNavItem = 'userMods';
+
 		$scope.noUserResults = false;
 		$scope.noExplorableResults = false;
+		$scope.userModules = [];
+		$scope.explorableModules = [];
 
 		var currentUser = Auth.getCurrentUser;
+		var isTutor = Auth.isTutor;
 
 		Module.getMyAssocModules({
 			user: currentUser()._id
@@ -66,12 +72,15 @@ angular.module('UniQA')
 			$scope.moduleOption = newVal;
 		};
 
-		$rootScope.openCreateModal = Modal.create.module(function(createModule, continuing) {
+		$scope.openCreateModal = Modal.create.module(function(res, continuing) {
 			if (continuing) {
-				$scope.userModules.push(createModule);
-				return $scope.openCreateModal();
+				// TEMP: Attaching 0 group count to mod
+				res.modGroupStudCount = 0;
+				$scope.userModules.push(res);
+				// need to sort user modules here
+				// return $scope.openCreateModal();
 			} else {
-				return $location.path('/modules/' + createModule._id);
+				return $location.path('/modules/' + res._id);
 			}
 
 		});

@@ -39,6 +39,13 @@ var LessonSchema = new Schema({
 		url: {
 			type: String
 		},
+		name: {
+			type: String
+		},
+		submitter: {
+			type: Schema.Types.ObjectId,
+			ref: 'User'
+		},
 		loc: {
 			type: String
 		},
@@ -52,11 +59,11 @@ var LessonSchema = new Schema({
 		}
 	}],
 	type: {
-        type: String
-    },
+		type: String
+	},
 	deleted: {
 		type: Boolean,
-        default: false
+		default: false
 	}
 });
 

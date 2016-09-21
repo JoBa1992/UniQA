@@ -1,34 +1,81 @@
-<div class="marg-fix" style="margin-top:10em; margin-bottom:10em; ">
-  <div class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
+<md-content flex layout-padding>
+  <!-- <form class="form" name="createSessionForm" ng-submit="createSession()" novalidate> -->
+  <div flex class="col-md-12">
+    <md-button class="md-button md-raised pull-right" style="background-color:#F5F5F5;" aria-label="Favorite" ng-click="openCreateModal()">
+      <span style="color:#757575;font-weight:600;">Begin</span>
+    </md-button>
+  </div>
+  <h3>
+    <strong>Create Session</strong>
+  </h3>
+  <md-divider></md-divider>
+  <div layout="row">
+    <div flex-gt-sm="100" flex="100">
+      <md-input-container style="width:50%;">
+        <label>Module/s</label>
+        <md-select ng-model="session.moduleGroups" md-on-close="clearSearchTerm()" data-md-container-class="session-select-container" multiple>
+          <md-select-header class="session-select-header">
+            <input ng-model="moduleSearchTerm" type="search" placeholder="Search for modules..." class="session-select-searchbox md-text">
+          </md-select-header>
+          <md-optgroup label="modules">
+            <md-option ng-value="modules" ng-repeat="module in availableModules |
+                filter: moduleSearchTerm">{{module.name}}</md-option>
+          </md-optgroup>
+        </md-select>
+      </md-input-container>
+    </div>
+  </div>
+  <div layout="row">
+    <div flex-gt-sm="100" flex="100">
+      <md-input-container style="width:50%;">
+        <label>Lesson</label>
+        <md-select ng-model="session.lesson" md-on-close="clearSearchTerm()" data-md-container-class="session-select-container">
+          <md-select-header class="session-select-header">
+            <input ng-model="lessonSearchTerm" type="search" placeholder="Search for a lesson..." class="session-select-searchbox md-text">
+          </md-select-header>
+          <md-optgroup label="modules">
+            <md-option ng-value="lessons" ng-repeat="lesson in availableLessons |
+              filter:searchTerm">{{lesson.title}}</md-option>
+          </md-optgroup>
+        </md-select>
+      </md-input-container>
+    </div>
+  </div>
+  <div layout="row">
+    <md-input-container class="md-block" flex-gt-sm="80" flex="80">
+      <label>Reference</label>
+      <input md-maxlength="40" name="name" ng-model="session.reference"/>
+
+      <div class="hint" style="color:#BBBBBB;">E.g. Group 2 Catchup</div>
+    </md-input-container>
+  </div>
+  <div layout="row">
+    <md-input-container class="md-block" flex-gt-sm="80" flex="80" style="margin:0;">
+      Allow Feedback
+      <md-checkbox ng-model="session.startSessionFeedback" aria-label="Allow session feedback" style="float:right;"></md-checkbox>
+    </md-input-container>
+  </div>
+  <div layout="row">
+    <md-input-container class="md-block" flex-gt-sm="80" flex="80" style="margin:0;">
+      Allow Questions
+      <md-checkbox ng-model="session.startSessionQuestions" aria-label="Allow questions" style="float:right;"></md-checkbox>
+    </md-input-container>
+  </div>
+
+  <md-divider style="border-top-style:dashed;margin-top:1em;margin-bottom:1em;"></md-divider>
+
+  <h4>
+    <strong>Running times</strong>
+  </h4>
+  <h5 style="text-align:center;">Placeholder: Currently defaulting to now & now + 1 hour</h5>
+  <!-- </form> -->
+</md-content>
+
+<!-- <div class="body-min-height">
+
+  <div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1"></div>
+  <div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
     <form class="form" name="createSessionForm" ng-submit="createSession()" novalidate>
-      <div class="form-group">
-        <label>Module Dropdown w/search</label>
-        <input type="text" name="module" class="form-control" placeholder="Select Module" ng-model="session.module" required>
-      </div>
-      <div class="form-group">
-        <label>Lesson dropdown w/search</label>
-        <input type="text" name="lesson" class="form-control" placeholder="" ng-model="session.lesson" required>
-      </div>
-      <div class="form-group">
-        <label>Session Reference
-          <i style="color:#BBBBBB;">(optional)</i>
-        </label>
-        <input type="text" name="reference" class="form-control" placeholder="e.g. Week 4 catch-up" ng-model="session.reference" required>
-      </div>
-      <div class="form-group">
-        <label>Expected Runtime
-          <span style="color:#BBBBBB;">(minutes)</span>
-        </label>
-        <input type="number" name="runtime" class="form-control" ng-model="session.runtime" required>
-      </div>
-      <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <button type="button" class="btn btn-{{startSessionQuestions}} btn-block" ng-click="switchQuestionState()" uib-tooltip="{{startSessionQuestions === 'default' ? 'allow questions in this session' : 'disable questions in this session'}}" tooltip-trigger tooltip-animation="false" tooltip-placement="top">
-          Questions?</button>
-      </div>
-      <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <button type="button" class="btn btn-{{startSessionFeedback}} btn-block" ng-click="switchFeedbackState()" uib-tooltip="{{startSessionFeedback === 'default' ? 'allow feedback in this session' : 'disable feedback in this session'}}" tooltip-trigger tooltip-animation="false" tooltip-placement="top">
-          Feedback?</button>
-      </div>
       <div class="form-group has-error">
         <p class="help-block" ng-show="form.email.$error.required && form.password.$error.required && submitted">
           Please validate
@@ -41,157 +88,16 @@
         </p>
         <p class="help-block">{{ errors.other }}</p>
       </div>
-      <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3" style="margin-top:1em;">
-        <input class="btn btn-lg btn-primary btn-block" type="submit" value="Start">
-      </div>
+
+      <md-content layout-padding>
+        <div layout-gt-xs="row" style="clear:both;">
+          <div flex-gt-md>
+            <h4>Date-picker with min date and max date</h4>
+            <md-datepicker ng-model="myDate" md-placeholder="Enter date" md-min-date="minDate" md-max-date="maxDate"></md-datepicker>
+          </div>
+        </div>
+      </md-content>
     </form>
-  </div>
-</div>
-<!-- <div class="marg-fix">
-  <div id="lesson-fullscreen">
-    <div ng-if="timeUntil>0" id="lessonView">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 presentation-view">
-        <h1 class="col-md-12" style="margin:5em 0 3em;text-align:center;color:#343D48;">There's nothing to start yet</h1>
-        <h3 class="col-md-12" style="margin:2em 0 2em;color:#343D48;">
-          Your next lesson,
-          <strong>{{nextLesson.title}}</strong>, will be accessible in...
-        </h3>
-        <div class="col-md-3">
-          <div class="countdown-circle">{{days}}
-          </div>
-          <h1 style="color:#343D48;width:100%;text-align:center;">{{days==1?'Day':'Days'}}</h1>
-        </div>
-        <div class="col-md-3">
-          <div class="countdown-circle">{{hours}}</div>
-          <h1 style="color:#343D48;width:100%;text-align:center;">{{hours==1?'Hour':'Hours'}}</h1>
-        </div>
-        <div class="col-md-3">
-          <div class="countdown-circle">{{minutes}}
-          </div>
-          <h1 style="color:#343D48;width:100%;text-align:center;">{{minutes==1?'Minute':'Minutes'}}</h1>
-        </div>
-        <div class="col-md-3">
-          <div class="countdown-circle">
-            {{seconds}}
-          </div>
-          <h1 style="color:#343D48;width:100%;text-align:center;">Seconds</h1>
-        </div>
-
-      </div>
-
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-if="timeUntil<=0">
-      <div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <h1 class="" style="padding-left:4px;">{{nextLesson.title}}</h1>
-          <hr class="resource-hr">
-
-          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top:2em;">
-
-            <div href="#" class="hidden-xs hidden-sm col-md-2 col-lg-2 visible-sm visible-md visible-lg lesson-start-preview" style="padding:0;">
-              <h4 ng-if="!nextLesson.preview">No Preview Available
-                <i style="display:block;margin-top:.4em;" class="fa fa-frown-o fa-2x"></i>
-              </h4>
-            </div>
-
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 lesson-start-info" style="margin-top:.6em;">
-              <p style="font-size:1.1em;margin:0;">{{nextLesson.desc}}</p>
-            </div>
-
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 lesson-start-info">
-              <i class="fa fa-clock-o fa-3x"></i>
-              <h2>{{moment(nextSession.startTime).format('HH:mm')}}
-                -
-                {{moment(nextSession.endTime).format('HH:mm')}}</h2>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 lesson-start-info">
-              <i class="fa fa-graduation-cap fa-3x"></i>
-              <div style="padding-left:.4em;display:inline-block;">
-                <div ng-repeat="user in nextLesson.collaborators" style="display:inline-block;">
-                  <a style="font-size:2.1em;padding:0;margin:0;color:#343D48;display:inline-block;" href="#">{{user}}
-                  </a>
-                  <span style="font-size:2.1em;padding:0;margin:0;display:inline-block;" ng-if="!$last">,&nbsp;</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 lesson-start-info">
-              <i class="fa fa-users fa-3x"></i>
-              <h2 style="padding:0; margin:0; padding-left:.4em; display:inline-block; color:#343D48;">{{nextLessonStudentCount}}</h2>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 lesson-start-info" style="margin-top:2em;">
-              <h5 ng-repeat="item in nextLesson.attachments" target="_blank" href="{{item.loc}}" style="margin:0 .3em;padding:.5em .3em .3em;text-decoration:none;color:#343D48;display:inline-block;">
-                <i class="fa fa-file-{{item.type}}-o fa-4x"></i>
-              </h5>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div style="margin-top:6em;">
-        <div class="col-md-12 col-lg-12">
-          <a class="btn btn-warning btn-lg pull-right" href="/session/active/{{nextLesson.sessionId}}">Start Lesson</a>
-        </div>
-      </div>
-    </div>
-    <div ng-if="_.isEmpty(nextLesson)" id="lessonView">
-      <div class="col-xs-12 col-sm-112 col-md-112 col-lg-12 presentation-view">
-        <h1 class="col-md-12" style="margin:5em 0 3em;text-align:center;color:#343D48;">Looks like theres nothing to start.</h1>
-        <h3 class="col-md-12" style="margin:2em 0 2em;color:#343D48;">
-          <a href="/my/schedule" style="color:#FFA700;">Click here</a>
-          to get started with adding some more lessons to your schedule.</h3>
-        <div class="col-md-3">
-          <div class="countdown-circle">
-            0
-          </div>
-          <h1 style="color:#343D48;width:100%;text-align:center;">Days</h1>
-        </div>
-        <div class="col-md-3">
-          <div class="countdown-circle">
-            0
-          </div>
-          <h1 style="color:#343D48;width:100%;text-align:center;">Hours</h1>
-        </div>
-        <div class="col-md-3">
-          <div class="countdown-circle">
-            0
-          </div>
-          <h1 style="color:#343D48;width:100%;text-align:center;">Minutes</h1>
-        </div>
-        <div class="col-md-3">
-          <div class="countdown-circle">
-            0
-          </div>
-          <h1 style="color:#343D48;width:100%;text-align:center;">Seconds</h1>
-        </div>
-
-      </div>
-
-    </div>
-  </div>
-
-  <div ng-if="!_.isEmpty(upcomingSessions)" class="">
-    <div>
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 presentation-view" style="padding:0;position:relative;">
-        <h3 class="" style="padding-left:4px;">Next lessons scheduled...</h3>
-        <hr class="resource-hr">
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" style="margin:0 0 2em;text-align:center;" ng-repeat="session in upcomingSessions">
-          <div class="col-xs-12 col-sm-8 col-md-10 col-lg-8 col-sm-offset-2 col-md-offset-1 col-lg-offset-2 visible-sm visible-md visible-lg" style="padding:0;">
-            <div class="lesson-start-preview-mini">
-              <h4 ng-if="!session.preview" style="margin:4.45em 0">No Preview Available
-                <i style="display:block;" class="fa fa-frown-o"></i>
-              </h4>
-              <img ng-if="session.preview" src="{{nextLesson.preview}}" style="width:100%;">
-            </div>
-          </div>
-          <h2>
-            <a href="#">{{session.lesson.title}}</a>
-          </h2>
-          <h5>{{moment.utc(session.startTime).isSame(now, 'day') ? "Today: " + (moment(session.startTime).format('HH:mm')): (moment(session.startTime).format('DD/MM/YYYY HH:mm'))}}
-            -
-            {{moment.utc(session.endTime).isSame(now, 'day') ? (moment(session.endTime).format('HH:mm')): (moment(session.endTime).format('DD/MM/YYYY HH:mm'))}}</h5>
-
-        </div>
-      </div>
-    </div>
   </div>
 </div> -->
 

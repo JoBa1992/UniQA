@@ -1,15 +1,22 @@
 <div class="body-min-height">
 
-  <h2 ng-repeat-start="(key,module) in moduleLessons" ng-if="$index === 0 || (key !== moduleLessons[$index-1].module.name)" style="clear:both;">
-    {{key}}
+  <div style="float:right;text-align:center;">
+    <md-button class="md-button md-raised" style="color:#7B7B7B;background-color:#F5F5F5;" aria-label="Favorite" ng-click="openCreateModal()">
+      <span style="color:#757575;font-weight:600;">Add</span>
+    </md-button>
+  </div>
+  <h3 ng-repeat-start="(key,module) in moduleLessons" ng-if="$index === 0 || (key !== moduleLessons[$index-1].module.name)" style="clear:both;">
+    <strong>{{key}}</strong>
     <hr></hr>
-  </h2>
+  </h3>
   <md-content ng-repeat-end class="md-padding" layout-xs="column" layout="row" style="margin-bottom:3em;">
     <div ng-repeat="lesson in module" layout="column" style="padding-bottom:1em">
-      <md-card class="lesson-card" style="width:315px;">
+      <md-card class="lesson-card" style="min-width:260px;">
         <md-card-title>
           <md-card-title-text>
-            <span class="md-headline">{{lesson.title}}</span>
+            <span class="md-headline" style="font-size:1.3em;">
+              <strong>{{lesson.title}}</strong>
+            </span>
           </md-card-title-text>
           <md-button class="md-icon-button lesson-action-button lesson-favourite" aria-label="Clone" style="margin-top:-.34em;">
             <i class="fa fa-star" aria-hidden="true"></i>
@@ -30,8 +37,8 @@
             <md-menu-content width="3" class="lesson-sub-menu notransition">
               <md-menu-item>
                 <md-button ng-click="announceClick('edit',lesson)" style="color:#202020;">
-                  <i md-menu-align-target class="fa fa-pencil-square-o" aria-hidden="true" style="width:26px;"></i>
-                  Edit
+                  <i md-menu-align-target class="fa fa-file-text-o" aria-hidden="true" style="width:26px;"></i>
+                  View
                 </md-button>
               </md-menu-item>
               <md-menu-item>
@@ -48,17 +55,6 @@
               </md-menu-item>
             </md-menu-content>
           </md-menu>
-          <!--
-          <md-button class="md-icon-button lesson-action-button" aria-label="Clone">
-            <i class="fa fa-ellipsis-h" aria-hidden="true" style="font-size:1.5em;color:#757575;"></i>
-          </md-button>
-          -->
-          <!-- <md-button class="md-icon-button lesson-action-button" aria-label="Delete" ng-click="openDeleteModal(lesson)">
-            <i class="fa fa-trash-o" aria-hidden="true" style="font-size:1.4em;color:#757575;"></i>
-            <md-tooltip md-autohide="true" md-direction="top" class="tooltip-md">
-              Delete
-            </md-tooltip>
-          </md-button> -->
           <md-button class="md-icon-button lesson-action-button" aria-label="Share">
             <i class="fa fa-share" aria-hidden="true" style="font-size:1.3em;color:#757575;"></i>
             <md-tooltip md-autohide="true" md-direction="top" class="tooltip-md">
@@ -70,15 +66,18 @@
     </div>
   </md-content>
 
-  <h2 ng-if="lessonsWithoutModules.length > 0" style="clear:both;">Everything else...
+  <h3 ng-if="lessonsWithoutModules.length > 0" style="clear:both;">
+    <strong>Everything else...</strong>
     <hr></hr>
-  </h2>
+  </h3>
   <md-content class="md-padding" layout-xs="column" layout="row" style="margin-bottom:3em;">
     <div ng-repeat="lesson in lessonsWithoutModules" layout="column" style="padding-bottom:1em">
-      <md-card class="lesson-card" style="width:315px;">
+      <md-card class="lesson-card" style="min-width:260px;">
         <md-card-title>
           <md-card-title-text>
-            <span class="md-headline">{{lesson.title}}</span>
+            <span class="md-headline" style="font-size:1.3em;">
+              <strong>{{lesson.title}}</strong>
+            </span>
           </md-card-title-text>
           <md-button class="md-icon-button lesson-action-button lesson-favourite" aria-label="Clone" style="margin-top:-.34em;">
             <i class="fa fa-star" aria-hidden="true"></i>
@@ -99,8 +98,8 @@
             <md-menu-content width="3" class="lesson-sub-menu notransition">
               <md-menu-item>
                 <md-button ng-click="announceClick('edit',lesson)" style="color:#202020;">
-                  <i md-menu-align-target class="fa fa-pencil-square-o" aria-hidden="true" style="width:26px;"></i>
-                  Edit
+                  <i md-menu-align-target class="fa fa-file-text-o" aria-hidden="true" style="width:26px;"></i>
+                  View
                 </md-button>
               </md-menu-item>
               <md-menu-item>
@@ -117,12 +116,6 @@
               </md-menu-item>
             </md-menu-content>
           </md-menu>
-          <!-- <md-button class="md-icon-button lesson-action-button" aria-label="Delete" ng-click="openDeleteModal(lesson)">
-              <i class="fa fa-trash-o" aria-hidden="true" style="font-size:1.4em;color:#757575;"></i>
-              <md-tooltip md-autohide="true" md-direction="top" class="tooltip-md">
-                Delete
-              </md-tooltip>
-            </md-button> -->
           <md-button class="md-icon-button lesson-action-button" aria-label="Share">
             <i class="fa fa-share" aria-hidden="true" style="font-size:1.3em;color:#757575;"></i>
             <md-tooltip md-autohide="true" md-direction="top" class="tooltip-md">
@@ -135,29 +128,6 @@
   </md-content>
 </div>
 
-<!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" style="height:300px;" ng-repeat="lesson in lessons">
-      <div class="lesson-container">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="position:relative;">
-          <h4 class="" style="margin:1em 0;">{{lesson.title}}</h4>
-          <h5 style="font-size:.8em;">Author:
-            <a class="text-primary">{{lesson.author.forename}}&nbsp;{{lesson.author.surname}}</a>
-          </h5>
-          <h5 style="font-size:.8em;" class="" ng-if="!_.isEmpty(lesson.collaborators)">Collaborators:
-            <a class="text-primary" ng-repeat="collab in lesson.collaborators">{{collab.user.forename}}&nbsp;{{collab.user.surname}}
-              <span ng-if="!$last">,</span>
-            </a>
-          </h5>
-          <div style="position:absolute;bottom:-3em;left:.8em;" ng-if="!_.isEmpty(lesson.attachments)">
-            <h5 ng-repeat="item in lesson.attachments" tooltip="{{item.filename}}" tooltip-trigger tooltip-animation="false" tooltip-placement="top" style="margin:0 .4em;text-decoration:none;display:inline-block;">
-              <i class="fa fa-{{item.type}}-o fa-2x"></i>
-            </h5>
-          </div>
-        </div>
-      </div>
-    </div> -->
-<!-- <div ng-if="!$last" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin:2em 0;">
-      <hr class="resource-hr">
-    </div> -->
 <!-- FOOTER -->
 <div ng-include="'components/footer/footer.html'"></div>
 <!-- /FOOTER -->

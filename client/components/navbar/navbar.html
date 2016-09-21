@@ -1,35 +1,62 @@
 <!-- Left Sidenav -->
-<md-sidenav ng-if="isLoggedIn()" layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" style="height:100%;background-color:#414C5A;width: 260px;min-width: 260px;">
-  <md-toolbar>
-    <span flex></span>
-
-    <div layout="column" class="md-toolbar-tools-bottom">
-      <span ng-if="!isNavCollapsed()" class="sidebar-brand" ng-include="'assets/images/logo/full-logo-nav.svg'"></span>
-    </div>
-  </md-toolbar>
+<md-sidenav ng-if="isLoggedIn()" layout="column" class="md-sidenav-left md-whiteframe-z2 sidebar-wrapper" ng-class="{'sidebar-wrapper-min': navMinnied}" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" style="">
   <md-list>
-    <md-item ng-repeat="item in leftMenu" class="nav-item" ng-class="{active: isActive(item.link)}">
+    <md-divider></md-divider>
+    <md-subheader>{{!navMinnied ? 'Sessions' : '&nbsp;'}}</md-subheader>
+    <md-divider></md-divider>
+    <md-item ng-repeat="item in sessionsMenu" class="nav-item" ng-class="{active: isActive(item.link)}">
       <a href="{{item.link}}" ng-click="toggleLeftMenu()">
         <md-item-content ng-if="'isAdmin() && item.admin || isTutor() && item.tutor || isStudent() && item.student'" md-ink-ripple layout="row" layout-align="start center">
           <div class="inset nav-icon">
             <i class="fa fa-{{item.icon}} sidebar-nav-icon" aria-hidden="true"></i>
           </div>
-          <div class="inset">{{item.title}}</div>
-          <!-- <span class="badge nav-badge">{{item.action}}</span> -->
+          <div class="inset" ng-if="!navMinnied">{{item.title}}</div>
+          <span ng-if="item.action && !navMinnied" class="badge nav-badge">{{item.action}}</span>
+        </md-item-content>
+      </a>
+    </md-item>
+    <md-divider style="margin-top:1.4em;"></md-divider>
+    <md-subheader>{{!navMinnied ? 'Resources' : '&nbsp;'}}</md-subheader>
+    <md-divider></md-divider>
+    <md-item ng-repeat="item in resourceMenu" class="nav-item" ng-class="{active: isActive(item.link)}">
+      <a href="{{item.link}}" ng-click="toggleLeftMenu()">
+        <md-item-content ng-if="'isAdmin() && item.admin || isTutor() && item.tutor || isStudent() && item.student'" md-ink-ripple layout="row" layout-align="start center">
+          <div class="inset nav-icon">
+            <i class="fa fa-{{item.icon}} sidebar-nav-icon" aria-hidden="true"></i>
+          </div>
+          <div class="inset" ng-if="!navMinnied">{{item.title}}</div>
+          <md-tooltip ng-if="item.cs" md-autohide="true" md-direction="right" class="tooltip-md">
+            Coming soon
+          </md-tooltip>
+          <span ng-if="item.action && !navMinnied" class="badge nav-badge">{{item.action}}</span>
+        </md-item-content>
+      </a>
+    </md-item>
+    <md-divider style="margin-top:1.4em;"></md-divider>
+    <md-subheader>{{!navMinnied ? 'Personal' : '&nbsp;'}}</md-subheader>
+    <md-divider></md-divider>
+    <md-item ng-repeat="item in personalMenu" class="nav-item" ng-class="{active: isActive(item.link)}">
+      <a href="{{item.link}}" ng-click="toggleLeftMenu()">
+        <md-item-content ng-if="'isAdmin() && item.admin || isTutor() && item.tutor || isStudent() && item.student'" md-ink-ripple layout="row" layout-align="start center">
+          <div class="inset nav-icon">
+            <i class="fa fa-{{item.icon}} sidebar-nav-icon" aria-hidden="true"></i>
+          </div>
+          <div class="inset" ng-if="!navMinnied">{{item.title}}</div>
+          <span ng-if="item.action && !navMinnied" class="badge nav-badge">{{item.action}}</span>
         </md-item-content>
       </a>
     </md-item>
   </md-list>
   <div class="sidebar-footer">
-    <div class="sidebar-account" uib-dropdown ng-if="isLoggedIn()">
-      <img class="sidebar-avatar" ng-class="{'avatar-min': isNavCollapsed()}" src="/assets/images/placeholders/profile.jpg" style="border:2px solid #82AECC;">
-      <span ng-if="!isNavCollapsed()" class="sidebar-avatar-username" style="display:inline-block;font-weight:600;">{{currentUser().forename}}&nbsp;{{currentUser().surname}}</span>
+    <div class="sidebar-account" ng-class="{'sidebar-account-min' : navMinnied}" uib-dropdown ng-if="isLoggedIn()">
+      <img class="sidebar-avatar" ng-class="{'sidebar-avatar-min': navMinnied}" src="/assets/images/placeholders/profile.jpg" style="border:2px solid #82AECC;">
+      <span ng-if="!navMinnied" class="sidebar-avatar-username" style="display:block;font-weight:600;  white-space: nowrap;">{{currentUser().forename}}&nbsp;{{currentUser().surname}}</span>
     </div>
-    <button class="sidebar-footer-toggle" ng-class="{'sidebar-footer-toggle-min': isNavCollapsed()}" ng-click="toggleNav()">
+    <button class="sidebar-footer-toggle" ng-class="{'sidebar-footer-toggle-min': navMinnied }" ng-click="toggleNav()">
       <i class="fa fa-{{sidebarIcon}}" aria-hidden="true"></i>
-      <md-tooltip md-autohide="true" md-direction="right" class="tooltip-md">
+      <!-- <md-tooltip md-autohide="true" md-direction="right" class="tooltip-md">
         Josh promises he will fix me soon
-      </md-tooltip>
+      </md-tooltip> -->
     </button>
   </div>
 </md-sidenav>

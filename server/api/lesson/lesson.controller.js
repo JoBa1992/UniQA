@@ -110,7 +110,7 @@ exports.index = function(req, res) {
 					}]
 				}, function(err, count) {
 					res.status(200).json({
-						result: lessons,
+						lessons: lessons,
 						count: count
 					});
 				});

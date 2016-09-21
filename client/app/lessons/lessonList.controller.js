@@ -7,6 +7,7 @@ angular.module('UniQA')
 
 		$rootScope.pageHeadTitle = 'Lesson Mgr';
 		$rootScope.showTopNav = true;
+		$rootScope.pageHeadType = 'base';
 
 		var last = {
 			bottom: true,
@@ -39,9 +40,9 @@ angular.module('UniQA')
 					$scope.noQueryResults = true;
 				} else {
 					// set init state of hover event on each lesson
-					for (var lesson in res.result) {
-						for (var files in res.result[lesson].attachments) {
-							res.result[lesson].attachments[files].filename = res.result[lesson].attachments[files].loc.split('/').pop();
+					for (var lesson in res.lessons) {
+						for (var files in res.lessons[lesson].attachments) {
+							res.lessons[lesson].attachments[files].filename = res.lessons[lesson].attachments[files].loc.split('/').pop();
 						}
 					}
 
@@ -49,16 +50,16 @@ angular.module('UniQA')
 					var lessonsWithoutModules = [];
 
 					// construct results of arrays
-					for (var lesson in res.result) {
-						if (res.result[lesson].module && res.result[lesson].module.name) {
-							if ((moduleLessons[res.result[lesson].module.name] === null ||
-									moduleLessons[res.result[lesson].module.name] == undefined) ||
-								moduleLessons[res.result[lesson].module.name].length < 1) {
-								moduleLessons[res.result[lesson].module.name] = [];
+					for (var lesson in res.lessons) {
+						if (res.lessons[lesson].module && res.lessons[lesson].module.name) {
+							if ((moduleLessons[res.lessons[lesson].module.name] === null ||
+									moduleLessons[res.lessons[lesson].module.name] == undefined) ||
+								moduleLessons[res.lessons[lesson].module.name].length < 1) {
+								moduleLessons[res.lessons[lesson].module.name] = [];
 							}
-							moduleLessons[res.result[lesson].module.name].push(res.result[lesson]);
+							moduleLessons[res.lessons[lesson].module.name].push(res.lessons[lesson]);
 						} else {
-							lessonsWithoutModules.push(res.result[lesson]);
+							lessonsWithoutModules.push(res.lessons[lesson]);
 						}
 					}
 

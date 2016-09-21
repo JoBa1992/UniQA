@@ -12,93 +12,6 @@ angular.module('UniQA', [
 		'btford.socket-io',
 		'ui.bootstrap.datetimepicker'
 	])
-	.config(function($mdThemingProvider) {
-		var customPrimary = {
-			'50': '#7b8ba0',
-			'100': '#6c7e95',
-			'200': '#617286',
-			'300': '#566578',
-			'400': '#4c5869',
-			'500': '#414C5A',
-			'600': '#363f4b',
-			'700': '#2c333c',
-			'800': '#21262e',
-			'900': '#161a1f',
-			'A100': '#8a98aa',
-			'A200': '#99a5b5',
-			'A400': '#a7b2c0',
-			'A700': '#0c0d10'
-		};
-		$mdThemingProvider
-			.definePalette('customPrimary',
-				customPrimary);
-
-		var customAccent = {
-			'50': '#346281',
-			'100': '#3c6f93',
-			'200': '#437da5',
-			'300': '#4c8bb6',
-			'400': '#5e97bd',
-			'500': '#70a2c5',
-			'600': '#94bad3',
-			'700': '#a6c5db',
-			'800': '#b8d1e2',
-			'900': '#caddea',
-			'A100': '#94bad3',
-			'A200': '#82AECC',
-			'A400': '#70a2c5',
-			'A700': '#dde9f1'
-		};
-		$mdThemingProvider
-			.definePalette('customAccent',
-				customAccent);
-
-		var customWarn = {
-			'50': '#ffd380',
-			'100': '#ffca66',
-			'200': '#ffc14d',
-			'300': '#ffb933',
-			'400': '#ffb01a',
-			'500': '#FFA700',
-			'600': '#e69600',
-			'700': '#cc8600',
-			'800': '#b37500',
-			'900': '#996400',
-			'A100': '#ffdc99',
-			'A200': '#ffe5b3',
-			'A400': '#ffedcc',
-			'A700': '#805400'
-		};
-		$mdThemingProvider
-			.definePalette('customWarn',
-				customWarn);
-
-		var customBackground = {
-			'50': '#ffffff',
-			'100': '#ffffff',
-			'200': '#ffffff',
-			'300': '#ffffff',
-			'400': '#ffffff',
-			'500': '#F5F5F5',
-			'600': '#e8e8e8',
-			'700': '#dbdbdb',
-			'800': '#cfcfcf',
-			'900': '#c2c2c2',
-			'A100': '#ffffff',
-			'A200': '#ffffff',
-			'A400': '#ffffff',
-			'A700': '#b5b5b5'
-		};
-		$mdThemingProvider
-			.definePalette('customBackground',
-				customBackground);
-
-		$mdThemingProvider.theme('default')
-			.primaryPalette('customPrimary')
-			.accentPalette('customAccent')
-			.warnPalette('customWarn')
-			.backgroundPalette('customBackground');
-	})
 	.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
 		// root level routes
 		$stateProvider
@@ -143,6 +56,11 @@ angular.module('UniQA', [
 				templateUrl: 'app/moduleGroup/moduleGroup.html',
 				controller: 'ModuleGroupCtrl',
 				authenticate: true
+			})
+			.state('qrListener', {
+				url: '/qr/register/:sessionid',
+				templateUrl: 'app/account/login/login.html',
+				controller: 'QrRegistrationCtrl'
 			})
 			.state('dashboard', {
 				url: '/dashboard',
@@ -285,6 +203,93 @@ angular.module('UniQA', [
 			});
 		});
 
+	})
+	.config(function($mdThemingProvider) {
+		var customPrimary = {
+			'50': '#7b8ba0',
+			'100': '#6c7e95',
+			'200': '#617286',
+			'300': '#566578',
+			'400': '#4c5869',
+			'500': '#414C5A',
+			'600': '#363f4b',
+			'700': '#2c333c',
+			'800': '#21262e',
+			'900': '#161a1f',
+			'A100': '#8a98aa',
+			'A200': '#99a5b5',
+			'A400': '#a7b2c0',
+			'A700': '#0c0d10'
+		};
+		$mdThemingProvider
+			.definePalette('customPrimary',
+				customPrimary);
+
+		var customAccent = {
+			'50': '#346281',
+			'100': '#3c6f93',
+			'200': '#437da5',
+			'300': '#4c8bb6',
+			'400': '#5e97bd',
+			'500': '#70a2c5',
+			'600': '#94bad3',
+			'700': '#a6c5db',
+			'800': '#b8d1e2',
+			'900': '#caddea',
+			'A100': '#94bad3',
+			'A200': '#82AECC',
+			'A400': '#70a2c5',
+			'A700': '#dde9f1'
+		};
+		$mdThemingProvider
+			.definePalette('customAccent',
+				customAccent);
+
+		var customWarn = {
+			'50': '#ffd380',
+			'100': '#ffca66',
+			'200': '#ffc14d',
+			'300': '#ffb933',
+			'400': '#ffb01a',
+			'500': '#FFA700',
+			'600': '#e69600',
+			'700': '#cc8600',
+			'800': '#b37500',
+			'900': '#996400',
+			'A100': '#ffdc99',
+			'A200': '#ffe5b3',
+			'A400': '#ffedcc',
+			'A700': '#805400'
+		};
+		$mdThemingProvider
+			.definePalette('customWarn',
+				customWarn);
+
+		var customBackground = {
+			'50': '#ffffff',
+			'100': '#ffffff',
+			'200': '#ffffff',
+			'300': '#ffffff',
+			'400': '#ffffff',
+			'500': '#F5F5F5',
+			'600': '#e8e8e8',
+			'700': '#dbdbdb',
+			'800': '#cfcfcf',
+			'900': '#c2c2c2',
+			'A100': '#ffffff',
+			'A200': '#ffffff',
+			'A400': '#ffffff',
+			'A700': '#b5b5b5'
+		};
+		$mdThemingProvider
+			.definePalette('customBackground',
+				customBackground);
+
+		$mdThemingProvider.theme('default')
+			.primaryPalette('customPrimary')
+			.accentPalette('customAccent')
+			.warnPalette('customWarn')
+			.backgroundPalette('customBackground');
 	})
 	.run(function($rootScope, $location, Auth) {
 		// Redirect to login if route requires auth and you're not logged in

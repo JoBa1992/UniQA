@@ -1,49 +1,34 @@
-<div class="form-group" ng-class="{ 'has-success': form.id.$valid && submitted,'has-error': form.id.$invalid && submitted }">
-  <label>Module Code</label>
-  <input type="text" name="code" class="form-control" placeholder="e.g. 55-5533-00L" ng-model="module.code" required/>
-  <p class="help-block" ng-show="form.id.$error.required && submitted">Module ID is required</p>
-  <p class="help-block" ng-show="moduleAlreadyExists && submitted">
-    A module with this code already exists
-  </p>
-</div>
-<div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,'has-error': form.name.$invalid && submitted }">
-  <label>Module Name</label>
-  <input type="text" name="name" class="form-control" placeholder="e.g. Application Development" ng-model="module.name" required/>
-  <p class="help-block" ng-show="form.name.$error.required && submitted">Module Name is required</p>
-</div>
-<div class="form-group">
-  <label>Module Tutors</label>
-  <md-chips ng-model="selectedVegetables" md-autocomplete-snap md-transform-chip="transformChip($chip)" md-require-match="autocompleteDemoRequireMatch">
-    <md-autocomplete md-selected-item="selectedItem" md-search-text="searchText" md-items="item in querySearch(searchText)" md-item-text="item.name" placeholder="Search for a vegetable">
-      <span md-highlight-text="searchText">{{item.name}}
-        ::
-        {{item.type}}</span>
-    </md-autocomplete>
-    <md-chip-template>
-      <span>
-        <strong>{{$chip.name}}</strong>
-        <em>({{$chip.type}})</em>
-      </span>
-    </md-chip-template>
-  </md-chips>
-
-  <!-- <div class="input-group">
-    <input type="text" name="tutor" class="form-control" typeahead="tutor as tutor.fullName for tutor in possibleTutors | filter:{fullName:$viewValue} | limitTo:14" typeahead-on-select="searchPossibleTutors($item)" ng-change="searchPossibleTutors($event)" ng-keyup="checkForSubmit($event)" ng-model="module.tutor" required/>
-    <div class="input-group-btn">
-      <button type="button" class="btn btn-default" style="border-color:#cccccc;" ng-click="checkForSubmit('Submit')" ng-disabled="_.isEmpty(possibleTutors)">
-        <i class="fa fa-plus"></i>
-      </button>
+<div class="container-fluid">
+  <div class="row">
+    <div class="form-group" ng-class="{ 'has-success': form.code.$valid && submitted,'has-error': form.code.$invalid && submitted }">
+      <label>Module Code</label>
+      <input type="text" name="code" class="form-control" placeholder="e.g. 55-5533-00L" ng-model="form.module.code" required/>
+      <p class="help-block" ng-show="form.code.$error.required && submitted">Module ID is required</p>
+      <p class="help-block" ng-show="moduleAlreadyExists && submitted">
+        A module with this code already exists
+      </p>
     </div>
-  </div> -->
-</div>
-<div style="margin:0 0 1em;">
-  <h3 ng-repeat="user in selectedTutors" class="label" ng-class="{'label-primary': user.currentUser, 'label-warning' : !user.currentUser} " style="display:inline-block;font-size:.9em;margin:.2em .4em .2em 0;padding:.6em;">
-    {{user.name}}
-    <a ng-if="user.currentUser" style="color:#343D48;font-size:.8em;line-height:1.2;cursor:default;text-decoration:none;">You</a>
-    <a ng-if="!user.currentUser" style="color:#343D48;" href="#" ng-click="removeTutor(user)">
-      <i class="fa fa-times" style="margin-left:.4em;"></i>
-    </a>
-  </h3>
+    <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,'has-error': form.name.$invalid && submitted }">
+      <label>Module Name</label>
+      <input type="text" name="name" class="form-control" placeholder="e.g. Application Development" ng-model="form.module.name" required/>
+      <p class="help-block" ng-show="form.name.$error.required && submitted">Module Name is required</p>
+    </div>
+
+    <md-content class="md-padding autocomplete" layout="column" style="clear:both;padding-left:0;padding-right:0;">
+      <label>Module Tutors</label>
+      <md-contact-chips ng-model="form.selectedTutors" md-contacts="delayedQuerySearch($query)" md-contact-name="fullName" md-contact-image="image" md-contact-email="username" md-require-match="true" md-highlight-flags="i" filter-selected="filterSelected" placeholder="Tutor name" secondary-placeholder="+Tutor" readonly="true" md-removable="true"></md-contact-chips>
+    </md-content>
+  </div>
+
+  <div style="margin:0 0 1em;">
+    <h3 ng-repeat="user in selectedTutors" class="label" ng-class="{'label-primary': user.currentUser, 'label-warning' : !user.currentUser} " style="display:inline-block;font-size:.9em;margin:.2em .4em .2em 0;padding:.6em;">
+      {{user.name}}
+      <a ng-if="user.currentUser" style="color:#343D48;font-size:.8em;line-height:1.2;cursor:default;text-decoration:none;">You</a>
+      <a ng-if="!user.currentUser" style="color:#343D48;" href="#" ng-click="removeTutor(user)">
+        <i class="fa fa-times" style="margin-left:.4em;"></i>
+      </a>
+    </h3>
+  </div>
 </div>
 <!-- <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,'has-error': form.name.$invalid && submitted }">
   <h5>Students

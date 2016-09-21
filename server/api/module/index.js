@@ -36,7 +36,6 @@ var upload = multer({
 var router = express.Router();
 
 router.get('/', auth.isAuthenticated(), controller.index);
-// used to return tutors part of same software groups
 router.get('/user/:userid', auth.isAuthenticated(), controller.getModulesForUser);
 // not the users - used for exploring
 router.get('/user/:userid/unassoc', auth.isAuthenticated(), controller.getOtherModules);

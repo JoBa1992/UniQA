@@ -38,20 +38,21 @@
   <body ng-app="UniQA">
     <!--[if lt IE 7]> <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p> <![endif]-->
 
-    <div ng-controller="NavbarCtrl" layout="row" layout-fill ng-cloak="" class="sidenavdemoBasicUsage" style="overflow: auto;">
+    <!-- Sticky header toolbar -->
+    <div ng-controller="PageHeaderCtrl">
+      <div ng-include="'components/page-header/page-header.html'"></div>
+    </div>
 
-      <ng-include src="'components/navbar/navbar.html'"></ng-include>
+    <div ng-controller="NavbarCtrl" layout-fill layout="row" ng-cloak="" class="main-nav-height" style="height:calc(100% - 50px);min-height:calc(100% - 50px);">
+      <!-- Safety precaution -->
+      <div ng-if="!isLoggedIn()" ng-include="'app/account/login/login.html'" ng-controller="LoginCtrl"></div>
 
-      <div flex layout="column">
-        <!-- Sticky header toolbar -->
-
-        <div ng-controller="PageHeaderCtrl">
-          <ng-include src="'components/page-header/page-header.html'"></ng-include>
-        </div>
+      <div ng-show="isLoggedIn()" ng-include="'components/navbar/navbar.html'"></div>
+      <div ng-show="isLoggedIn()" flex layout="column" class="content-container">
         <!-- Main Content with scrolling content -->
-        <div layout="row" style="overflow: auto;">
+        <div layout="row">
           <md-content flex layout-padding="">
-            <div flex="" ui-view=""></div>
+            <div ui-view=""></div>
           </md-content>
         </div>
 
