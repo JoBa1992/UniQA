@@ -209,20 +209,6 @@ exports.getFile = function(req, res) {
 
 };
 
-exports.count = function(req, res) {
-	Lesson.count({
-		createdBy: req.query.createdBy,
-		endTime: {
-			"$gte": new Date()
-		}
-	}, function(err, count) {
-		// console.log(count);
-		res.status(200).json({
-			count: count
-		});
-	});
-};
-
 exports.getNextFourTutor = function(req, res) {
 	Session.find({
 			endTime: {

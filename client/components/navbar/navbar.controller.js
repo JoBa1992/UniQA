@@ -104,7 +104,7 @@ angular.module('UniQA')
 			title: 'Planner',
 			icon: 'calendar',
 			link: '#',
-			cs: true,
+			tt: 'Coming Soon',
 			login: true,
 			admin: true,
 			student: false

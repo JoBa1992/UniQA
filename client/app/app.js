@@ -9,8 +9,8 @@ angular.module('UniQA', [
 		'ngMaterial',
 		'ui.router',
 		'ui.bootstrap',
-		'btford.socket-io',
-		'ui.bootstrap.datetimepicker'
+		'angular-loading-bar',
+		'btford.socket-io'
 	])
 	.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
 		// root level routes
@@ -202,64 +202,68 @@ angular.module('UniQA', [
 				}
 			});
 		});
-
 	})
+	.config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
+		cfpLoadingBarProvider.includeSpinner = false;
+		// cfpLoadingBarProvider.parentSelector = '#page-head';
+		cfpLoadingBarProvider.latencyThreshold = 10;
+	}])
 	.config(function($mdThemingProvider) {
 		var customPrimary = {
-			'50': '#7b8ba0',
-			'100': '#6c7e95',
-			'200': '#617286',
-			'300': '#566578',
-			'400': '#4c5869',
-			'500': '#414C5A',
-			'600': '#363f4b',
-			'700': '#2c333c',
-			'800': '#21262e',
-			'900': '#161a1f',
-			'A100': '#8a98aa',
-			'A200': '#99a5b5',
-			'A400': '#a7b2c0',
-			'A700': '#0c0d10'
+			'50': '#dde9f1',
+			'100': '#caddea',
+			'200': '#b8d1e2',
+			'300': '#a6c5db',
+			'400': '#94bad3',
+			'500': '#82AECC',
+			'600': '#70a2c5',
+			'700': '#5e97bd',
+			'800': '#4c8bb6',
+			'900': '#437da5',
+			'A100': '#eff4f8',
+			'A200': '#ffffff',
+			'A400': '#ffffff',
+			'A700': '#3c6f93'
 		};
 		$mdThemingProvider
 			.definePalette('customPrimary',
 				customPrimary);
 
 		var customAccent = {
-			'50': '#346281',
-			'100': '#3c6f93',
-			'200': '#437da5',
-			'300': '#4c8bb6',
-			'400': '#5e97bd',
-			'500': '#70a2c5',
-			'600': '#94bad3',
-			'700': '#a6c5db',
-			'800': '#b8d1e2',
-			'900': '#caddea',
-			'A100': '#94bad3',
-			'A200': '#82AECC',
-			'A400': '#70a2c5',
-			'A700': '#dde9f1'
+			'50': '#010101',
+			'100': '#0c0d10',
+			'200': '#161a1f',
+			'300': '#21262e',
+			'400': '#2c333c',
+			'500': '#363f4b',
+			'600': '#4c5869',
+			'700': '#566578',
+			'800': '#617286',
+			'900': '#6c7e95',
+			'A100': '#4c5869',
+			'A200': '#414C5A',
+			'A400': '#363f4b',
+			'A700': '#7b8ba0'
 		};
 		$mdThemingProvider
 			.definePalette('customAccent',
 				customAccent);
 
 		var customWarn = {
-			'50': '#ffd380',
-			'100': '#ffca66',
-			'200': '#ffc14d',
-			'300': '#ffb933',
-			'400': '#ffb01a',
-			'500': '#FFA700',
-			'600': '#e69600',
-			'700': '#cc8600',
-			'800': '#b37500',
-			'900': '#996400',
-			'A100': '#ffdc99',
-			'A200': '#ffe5b3',
-			'A400': '#ffedcc',
-			'A700': '#805400'
+			'50': '#ff8080',
+			'100': '#ff6666',
+			'200': '#ff4d4d',
+			'300': '#ff3333',
+			'400': '#ff1a1a',
+			'500': '#FF0000',
+			'600': '#e60000',
+			'700': '#cc0000',
+			'800': '#b30000',
+			'900': '#990000',
+			'A100': '#ff9999',
+			'A200': '#ffb3b3',
+			'A400': '#ffcccc',
+			'A700': '#800000'
 		};
 		$mdThemingProvider
 			.definePalette('customWarn',
@@ -289,7 +293,7 @@ angular.module('UniQA', [
 			.primaryPalette('customPrimary')
 			.accentPalette('customAccent')
 			.warnPalette('customWarn')
-			.backgroundPalette('customBackground');
+			.backgroundPalette('customBackground')
 	})
 	.run(function($rootScope, $location, Auth) {
 		// Redirect to login if route requires auth and you're not logged in

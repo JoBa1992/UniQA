@@ -5,16 +5,16 @@
       <span style="color:#757575;font-weight:600;">Add</span>
     </md-button>
   </div>
-  <h3 ng-repeat-start="(key,module) in moduleLessons" ng-if="$index === 0 || (key !== moduleLessons[$index-1].module.name)" style="clear:both;">
+  <h3 ng-repeat-start="(key,module) in moduleLessons" ng-if="$index === 0 || (key !== moduleLessons[$index-1].module.name)" class="lesson-mod-name">
     <strong>{{key}}</strong>
-    <hr></hr>
   </h3>
+  <hr ng-if="$index === 0 || (key !== moduleLessons[$index-1].module.name)"></hr>
   <md-content ng-repeat-end class="md-padding" layout-xs="column" layout="row" style="margin-bottom:3em;">
     <div ng-repeat="lesson in module" layout="column" style="padding-bottom:1em">
       <md-card class="lesson-card" style="min-width:260px;">
         <md-card-title>
           <md-card-title-text>
-            <span class="md-headline" style="font-size:1.3em;">
+            <span class="md-headline">
               <strong>{{lesson.title}}</strong>
             </span>
           </md-card-title-text>
@@ -66,16 +66,16 @@
     </div>
   </md-content>
 
-  <h3 ng-if="lessonsWithoutModules.length > 0" style="clear:both;">
-    <strong>Everything else...</strong>
-    <hr></hr>
+  <h3 ng-if="lessonsWithoutModules.length > 0" class="lesson-mod-name">
+    <strong>General</strong>
   </h3>
+  <hr ng-if="lessonsWithoutModules.length > 0"></hr>
   <md-content class="md-padding" layout-xs="column" layout="row" style="margin-bottom:3em;">
     <div ng-repeat="lesson in lessonsWithoutModules" layout="column" style="padding-bottom:1em">
       <md-card class="lesson-card" style="min-width:260px;">
         <md-card-title>
           <md-card-title-text>
-            <span class="md-headline" style="font-size:1.3em;">
+            <span class="md-headline">
               <strong>{{lesson.title}}</strong>
             </span>
           </md-card-title-text>

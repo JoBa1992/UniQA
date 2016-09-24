@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('UniQA')
-	.controller('SessionStartCtrl', function($rootScope, $scope, $window, $timeout, $sce, $interval, socket, Auth, Lesson, Module, Session) {
+	.controller('SessionStartCtrl', function($rootScope, $scope, $window, $element, $timeout, $sce, $interval, socket, Auth, Lesson, Module, Session) {
 		// attach lodash to scope
 		$scope._ = _;
 
@@ -18,9 +18,8 @@ angular.module('UniQA')
 
 		$scope.submitted = false;
 
-		$scope.moduleSearchTerm = '';
-		$scope.lessonSearchTerm = '';
-
+		$scope.moduleSearchTerm;
+		$scope.lessonSearchTerm;
 		$scope.availableModules;
 		$scope.availableLessons;
 
@@ -32,6 +31,17 @@ angular.module('UniQA')
 			startSessionFeedback: true,
 			runtime: []
 		}
+
+		$scope.clearSearchTerm = function() {
+			$scope.moduleSearchTerm = '';
+			$scope.lessonSearchTerm = '';
+		};
+
+		// The md-select directive eats keydown events for some quick select
+		// logic. Since we have a search input here, we don't need that logic.
+		$element.find('input').on('keydown', function(ev) {
+			ev.stopPropagation();
+		});
 
 		Module.getMyAssocModules({
 			user: me._id
@@ -121,7 +131,10 @@ angular.module('UniQA')
 			// create session in here
 			$scope.submitted = true;
 
-			if (!_.isEmpty($scope.session.moduleGroups) && $scope.session.lesson && !_.isEmpty($scope.session.runtime)) {
+			// temp
+			$scope.session.runtime = [];
+
+			if (!_.isEmpty($scope.session.moduleGroups) && $scope.session.lesson) {
 				// setup vars to be sent across to API
 				var groups = [];
 				// push each selected collaborator into array
@@ -135,16 +148,20 @@ angular.module('UniQA')
 					createdBy: me._id,
 					lesson: $scope.session.lesson._id,
 					reference: $scope.session.reference,
-					runtime: [{
+					runTime: [{
 						start: moment.utc().toISOString(),
 						end: moment.utc().add(1, 'hour').toISOString()
 					}],
+					questionsEnabled: $scope.session.startSessionQuestions,
+					feedbackEnabled: $scope.session.startSessionFeedback,
 					groups: groups
 				};
 
+				console.info('data', data);
+
 				Session.createSession(data)
 					.then(function(res) {
-						console.info(res);
+						console.info('res', res);
 						// refreshSessions();
 					})
 					.catch(function(err) {

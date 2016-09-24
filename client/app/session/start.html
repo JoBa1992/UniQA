@@ -1,7 +1,7 @@
 <md-content flex layout-padding>
   <!-- <form class="form" name="createSessionForm" ng-submit="createSession()" novalidate> -->
   <div flex class="col-md-12">
-    <md-button class="md-button md-raised pull-right" style="background-color:#F5F5F5;" aria-label="Favorite" ng-click="openCreateModal()">
+    <md-button class="md-button md-raised pull-right" style="background-color:#F5F5F5;" aria-label="Favorite" ng-click="createSession()">
       <span style="color:#757575;font-weight:600;">Begin</span>
     </md-button>
   </div>
@@ -18,8 +18,7 @@
             <input ng-model="moduleSearchTerm" type="search" placeholder="Search for modules..." class="session-select-searchbox md-text">
           </md-select-header>
           <md-optgroup label="modules">
-            <md-option ng-value="modules" ng-repeat="module in availableModules |
-                filter: moduleSearchTerm">{{module.name}}</md-option>
+            <md-option ng-repeat="module in availableModules | filter: { 'name': moduleSearchTerm }" ng-value="module">{{module.name}}</md-option>
           </md-optgroup>
         </md-select>
       </md-input-container>
@@ -34,8 +33,8 @@
             <input ng-model="lessonSearchTerm" type="search" placeholder="Search for a lesson..." class="session-select-searchbox md-text">
           </md-select-header>
           <md-optgroup label="modules">
-            <md-option ng-value="lessons" ng-repeat="lesson in availableLessons |
-              filter:searchTerm">{{lesson.title}}</md-option>
+            <md-option ng-value="lesson" ng-repeat="lesson in availableLessons |
+              filter: lessonSearchTerm">{{ lesson.module ? lesson.module.name + ' - ' : 'General - '}}{{lesson.title}}</md-option>
           </md-optgroup>
         </md-select>
       </md-input-container>
@@ -43,10 +42,8 @@
   </div>
   <div layout="row">
     <md-input-container class="md-block" flex-gt-sm="80" flex="80">
-      <label>Reference</label>
-      <input md-maxlength="40" name="name" ng-model="session.reference"/>
-
-      <div class="hint" style="color:#BBBBBB;">E.g. Group 2 Catchup</div>
+      <label style="font-weight:normal;">Reference</label>
+      <input md-maxlength="50" name="name" ng-model="session.reference"/>
     </md-input-container>
   </div>
   <div layout="row">

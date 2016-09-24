@@ -25,6 +25,7 @@
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/dropzone/downloads/css/dropzone.css" />
     <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+    <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
@@ -39,7 +40,7 @@
     <!--[if lt IE 7]> <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p> <![endif]-->
 
     <!-- Sticky header toolbar -->
-    <div ng-controller="PageHeaderCtrl">
+    <div ng-controller="PageHeaderCtrl" id="page-head">
       <div ng-include="'components/page-header/page-header.html'"></div>
     </div>
 
@@ -143,6 +144,7 @@
   <script src="bower_components/angular-aria/angular-aria.js"></script>
   <script src="bower_components/angular-messages/angular-messages.js"></script>
   <script src="bower_components/angular-material/angular-material.js"></script>
+  <script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
   <!-- endbower -->
   <script src="socket.io-client/socket.io.js"></script>
   <!-- endbuild -->

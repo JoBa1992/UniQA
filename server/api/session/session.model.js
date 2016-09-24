@@ -32,6 +32,7 @@ var SessionSchema = new Schema({
 	runTime: [{
 		start: Date,
 		end: Date,
+		_id: false
 	}],
 	qr: { // generated
 		url: String,
@@ -109,7 +110,7 @@ var SessionSchema = new Schema({
 	}],
 	deleted: {
 		type: Boolean,
-        default: false
+		default: false
 	}
 });
 
