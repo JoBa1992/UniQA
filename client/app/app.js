@@ -205,7 +205,6 @@ angular.module('UniQA', [
 	})
 	.config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
 		cfpLoadingBarProvider.includeSpinner = false;
-		// cfpLoadingBarProvider.parentSelector = '#page-head';
 		cfpLoadingBarProvider.latencyThreshold = 10;
 	}])
 	.config(function($mdThemingProvider) {
@@ -250,20 +249,20 @@ angular.module('UniQA', [
 				customAccent);
 
 		var customWarn = {
-			'50': '#ff8080',
-			'100': '#ff6666',
-			'200': '#ff4d4d',
-			'300': '#ff3333',
-			'400': '#ff1a1a',
-			'500': '#FF0000',
-			'600': '#e60000',
-			'700': '#cc0000',
-			'800': '#b30000',
-			'900': '#990000',
-			'A100': '#ff9999',
-			'A200': '#ffb3b3',
-			'A400': '#ffcccc',
-			'A700': '#800000'
+			'50': '#ffd380',
+			'100': '#ffca66',
+			'200': '#ffc14d',
+			'300': '#ffb933',
+			'400': '#ffb01a',
+			'500': '#FFA700',
+			'600': '#e69600',
+			'700': '#cc8600',
+			'800': '#b37500',
+			'900': '#996400',
+			'A100': '#ffdc99',
+			'A200': '#ffe5b3',
+			'A400': '#ffedcc',
+			'A700': '#805400'
 		};
 		$mdThemingProvider
 			.definePalette('customWarn',
@@ -275,15 +274,15 @@ angular.module('UniQA', [
 			'200': '#ffffff',
 			'300': '#ffffff',
 			'400': '#ffffff',
-			'500': '#F5F5F5',
-			'600': '#e8e8e8',
-			'700': '#dbdbdb',
-			'800': '#cfcfcf',
-			'900': '#c2c2c2',
+			'500': '#F4F3F3',
+			'600': '#e8e6e6',
+			'700': '#dcd8d8',
+			'800': '#cfcbcb',
+			'900': '#c3bebe',
 			'A100': '#ffffff',
 			'A200': '#ffffff',
 			'A400': '#ffffff',
-			'A700': '#b5b5b5'
+			'A700': '#b7b0b0'
 		};
 		$mdThemingProvider
 			.definePalette('customBackground',

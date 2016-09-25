@@ -1,0 +1,96 @@
+.app-head {
+  background-color: #FFF !important;
+  // border-bottom: 1px solid #AAA;
+  height: 64px;
+  min-height: 64px;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12);
+}
+.app-head-brand {
+  width: 213px;
+  position: relative;
+  .logo-image {
+    width: 100px;
+    margin: 0 auto;
+  }
+  .logo-text {
+    position: absolute;
+    font-weight: bolder;
+    left: 48px;
+    top: 14px;
+    font-size: 0.8em;
+  }
+}
+#page-header .toolbar-separator {
+  height: 64px;
+  width: 1px;
+  background: rgba(45, 45, 45, 0.2);
+}
+.user-menu {
+  height: 64px;
+  .user-button {
+    margin: 0;
+    padding: 0 16px;
+    height: 64px;
+    text-transform: none;
+  }
+}
+.avatar-wrapper {
+  position: relative;
+}
+.app-head-username {
+  font-weight: 600;
+}
+.user-menu-item {
+  color: #6B6B6B;
+  font-size: 1em;
+  i {
+    width: 28px;
+    text-align: center;
+  }
+}
+.app-head-avatar {
+  width: 40px;
+  min-width: 40px;
+  height: 40px;
+  line-height: 40px;
+  margin: 0 8px 0 0;
+  border-radius: 50%;
+  font-size: 17px;
+  font-weight: 500;
+  text-align: center;
+  color: #FFF;
+}
+.quick-panel-btn {
+  width: 64px;
+  height: 64px;
+  margin: 0;
+  border-radius: 0;
+  i {
+    display: block;
+  }
+}
+.quick-panel-btn > i.fa {
+  font-weight: 900;
+  font-size: 1.2em;
+}
+.quick-panel-btn > i.fa::before {
+  color: #6B6B6B;
+}
+.app-head-footer-toggle,
+.app-head-footer-toggle-min {
+  float: right;
+  background: transparent;
+  border: 0;
+  padding: 0.6em 1em;
+  margin: 0;
+}
+.app-head-footer-toggle-min {
+  width: 100%;
+}
+.app-head-footer-toggle:focus {
+  outline: none;
+}
+.app-head-footer-toggle:hover {
+  background-color: #82AECC;
+  color: white;
+}

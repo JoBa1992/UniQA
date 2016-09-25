@@ -1,8 +1,8 @@
 <div class="login-container">
-  <div class="logo">
-    <h1 style="margin-bottom:1em;" ng-include="'assets/images/logo/full-logo.svg'"></h1>
-  </div>
   <div class="col-xs-10 col-sm-8 col-md-6 col-lg-4 col-xs-offset-1 col-sm-offset-2 col-md-offset-3 col-lg-offset-4 login-block">
+    <div class="logo">
+      <img style="margin-bottom:1em;width:200px;" src="assets/images/logo/full-logo-nav.png"/>
+    </div>
     <form class="form" name="form" ng-submit="login(form)" novalidate style="padding:.2em 1.6em 0;">
       <md-input-container class="md-block md-input-has-placeholder md-default-theme" md-no-float="">
         <input type="username" name="username" ng-model="user.username" placeholder="Username" ng-pattern="/^.+@.+\..+$/" required class="md-input" aria-label="Username">

@@ -1,72 +1,83 @@
-<md-content flex layout-padding>
-  <!-- <form class="form" name="createSessionForm" ng-submit="createSession()" novalidate> -->
-  <div flex class="col-md-12">
-    <md-button class="md-button md-raised pull-right" style="background-color:#F5F5F5;" aria-label="Favorite" ng-click="createSession()">
-      <span style="color:#757575;font-weight:600;">Begin</span>
-    </md-button>
-  </div>
-  <h3>
-    <strong>Create Session</strong>
-  </h3>
-  <md-divider></md-divider>
-  <div layout="row">
-    <div flex-gt-sm="100" flex="100">
-      <md-input-container style="width:50%;">
-        <label>Module/s</label>
-        <md-select ng-model="session.moduleGroups" md-on-close="clearSearchTerm()" data-md-container-class="session-select-container" multiple>
-          <md-select-header class="session-select-header">
-            <input ng-model="moduleSearchTerm" type="search" placeholder="Search for modules..." class="session-select-searchbox md-text">
-          </md-select-header>
-          <md-optgroup label="modules">
-            <md-option ng-repeat="module in availableModules | filter: { 'name': moduleSearchTerm }" ng-value="module">{{module.name}}</md-option>
-          </md-optgroup>
-        </md-select>
-      </md-input-container>
+<div class="top-bg md-accent-bg"></div>
+<div layout="column" flex layout-padding>
+  <div layout="row" layout-align="space-between center" class="content-holder">
+    <div layout="column" layout-align="start start">
+      <h2 class="content-page-title">Products</h2>
     </div>
   </div>
+  <button class="md-fab md-button create-fab" type="button" ng-click="createSession()" aria-label="Create Session">
+    <i class="fa fa-chevron-right fa-2x" aria-hidden="true"></i>
+    <div class="md-ripple-container"></div>
+  </button>
   <div layout="row">
-    <div flex-gt-sm="100" flex="100">
-      <md-input-container style="width:50%;">
-        <label>Lesson</label>
-        <md-select ng-model="session.lesson" md-on-close="clearSearchTerm()" data-md-container-class="session-select-container">
-          <md-select-header class="session-select-header">
-            <input ng-model="lessonSearchTerm" type="search" placeholder="Search for a lesson..." class="session-select-searchbox md-text">
-          </md-select-header>
-          <md-optgroup label="modules">
-            <md-option ng-value="lesson" ng-repeat="lesson in availableLessons |
-              filter: lessonSearchTerm">{{ lesson.module ? lesson.module.name + ' - ' : 'General - '}}{{lesson.title}}</md-option>
-          </md-optgroup>
-        </md-select>
-      </md-input-container>
-    </div>
-  </div>
-  <div layout="row">
-    <md-input-container class="md-block" flex-gt-sm="80" flex="80">
-      <label style="font-weight:normal;">Reference</label>
-      <input md-maxlength="50" name="name" ng-model="session.reference"/>
-    </md-input-container>
-  </div>
-  <div layout="row">
-    <md-input-container class="md-block" flex-gt-sm="80" flex="80" style="margin:0;">
-      Allow Feedback
-      <md-checkbox ng-model="session.startSessionFeedback" aria-label="Allow session feedback" style="float:right;"></md-checkbox>
-    </md-input-container>
-  </div>
-  <div layout="row">
-    <md-input-container class="md-block" flex-gt-sm="80" flex="80" style="margin:0;">
-      Allow Questions
-      <md-checkbox ng-model="session.startSessionQuestions" aria-label="Allow questions" style="float:right;"></md-checkbox>
-    </md-input-container>
-  </div>
+    <md-content flex-gt-sm="70" flex layout-padding class="content-start-session md-whiteframe-4dp, md-whiteframe-z2">
+      <!-- <form class="form" name="createSessionForm" ng-submit="createSession()" novalidate> -->
+      <!-- <div flex class="col-md-12">
+        <md-button class="md-button md-raised pull-right" style="background-color:#F5F5F5;" aria-label="Favorite" ng-click="createSession()">
+          <span style="color:#757575;font-weight:600;">Begin</span>
+        </md-button>
+      </div> -->
 
-  <md-divider style="border-top-style:dashed;margin-top:1em;margin-bottom:1em;"></md-divider>
-
-  <h4>
-    <strong>Running times</strong>
-  </h4>
-  <h5 style="text-align:center;">Placeholder: Currently defaulting to now & now + 1 hour</h5>
-  <!-- </form> -->
-</md-content>
+      <div layout="row">
+        <div flex-gt-sm="100" flex="100">
+          <md-input-container style="width:60%;">
+            <label>Module/s</label>
+            <md-select ng-model="session.moduleGroups" md-on-close="clearSearchTerm()" data-md-container-class="session-select-container" multiple>
+              <md-select-header class="session-select-header">
+                <input ng-model="moduleSearchTerm" type="search" placeholder="Search for modules..." class="session-select-searchbox md-text">
+              </md-select-header>
+              <md-optgroup label="modules">
+                <md-option ng-repeat="module in availableModules | filter: { 'name': moduleSearchTerm }" ng-value="module" style="color:#414C5A;">{{module.name}}</md-option>
+              </md-optgroup>
+            </md-select>
+          </md-input-container>
+        </div>
+      </div>
+      <div layout="row">
+        <div flex-gt-sm="100" flex="100">
+          <md-input-container style="width:60%;">
+            <label>Lesson</label>
+            <md-select ng-model="session.lesson" md-on-close="clearSearchTerm()" data-md-container-class="session-select-container">
+              <md-select-header class="session-select-header">
+                <input ng-model="lessonSearchTerm" type="search" placeholder="Search for a lesson..." class="session-select-searchbox md-text">
+              </md-select-header>
+              <md-optgroup label="modules">
+                <md-option ng-value="lesson" ng-repeat="lesson in availableLessons |
+                  filter: lessonSearchTerm">{{ lesson.module ? lesson.module.name + ' - ' : 'General - '}}{{lesson.title}}</md-option>
+              </md-optgroup>
+            </md-select>
+          </md-input-container>
+        </div>
+      </div>
+      <div layout="row">
+        <md-input-container class="md-block" flex-gt-sm="100" flex="100">
+          <label style="font-weight:normal;">Reference</label>
+          <input md-maxlength="50" name="name" ng-model="session.reference"/>
+        </md-input-container>
+      </div>
+      <div layout="row">
+        <md-input-container class="md-block" flex-gt-sm="100" flex="100" style="margin:0;">
+          Allow Feedback
+          <md-checkbox ng-model="session.startSessionFeedback" aria-label="Allow session feedback" style="float:right;" class="md-default-theme"></md-checkbox>
+        </md-input-container>
+      </div>
+      <div layout="row">
+        <md-input-container class="md-block" flex-gt-sm="100" flex="100" style="margin:0;">
+          Allow Questions
+          <md-checkbox ng-model="session.startSessionQuestions" aria-label="Allow questions" style="float:right;"></md-checkbox>
+        </md-input-container>
+      </div>
+      <!-- </form> -->
+    </md-content>
+    <md-content flex-offset="5" flex-gt-sm="40" flex layout-padding class="content-start-session md-whiteframe-4dp, md-whiteframe-z2">
+      <h4>
+        <strong>Running times</strong>
+      </h4>
+      <h5 style="text-align:center;">Placeholder: Currently defaulting to now & now + 1 hour</h5>
+      <!-- </form> -->
+    </md-content>
+  </div>
+</div>
 
 <!-- <div class="body-min-height">
 

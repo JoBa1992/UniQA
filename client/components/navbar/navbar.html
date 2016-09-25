@@ -1,10 +1,10 @@
 <!-- Left Sidenav -->
-<md-sidenav ng-if="isLoggedIn()" layout="column" class="md-sidenav-left md-whiteframe-z2 sidebar-wrapper" ng-class="{'sidebar-wrapper-min': navMinnied}" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" style="">
+<md-sidenav ng-if="isLoggedIn()" layout="column" class="sidebar-wrapper" ng-class="{'sidebar-wrapper-min': navMinnied}" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
   <md-list>
-    <md-subheader ng-if="!navMinnied" style="background-color: transparent;color:#212121;">
+    <md-subheader ng-if="!navMinnied" style="background-color: transparent;color:rgba(255,255,255,.6);">
       <strong>Sessions</strong>
     </md-subheader>
-    <md-subheader ng-if="navMinnied" style="background-color: transparent;color:#212121;text-align:center;width:55px;">
+    <md-subheader ng-if="navMinnied" style="background-color: transparent;color:rgba(255,255,255,.6);text-align:center;width:55px;">
       <strong>S</strong>
     </md-subheader>
     <md-item ng-repeat="item in sessionsMenu" class="nav-item" ng-class="{active: isActive(item.link)}">
@@ -18,10 +18,10 @@
         </md-item-content>
       </a>
     </md-item>
-    <md-subheader ng-if="!navMinnied" style="background-color: transparent;color:#212121;margin-top:1.4em;">
+    <md-subheader ng-if="!navMinnied" style="background-color: transparent;color:rgba(255,255,255,.6);margin-top:1.4em;">
       <strong>Resources</strong>
     </md-subheader>
-    <md-subheader ng-if="navMinnied" style="background-color: transparent;margin-top:1.4em;color:#212121;text-align:center;width:55px;">
+    <md-subheader ng-if="navMinnied" style="background-color: transparent;margin-top:1.4em;color:rgba(255,255,255,.6);text-align:center;width:55px;">
       <strong>R</strong>
     </md-subheader>
     <md-item ng-repeat="item in resourceMenu" class="nav-item" ng-class="{active: isActive(item.link)}">
@@ -36,10 +36,10 @@
         </md-item-content>
       </a>
     </md-item>
-    <md-subheader ng-if="!navMinnied" style="background-color: transparent;color:#212121;margin-top:1.4em;">
+    <md-subheader ng-if="!navMinnied" style="background-color: transparent;color:rgba(255,255,255,.6);margin-top:1.4em;">
       <strong>Personal</strong>
     </md-subheader>
-    <md-subheader ng-if="navMinnied" style="background-color: transparent;margin-top:1.4em;color:#212121;text-align:center;width:55px;">
+    <md-subheader ng-if="navMinnied" style="background-color: transparent;margin-top:1.4em;color:rgba(255,255,255,.6);text-align:center;width:55px;">
       <strong>P</strong>
     </md-subheader>
     <md-item ng-repeat="item in personalMenu" class="nav-item" ng-class="{active: isActive(item.link)}">
@@ -55,15 +55,8 @@
     </md-item>
   </md-list>
   <div class="sidebar-footer">
-    <div class="sidebar-account" ng-class="{'sidebar-account-min' : navMinnied}" uib-dropdown ng-if="isLoggedIn()">
-      <img class="sidebar-avatar" ng-class="{'sidebar-avatar-min': navMinnied}" src="/assets/images/placeholders/profile.jpg" style="border:2px solid #82AECC;">
-      <span ng-if="!navMinnied" class="sidebar-avatar-username" style="display:block;font-weight:600;  white-space: nowrap;">{{currentUser().forename}}&nbsp;{{currentUser().surname}}</span>
-    </div>
-    <button class="sidebar-footer-toggle" ng-class="{'sidebar-footer-toggle-min': navMinnied }" ng-click="toggleNav()">
+    <button md-ink-ripple="#FFFFFF" class="sidebar-footer-toggle" ng-click="toggleNav()">
       <i class="fa fa-{{sidebarIcon}}" aria-hidden="true"></i>
-      <!-- <md-tooltip md-autohide="true" md-direction="right" class="tooltip-md">
-        Josh promises he will fix me soon
-      </md-tooltip> -->
     </button>
   </div>
 </md-sidenav>

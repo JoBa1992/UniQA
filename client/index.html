@@ -13,19 +13,20 @@
     <!-- <meta name="viewport" content="width=device-width"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
     <link rel="apple-touch-icon" sizes="180x180" href="assets/favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" href="assets/favicons/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="assets/favicons/favicon-16x16.png" sizes="16x16">
     <link rel="manifest" href="assets/favicons/manifest.json">
-    <link rel="mask-icon" href="assets/favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="mask-icon" href="assets/favicons/safari-pinned-tab.svg" color="#414C5A">
     <meta name="theme-color" content="#ffffff">
 
     <link rel="stylesheet" href="bower_components/angular-bootstrap-datetimepicker/src/css/datetimepicker.css"/>
     <!-- build:css(client) app/vendor.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/dropzone/downloads/css/dropzone.css" />
-    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
-    <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css" />
+    <link rel="stylesheet" href="bower_components/dropzone/downloads/css/dropzone.css"/>
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css"/>
+    <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css"/>
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
@@ -40,19 +41,19 @@
     <!--[if lt IE 7]> <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p> <![endif]-->
 
     <!-- Sticky header toolbar -->
-    <div ng-controller="PageHeaderCtrl" id="page-head">
-      <div ng-include="'components/page-header/page-header.html'"></div>
+    <div ng-controller="AppHeaderCtrl" id="app-head">
+      <div ng-include="'components/app-header/app-header.html'"></div>
     </div>
 
-    <div ng-controller="NavbarCtrl" layout-fill layout="row" ng-cloak="" class="main-nav-height" style="height:calc(100% - 50px);min-height:calc(100% - 50px);">
+    <div ng-controller="NavbarCtrl" layout-fill layout="row" ng-cloak="" class="main-nav-height" style="height:calc(100% - 64px);min-height:calc(100% - 64px);">
       <!-- Safety precaution -->
       <div ng-if="!isLoggedIn()" ng-include="'app/account/login/login.html'" ng-controller="LoginCtrl"></div>
 
       <div ng-show="isLoggedIn()" ng-include="'components/navbar/navbar.html'"></div>
       <div ng-show="isLoggedIn()" flex layout="column" class="content-container">
         <!-- Main Content with scrolling content -->
-        <div layout="row">
-          <md-content flex layout-padding="">
+        <div layout="row" style="height:100%;">
+          <md-content flex class="content-bg">
             <div ui-view=""></div>
           </md-content>
         </div>
@@ -180,6 +181,7 @@
   <script src="app/session/session.controller.js"></script>
   <script src="app/session/start.controller.js"></script>
   <script src="app/stats/statistics.controller.js"></script>
+  <script src="components/app-header/app-header.controller.js"></script>
   <script src="components/auth/auth.service.js"></script>
   <script src="components/auth/user.service.js"></script>
   <script src="components/contenteditable/contenteditable.directive.js"></script>
@@ -194,7 +196,6 @@
   <script src="components/module/module.service.js"></script>
   <script src="components/mongoose-error/mongoose-error.directive.js"></script>
   <script src="components/navbar/navbar.controller.js"></script>
-  <script src="components/page-header/page-header.controller.js"></script>
   <script src="components/scroll-bottom/scroll-bottom.directive.js"></script>
   <script src="components/session/session.service.js"></script>
   <script src="components/socket/socket.service.js"></script>
