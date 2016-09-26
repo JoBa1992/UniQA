@@ -20,8 +20,12 @@ body {
     background-color: inherit;
   }
   .content-page-title {
+    color: white;
     margin: 10px 8px;
   }
+}
+.bold {
+  font-weight: bold;
 }
 #loading-bar .bar {
   background: #82AECC;
@@ -50,19 +54,24 @@ body {
 }
 .content-holder {
   z-index: 1;
-  padding-bottom: 16px;
+  padding-bottom: 12px;
 }
 .md-accent-bg {
   background-color: rgb(154, 203, 237);
   color: rgba(255,255,255,1);
 }
 .create-fab {
-  position: absolute;
-  bottom: 4px;
-  right: 4px;
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
   i {
     color: white;
     padding-top: 0;
     padding-left: 0.1em;
+  }
+}
+.create-fab-plus {
+  i {
+    padding: 0;
   }
 }

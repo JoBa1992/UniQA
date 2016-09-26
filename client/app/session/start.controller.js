@@ -1,20 +1,14 @@
 'use strict';
 
 angular.module('UniQA')
-	.controller('SessionStartCtrl', function($rootScope, $scope, $window, $element, $timeout, $sce, $interval, socket, Auth, Lesson, Module, Session) {
+	.controller('SessionStartCtrl', function($scope, $element, Auth, Lesson, Module, Modal, Session) {
 		// attach lodash to scope
 		$scope._ = _;
-
-		$rootScope.showTopNav = true;
-		$rootScope.pageHeadTitle = '';
 
 		// attach moment to scope
 		$scope.moment = moment;
 
 		var me = Auth.getCurrentUser();
-
-		// variables used by countdown...
-		$scope.now = moment.utc();
 
 		$scope.submitted = false;
 
@@ -29,7 +23,10 @@ angular.module('UniQA')
 			reference: '',
 			startSessionQuestions: true,
 			startSessionFeedback: true,
-			runtime: []
+			runtime: [{
+				start: moment().format("DD/MM/YYYY HH:mm"),
+				end: moment().add(1, 'hour').format("DD/MM/YYYY HH:mm")
+			}]
 		}
 
 		$scope.clearSearchTerm = function() {
@@ -77,6 +74,30 @@ angular.module('UniQA')
 				});
 			}
 		};
+		$scope.openAddRuntimeModal = Modal.create.runtime(function(res, continuing) {
+			if (continuing) {
+				$scope.userModules.push(res);
+				// need to sort user modules here
+				// return $scope.openCreateModal();
+			} else {
+				return $location.path('/modules/' + res._id);
+			}
+		});
+
+		$scope.deleteRuntime = function(runtime) {
+			var index = $scope.session.runtime.indexOf(runtime);
+			if (index > -1) {
+				$scope.session.runtime.splice(index, 1);
+			}
+		};
+
+		$scope.isSessionStartDisabled = function() {
+			if (!$scope.session.lesson || _.isEmpty($scope.session.moduleGroups) || _.isEmpty($scope.session.runtime)) {
+				return true;
+			}
+			return false;
+		};
+
 
 		// $scope.searchForMyModules = function(e) {
 		// 	// console.info(e);

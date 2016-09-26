@@ -612,7 +612,7 @@ angular.module('UniQA')
 								form: 'components/modal/views/module/create.html',
 								title: 'Creating Module...',
 								buttons: [{
-									classes: 'btn-default',
+									classes: 'md-default',
 									text: 'Cancel',
 									click: function(e) {
 										// reset submit state
@@ -621,7 +621,7 @@ angular.module('UniQA')
 										$mdDialog.cancel();
 									}
 								}, {
-									classes: 'btn-success',
+									classes: 'md-primary bold',
 									text: 'Create',
 									click: function(e, form) {
 										$rootScope.submitted = true;
@@ -1003,14 +1003,14 @@ angular.module('UniQA')
 								form: 'components/modal/views/lesson/create.html',
 								title: 'Creating Lesson...',
 								buttons: [{
-									classes: 'btn-default',
+									classes: 'md-default',
 									text: 'Cancel',
 									click: function(e) {
 										$rootScope.submitted = false;
 										$mdDialog.cancel();
 									}
 								}, {
-									classes: 'btn-success',
+									classes: 'md-primary bold',
 									text: 'Create',
 									click: function(e, form) {
 										$rootScope.submitted = true;
@@ -1077,6 +1077,96 @@ angular.module('UniQA')
 						});
 					};
 				},
+				runtime: function(cb) {
+					cb = cb || angular.noop;
+					var createModal, createdRuntime;
+					$rootScope.submitted = false;
+
+					return function() {
+						createModal = openModal({
+							modal: {
+								name: 'createRuntimeForm',
+								controller: 'RuntimeCreateModalCtrl',
+								sizePercent: 50,
+								dismissable: true,
+								fullScreen: true,
+								form: 'components/modal/views/session/create-runtime.html',
+								title: 'Adding runtime...',
+								buttons: [{
+									classes: 'md-default',
+									text: 'Cancel',
+									click: function(e) {
+										$rootScope.submitted = false;
+										$mdDialog.cancel();
+									}
+								}, {
+									classes: 'md-primary bold',
+									text: 'Create',
+									click: function(e, form) {
+										$rootScope.submitted = true;
+										if (form.lesson.title) {
+											// setup vars to be sent across to API
+											var collabs = [];
+											// push each selected collaborator into array
+											for (var i = 0; i < form.selectedCollaborators.length; i++) {
+												collabs.push({
+													user: form.selectedCollaborators[i]._id
+												});
+											}
+
+											// remove this entry, and add the array collection
+											delete form.lesson.collaborator;
+											form.lesson['collaborators'] = collabs;
+
+											$rootScope.res.received = false;
+
+											Lesson.createLesson({
+													data: form.lesson
+												})
+												.then(function(res) {
+													createdLesson = res;
+
+													$rootScope.dropzone[0].dropzone.options.url += createdLesson._id + '/files';
+
+													if (!_.isEmpty($rootScope.dropzone[0].dropzone.getAcceptedFiles())) {
+														$rootScope.dropzone[0].dropzone.processQueue();
+													} else {
+														// lesson created with no files, close the modal
+														$rootScope.res.received = true;
+														$rootScope.submitted = false;
+														// form.$setUntouched();
+														// form.$setPristine();
+														$mdDialog.hide(form.lesson);
+													}
+												})
+												.catch(function(err) {
+													$rootScope.errors = {};
+													$rootScope.res.received = true;
+
+													// Update validity of form fields that match the mongoose errors
+													angular.forEach(err.errors, function(error, field) {
+														form[field].$setValidity('mongoose', false);
+														$rootScope.errors[field] = error.message;
+													});
+												});
+										}
+									}
+								}]
+							}
+						});
+
+						$rootScope.uploadSuccess = function(res) {
+							$rootScope.res.received = true;
+							$mdDialog.hide(res);
+						};
+
+						createModal.then(function(res) {
+							cb(res);
+						}, function() {
+							// on err?
+						});
+					};
+				}
 			},
 			update: {
 				user: function(cb) {

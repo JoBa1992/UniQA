@@ -2,25 +2,18 @@
 <div layout="column" flex layout-padding>
   <div layout="row" layout-align="space-between center" class="content-holder">
     <div layout="column" layout-align="start start">
-      <h2 class="content-page-title">Products</h2>
+      <h2 class="content-page-title">Start Session</h2>
     </div>
   </div>
-  <button class="md-fab md-button create-fab" type="button" ng-click="createSession()" aria-label="Create Session">
+  <button class="md-fab md-button create-fab" type="button" ng-click="createSession()" aria-label="Create Session" ng-disabled="isSessionStartDisabled()">
     <i class="fa fa-chevron-right fa-2x" aria-hidden="true"></i>
     <div class="md-ripple-container"></div>
   </button>
   <div layout="row">
-    <md-content flex-gt-sm="70" flex layout-padding class="content-start-session md-whiteframe-4dp, md-whiteframe-z2">
-      <!-- <form class="form" name="createSessionForm" ng-submit="createSession()" novalidate> -->
-      <!-- <div flex class="col-md-12">
-        <md-button class="md-button md-raised pull-right" style="background-color:#F5F5F5;" aria-label="Favorite" ng-click="createSession()">
-          <span style="color:#757575;font-weight:600;">Begin</span>
-        </md-button>
-      </div> -->
-
+    <md-content flex-sm="100" flex-gt-sm="70" layout-padding class="content-start-session md-whiteframe-4dp, md-whiteframe-z2">
       <div layout="row">
         <div flex-gt-sm="100" flex="100">
-          <md-input-container style="width:60%;">
+          <md-input-container style="width:90%;">
             <label>Module/s</label>
             <md-select ng-model="session.moduleGroups" md-on-close="clearSearchTerm()" data-md-container-class="session-select-container" multiple>
               <md-select-header class="session-select-header">
@@ -35,7 +28,7 @@
       </div>
       <div layout="row">
         <div flex-gt-sm="100" flex="100">
-          <md-input-container style="width:60%;">
+          <md-input-container style="width:90%;">
             <label>Lesson</label>
             <md-select ng-model="session.lesson" md-on-close="clearSearchTerm()" data-md-container-class="session-select-container">
               <md-select-header class="session-select-header">
@@ -67,14 +60,30 @@
           <md-checkbox ng-model="session.startSessionQuestions" aria-label="Allow questions" style="float:right;"></md-checkbox>
         </md-input-container>
       </div>
-      <!-- </form> -->
     </md-content>
-    <md-content flex-offset="5" flex-gt-sm="40" flex layout-padding class="content-start-session md-whiteframe-4dp, md-whiteframe-z2">
+    <md-content flex-sm="100" flex-offset="5" flex-gt-sm="40" layout-padding class="content-start-session md-whiteframe-4dp, md-whiteframe-z2">
       <h4>
-        <strong>Running times</strong>
+        <strong>Running Times</strong>
       </h4>
-      <h5 style="text-align:center;">Placeholder: Currently defaulting to now & now + 1 hour</h5>
-      <!-- </form> -->
+      <table id="table" class="table">
+        <thead>
+          <tr>
+            <th>From</th>
+            <th>To</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="entry in session.runtime">
+            <td data-title="From" contenteditable style="width:48%" ng-model="entry.start"></td>
+            <td data-title="To" contenteditable style="width:48%" ng-model="entry.end"></td>
+            <td data-title="Remove" ng-click="deleteRuntime(entry);">
+              <i class="fa fa-times" style="cursor:pointer;"></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <a style="float:right;cursor:pointer;" ng-click="openAddRuntimeModal()">add runtime</a>
     </md-content>
   </div>
 </div>

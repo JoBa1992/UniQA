@@ -1,5 +1,5 @@
-<md-dialog aria-label="{{modal.title}}" flex="{{modal.sizePercent}}">
-  <form ng-cloak>
+<md-dialog aria-label="{{modal.title}}" flex="{{modal.sizePercent}}" style="background-color:#F7F7F7;">
+  <form ng-cloak style="background-color:#FFFFFF;">
     <md-toolbar>
       <div class="md-toolbar-tools">
         <h2 ng-if="modal.title" bind-unsafe-html="modal.title" style="color:white;"></h2>
@@ -20,13 +20,27 @@
         <ng-include src="modal.form"></ng-include>
       </div>
     </md-dialog-content>
-
-    <md-dialog-actions layout="row" ng-if="modal.footer !== false">
+    <md-dialog-actions layout="row" layout-align="space-between center" ng-if="modal.footer !== false" style="background-color:rgba(0,0,0,.03);border-top: 1px solid rgba(0,0,0,.12);padding:1em;">
+      <div layout="row" layout-align="start center" class="layout-align-start-center layout-row">
+        <!-- <button class="send-button md-accent md-raised md-button ng-scope md-ink-ripple md-default-theme" type="button" ng-transclude="" ng-click="vm.closeDialog()" aria-label="Send" translate="MAIL.SEND" translate-attr-aria-label="MAIL.SEND">Send<div class="md-ripple-container"></div>
+        </button>
+        <button class="md-icon-button md-button md-ink-ripple md-default-theme" type="button" ng-transclude="" aria-label="Attach file" translate-attr-aria-label="MAIL.ATTACH_FILE">
+          <md-icon md-font-icon="icon-paperclip" class="ng-scope md-font material-icons icon-paperclip md-default-theme" aria-hidden="true"></md-icon>
+        </button>-->
+      </div>
+      <div layout="row" class="layout-row">
+        <md-button ng-repeat="button in modal.buttons" class="md-raised {{button.classes}}" ng-click="button.click($event, form)" bind-unsafe-html="button.text" aria-label="button.text"></md-button>
+        <!-- <button class="md-icon-button md-button md-ink-ripple md-default-theme" type="button" ng-transclude="" aria-label="Delete" translate-attr-aria-label="MAIL.DELETE">
+          <md-icon md-font-icon="icon-delete" class="ng-scope md-font material-icons icon-delete md-default-theme" aria-hidden="true"></md-icon>
+        </button> -->
+      </div>
+    </md-dialog-actions>
+    <!-- <md-dialog-actions layout="row">
       <span flex></span>
       <md-dialog-actions layout="row" ng-if="modal.footer !== false">
         <span flex></span>
         <md-button ng-repeat="button in modal.buttons" ng-click="button.click($event, form)" bind-unsafe-html="button.text" aria-label="button.text"></md-button>
       </md-dialog-actions>
-    </md-dialog-actions>
+    </md-dialog-actions> -->
   </form>
 </md-dialog>
