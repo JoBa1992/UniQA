@@ -72,8 +72,14 @@ Thing.find({}).remove(function() {
 	}, {
 		name: 'uniTimePeriods',
 		content: {
-			'2016-2017': [moment.utc([2016, 09, 26, 23, 59, 59]).toISOString(), moment.utc([2017, 09, 25, 23, 59, 59]).toISOString()],
-			'2015-2016': [moment.utc([2015, 09, 24, 23, 59, 59]).toISOString(), moment.utc([2016, 09, 23, 23, 59, 59]).toISOString()]
+			'2016-2017': {
+				'start': moment('26/09/2016 23:59:59', 'DD/MM/YYYY HH:mm:ss').utc().toISOString(),
+				'end': moment('25/09/2017 23:59:59', 'DD/MM/YYYY HH:mm:ss').utc().toISOString()
+			},
+			'2015-2016': {
+				'start': moment('24/09/2015 23:59:59', 'DD/MM/YYYY HH:mm:ss').utc().toISOString(),
+				'end': moment('23/09/2016 23:59:59', 'DD/MM/YYYY HH:mm:ss').utc().toISOString()
+			}
 		}
 	}, {
 		name: 'userRoles',

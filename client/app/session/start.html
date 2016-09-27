@@ -9,8 +9,8 @@
     <i class="fa fa-chevron-right fa-2x" aria-hidden="true"></i>
     <div class="md-ripple-container"></div>
   </button>
-  <div layout="row">
-    <md-content flex-sm="100" flex-gt-sm="70" layout-padding class="content-start-session md-whiteframe-4dp, md-whiteframe-z2">
+  <div layout="row" layout-xs="column">
+    <md-content flex flex-gt-sm="55" layout-xs="column" layout-padding class="content-start-session md-whiteframe-4dp, md-whiteframe-z2">
       <div layout="row">
         <div flex-gt-sm="100" flex="100">
           <md-input-container style="width:90%;">
@@ -50,22 +50,31 @@
       </div>
       <div layout="row">
         <md-input-container class="md-block" flex-gt-sm="100" flex="100" style="margin:0;">
-          Allow Feedback
+          Allow Feedback&nbsp;<i class="fa fa-question-circle" aria-hidden="true" style="cursor:pointer;color:#394350;">
+            <md-tooltip md-autohide="true" md-direction="right" class="tooltip-md">Allows students to give feedback in this session.
+              <strong>Note:
+              </strong>Can only be set here.</md-tooltip>
+          </i>
           <md-checkbox ng-model="session.startSessionFeedback" aria-label="Allow session feedback" style="float:right;" class="md-default-theme"></md-checkbox>
         </md-input-container>
       </div>
       <div layout="row">
         <md-input-container class="md-block" flex-gt-sm="100" flex="100" style="margin:0;">
-          Allow Questions
+          Allow Questions&nbsp;<i class="fa fa-question-circle" aria-hidden="true" style="cursor:pointer;color:#394350;">
+            <md-tooltip md-autohide="true" md-direction="right" class="tooltip-md">Allows students to ask questions throughout session. Can be enabled/disabled throughout session.</md-tooltip>
+          </i>
           <md-checkbox ng-model="session.startSessionQuestions" aria-label="Allow questions" style="float:right;"></md-checkbox>
         </md-input-container>
       </div>
     </md-content>
-    <md-content flex-sm="100" flex-offset="5" flex-gt-sm="40" layout-padding class="content-start-session md-whiteframe-4dp, md-whiteframe-z2">
+    <md-content flex flex-gt-sm="5" hide-xs hide-sm style="visibility:hidden">
+      &nbsp;
+    </md-content>
+    <md-content flex flex-gt-sm="40" layout-padding class="content-start-session md-whiteframe-4dp, md-whiteframe-z2">
       <h4>
         <strong>Running Times</strong>
       </h4>
-      <table id="table" class="table">
+      <table id="table" class="table runtime-table">
         <thead>
           <tr>
             <th>From</th>
@@ -75,8 +84,8 @@
         </thead>
         <tbody>
           <tr ng-repeat="entry in session.runtime">
-            <td data-title="From" contenteditable style="width:48%" ng-model="entry.start"></td>
-            <td data-title="To" contenteditable style="width:48%" ng-model="entry.end"></td>
+            <td class="runtime-table-entry" data-title="From" contenteditable style="width:48%" ng-model="entry.start"></td>
+            <td class="runtime-table-entry" data-title="To" contenteditable style="width:48%" ng-model="entry.end"></td>
             <td data-title="Remove" ng-click="deleteRuntime(entry);">
               <i class="fa fa-times" style="cursor:pointer;"></i>
             </td>
@@ -87,36 +96,6 @@
     </md-content>
   </div>
 </div>
-
-<!-- <div class="body-min-height">
-
-  <div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1"></div>
-  <div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
-    <form class="form" name="createSessionForm" ng-submit="createSession()" novalidate>
-      <div class="form-group has-error">
-        <p class="help-block" ng-show="form.email.$error.required && form.password.$error.required && submitted">
-          Please validate
-        </p>
-        <p class="help-block" ng-show="form.email.$error.email && submitted">
-          Please validate
-        </p>
-        <p class="help-block" ng-show="form.password.$error.required && form.password.$error.required && submitted">
-          Please validate
-        </p>
-        <p class="help-block">{{ errors.other }}</p>
-      </div>
-
-      <md-content layout-padding>
-        <div layout-gt-xs="row" style="clear:both;">
-          <div flex-gt-md>
-            <h4>Date-picker with min date and max date</h4>
-            <md-datepicker ng-model="myDate" md-placeholder="Enter date" md-min-date="minDate" md-max-date="maxDate"></md-datepicker>
-          </div>
-        </div>
-      </md-content>
-    </form>
-  </div>
-</div> -->
 
 <!-- FOOTER -->
 <!-- <div ng-include="'components/footer/footer.html'"></div> -->
