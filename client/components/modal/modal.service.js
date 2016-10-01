@@ -58,19 +58,20 @@ angular.module('UniQA')
 
 					return function() {
 						var readModal;
-						Session.getOne(session).then(function(res) {
+						Session.getById(session).then(function(res) {
 							$rootScope.session = res;
 							readModal = openModal({
 								modal: {
 									name: 'View QR',
 									dismissable: true,
+									fullScreen: true,
+									sizePercent: 30,
 									form: 'components/modal/views/qr/read.html',
-									title: 'Show QR',
 									buttons: [{
-										classes: 'btn-primary',
-										text: 'Dismiss',
+										classes: 'md-primary',
+										text: 'Close',
 										click: function(e) {
-											readModal.close(e);
+											$mdDialog.hide(e);
 										}
 									}]
 								}
@@ -363,6 +364,8 @@ angular.module('UniQA')
 						var confirmModal;
 						$rootScope.leaveMsg = msg;
 
+						console.info(msg);
+
 						confirmModal = openModal({
 							modal: {
 								name: 'leaveSessionForm',
@@ -371,24 +374,24 @@ angular.module('UniQA')
 								form: 'components/modal/views/session/leave.html',
 								title: 'Leaving Session',
 								buttons: [{
-									classes: 'btn-default',
+									classes: 'md-default',
 									text: 'Cancel',
 									click: function(e) {
 										$rootScope.submitted = false;
-										confirmModal.dismiss(e);
+										$mdDialog.hide(false);
 									}
 								}, {
-									classes: 'btn-danger',
+									classes: 'md-primary bold',
 									text: 'Leave',
-									click: function(e) {
-										confirmModal.close(e);
+									click: function() {
+										$mdDialog.hide(true);
 									}
 								}]
 							}
 						}, 'modal-danger', 'md');
 
-						confirmModal.then(function() {
-							cb();
+						confirmModal.then(function(e) {
+							cb(e);
 						});
 					};
 				},

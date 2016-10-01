@@ -1,28 +1,61 @@
 <div ng-include="'app/session/active-student.html'"></div>
 
-<div ng-if="!isStudent()" layout="column" flex class="active-session-wrapper">
-  <object id="lesson" type="text/html" data="{{session.url}}" style="width:100%;"></object>
+<div ng-if="!isStudent()" id="lesson-container" layout="column" flex class="active-session-wrapper">
+  <div ng-if="session.url" class="slides-container">
+    <object id="lesson" type="text/html" data="{{session.url}}"></object>
+    <div class="lesson-buttons-container-top">
+      <a ng-click="toggleFullScreen()" class="lesson-action-button fullscreen-toggle">
+        <i class="fa {{toggleFullScreenIcon}}"></i>
+      </a>
+      <a ng-click="toggleSound()" class="lesson-action-button">
+        <i ng-if="playSound" class="fa fa-volume-up"></i>
+        <i ng-if="!playSound" class="fa fa-volume-off"></i>
+      </a>
+    </div>
+
+    <div class="lesson-buttons-container-bottom">
+      <a ng-click="showQrModal()" class="lesson-action-button">
+        <h4 style="background-color:rgba(255,255,255,0.2);padding:.2em .4em;border-radius:4px;">
+          <strong>Alt:</strong>
+          {{session.altAccess}}</h4>
+      </a>
+
+      <!-- <a ng-click="toggleQuestions()" class="lesson-action-button">
+        <i class="fa {{hideQuestionIcon}}">
+          <span ng-if="hideQuestions">
+            <strong>{{questionIconNumber}}</strong>
+          </span>
+        </i>
+      </a> -->
+    </div>
+  </div>
+  <div ng-if="!session.url"></div>
+
   <div ng-class="{ 'hidden': hideQuestions }" class="question-container">
     <div class="question-head-container">
       <div class="question-head">
         <h3>
-          <a style="cursor:pointer;">
-            <i class="fa fa-align-left" style="position:absolute;left:0;font-size:1em;padding: 0 4px 0;"></i>
+          <a class="questions-menu">
+            <i class="fa fa-align-left"></i>
           </a>Questions</h3>
       </div>
     </div>
-    <div class="question-feed-container" ng-class="{'question-feed-blur': !init}">
+    <div class="question-feed-container" ng-class="{'question-feed-container-blur': !init}">
       <h5 style="color:#FFA700;">Welcome to&nbsp;<span ng-bind="session.title"></span>
       </h5>
       {{session.lesson}}
       <ul class="question-feed" scroll-glue>
         <li ng-repeat="question in session.questions">
-          <span ng-if="question.asker.role=='admin' && !question.anon" class="user-icon">
-            <i class="fa fa-graduation-cap text-warning" style="padding-top:.65em;"></i>
+          <span ng-if="question.asker.role=='tutor'" class="user-icon">
+            <i class="fa fa-graduation-cap" style="padding-top:.65em;"></i>
+          </span>
+          <span ng-if="question.asker.role=='admin'" class="user-icon">
+            <i class="fa fa-star" style="padding-top:.5em;"></i>
           </span>
           <a style="display:inline-block;">
-            <span ng-if="!question.anon" ng-bind="question.asker.fullName"></span>
-            <span ng-if="question.anon">anon</span>:
+            <span ng-if="!question.anon" ng-bind="::question.asker.fullName"></span>
+            <span ng-if="!question.anon">:</span>
+            <span ng-if="question.anon">anon :</span>
             <span ng-if="(question.time|date: 'yyyy-MM-dd') == (moment()._d| date: 'yyyy-MM-dd')" tooltip="{{question.time| date : 'HH:mm'}}" tooltip-trigger tooltip-animation="false" tooltip-placement="top" ng-click="something()">{{question.question}}</span>
             <span ng-if="(question.time|date: 'yyyy-MM-dd') != (moment()._d| date: 'yyyy-MM-dd')" tooltip="{{question.time| date : 'dd/MM/yyyy HH:mm'}}" tooltip-trigger tooltip-animation="false" tooltip-placement="top" ng-click="something()">{{question.question}}</span>
           </a>
@@ -34,16 +67,6 @@
             <input class="form-control" ng-model="user.question" ng-trim="true" type="text" maxlength="255" placeholder="Add a question" ng-class="{'profanity-input' : user.error}"/>
           </div>
         </div>
-        <!-- <div class="col-xs-12" style="margin:.6em 0 0;padding:0;">
-          <div class="col-xs-6" style="padding-left:.4em;">
-            <h5 class="text-warning" ng-class="{'full-input' : user.question.length >= 255}">{{user.question.length}}/255</h5>
-          </div>
-          <div class="col-xs-6" style="padding-right:0;">
-            <button type="submit" ng-click="sendMsg()" class="btn btn-success green" style="width:100%;margin:0;">
-              <i class="fa fa-share"></i>
-              Send</button>
-          </div>
-        </div> -->
       </div>
     </div>
   </div>

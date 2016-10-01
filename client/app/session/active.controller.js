@@ -18,6 +18,13 @@ angular.module('UniQA')
 			question: ''
 		};
 
+		$scope.$on('$locationChangeStart', function(event, next) {
+			var answer = confirm("Are you sure you want to leave this session?")
+			if (!answer) {
+				event.preventDefault();
+			}
+		});
+
 		//var _second = 1000;
 		//var _minute = _second * 60;
 		// var _hour = _minute * 60;
@@ -68,42 +75,42 @@ angular.module('UniQA')
 			registered: [],
 			questions: [{
 				'asker': {
-					'name': 'Joshua Bates'
+					'fullName': 'Joshua Bates'
 				},
-				'question': 'Good find, I need help with building this app, so if you have some spare time, and fancy getting involved, please send me an email at joshua.bates16@gmail.com...',
+				'question': 'Good find',
 				'time': '2016-03-20T20:35:00Z',
 				'anon': false
 			}, {
 				'asker': {
-					'name': 'Joshua Bates'
+					'fullName': 'Joshua Bates'
 				},
 				'question': 'It took me like 4 hours to even start understanding sockets',
 				'time': '2016-03-20T20:50:00Z',
 				'anon': false
 			}, {
 				'asker': {
-					'name': 'Joshua Bates'
+					'fullName': 'Joshua Bates'
 				},
 				'question': 'SOCKETS!',
 				'time': '2016-02-20T21:16:35Z',
 				'anon': false
 			}, {
 				'asker': {
-					'name': 'Joshua Bates'
+					'fullName': 'Joshua Bates'
 				},
 				'question': 'And the best thing is, they were built into the framework.',
 				'time': '2016-02-20T21:16:36Z',
 				'anon': false
 			}, {
 				'asker': {
-					'name': 'Joshua Bates'
+					'fullName': 'Joshua Bates'
 				},
 				'question': 'Anyway...',
 				'time': '2016-02-20T21:16:36Z',
 				'anon': false
 			}, {
 				'asker': {
-					'name': '56a7d95746b9e7db57417309'
+					'fullName': '56a7d95746b9e7db57417309'
 				},
 				'question': 'I just needed some content filled in behind this loading blur. ',
 				'time': '2016-02-20T21:16:36Z',
@@ -403,7 +410,7 @@ angular.module('UniQA')
 
 		$scope.toggleFullScreen = function() {
 			if (!$scope.fullScreenToggle) { // Launch fullscreen for browsers that support it!
-				var element = document.getElementById('lesson-fullscreen');
+				var element = document.getElementById('lesson-container');
 				if (element.requestFullScreen) {
 					element.requestFullScreen();
 				} else if (element.mozRequestFullScreen) {

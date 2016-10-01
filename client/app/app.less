@@ -14,6 +14,10 @@ body {
   -ms-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  overflow: auto;
 }
 html {
   -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -23,6 +27,7 @@ body {
   font-size: 14px;
   line-height: 1.42857143;
   color: #555;
+  -webkit-overflow-scrolling: touch;
 }
 *,
 :after,
@@ -181,6 +186,64 @@ th {
   text-align: center;
   background-color: #999;
   border-radius: 10px;
+}
+.text-info,
+.text-success,
+.text-warning,
+.text-error {
+  margin: 10px 0;
+  padding: 12px;
+}
+.text-primary {
+  color: #82AECC;
+}
+.text-info {
+  color: #00529B;
+}
+.text-success {
+  color: #4F8A10;
+}
+.text-warning {
+  color: #9F6000;
+}
+.text-error {
+  color: #D8000C;
+}
+.text-info i,
+.text-success i,
+.text-warning i,
+.text-error i {
+  margin: 10px 22px;
+  font-size: 2em;
+  vertical-align: middle;
+}
+.label-primary {
+  color: #445B6B;
+  background-color: #82AECC;
+}
+.label-info {
+  color: #00529B;
+  background-color: #BDE5F8;
+}
+.label-success {
+  color: #4F8A10;
+  background-color: #DFF2BF;
+}
+.label-warning {
+  color: #9F6000;
+  background-color: #FEEFB3;
+}
+.label-error {
+  color: #D8000C;
+  background-color: #FFBABA;
+}
+.label-info i,
+.label-success i,
+.label-warning i,
+.label-error i {
+  margin: 10px 22px;
+  font-size: 2em;
+  vertical-align: middle;
 }
 .browsehappy {
   margin: 0.2em 0;

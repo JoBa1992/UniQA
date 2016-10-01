@@ -1,10 +1,10 @@
 <md-toolbar ng-if="isLoggedIn()" layout="column" layout-align="center start" layout-padding="80" class="app-head" id="page-header">
   <div layout="row" layout-align="start center" class="md-toolbar-tools">
     <div layout="row" layout-align="start center" flex="">
-      <div class="app-head-brand" hide-xs hide-sm>
+      <a class="app-head-brand" href="/dashboard" hide-xs hide-sm>
         <img class="logo-image" src="assets/images/logo/full-logo-nav.png"/>
         <span class="beta">BETA</span>
-      </div>
+      </a>
       <div class="toolbar-separator" hide-xs hide-sm></div>
       <sm-button ng-click="toggleLeftMenu()" class="md-primary" style="margin-right:1em;color:#6B6B6B;" hide-gt-sm>
         <i class="fa fa-bars" aria-hidden="true"></i>

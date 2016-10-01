@@ -130,10 +130,10 @@ angular.module('UniQA', [
 		};
 		$mdDateLocaleProvider.firstDayOfWeek = 1;
 	})
-	.run(function($rootScope, $location, $window, socket, Auth, Session, Module) {
+	.run(function($rootScope, $location, $window, socket, Auth, Session, Module, Modal) {
 		// check for scope state changes
 		// next, current
-		$rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
+		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState) {
 			Auth.isLoggedInAsync(function(loggedIn) {
 				if (loggedIn) {
 					event.preventDefault();
@@ -164,10 +164,9 @@ angular.module('UniQA', [
 
 						}
 					} else {
-						console.info(toParams);
 						if (!toParams.sessionid) {
 							event.preventDefault();
-							if (Auth.isAdmin()) {
+							if (Auth.isAdmin() || Auth.isTutor()) {
 								return $location.path('/session/start?m=notReady');
 							} else {
 								return $location.path('/session/register?m=notReady');
@@ -177,7 +176,6 @@ angular.module('UniQA', [
 						var now = moment.utc();
 						var _second = 1000;
 						var _minute = _second * 60;
-
 
 						// don't want user accessing page if session isn't valid
 						Session.getById(sessionid).then(function(res) {

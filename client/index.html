@@ -22,9 +22,9 @@
 
     <!-- build:css(client) app/vendor.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/dropzone/downloads/css/dropzone.css" />
-    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
-    <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css" />
+    <link rel="stylesheet" href="bower_components/dropzone/downloads/css/dropzone.css"/>
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css"/>
+    <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css"/>
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
@@ -43,7 +43,7 @@
       <div ng-include="'components/app-header/app-header.html'"></div>
     </div>
 
-    <div ng-controller="NavbarCtrl" layout-fill layout="row" ng-cloak="" class="main-nav-height" style="height:calc(100% - 64px);min-height:calc(100% - 64px);">
+    <div ng-controller="NavbarCtrl" layout-fill layout="row" ng-cloak="" style="height:calc(100% - 64px);min-height:calc(100% - 64px);">
       <!-- Safety precaution -->
       <div ng-if="!isLoggedIn()" ng-include="'app/account/login/login.html'" ng-controller="LoginCtrl"></div>
 

@@ -578,7 +578,7 @@ User.find({}).remove(function() {
 								}, {
 									user: '56cb76ecd5b3f4b6be5d7def'
 								}],
-								url: 'http://www.mustbebuilt.co.uk/SHU/WAD/wad-wk8-lesson16.html',
+								url: 'http://www.mustbebuilt.co.uk/SHU/WAD/wad2016-1-browsers-servers.html',
 								attachments: [{
 									"loc": "/Applications/XAMPP/xamppfiles/htdocs/Website/UniQA/server/storage/lessons/56cb76ebd5b3f4b6be5d7dd1/Application_Demo_Marking_Scheme(1).pdf",
 									"url": "/api/storage/lessons/56cb76ebd5b3f4b6be5d7dd1/Application_Demo_Marking_Scheme(1).pdf",
