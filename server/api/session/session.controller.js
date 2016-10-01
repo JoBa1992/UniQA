@@ -431,7 +431,7 @@ exports.getQuestions = function(req, res) {
 
 
 exports.addQuestion = function(req, res) {
-	var questionToAdd = JSON.parse(JSON.stringify(req.body.params)); // deep copy
+	var questionToAdd = JSON.parse(JSON.stringify(req.body)); // deep copy
 	questionToAdd.time = new Date(moment.utc().format());
 
 	if (questionToAdd.question) {

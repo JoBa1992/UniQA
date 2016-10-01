@@ -1,21 +1,192 @@
-@import 'bootstrap/less/bootstrap.less';
+@import '../assets/fonts/fonts.less';
 @import 'font-awesome/less/font-awesome.less';
 @icon-font-path: '/bower_components/bootstrap/fonts/';
 @fa-font-path: '/bower_components/font-awesome/fonts';
 /**
  * App-wide Styles
  */
+html,
+body {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  min-height: 100%;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+html {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+body {
+  font-family: "Muli" ,Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+}
+*,
+:after,
+:before {
+  box-sizing: border-box;
+}
+h1,
+h2,
+h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-weight: normal;
+}
+h4,
+h5,
+h6 {
+  margin-top: 16px;
+  margin-bottom: 8px;
+  font-weight: normal;
+}
+.h1 .small,
+.h1 small,
+.h2 .small,
+.h2 small,
+.h3 .small,
+.h3 small,
+.h4 .small,
+.h4 small,
+.h5 .small,
+.h5 small,
+.h6 .small,
+.h6 small,
+h1 .small,
+h1 small,
+h2 .small,
+h2 small,
+h3 .small,
+h3 small,
+h4 .small,
+h4 small,
+h5 .small,
+h5 small,
+h6 .small,
+h6 small {
+  font-weight: 400;
+  line-height: 1;
+  color: #999;
+}
+.h4 .small,
+.h4 small,
+.h5 .small,
+.h5 small,
+.h6 .small,
+.h6 small,
+h4 .small,
+h4 small,
+h5 .small,
+h5 small,
+h6 .small,
+h6 small {
+  font-size: 75%;
+}
+h1 {
+  font-size: 36px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 14px;
+}
+h6 {
+  font-size: 12px;
+}
+a {
+  color: #82AECC;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+hr {
+  border: none;
+  border-top: 1px solid #F5F5F5;
+}
+table {
+  max-width: 100%;
+  background-color: transparent;
+  border-collapse: collapse;
+  border-spacing: 0;
+  thead {
+    display: table-header-group;
+    vertical-align: middle;
+    border-color: inherit;
+    tr {
+      display: table-row;
+      vertical-align: inherit;
+      border-color: inherit;
+    }
+  }
+  tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+  }
+}
+th {
+  text-align: left;
+}
+td,
+th {
+  padding: 0;
+}
+.table {
+  width: 100%;
+  margin-bottom: 20px;
+  thead>tr>th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #ddd;
+  }
+  tbody>tr>td,
+  tbody>tr>th,
+  tfoot>tr>td,
+  tfoot>tr>th,
+  thead>tr>td,
+  thead>tr>th {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+  }
+  caption+thead>tr:first-child>td,
+  caption+thead>tr:first-child>th,
+  colgroup+thead>tr:first-child>td,
+  colgroup+thead>tr:first-child>th,
+  thead:first-child>tr:first-child>td,
+  thead:first-child>tr:first-child>th {
+    border-top: 0;
+  }
+}
+.badge {
+  display: inline-block;
+  min-width: 10px;
+  padding: 3px 7px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+  vertical-align: baseline;
+  white-space: nowrap;
+  text-align: center;
+  background-color: #999;
+  border-radius: 10px;
+}
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;
   color: #000;
   padding: 0.2em 0;
-}
-.nav,
-.pagination,
-.carousel,
-.panel-title a {
-  cursor: pointer;
 }
 // injector
 @import 'account/login/login.less';
@@ -29,13 +200,12 @@
 @import 'moduleGroups/moduleGroup.less';
 @import 'modules/moduleList.less';
 @import 'planner/planner.less';
-@import 'session/session.less';
+@import 'session/active.less';
 @import 'session/start.less';
 @import 'stats/statistics.less';
 @import 'app-header/app-header.less';
 @import 'checkbox/checkbox.less';
 @import 'datepicker/datepicker.less';
-@import 'footer/footer.less';
 @import 'loading/loading.less';
 @import 'modal/modal.less';
 @import 'modal/views/lesson/create.less';

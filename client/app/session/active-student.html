@@ -1,0 +1,85 @@
+<div ng-if="isStudent()" id="lessonView">
+  <div class="container">
+    <div class="row" style="position:relative;">
+      <div class="col-xs-12 col-sm-12-col-md-12 user-question-feed" id="questionFeed" style="height:{{lessonHeight-140 + 'px'}}; margin-top:-1.4em;position:absolute;top:0;overflow-y:scroll;overflow-x:hidden;" scroll-bottom="lesson.questions" ng-class="{'question-feed-blur': !init}">
+
+        <h4 class="col-xs-12" style="color:#FFA700;text-align:center;margin:1em 0;">
+          <strong>Welcome to
+            {{lesson.title}}</strong>
+        </h4>
+        <div ng-repeat="item in lesson.questions">
+          <span ng-if="item.asker.role=='admin' && !item.anon" class="">
+            <i class="fa fa-graduation-cap text-warning pull-left" style="padding-top:.65em;"></i>
+          </span>
+          <h5 ng-if="!item.anon" class="" style="display:inline-block;width:94%;">
+            <strong>{{item.asker.name}}:</strong>
+            <span ng-click="something()">{{item.question}}</span>
+          </h5>
+          <h5 ng-if="item.anon" style="display:inline-block;width:94%;">
+            <strong>anon:</strong>
+            <span ng-click="something()">{{item.question}}</span>
+          </h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div ng-if="isStudent()" id="footer">
+  <div class="col-xs-12 navbar-inverse navbar-fixed-bottom" style="border-top:4px solid #8DB7D2;background-color:#414C5B;">
+    <div class="row" style="position:absolute;top:0;width:100%;">
+      <!-- <div class="col-xs-12">
+
+      </div> -->
+      <div ng-if="showQuestionSubmit" class="col-xs-12 ask-question">
+        <div class="col-xs-12" style="margin:0;padding:0;">
+          <div class="form-group" style="padding:0;margin:0;position:relative;">
+            <input class="form-control" ng-model="user.question" ng-disabled="sendingMsg" ng-trim="true" type="text" maxlength="140" placeholder="Add a question" ng-keyup="checkForEnterKey($event)" ng-class="{'profanity-input' : user.error, 'disabled':sendingMsg}"/>
+            <i class="fa fa-refresh fa-spin" ng-show="sendingMsg" style="position:absolute;right:14px;top:10px;color:#2E3540;"></i>
+          </div>
+        </div>
+        <div class="col-xs-12" style="margin:.6em 0 0;padding:0;">
+          <div class="col-xs-4" style="padding-left:.4em;">
+            <h5 class="text-warning" ng-class="{'full-input' : user.question.length >= 140}">{{user.question.length}}/140</h5>
+          </div>
+          <div class="col-xs-4" style="padding-right:0;">
+            <button type="submit" ng-click="sendMsgAnon()" class="btn btn-warning green" style="width:100%;margin:0;" ng-class="{'disabled':sendingMsg}">
+              <i class="fa fa-share"></i>
+              Anon</button>
+          </div>
+          <div class="col-xs-4" style="padding-right:0;">
+            <button type="submit" ng-click="sendMsg()" class="btn btn-success green" style="width:100%;margin:0;" ng-class="{'disabled':sendingMsg}">
+              <i class="fa fa-share"></i>
+              Send</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="row" id="bottomNav">
+      <div class="col-xs-3 text-center" style="margin:1em 0;">
+        <a class="student-session-foot-tab" ng-click="toggleMsgBox()" ng-class="{'active-ask' : showQuestionSubmit}">
+          <i class="fa fa-comment fa-2x"></i>
+          <h5 style="margin:.4em 0 0">Ask</h5>
+        </a>
+      </div>
+      <div class="col-xs-3 text-center" style="margin:1em 0;">
+        <a class="student-session-foot-tab" ng-click="showSessionContent(nextSession)" ng-class="{'active-content': false}">
+          <i class="fa fa-archive fa-2x"></i>
+          <h5 style="margin:.4em 0 0">Content</h5>
+        </a>
+      </div>
+      <div class="col-xs-3 text-center" style="margin:1em 0;">
+        <a class="student-session-foot-tab" ng-click="showFeedbackModal()" ng-class="{'active-feedback' : false}">
+          <i class="fa fa-star fa-2x" ng-class="{'fedback' : fedback}"></i>
+          <h5 style="margin:.4em 0 0">Feedback</h5>
+        </a>
+      </div>
+      <div class="col-xs-3 text-center" style="margin:1em 0;">
+        <a class="student-session-foot-tab" ng-click="checkLeave()">
+          <i class="fa fa-sign-out fa-2x"></i>
+          <h5 style="margin:.4em 0 0">Leave</h5>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

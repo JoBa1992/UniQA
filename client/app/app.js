@@ -8,9 +8,9 @@ angular.module('UniQA', [
 		'ngDropzone',
 		'ngMaterial',
 		'ui.router',
-		'ui.bootstrap',
 		'angular-loading-bar',
-		'btford.socket-io'
+		'btford.socket-io',
+		'luegg.directives' // scroll glue
 	])
 	.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
 		// root level routes
@@ -123,6 +123,13 @@ angular.module('UniQA', [
 			}
 		};
 	})
+	.config(function($mdDateLocaleProvider) {
+		$mdDateLocaleProvider.formatDate = function(date) {
+			var m = moment(date);
+			return m.isValid() ? m.format('DD/MM/YYYY') : '';
+		};
+		$mdDateLocaleProvider.firstDayOfWeek = 1;
+	})
 	.run(function($rootScope, $location, $window, socket, Auth, Session, Module) {
 		// check for scope state changes
 		// next, current
@@ -157,6 +164,7 @@ angular.module('UniQA', [
 
 						}
 					} else {
+						console.info(toParams);
 						if (!toParams.sessionid) {
 							event.preventDefault();
 							if (Auth.isAdmin()) {
@@ -169,14 +177,16 @@ angular.module('UniQA', [
 						var now = moment.utc();
 						var _second = 1000;
 						var _minute = _second * 60;
+
+
 						// don't want user accessing page if session isn't valid
-						Session.getOne(sessionid).then(function(res) {
+						Session.getById(sessionid).then(function(res) {
 							if (!res) {
 								event.preventDefault();
 								if (Auth.isAdmin()) {
-									return $location.path('/session/start?m=notExist');
+									// return $location.path('/session/start?m=notExist');
 								} else {
-									return $location.path('/session/register?m=notExist');
+									// return $location.path('/session/register?m=notExist');
 								}
 							}
 
@@ -187,9 +197,9 @@ angular.module('UniQA', [
 							if (!(now >= start && now <= end)) {
 								// console.info(Auth.isAdmin());
 								if (Auth.isAdmin()) {
-									return $location.path('/session/start?m=notReady');
+									// return $location.path('/session/start?m=notReady');
 								} else {
-									return $location.path('/session/register?m=notReady');
+									// return $location.path('/session/register?m=notReady');
 								}
 							}
 						});

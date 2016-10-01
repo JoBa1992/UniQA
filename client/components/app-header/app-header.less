@@ -6,18 +6,23 @@
   box-shadow: 0 1px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12);
 }
 .app-head-brand {
+  padding-top: 6px;
   width: 213px;
   position: relative;
+  cursor: default;
   .logo-image {
+    float: left;
     width: 100px;
     margin: 0 auto;
   }
-  .logo-text {
-    position: absolute;
-    font-weight: bolder;
-    left: 48px;
-    top: 14px;
-    font-size: 0.8em;
+  span.beta {
+    float: left;
+    background-color: #414C59;
+    border-radius: 4px;
+    color: white;
+    padding: 0.2em 0.4em;
+    font-size: 0.5em;
+    font-weight: bold;
   }
 }
 #page-header .toolbar-separator {
@@ -35,6 +40,10 @@
   }
 }
 .avatar-wrapper {
+  transform: translateY(12%);
+  display: inline-block;
+  align-items: flex-start;
+  vertical-align: middle;
   position: relative;
 }
 .app-head-username {

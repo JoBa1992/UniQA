@@ -1087,7 +1087,7 @@ angular.module('UniQA')
 							modal: {
 								name: 'createRuntimeForm',
 								controller: 'RuntimeCreateModalCtrl',
-								sizePercent: 50,
+								sizePercent: 40,
 								dismissable: true,
 								fullScreen: true,
 								form: 'components/modal/views/session/create-runtime.html',
@@ -1104,61 +1104,12 @@ angular.module('UniQA')
 									text: 'Create',
 									click: function(e, form) {
 										$rootScope.submitted = true;
-										if (form.lesson.title) {
-											// setup vars to be sent across to API
-											var collabs = [];
-											// push each selected collaborator into array
-											for (var i = 0; i < form.selectedCollaborators.length; i++) {
-												collabs.push({
-													user: form.selectedCollaborators[i]._id
-												});
-											}
-
-											// remove this entry, and add the array collection
-											delete form.lesson.collaborator;
-											form.lesson['collaborators'] = collabs;
-
-											$rootScope.res.received = false;
-
-											Lesson.createLesson({
-													data: form.lesson
-												})
-												.then(function(res) {
-													createdLesson = res;
-
-													$rootScope.dropzone[0].dropzone.options.url += createdLesson._id + '/files';
-
-													if (!_.isEmpty($rootScope.dropzone[0].dropzone.getAcceptedFiles())) {
-														$rootScope.dropzone[0].dropzone.processQueue();
-													} else {
-														// lesson created with no files, close the modal
-														$rootScope.res.received = true;
-														$rootScope.submitted = false;
-														// form.$setUntouched();
-														// form.$setPristine();
-														$mdDialog.hide(form.lesson);
-													}
-												})
-												.catch(function(err) {
-													$rootScope.errors = {};
-													$rootScope.res.received = true;
-
-													// Update validity of form fields that match the mongoose errors
-													angular.forEach(err.errors, function(error, field) {
-														form[field].$setValidity('mongoose', false);
-														$rootScope.errors[field] = error.message;
-													});
-												});
-										}
+										console.info(form);
+										$mdDialog.hide(form);
 									}
 								}]
 							}
 						});
-
-						$rootScope.uploadSuccess = function(res) {
-							$rootScope.res.received = true;
-							$mdDialog.hide(res);
-						};
 
 						createModal.then(function(res) {
 							cb(res);

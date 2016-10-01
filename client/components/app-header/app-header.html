@@ -2,7 +2,8 @@
   <div layout="row" layout-align="start center" class="md-toolbar-tools">
     <div layout="row" layout-align="start center" flex="">
       <div class="app-head-brand" hide-xs hide-sm>
-        <image class="logo-image" src="assets/images/logo/full-logo-nav.png"></span>
+        <img class="logo-image" src="assets/images/logo/full-logo-nav.png"/>
+        <span class="beta">BETA</span>
       </div>
       <div class="toolbar-separator" hide-xs hide-sm></div>
       <sm-button ng-click="toggleLeftMenu()" class="md-primary" style="margin-right:1em;color:#6B6B6B;" hide-gt-sm>
@@ -19,7 +20,7 @@
               <div class="avatar-wrapper">
                 <img md-menu-align-target="" class="app-head-avatar" src="/assets/images/placeholders/profile.jpg"/>
               </div>
-              <span class="app-head-username" hide-sm ng-bind="currentUser().forename + '&nbsp;' + currentUser().surname">John Doe</span>
+              <span class="app-head-username" hide-xs hide-sm ng-bind="currentUser().forename + '&nbsp;' + currentUser().surname"></span>
               <i class="fa fa-caret-down" aria-hidden="true" style="margin-left:10px;color:#6B6B6B"></i>
             </div>
             <div class="md-ripple-container"></div>
@@ -47,26 +48,27 @@
       <div class="toolbar-separator"></div>
       <button class="md-icon-button md-button quick-panel-btn md-default-theme md-ink-ripple" type="button" aria-label="Notifications">
         <i class="fa fa-bell-o" aria-hidden="true"></i>
+        <md-tooltip md-autohide="true" md-direction="bottom">
+          Notifications
+        </md-tooltip>
+        <div class="md-ripple-container"></div>
+      </button>
+      <div class="toolbar-separator"></div>
+      <button class="md-icon-button md-button quick-panel-btn md-default-theme md-ink-ripple" type="button" aria-label="Report Bugs">
+        <i class="fa fa-bug" aria-hidden="true"></i>
+        <md-tooltip md-autohide="true" md-direction="bottom">
+          Report Issue
+        </md-tooltip>
         <div class="md-ripple-container"></div>
       </button>
       <div class="toolbar-separator"></div>
       <button class="md-icon-button md-button quick-panel-btn md-default-theme md-ink-ripple" type="button" ng-click="logout()" aria-label="Sign out" style="padding-right:0;">
         <i class="fa fa-sign-out" aria-hidden="true"></i>
+        <md-tooltip md-autohide="true" md-direction="bottom">
+          Sign out
+        </md-tooltip>
         <div class="md-ripple-container"></div>
       </button>
     </div>
-    <!--
-    <md-button class="md-icon-button app-head-action-btn" aria-label="Notifications">
-      <i class="fa fa-bell-o" aria-hidden="true"></i>
-      <md-tooltip md-autohide="true" md-direction="bottom">
-        Notifications
-      </md-tooltip>
-    </md-button>
-    <md-button class="md-icon-button app-head-action-btn" aria-label="More" ng-click="logout()">
-      <i class="fa fa-sign-out" aria-hidden="true"></i>
-      <md-tooltip md-autohide="true" md-direction="bottom">
-        Sign out
-      </md-tooltip>
-    </md-button> -->
   </div>
 </md-toolbar>

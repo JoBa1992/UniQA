@@ -1,0 +1,101 @@
+.active-session-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: #8DB7D2;
+  width: 100%;
+  height: 100%;
+  .question-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 340px;
+    background-color: #414C59;
+    cursor: default;
+    .question-head {
+      position: absolute;
+      border-bottom: 1px solid #3A4352 !important;
+      width: 84%;
+      margin: 0.4em 6%;
+      h3 {
+        color: white;
+        font-weight: bold;
+        text-align: center;
+      }
+    }
+  }
+}
+.question-feed-container {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  width: 100%;
+  height: 90%;
+  margin-top: 5em;
+  padding: 0 4%;
+  .question-feed {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    li {
+      padding-left: 24px;
+      width: 100%;
+      position: relative;
+      cursor: pointer;
+      .user-icon {
+        position: absolute;
+        left: 2px;
+      }
+      &:hover {
+        background-color: darken(#414C59, 5%);
+        text-decoration: none;
+      }
+      a {
+        width: 100%;
+        text-decoration: none;
+        overflow-x: visible;
+        color: #8DB7D2;
+        font-size: 0.9em;
+        padding: 0.5em 0;
+        display: block;
+        span {
+          color: white;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+.question-feed-container-blur {
+  filter:blur(6px);
+}
+// .student-session-foot-tab {}
+// .student-session-foot-tab:hover {
+//   text-decoration: none;
+//   cursor: pointer;
+// }
+// .ask-question {
+//   position: absolute;
+//   bottom: 4px;
+//   padding-top: 0.6em;
+//   padding-bottom: 0.6em;
+//   background-color: lighten(#343D48, 24%);
+// }
+// .full-input {
+//   color: #FF6957;
+// }
+// .fedback {
+//   color: #FFDF00;
+// }
+// .active-ask {
+//   color: #FFA700;
+// }
+// .profanity-input {
+//   color: red;
+//   border-color: red;
+// }
+// .ng-hide.ng-hide-animate {
+//   display: none !important;
+// }

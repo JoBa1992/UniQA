@@ -207,6 +207,7 @@ User.find({}).remove(function() {
 		username: 'mafe@shu.ac.uk'
 	}, {
 		_id: '56c86c25099777e930372eb7',
+		fullName: 'Tester',
 		forename: 'Test',
 		surname: 'Student',
 		password: 'password',
@@ -766,6 +767,7 @@ User.find({}).remove(function() {
 													module: '56cb7c2e7bbe028ebfbe56a2'
 												}]
 											}, {
+												_id: '57efa4100848bcb9859c854c',
 												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
 												lesson: '56c868096bd3f7b730a051f4',
 												runTime: [{
@@ -786,7 +788,7 @@ User.find({}).remove(function() {
 													user: "56cb76ecd5b3f4b6be5d7deb"
 												}],
 												questions: [{
-													asker: "56a7886405ab050a54d4eaa6",
+													asker: "56c86c25099777e930372eb7",
 													question: "How do I do this?",
 													time: "2016-02-12T13:35:00Z",
 													_id: "56dc84edd4357803006a440d",
@@ -798,50 +800,50 @@ User.find({}).remove(function() {
 													_id: "56dc84edd4357803006a440c",
 													anon: false
 												}, {
-													asker: "56a7afd3259ef46f559880c9",
+													asker: "56c86c25099777e930372eb7",
 													question: "Ridiculously stupidly incredibily long comment to test out how it looks",
 													time: "2016-02-12T13:50:00Z",
 													_id: "56dc84edd4357803006a440b",
 													anon: false
 												}, {
 													question: "Send message",
-													asker: "56a7bf8a800c479155488fcb",
+													asker: "56c86c25099777e930372eb7",
 													time: "2016-03-06T19:30:13Z",
 													_id: "56dc8545d4357803006a4414",
 													anon: null
 												}, {
 													question: "lexiva",
-													asker: "56a7bf8a800c479155488fcb",
+													asker: "56c86c25099777e930372eb7",
 													time: "2016-03-06T19:30:40Z",
 													_id: "56dc8560d4357803006a4415",
 													anon: null
 												}, {
 													question: "Hey you guys",
-													asker: "56a7bf8a800c479155488fcb",
+													asker: "56c86c25099777e930372eb7",
 													time: "2016-03-06T19:35:52Z",
 													_id: "56dc8698d4357803006a4416",
 													anon: null
 												}, {
 													question: "Loving the live action",
-													asker: "56a7bf8a800c479155488fcb",
+													asker: "56c86c25099777e930372eb7",
 													time: "2016-03-06T19:35:59Z",
 													_id: "56dc869fd4357803006a4417",
 													anon: null
 												}, {
 													question: "Anon aswell",
-													asker: "56a7bf8a800c479155488fcb",
+													asker: "56c86c25099777e930372eb7",
 													time: "2016-03-06T19:36:04Z",
 													_id: "56dc86a4d4357803006a4418",
 													anon: true
 												}, {
 													question: "Different",
-													asker: "56cb76ecd5b3f4b6be5d7df0",
+													asker: "56c86c25099777e930372eb7",
 													time: "2016-03-06T19:38:42Z",
 													_id: "56dc8742d4357803006a4419",
 													anon: null
 												}, {
 													question: "Try something else",
-													asker: "56cb76ecd5b3f4b6be5d7df0",
+													asker: "56c86c25099777e930372eb7",
 													time: "2016-03-06T19:40:42Z",
 													_id: "56dc87bad4357803006a441a",
 													anon: true

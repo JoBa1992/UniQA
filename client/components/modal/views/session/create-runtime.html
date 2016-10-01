@@ -4,27 +4,88 @@
       <div flex-gt-xs>
         <!-- <h4>Only weekends within given range are selectable</h4> -->
         <h4>From</h4>
-        <md-datepicker ng-model="myDate" md-placeholder="Enter date" md-min-date="minDate" md-max-date="maxDate" md-date-filter="onlyWeekendsPredicate"></md-datepicker>
-      </div>
+        <md-datepicker ng-model="form.fromDate" md-placeholder="Enter date" md-min-date="minDate" md-max-date="maxDate" name="fromDate" md-date-filter="onlyWeekdaysPredicate" ng-change="checkToInput()"></md-datepicker>
+        <md-input-container>
+          <md-select ng-model="form.fromHr" placeholder="HH" name="fromHr" required md-no-asterisk="true">
+            <md-option value="00">00</md-option>
+            <md-option value="01">01</md-option>
+            <md-option value="02">02</md-option>
+            <md-option value="03">03</md-option>
+            <md-option value="04">04</md-option>
+            <md-option value="05">05</md-option>
+            <md-option value="06">06</md-option>
+            <md-option value="07">07</md-option>
+            <md-option value="08">08</md-option>
+            <md-option value="09">09</md-option>
+            <md-option value="10">10</md-option>
+            <md-option value="11">11</md-option>
+            <md-option value="12">12</md-option>
+            <md-option value="13">13</md-option>
+            <md-option value="14">14</md-option>
+            <md-option value="15">15</md-option>
+            <md-option value="16">16</md-option>
+            <md-option value="17">17</md-option>
+            <md-option value="18">18</md-option>
+            <md-option value="19">19</md-option>
+            <md-option value="20">20</md-option>
+            <md-option value="21">21</md-option>
+            <md-option value="22">22</md-option>
+            <md-option value="23">23</md-option>
+          </md-select>
+        </md-input-container>
 
+        <md-input-container>
+          <md-select ng-model="form.fromMin" placeholder="MM" name="fromMin" required md-no-asterisk="true">
+            <md-option value="00">00</md-option>
+            <md-option value="15">15</md-option>
+            <md-option value="30">30</md-option>
+            <md-option value="45">45</md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+    </div>
+    <div layout-gt-xs="row">
       <div flex-gt-xs>
         <!-- <h4>Opening the calendar when the input is focused</h4> -->
         <h4>To</h4>
-        <md-datepicker ng-model="myDate" md-placeholder="Enter date" md-open-on-focus></md-datepicker>
+        <md-datepicker ng-model="form.toDate" md-placeholder="Enter date" md-min-date="minToDate || minDate" md-max-date="maxDate" name="toDate" md-date-filter="onlyWeekdaysPredicate"></md-datepicker>
+        <md-input-container>
+          <md-select ng-model="form.toHr" placeholder="HH" name="toHr" required md-no-asterisk="true">
+            <md-option value="00">00</md-option>
+            <md-option value="01">01</md-option>
+            <md-option value="02">02</md-option>
+            <md-option value="03">03</md-option>
+            <md-option value="04">04</md-option>
+            <md-option value="05">05</md-option>
+            <md-option value="06">06</md-option>
+            <md-option value="07">07</md-option>
+            <md-option value="08">08</md-option>
+            <md-option value="09">09</md-option>
+            <md-option value="10">10</md-option>
+            <md-option value="11">11</md-option>
+            <md-option value="12">12</md-option>
+            <md-option value="13">13</md-option>
+            <md-option value="14">14</md-option>
+            <md-option value="15">15</md-option>
+            <md-option value="16">16</md-option>
+            <md-option value="17">17</md-option>
+            <md-option value="18">18</md-option>
+            <md-option value="19">19</md-option>
+            <md-option value="20">20</md-option>
+            <md-option value="21">21</md-option>
+            <md-option value="22">22</md-option>
+            <md-option value="23">23</md-option>
+          </md-select>
+        </md-input-container>
+        <md-input-container>
+          <md-select ng-model="form.toMin" placeholder="MM" name="toMin" required md-no-asterisk="true">
+            <md-option value="00">00</md-option>
+            <md-option value="15">15</md-option>
+            <md-option value="30">30</md-option>
+            <md-option value="45">45</md-option>
+          </md-select>
+        </md-input-container>
       </div>
     </div>
-    <!-- <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6" ng-class="{ 'has-success': form.createdBy.$valid && submitted,'has-error': form.createdBy.$invalid && submitted }">
-      <label>From</label>
-
-      <input type="text" class="form-control" placeholder="DATE 1" mongoose-error>
-      <p class="help-block" ng-show="form.createdBy.$error.required && submitted">Something was not right there.</p>
-      <p class="help-block" name="createdByVal" ng-show="form.createdBy.$error.mongoose">{{ errors.createdBy }}</p>
-    </div>
-    <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6" ng-class="{ 'has-success': form.createdBy.$valid && submitted,'has-error': form.createdBy.$invalid && submitted }">
-      <label>To</label>
-      <input type="text" class="form-control" placeholder="DATE 2" mongoose-error>
-      <p class="help-block" ng-show="form.createdBy.$error.required && submitted">Something was not right there.</p>
-      <p class="help-block" name="createdByVal" ng-show="form.createdBy.$error.mongoose">{{ errors.createdBy }}</p>
-    </div> -->
   </div>
 </div>

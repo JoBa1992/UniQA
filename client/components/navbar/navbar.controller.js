@@ -7,9 +7,24 @@ angular.module('UniQA')
 		$scope.isTutor = Auth.isTutor;
 		$scope.isStudent = Auth.isStudent;
 		$scope.currentUser = Auth.getCurrentUser;
-		$scope.sidebarIcon = 'chevron-left';
+
 		$scope.toggleLeft = buildDelayedToggler('left');
 		$scope.toggleRight = buildToggler('right');
+
+		$scope.navMinnied;
+
+		if (localStorage.getItem('navMinnied') === false || localStorage.getItem('navMinnied') === undefined) {
+			$scope.navMinnied = false;
+			localStorage.setItem('navMinnied', $scope.navMinnied);
+			$scope.sidebarIcon = 'chevron-left';
+		} else {
+			$scope.navMinnied = String(localStorage.getItem('navMinnied')) == "true" ? true : false;
+			if ($scope.navMinnied) {
+				$scope.sidebarIcon = 'chevron-right';
+			} else {
+				$scope.sidebarIcon = 'chevron-left';
+			}
+		}
 
 		$rootScope.isOpenRight = function() {
 			return $mdSidenav('right').isOpen();
@@ -20,6 +35,7 @@ angular.module('UniQA')
 		};
 
 		$rootScope.toggleLeftMenu = function() {
+			// Put the object into storage
 			$mdSidenav('left').toggle();
 		};
 
@@ -132,7 +148,7 @@ angular.module('UniQA')
 			return $location.path().includes(route);
 		};
 
-		$scope.navMinnied = false;
+
 
 		// $scope.checkLocation = function() {
 		// 	if ($scope.isLoggedIn()) {
@@ -159,6 +175,7 @@ angular.module('UniQA')
 				} else {
 					$scope.sidebarIcon = 'chevron-left';
 				}
+				localStorage.setItem('navMinnied', $scope.navMinnied);
 			}
 		};
 
