@@ -63,7 +63,6 @@ angular.module('UniQA')
 							readModal = openModal({
 								modal: {
 									name: 'View QR',
-									dismissable: true,
 									fullScreen: true,
 									sizePercent: 30,
 									form: 'components/modal/views/qr/read.html',

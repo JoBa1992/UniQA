@@ -36,7 +36,30 @@
       <div class="question-head">
         <h3>
           <a class="questions-menu">
-            <i class="fa fa-align-left"></i>
+            <md-menu md-position-mode="target-right target">
+              <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                <i class="fa fa-align-left fa-2x questions-menu-btn" md-menu-origin></i>
+              </md-button>
+              <md-menu-content width="3">
+                <md-menu-item>
+                  <md-button ng-click="announceClick()">
+                    <div layout="row" flex style="color:#555;">
+                      <i class="fa fa-filter" aria-hidden="true" style="margin-top:8px; margin-right:10px;"></i>
+                      <p flex>Filter</p>
+                    </div>
+                  </md-button>
+                </md-menu-item>
+                <md-menu-item>
+                  <md-button ng-click="announceClick()">
+                    <div layout="row" flex style="color:#555;">
+                      <i class="fa fa-ban" aria-hidden="true" style="margin-top:8px; margin-right:10px;"></i>
+                      <p flex>Disable</p>
+                    </div>
+                  </md-button>
+                </md-menu-item>
+
+              </md-menu-content>
+            </md-menu>
           </a>Questions</h3>
       </div>
     </div>
@@ -46,19 +69,20 @@
       {{session.lesson}}
       <ul class="question-feed" scroll-glue>
         <li ng-repeat="question in session.questions">
-          <span ng-if="question.asker.role=='tutor'" class="user-icon">
+          <span ng-if="question.asker.role==='tutor'" class="user-icon">
             <i class="fa fa-graduation-cap" style="padding-top:.65em;"></i>
           </span>
-          <span ng-if="question.asker.role=='admin'" class="user-icon">
+          <span ng-if="question.asker.role==='admin'" class="user-icon">
             <i class="fa fa-star" style="padding-top:.5em;"></i>
           </span>
-          <a style="display:inline-block;">
+          <a style="display:inline-block;" ng-class="{'tutorAdminResponse': question.asker.role==='tutor' || question.asker.role==='admin'}">
             <span ng-if="!question.anon" ng-bind="::question.asker.fullName"></span>
             <span ng-if="!question.anon">:</span>
             <span ng-if="question.anon">anon :</span>
             <span ng-if="(question.time|date: 'yyyy-MM-dd') == (moment()._d| date: 'yyyy-MM-dd')" tooltip="{{question.time| date : 'HH:mm'}}" tooltip-trigger tooltip-animation="false" tooltip-placement="top" ng-click="something()">{{question.question}}</span>
-            <span ng-if="(question.time|date: 'yyyy-MM-dd') != (moment()._d| date: 'yyyy-MM-dd')" tooltip="{{question.time| date : 'dd/MM/yyyy HH:mm'}}" tooltip-trigger tooltip-animation="false" tooltip-placement="top" ng-click="something()">{{question.question}}</span>
+            <span ng-if="(question.time|date: 'yyyy-MM-dd') != (moment()._d| date: 'yyyy-MM-dd')" tooltip="{{question.time| date : 'dd/MM/yyyy HH:mm'}}" tooltip-trigger tooltip-animation="false" tooltip-placement="top" ng-click="something()" ng-bind="question.question"></span>
           </a>
+          <md-tooltip md-autohide="true" md-direction="left">{{question.time | date : 'dd/MM/yyyy HH:mm'}}</md-tooltip>
         </li>
       </ul>
       <div class="ask-question" style="margin-left:-3%;bottom:0;display:none;">

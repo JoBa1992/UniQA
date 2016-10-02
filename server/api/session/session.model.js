@@ -74,6 +74,10 @@ var SessionSchema = new Schema({
 			type: Boolean,
 			default: false
 		},
+		hidden: {
+			type: Boolean,
+			default: false
+		},
 		response: {
 			tutor: {
 				type: Schema.Types.ObjectId,

@@ -16,9 +16,9 @@
       <md-menu-bar layout-wrap class="user-menu" role="menubar" style="padding-right: 0px;">
         <md-menu md-offset="0 0" md-position-mode="left bottom">
           <md-button ng-click="$mdOpenMenu()" class="user-button" type="button" aria-label="User" aria-haspopup="true" aria-expanded="false" aria-owns="user_account_menu">
-            <div layout="row" layout-align="space-between center">
+            <div layout="row" layout-align="space-between center" md-menu-align-target>
               <div class="avatar-wrapper">
-                <img md-menu-align-target="" class="app-head-avatar" src="/assets/images/placeholders/profile.jpg"/>
+                <img class="app-head-avatar" src="/assets/images/placeholders/profile.jpg"/>
               </div>
               <span class="app-head-username" hide-xs hide-sm ng-bind="currentUser().forename + '&nbsp;' + currentUser().surname"></span>
               <i class="fa fa-caret-down" aria-hidden="true" style="margin-left:10px;color:#6B6B6B"></i>
