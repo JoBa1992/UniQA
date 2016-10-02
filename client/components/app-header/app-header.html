@@ -1,0 +1,74 @@
+<md-toolbar ng-if="isLoggedIn()" layout="column" layout-align="center start" layout-padding="80" class="app-head" id="page-header">
+  <div layout="row" layout-align="start center" class="md-toolbar-tools">
+    <div layout="row" layout-align="start center" flex="">
+      <a class="app-head-brand" href="/dashboard" hide-xs hide-sm>
+        <img class="logo-image" src="assets/images/logo/full-logo-nav.png"/>
+        <span class="beta">BETA</span>
+      </a>
+      <div class="toolbar-separator" hide-xs hide-sm></div>
+      <sm-button ng-click="toggleLeftMenu()" class="md-primary" style="margin-right:1em;color:#6B6B6B;" hide-gt-sm>
+        <i class="fa fa-bars" aria-hidden="true"></i>
+      </sm-button>
+      <!-- something else
+      <div class="toolbar-separator"></div> -->
+    </div>
+    <div layout="row" layout-align="start center" style="margin-right: -8px;">
+      <md-menu-bar layout-wrap class="user-menu" role="menubar" style="padding-right: 0px;">
+        <md-menu md-offset="0 0" md-position-mode="left bottom">
+          <md-button ng-click="$mdOpenMenu()" class="user-button" type="button" aria-label="User" aria-haspopup="true" aria-expanded="false" aria-owns="user_account_menu">
+            <div layout="row" layout-align="space-between center" md-menu-align-target>
+              <div class="avatar-wrapper">
+                <img class="app-head-avatar" src="/assets/images/placeholders/profile.jpg"/>
+              </div>
+              <span class="app-head-username" hide-xs hide-sm ng-bind="currentUser().forename + '&nbsp;' + currentUser().surname"></span>
+              <i class="fa fa-caret-down" aria-hidden="true" style="margin-left:10px;color:#6B6B6B"></i>
+            </div>
+            <div class="md-ripple-container"></div>
+          </md-button>
+          <md-menu-content id="user_account_menu" width="3">
+            <md-menu-item style="height:50px;">
+              <md-button ng-click="devices.setFilter(field)">
+                <span class="user-menu-item">
+                  <i class="fa fa-user" aria-hidden="true"></i>
+                  <span style="color:#212121;">Profile</span>
+                </span>
+              </md-button>
+            </md-menu-item>
+            <md-menu-item style="height:50px;">
+              <md-button ng-click="devices.setFilter(field)">
+                <span class="user-menu-item">
+                  <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                  <span style="color:#212121;">Messages</span>
+                </span>
+              </md-button>
+            </md-menu-item>
+          </md-menu-content>
+        </md-menu>
+      </md-menu-bar>
+      <div class="toolbar-separator"></div>
+      <button class="md-icon-button md-button quick-panel-btn md-default-theme md-ink-ripple" type="button" aria-label="Notifications">
+        <i class="fa fa-bell-o" aria-hidden="true"></i>
+        <md-tooltip md-autohide="true" md-direction="bottom">
+          Notifications
+        </md-tooltip>
+        <div class="md-ripple-container"></div>
+      </button>
+      <div class="toolbar-separator"></div>
+      <button class="md-icon-button md-button quick-panel-btn md-default-theme md-ink-ripple" type="button" aria-label="Report Bugs">
+        <i class="fa fa-bug" aria-hidden="true"></i>
+        <md-tooltip md-autohide="true" md-direction="bottom">
+          Report Issue
+        </md-tooltip>
+        <div class="md-ripple-container"></div>
+      </button>
+      <div class="toolbar-separator"></div>
+      <button class="md-icon-button md-button quick-panel-btn md-default-theme md-ink-ripple" type="button" ng-click="logout()" aria-label="Sign out" style="padding-right:0;">
+        <i class="fa fa-sign-out" aria-hidden="true"></i>
+        <md-tooltip md-autohide="true" md-direction="bottom">
+          Sign out
+        </md-tooltip>
+        <div class="md-ripple-container"></div>
+      </button>
+    </div>
+  </div>
+</md-toolbar>

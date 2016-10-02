@@ -1,14 +1,36 @@
 <div class="login-container">
-  <div class="logo">
-    <h1 style="margin-bottom:1em;" ng-include="'assets/images/logo/full-logo.svg'"></h1>
-  </div>
   <div class="col-xs-10 col-sm-8 col-md-6 col-lg-4 col-xs-offset-1 col-sm-offset-2 col-md-offset-3 col-lg-offset-4 login-block">
+    <div class="logo">
+      <img style="margin-bottom:1em;width:200px;" src="assets/images/logo/full-logo-nav.png"/>
+    </div>
     <form class="form" name="form" ng-submit="login(form)" novalidate style="padding:.2em 1.6em 0;">
-      <div class="form-group">
+      <md-input-container class="md-block md-input-has-placeholder md-default-theme" md-no-float="">
+        <input type="username" name="username" ng-model="user.username" placeholder="Username" ng-pattern="/^.+@.+\..+$/" required class="md-input" aria-label="Username">
+        <div class="md-errors-spacer"></div>
+        <div ng-messages="form.username.$error" role="alert" multiple="multiple" class="md-input-messages-animation md-auto-hide ng-active" aria-live="assertive">
+          <div ng-message="required && form.submitted" class="md-input-message-animation ng-scope">
+            <span translate="LOGIN.ERRORS.EMAIL_REQUIRED" class="ng-scope">Username is invalid</span>
+          </div>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block md-input-has-placeholder md-default-theme" md-no-float="">
+        <input type="{{password.inputType}}" name="password" ng-model="user.password" placeholder="Password" required class="md-input" aria-label="Password">
+        <span class="pass-reveal-btn" ng-click="togglePassInput()">
+          <a class="{{password.icon}}"></a>
+        </span>
+
+        <div class="md-errors-spacer"></div>
+        <div ng-messages="loginForm.password.$error" role="alert" multiple="multiple" class="md-input-messages-animation md-auto-hide ng-active" aria-live="assertive">
+          <div ng-message="required" class="md-input-message-animation ng-scope">
+            <span translate="LOGIN.ERRORS.EMAIL_REQUIRED" class="ng-scope">Password field is required</span>
+          </div>
+        </div>
+      </md-input-container>
+      <!-- <div class="form-group">
         <label>Username</label>
-        <input type="email" name="email" class="form-control" placeholder="john.smith@uni.ac.uk" ng-model="user.username" required>
-      </div>
-      <div class="form-group">
+        <input type="username" name="username" class="form-control" placeholder="john.smith@uni.ac.uk" ng-model="user.username" required>
+      </div> -->
+      <!-- <div class="form-group">
         <label>Password</label>
         <div class="input-group">
           <input type="{{password.inputType}}" name="password" class="form-control" aria-describedby="basic-addon2" ng-model="user.password" ng-keyup="testPassword()" required mongoose-error>
@@ -16,30 +38,22 @@
             <a class="{{password.icon}}"></a>
           </span>
         </div>
-      </div>
+      </div> -->
       <div class="form-group has-error">
         <p class="help-block">
           <a href="/request-passcode" target="_blank">Forgot your password?</a>
         </p>
-        <p class="help-block" ng-show="form.email.$error.required && form.password.$error.required && submitted">
-          Please enter your email and password.
-        </p>
-        <p class="help-block" ng-show="form.email.$error.email && submitted">
-          Please enter a valid email.
-        </p>
-        <p class="help-block" ng-show="form.password.$error.required && form.password.$error.required && submitted">
-          Please enter a password
-        </p>
         <p class="help-block">{{ errors.other }}</p>
       </div>
-      <input class="btn btn-lg btn-primary btn-block" type="submit" value="Login">
+      <input class="btn btn-primary btn-block" type="submit" value="Login" style="margin: auto;">
       <div class="row clearfix">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="width:100%;text-align:center;margin:.8em 0;">
           <span style="width:100%;color:#CCC;">- or -</span>
         </div>
       </div>
-      <a class="btn btn-lg btn-danger btn-block" type="submit" value="Login" style="background-color:#dd4b39;" ng-click="googleSignIn()">
-        <i class="fa fa-google" style="margin-right:.6em;"></i>Sign in with Google
+      <a class="btn btn-danger btn-block" type="submit" value="Login" style="background-color:#D73D32;margin: auto;" ng-click="googleSignIn()">
+        <i class="fa fa-google" style="margin-right:.6em;"></i>
+        Sign in with Google
       </a>
     </form>
   </div>

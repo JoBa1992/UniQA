@@ -8,9 +8,9 @@ angular.module('UniQA', [
 		'ngDropzone',
 		'ngMaterial',
 		'ui.router',
-		'ui.bootstrap',
+		'angular-loading-bar',
 		'btford.socket-io',
-		'ui.bootstrap.datetimepicker'
+		'luegg.directives' // scroll glue
 	])
 	.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
 		// root level routes
@@ -123,10 +123,17 @@ angular.module('UniQA', [
 			}
 		};
 	})
-	.run(function($rootScope, $location, $window, socket, Auth, Session, Module) {
+	.config(function($mdDateLocaleProvider) {
+		$mdDateLocaleProvider.formatDate = function(date) {
+			var m = moment(date);
+			return m.isValid() ? m.format('DD/MM/YYYY') : '';
+		};
+		$mdDateLocaleProvider.firstDayOfWeek = 1;
+	})
+	.run(function($rootScope, $location, $window, socket, Auth, Session, Module, Modal) {
 		// check for scope state changes
 		// next, current
-		$rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
+		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState) {
 			Auth.isLoggedInAsync(function(loggedIn) {
 				if (loggedIn) {
 					event.preventDefault();
@@ -159,7 +166,7 @@ angular.module('UniQA', [
 					} else {
 						if (!toParams.sessionid) {
 							event.preventDefault();
-							if (Auth.isAdmin()) {
+							if (Auth.isAdmin() || Auth.isTutor()) {
 								return $location.path('/session/start?m=notReady');
 							} else {
 								return $location.path('/session/register?m=notReady');
@@ -169,14 +176,15 @@ angular.module('UniQA', [
 						var now = moment.utc();
 						var _second = 1000;
 						var _minute = _second * 60;
+
 						// don't want user accessing page if session isn't valid
-						Session.getOne(sessionid).then(function(res) {
+						Session.getById(sessionid).then(function(res) {
 							if (!res) {
 								event.preventDefault();
 								if (Auth.isAdmin()) {
-									return $location.path('/session/start?m=notExist');
+									// return $location.path('/session/start?m=notExist');
 								} else {
-									return $location.path('/session/register?m=notExist');
+									// return $location.path('/session/register?m=notExist');
 								}
 							}
 
@@ -187,9 +195,9 @@ angular.module('UniQA', [
 							if (!(now >= start && now <= end)) {
 								// console.info(Auth.isAdmin());
 								if (Auth.isAdmin()) {
-									return $location.path('/session/start?m=notReady');
+									// return $location.path('/session/start?m=notReady');
 								} else {
-									return $location.path('/session/register?m=notReady');
+									// return $location.path('/session/register?m=notReady');
 								}
 							}
 						});
@@ -202,44 +210,47 @@ angular.module('UniQA', [
 				}
 			});
 		});
-
 	})
+	.config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
+		cfpLoadingBarProvider.includeSpinner = false;
+		cfpLoadingBarProvider.latencyThreshold = 10;
+	}])
 	.config(function($mdThemingProvider) {
 		var customPrimary = {
-			'50': '#7b8ba0',
-			'100': '#6c7e95',
-			'200': '#617286',
-			'300': '#566578',
-			'400': '#4c5869',
-			'500': '#414C5A',
-			'600': '#363f4b',
-			'700': '#2c333c',
-			'800': '#21262e',
-			'900': '#161a1f',
-			'A100': '#8a98aa',
-			'A200': '#99a5b5',
-			'A400': '#a7b2c0',
-			'A700': '#0c0d10'
+			'50': '#dde9f1',
+			'100': '#caddea',
+			'200': '#b8d1e2',
+			'300': '#a6c5db',
+			'400': '#94bad3',
+			'500': '#82AECC',
+			'600': '#70a2c5',
+			'700': '#5e97bd',
+			'800': '#4c8bb6',
+			'900': '#437da5',
+			'A100': '#eff4f8',
+			'A200': '#ffffff',
+			'A400': '#ffffff',
+			'A700': '#3c6f93'
 		};
 		$mdThemingProvider
 			.definePalette('customPrimary',
 				customPrimary);
 
 		var customAccent = {
-			'50': '#346281',
-			'100': '#3c6f93',
-			'200': '#437da5',
-			'300': '#4c8bb6',
-			'400': '#5e97bd',
-			'500': '#70a2c5',
-			'600': '#94bad3',
-			'700': '#a6c5db',
-			'800': '#b8d1e2',
-			'900': '#caddea',
-			'A100': '#94bad3',
-			'A200': '#82AECC',
-			'A400': '#70a2c5',
-			'A700': '#dde9f1'
+			'50': '#010101',
+			'100': '#0c0d10',
+			'200': '#161a1f',
+			'300': '#21262e',
+			'400': '#2c333c',
+			'500': '#363f4b',
+			'600': '#4c5869',
+			'700': '#566578',
+			'800': '#617286',
+			'900': '#6c7e95',
+			'A100': '#4c5869',
+			'A200': '#414C5A',
+			'A400': '#363f4b',
+			'A700': '#7b8ba0'
 		};
 		$mdThemingProvider
 			.definePalette('customAccent',
@@ -271,15 +282,15 @@ angular.module('UniQA', [
 			'200': '#ffffff',
 			'300': '#ffffff',
 			'400': '#ffffff',
-			'500': '#F5F5F5',
-			'600': '#e8e8e8',
-			'700': '#dbdbdb',
-			'800': '#cfcfcf',
-			'900': '#c2c2c2',
+			'500': '#F4F3F3',
+			'600': '#e8e6e6',
+			'700': '#dcd8d8',
+			'800': '#cfcbcb',
+			'900': '#c3bebe',
 			'A100': '#ffffff',
 			'A200': '#ffffff',
 			'A400': '#ffffff',
-			'A700': '#b5b5b5'
+			'A700': '#b7b0b0'
 		};
 		$mdThemingProvider
 			.definePalette('customBackground',
@@ -289,7 +300,7 @@ angular.module('UniQA', [
 			.primaryPalette('customPrimary')
 			.accentPalette('customAccent')
 			.warnPalette('customWarn')
-			.backgroundPalette('customBackground');
+			.backgroundPalette('customBackground')
 	})
 	.run(function($rootScope, $location, Auth) {
 		// Redirect to login if route requires auth and you're not logged in

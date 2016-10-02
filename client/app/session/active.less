@@ -1,0 +1,174 @@
+@questionFeedSize: 340px;
+@lessonBtnHOffset: 14px;
+@lessonBtnVOffset: 10px;
+.active-session-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  overflow-y: hidden;
+  background-color: #82AECC;
+  width: 100%;
+  height: 100%;
+  .slides-container {
+    position: relative;
+    width: calc(~'100% - @{questionFeedSize}');
+    height: 99.6%;
+    object {
+      width: 100%;
+      height: 100%;
+    }
+    .lesson-buttons-container-bottom {
+      position: absolute;
+      bottom: @lessonBtnVOffset - 4px;
+      right: @lessonBtnHOffset - 4px;
+      a {
+        margin: 4px 0;
+        display: block;
+        clear: both;
+        text-decoration: none;
+      }
+    }
+    .lesson-buttons-container-top {
+      width: 24px;
+      position: absolute;
+      top: @lessonBtnVOffset;
+      right: @lessonBtnHOffset;
+      a {
+        margin: 8px 0;
+        display: block;
+        clear: both;
+        text-decoration: none;
+        &:first-child {
+          margin-top: 0;
+        }
+      }
+    }
+    .lesson-action-button {
+      cursor: pointer;
+      font-size: 1.4em;
+      &:hover {
+        color: #FFA700;
+        text-decoration: none;
+      }
+    }
+  }
+  .question-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: @questionFeedSize;
+    background-color: #414C59;
+    cursor: default;
+    .question-head {
+      position: absolute;
+      border-bottom: 1px solid #3A4352 !important;
+      width: 84%;
+      margin: 0.4em 6%;
+      h3 {
+        color: white;
+        font-weight: bold;
+        text-align: center;
+        a.questions-menu {
+          position: absolute;
+          left: 0;
+          top: 16px;
+          font-size: 1em;
+          cursor: pointer;
+          md-menu {
+            button {
+              i.questions-menu-btn {
+                padding-top: 2px;
+                font-size: 1.6em;
+                &:hover {
+                  color: #FFA700;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.question-feed-container {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  background-color: #414C59;
+  width: 100%;
+  height: 90%;
+  margin-top: 5em;
+  padding: 0 4%;
+  .question-feed {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    li {
+      padding-left: 24px;
+      width: 100%;
+      position: relative;
+      cursor: pointer;
+      .user-icon {
+        position: absolute;
+        left: 4px;
+        i {
+          color: #FFA700;
+        }
+      }
+      &:hover {
+        background-color: darken(#414C59, 5%);
+        text-decoration: none;
+      }
+      a {
+        width: 100%;
+        text-decoration: none;
+        overflow-x: visible;
+        color: #8DB7D2;
+        font-weight: 600;
+        font-size: 0.9em;
+        padding: 0.5em 0;
+        display: block;
+        span {
+          color: white;
+          cursor: pointer;
+        }
+      }
+      a.tutorAdminResponse span {
+        color: lighten(#82AECC, 5%) !important;
+      }
+    }
+  }
+}
+.question-feed-container-blur {
+  filter:blur(6px);
+}
+// .student-session-foot-tab {}
+// .student-session-foot-tab:hover {
+//   text-decoration: none;
+//   cursor: pointer;
+// }
+// .ask-question {
+//   position: absolute;
+//   bottom: 4px;
+//   padding-top: 0.6em;
+//   padding-bottom: 0.6em;
+//   background-color: lighten(#343D48, 24%);
+// }
+// .full-input {
+//   color: #FF6957;
+// }
+// .fedback {
+//   color: #FFDF00;
+// }
+// .active-ask {
+//   color: #FFA700;
+// }
+// .profanity-input {
+//   color: red;
+//   border-color: red;
+// }
+// .ng-hide.ng-hide-animate {
+//   display: none !important;
+// }

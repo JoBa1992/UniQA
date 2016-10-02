@@ -1,26 +1,19 @@
 'use strict';
 
 angular.module('UniQA')
-	.controller('SessionStartCtrl', function($rootScope, $scope, $window, $timeout, $sce, $interval, socket, Auth, Lesson, Module, Session) {
+	.controller('SessionStartCtrl', function($scope, $element, $location, Auth, Lesson, Module, Modal, Session) {
 		// attach lodash to scope
 		$scope._ = _;
-
-		$rootScope.showTopNav = true;
-		$rootScope.pageHeadTitle = '';
 
 		// attach moment to scope
 		$scope.moment = moment;
 
 		var me = Auth.getCurrentUser();
 
-		// variables used by countdown...
-		$scope.now = moment.utc();
-
 		$scope.submitted = false;
 
-		$scope.moduleSearchTerm = '';
-		$scope.lessonSearchTerm = '';
-
+		$scope.moduleSearchTerm;
+		$scope.lessonSearchTerm;
 		$scope.availableModules;
 		$scope.availableLessons;
 
@@ -30,8 +23,22 @@ angular.module('UniQA')
 			reference: '',
 			startSessionQuestions: true,
 			startSessionFeedback: true,
-			runtime: []
+			runtime: [{
+				start: moment().format("DD/MM/YYYY HH:mm"),
+				end: moment().add(1, 'hour').format("DD/MM/YYYY HH:mm")
+			}]
 		}
+
+		$scope.clearSearchTerm = function() {
+			$scope.moduleSearchTerm = '';
+			$scope.lessonSearchTerm = '';
+		};
+
+		// The md-select directive eats keydown events for some quick select
+		// logic. Since we have a search input here, we don't need that logic.
+		$element.find('input').on('keydown', function(ev) {
+			ev.stopPropagation();
+		});
 
 		Module.getMyAssocModules({
 			user: me._id
@@ -48,6 +55,10 @@ angular.module('UniQA')
 			$scope.availableLessons = res.lessons;
 		});
 
+		var goToSession = function(session) {
+			return $location.path('/session/active/' + session._id);
+		}
+
 		$scope.searchForMyLessons = function(e) {
 			// checking length to see if id has been sent through
 			if (e.keyCode === 13 || e === 'Submit' || e._id) {
@@ -55,8 +66,6 @@ angular.module('UniQA')
 				// console.info($scope.sForm.lesson);
 			} else {
 				// for no value
-				// $scope.sForm.lesson = $scope.sForm.lesson || '';
-				// console.info($scope.sForm.lesson);
 				Lesson.getForMe({
 					title: $scope.sForm.lesson,
 					author: me._id,
@@ -67,55 +76,28 @@ angular.module('UniQA')
 				});
 			}
 		};
+		$scope.openAddRuntimeModal = Modal.create.runtime(function(res) {
+			var start = moment(moment(res.fromDate).format("DD/MM/YYYY ") + res.fromHr + ":" + res.fromMin, "DD/MM/YYYY HH:mm").format("DD/MM/YYYY HH:mm");
+			var end = moment(moment(res.toDate).format("DD/MM/YYYY ") + res.toHr + ":" + res.toMin, "DD/MM/YYYY HH:mm").format("DD/MM/YYYY HH:mm")
+			$scope.session.runtime.push({
+				start: start,
+				end: end
+			});
+		});
 
-		// $scope.searchForMyModules = function(e) {
-		// 	// console.info(e);
-		// 	// checking length to see if id has been sent through
-		// 	if (e.keyCode === 13 || e === 'Submit' || e._id) {
-		// 		// console.info($scope.myModules);
-		// 		// if name isn't on the list, break out of function
-		// 		if ($scope.myModules.length === 0) {
-		// 			return;
-		// 		} else {
-		// 			// need to either get selected here, or select first
-		// 			if (!($scope.sForm.module instanceof Object)) {
-		// 				if (e === 'Submit') {
-		// 					// gets index of child with active class from typeahead property
-		// 					/*jshint -W109 */
-		// 					$scope.sForm.module = $scope.myModules[angular.element(document.querySelector("[id*='typeahead']")).find('.active').index()];
-		// 				}
-		// 			}
-		// 		}
-		//
-		// 		// only add if we have a collaborator
-		// 		if ($scope.sForm.module instanceof Object) {
-		// 			$scope.selectedModules.push($scope.sForm.module);
-		// 		}
-		// 		$scope.myModules = [];
-		// 		$scope.sForm.module = '';
-		// 	} else {
-		// 		Module.getMyAssocModules({
-		// 			user: me._id,
-		// 			search: $scope.sForm.module
-		// 		}).then(function(res) {
-		// 			// reset before continuing
-		// 			$scope.myModules = [];
-		// 			// filter through myModules here, check against already existing collaborators and only allow them to stay if they don't exist
-		// 			for (var x = 0; x < res.modules.length; x++) {
-		// 				var isIn = false;
-		// 				for (var y = 0; y < $scope.selectedModules.length; y++) {
-		// 					if (res.modules[x]._id === $scope.selectedModules[y]._id) {
-		// 						isIn = true;
-		// 					}
-		// 				}
-		// 				if (!isIn) {
-		// 					$scope.myModules.push(res.modules[x]);
-		// 				}
-		// 			}
-		// 			// console.info($scope.myModules);
-		// 		});
-		// 	}
-		// };
+		$scope.deleteRuntime = function(runtime) {
+			var index = $scope.session.runtime.indexOf(runtime);
+			if (index > -1) {
+				$scope.session.runtime.splice(index, 1);
+			}
+		};
+
+		$scope.isSessionStartDisabled = function() {
+			if (!$scope.session.lesson || _.isEmpty($scope.session.moduleGroups) || _.isEmpty($scope.session.runtime)) {
+				return true;
+			}
+			return false;
+		};
 
 		$scope.createSession = function() {
 			// create session in here
@@ -124,27 +106,37 @@ angular.module('UniQA')
 			if (!_.isEmpty($scope.session.moduleGroups) && $scope.session.lesson && !_.isEmpty($scope.session.runtime)) {
 				// setup vars to be sent across to API
 				var groups = [];
+				var runtimes = [];
 				// push each selected collaborator into array
 				for (var i = 0; i < $scope.session.moduleGroups.length; i++) {
 					groups.push({
 						moduleGroup: $scope.session.moduleGroups[i]._id
 					});
 				}
+				for (var i = 0; i < $scope.session.runtime.length; i++) {
+					runtimes.push({
+						start: moment($scope.session.runtime[i].start, "DD/MM/YYYY HH:mm").toISOString(),
+						end: moment($scope.session.runtime[i].end, "DD/MM/YYYY HH:mm").toISOString()
+					});
+				}
+
 
 				var data = {
 					createdBy: me._id,
 					lesson: $scope.session.lesson._id,
 					reference: $scope.session.reference,
-					runtime: [{
-						start: moment.utc().toISOString(),
-						end: moment.utc().add(1, 'hour').toISOString()
-					}],
+					runTime: runtimes,
+					questionsEnabled: $scope.session.startSessionQuestions,
+					feedbackEnabled: $scope.session.startSessionFeedback,
 					groups: groups
 				};
 
+				console.info('data', data);
+
 				Session.createSession(data)
 					.then(function(res) {
-						console.info(res);
+						console.info('res', res);
+						goToSession(res);
 						// refreshSessions();
 					})
 					.catch(function(err) {
@@ -161,7 +153,4 @@ angular.module('UniQA')
 					});
 			}
 		};
-
-		// need function which creates the session, and on success sends the page to the newly created session. Need to block UI input throughout this faze, and show a loading animation
-
 	})

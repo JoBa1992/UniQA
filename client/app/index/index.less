@@ -1,149 +1,35 @@
-body,
-html {
+.content-wrapper {
   height: 100%;
-  padding: 0;
-  margin: 0;
-  overflow: auto;
-}
-body {
-  -webkit-overflow-scrolling: touch;
-}
-.main-container {
-  transition: width 0.3s;
-  -webkit-transition: all 0.3s;
-}
-.wrapper {
-  padding-left: 0;
-  overflow-x: hidden;
-}
-.sidebar-wrapper-min {
-  width: 58px;
-  min-width: 58px;
-}
-.sidebar-wrapper {
-  height: 100%;
-  background-color: #F5F5F5;
-  border-right: 1px solid #DDD;
-  box-shadow: none;
-  width: 230px;
-  min-width: 230px;
-  transition: width 0.3s;
-  -webkit-transition: all 0.3s;
-}
-.page-content-wrapper::-webkit-scrollbar {
-  display: none;
-}
-.no-pad {
-  padding: 0 !important;
-}
-.no-marg {
-  margin: 0 !important;
-}
-/*==========  Mobile First Method  ==========*/
-/* Custom, iPhone Retina */
-// @media only screen and (min-width : 320px) {
-//   .sidebar-wrapper {
-//     position: absolute;
-//     width: 150px;
-//   }
-//   .sidebar-wrapper-min {
-//     width: 58px;
-//   }
-//   .wrapper {
-//     padding-left: 150px;
-//   }
-//   .wrapper-min {
-//     padding-left: 56px;
-//   }
-//   .page-content-wrapper {
-//     position: relative;
-//     margin-right: 0;
-//   }
-// }
-/* Extra Small Devices, Phones */
-// @media only screen and (min-width : 480px) {
-//   .sidebar-wrapper {
-//     position: absolute;
-//     width: 200px;
-//   }
-//   .sidebar-wrapper-min {
-//     width: 58px;
-//   }
-//   .wrapper {
-//     padding-left: 200px;
-//   }
-//   .wrapper-min {
-//     padding-left: 56px;
-//   }
-//   .page-content-wrapper {
-//     position: relative;
-//     margin-right: 0;
-//   }
-// }
-/* Small Devices, Tablets */
-@media only screen and (min-width : 768px) {
-  .sidebar-wrapper {
+  min-height: 100%;
+  overflow: visible !important;
+  background-color: #F4F3F3;
+  .content-bg {
     height: 100%;
-    background-color: #F5F5F5;
-    position: absolute;
-    border-right: 1px solid #DDD;
-    box-shadow: none;
-    height: 100%;
-    width: 230px;
-    min-width: 230px;
+    min-height: 100%;
+    padding: 16px;
+    background-color: inherit;
   }
-  .sidebar-wrapper-min {
-    width: 58px;
-    min-width: 58px;
-  }
-  .page-content-wrapper {
-    position: relative;
-    margin-right: 0;
-  }
-  .sidebar-brand {
-    cursor: pointer;
+  .content-page-title {
     color: white;
-    margin-left: 0.2em;
-    text-align: center;
-    padding: 1em 0;
-    -webkit-font-smoothing: antialiased;
-    text-shadow: rgba(0,0,0,.01) 0 0 1px;
+    margin: 10px 8px;
+  }
+  .content-container {
+    background: white;
+    z-index: 2;
+    border-radius: 2px;
   }
 }
-/* Medium Devices, Desktops */
-@media only screen and (min-width : 992px) {}
-/* Large Devices, Wide Screens */
-@media only screen and (min-width : 1200px) {}
-/*==========  Non-Mobile First Method  ==========*/
-/* Large Devices, Wide Screens */
-@media only screen and (max-width : 1200px) {
-  .sidebar-wrapper {
-    height: 100%;
-    background-color: #F5F5F5;
-    position: absolute;
-    border-right: 1px solid #DDD;
-    box-shadow: none;
-    height: 100%;
-    width: 230px;
-    min-width: 230px;
-  }
-  .sidebar-wrapper-min {
-    width: 58px;
-    min-width: 58px;
-  }
-  .page-content-wrapper {
-    position: relative;
-    margin-right: 0;
-  }
-  .sidebar-brand {
-    cursor: pointer;
-    color: white;
-    margin-left: 0.2em;
-    text-align: center;
-    padding: 0.2em 0;
-    -webkit-font-smoothing: antialiased;
-    text-shadow: rgba(0,0,0,.01) 0 0 1px;
-  }
+.bold {
+  font-weight: bold;
+}
+#loading-bar .bar {
+  background: #82AECC;
+}
+#loading-bar .peg {
+  -webkit-box-shadow: #82AECC 1px 0 6px 1px;
+  -moz-box-shadow: #82AECC 1px 0 6px 1px;
+  -ms-box-shadow: #82AECC 1px 0 6px 1px;
+  box-shadow: #82AECC 1px 0 6px 1px;
 }
 .notransition {
   -webkit-transition: none !important;
@@ -151,92 +37,47 @@ body {
   -o-transition: none !important;
   transition: none !important;
 }
-/* Medium Devices, Desktops */
-@media only screen and (max-width : 992px) {}
-.resource-state-picker {
-  background-color: #FAFAFA;
-  padding-top: 1em;
-  text-align: center;
+.top-bg {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 180px;
+  background-image: url("/assets/images/backgrounds/header-bg.png");
+  background-size: cover;
 }
-.resource-state-picker a {
-  cursor: pointer;
-  font-size: 1.3em;
-  color: #AAA;
-  display: inline-block;
-  margin-left: 0.4em;
-  margin-right: 0.4em;
-  margin-bottom: 0;
-  padding-bottom: 14px;
+.content-holder {
+  z-index: 1;
+  padding-bottom: 12px;
 }
-.resource-state-picker a:hover {
-  text-decoration: none;
+.md-accent-bg {
+  background-color: rgb(154, 203, 237);
+  // color: white;
+  color: rgba(255,255,255,1);
 }
-.resource-state-picker a.active {
-  padding-bottom: 0.8em;
+.md-button.md-default-theme.md-primary.md-raised,
+.md-button.md-primary.md-raised,
+.md-button.md-default-theme.md-primary.md-fab,
+.md-button.md-primary.md-fab {
+  color: white;
+}
+.md-button.md-default-theme.md-raised,
+.md-button.md-raised {
   color: black;
-  -webkit-box-shadow: inset 0 -3px 0 #82AECC;
-  box-shadow: inset 0 -3px 0 #82AECC;
 }
-.body-min-height {
-  min-height: 600px;
+.create-fab {
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+  i {
+    color: white;
+    padding-top: 0;
+    padding-left: 0.1em;
+  }
 }
-/* Small Devices, Tablets */
-// @media only screen and (max-width : 768px) {
-//   .sidebar-wrapper {
-//     position: absolute;
-//     width: 175px;
-//   }
-//   .sidebar-wrapper-min {
-//     width: 58px;
-//   }
-//   .wrapper {
-//     padding-left: 175px;
-//   }
-//   .wrapper-min {
-//     padding-left: 56px;
-//   }
-//   .page-content-wrapper {
-//     position: relative;
-//     margin-right: 0;
-//   }
-// }
-/* Extra Small Devices, Phones */
-// @media only screen and (max-width : 480px) {
-//   .sidebar-wrapper {
-//     position: absolute;
-//     width: 150px;
-//   }
-//   .sidebar-wrapper-min {
-//     width: 58px;
-//   }
-//   .wrapper {
-//     padding-left: 150px;
-//   }
-//   .wrapper-min {
-//     padding-left: 56px;
-//   }
-//   .page-content-wrapper {
-//     position: relative;
-//     margin-right: 0;
-//   }
-// }
-/* Custom, iPhone Retina */
-// @media only screen and (max-width : 320px) {
-//   .sidebar-wrapper {
-//     position: absolute;
-//     width: 100px;
-//   }
-//   .sidebar-wrapper-min {
-//     width: 58px;
-//   }
-//   .wrapper {
-//     padding-left: 100px;
-//   }
-//   .wrapper-min {
-//     padding-left: 56px;
-//   }
-//   .page-content-wrapper {
-//     position: relative;
-//     margin-right: 0;
-//   }
-// }
+.create-fab-plus {
+  i {
+    padding: 0;
+  }
+}

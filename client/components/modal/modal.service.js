@@ -58,19 +58,19 @@ angular.module('UniQA')
 
 					return function() {
 						var readModal;
-						Session.getOne(session).then(function(res) {
+						Session.getById(session).then(function(res) {
 							$rootScope.session = res;
 							readModal = openModal({
 								modal: {
 									name: 'View QR',
-									dismissable: true,
+									fullScreen: true,
+									sizePercent: 30,
 									form: 'components/modal/views/qr/read.html',
-									title: 'Show QR',
 									buttons: [{
-										classes: 'btn-primary',
-										text: 'Dismiss',
+										classes: 'md-primary',
+										text: 'Close',
 										click: function(e) {
-											readModal.close(e);
+											$mdDialog.hide(e);
 										}
 									}]
 								}
@@ -363,6 +363,8 @@ angular.module('UniQA')
 						var confirmModal;
 						$rootScope.leaveMsg = msg;
 
+						console.info(msg);
+
 						confirmModal = openModal({
 							modal: {
 								name: 'leaveSessionForm',
@@ -371,24 +373,24 @@ angular.module('UniQA')
 								form: 'components/modal/views/session/leave.html',
 								title: 'Leaving Session',
 								buttons: [{
-									classes: 'btn-default',
+									classes: 'md-default',
 									text: 'Cancel',
 									click: function(e) {
 										$rootScope.submitted = false;
-										confirmModal.dismiss(e);
+										$mdDialog.hide(false);
 									}
 								}, {
-									classes: 'btn-danger',
+									classes: 'md-primary bold',
 									text: 'Leave',
-									click: function(e) {
-										confirmModal.close(e);
+									click: function() {
+										$mdDialog.hide(true);
 									}
 								}]
 							}
 						}, 'modal-danger', 'md');
 
-						confirmModal.then(function() {
-							cb();
+						confirmModal.then(function(e) {
+							cb(e);
 						});
 					};
 				},
@@ -612,7 +614,7 @@ angular.module('UniQA')
 								form: 'components/modal/views/module/create.html',
 								title: 'Creating Module...',
 								buttons: [{
-									classes: 'btn-default',
+									classes: 'md-default',
 									text: 'Cancel',
 									click: function(e) {
 										// reset submit state
@@ -621,7 +623,7 @@ angular.module('UniQA')
 										$mdDialog.cancel();
 									}
 								}, {
-									classes: 'btn-success',
+									classes: 'md-primary bold',
 									text: 'Create',
 									click: function(e, form) {
 										$rootScope.submitted = true;
@@ -1003,14 +1005,14 @@ angular.module('UniQA')
 								form: 'components/modal/views/lesson/create.html',
 								title: 'Creating Lesson...',
 								buttons: [{
-									classes: 'btn-default',
+									classes: 'md-default',
 									text: 'Cancel',
 									click: function(e) {
 										$rootScope.submitted = false;
 										$mdDialog.cancel();
 									}
 								}, {
-									classes: 'btn-success',
+									classes: 'md-primary bold',
 									text: 'Create',
 									click: function(e, form) {
 										$rootScope.submitted = true;
@@ -1077,6 +1079,47 @@ angular.module('UniQA')
 						});
 					};
 				},
+				runtime: function(cb) {
+					cb = cb || angular.noop;
+					var createModal, createdRuntime;
+					$rootScope.submitted = false;
+
+					return function() {
+						createModal = openModal({
+							modal: {
+								name: 'createRuntimeForm',
+								controller: 'RuntimeCreateModalCtrl',
+								sizePercent: 40,
+								dismissable: true,
+								fullScreen: true,
+								form: 'components/modal/views/session/create-runtime.html',
+								title: 'Adding runtime...',
+								buttons: [{
+									classes: 'md-default',
+									text: 'Cancel',
+									click: function(e) {
+										$rootScope.submitted = false;
+										$mdDialog.cancel();
+									}
+								}, {
+									classes: 'md-primary bold',
+									text: 'Create',
+									click: function(e, form) {
+										$rootScope.submitted = true;
+										console.info(form);
+										$mdDialog.hide(form);
+									}
+								}]
+							}
+						});
+
+						createModal.then(function(res) {
+							cb(res);
+						}, function() {
+							// on err?
+						});
+					};
+				}
 			},
 			update: {
 				user: function(cb) {

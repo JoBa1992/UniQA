@@ -209,20 +209,6 @@ exports.getFile = function(req, res) {
 
 };
 
-exports.count = function(req, res) {
-	Lesson.count({
-		createdBy: req.query.createdBy,
-		endTime: {
-			"$gte": new Date()
-		}
-	}, function(err, count) {
-		// console.log(count);
-		res.status(200).json({
-			count: count
-		});
-	});
-};
-
 exports.getNextFourTutor = function(req, res) {
 	Session.find({
 			endTime: {
@@ -445,7 +431,7 @@ exports.getQuestions = function(req, res) {
 
 
 exports.addQuestion = function(req, res) {
-	var questionToAdd = JSON.parse(JSON.stringify(req.body.params)); // deep copy
+	var questionToAdd = JSON.parse(JSON.stringify(req.body)); // deep copy
 	questionToAdd.time = new Date(moment.utc().format());
 
 	if (questionToAdd.question) {

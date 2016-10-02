@@ -1,3 +1,21 @@
+.sidebar-wrapper-min {
+  width: 58px;
+  min-width: 58px;
+}
+.sidebar-wrapper {
+  height: 100% !important;
+  min-height: 100% !important;
+  width: 230px;
+  min-width: 230px;
+  background-color: #414C5A;
+  position: absolute;
+  transition: width 0.3s;
+  -webkit-transition: all 0.3s;
+}
+.sidebar-wrapper-min {
+  width: 58px;
+  min-width: 58px;
+}
 md-toolbar {
   .md-button.md-default-theme {
     border-radius: 99%; // round toolbar buttons
@@ -5,14 +23,21 @@ md-toolbar {
 }
 .nav-item {
   a {
+    outline: none !important;
+    -webkit-appearance: none !important;
+    box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
     text-decoration: none !important;
-    font-weight: bold;
-    color: #757575;
+    font-weight: 600;
+    color: white;
     md-item-content {
       margin: 0.2em 0;
       position: relative;
       padding-left: 0.8em;
       padding-right: 1em;
+      &:active,
+      &:focus {}
       .nav-icon {
         width: 34px;
       }
@@ -23,64 +48,20 @@ md-toolbar {
 .nav-item.active a md-item-content,
 .nav-item:hover a md-item-content {
   color: #82AECC;
-  -webkit-box-shadow: inset 3px 0 0 0 #82AECC;
-  box-shadow: inset 3px 0 0 0 #82AECC;
+  background-color: darken(#414C5A, 4%);
+  -webkit-box-shadow: inset 4px 0 0 0 #82AECC;
+  box-shadow: inset 4px 0 0 0 #82AECC;
   // background-color: darken(#343D48,2%);
 }
 md-sidenav {
-  fill: #737373;
-  padding-bottom: 97px;
   position: relative;
+  fill: #737373;
+  box-shadow: 0 5px 5px -3px rgba(0,0,0,.2),0 8px 10px 1px rgba(0,0,0,.14),0 3px 14px 2px rgba(0,0,0,.12);
   ng-md-icon {
     position: relative;
     top: 5px; // adjust for svg viewbox
   }
 }
-// .sidebar-nav {
-//   position: absolute;
-//   top: 0;
-//   width: 100%;
-//   margin: 0;
-//   padding: 0;
-//   list-style: none;
-//   font-size: 14px;
-// }
-// .sidebar-brand:hover {
-//   // background-color: darken(#343D48,2%);
-// }
-// .home-icon {
-//   margin-top: 0;
-// }
-// .home-icon i::before {
-//   color: white;
-// }
-// .sidebar-nav {
-//   margin-bottom: -4em;
-// }
-// .sidebar-nav > li.sidebar-nav-item {
-//   padding: 0.2em 0;
-//   text-indent: 10px;
-//   line-height: 40px;
-// }
-// li.sidebar-nav-item:nth-child(2) {
-//   margin-top: 1em;
-// }
-// .sidebar-nav li a {
-//   position: relative;
-//   display: block;
-//   text-decoration: none;
-// }
-// .sidebar-nav > .sidebar-brand {
-//   // font-size: 1.8em;
-//   // line-height: 60px;
-// }
-// .sidebar-nav > .sidebar-brand a {}
-// .sidebar-nav > .sidebar-brand a:hover {
-//   // background: none;
-// }
-// .sidebar-nav-icon {
-//   margin-right: 14px;
-// }
 .nav-badge {
   text-indent: 0;
   position: absolute;
@@ -92,23 +73,27 @@ md-sidenav {
 }
 .sidebar-footer {
   position: absolute;
-  background-color: #F5F5F5;
+  background-color: #414C5A;
   z-index: 2;
-  border-top: 1px solid #ECECEC;
+  // border-top: 2px solid white;
   left: 0;
   bottom: 0;
   right: 0;
 }
-.sidebar-account {
-  background-color: #F5F5F5;
-  z-index: 2;
+.sidebar-footer-toggle {
   width: 100%;
-  position: absolute;
-  padding: 0.3em 0;
-  top: -60px;
-}
-.sidebar-account-min {
-  padding: 0.52em 0;
+  text-align: center;
+  outline: none !important;
+  -webkit-appearance: none !important;
+  box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  text-decoration: none !important;
+  float: right;
+  background: 0 0;
+  border: 0;
+  padding: 0.6em 1em;
+  margin: 0;
 }
 .account-menu {
   left: 20px;
@@ -129,141 +114,3 @@ md-sidenav {
   background-color: darken(#343D48,1%);
   text-decoration: none;
 }
-.sidebar-avatar {
-  float: left;
-  /* make it responsive */
-  max-width: 50px;
-  width: 50px;
-  margin: 0 6px 0 20px;
-  height: auto;
-  display: inline-block;
-  /* make it a circle */
-  border-radius: 50%;
-  /* Centering on image`s center*/
-  background-position-y: center;
-  background-position-x: center;
-  background-repeat: no-repeat;
-  /* it makes the clue thing, takes smaller dimention to fill div */
-  background-size: cover;
-}
-.sidebar-avatar-min {
-  /* make it responsive */
-  max-width: 44px;
-  width: 44px;
-  margin-left: 0.5em;
-}
-.sidebar-footer-toggle,
-.sidebar-footer-toggle-min {
-  float: right;
-  background: transparent;
-  border: 0;
-  padding: 0.6em 1em;
-  margin: 0;
-}
-.sidebar-footer-toggle-min {
-  width: 100%;
-}
-.sidebar-footer-toggle:focus {
-  outline: none;
-}
-.sidebar-footer-toggle:hover {
-  background-color: #82AECC;
-  color: white;
-}
-// /*==========  Mobile First Method  ==========*/
-// /* Custom, iPhone Retina */
-// // @media only screen and (min-width : 320px) {
-// //   .sidebar-wrapper {
-// //     position: absolute;
-// //     width: 150px;
-// //   }
-// //   .sidebar-wrapper-min {
-// //     width: 56px;
-// //   }
-// //   .wrapper {
-// //     padding-left: 150px;
-// //   }
-// //   .wrapper-min {
-// //     padding-left: 56px;
-// //   }
-// //   .page-content-wrapper {
-// //     position: relative;
-// //     margin-right: 0;
-//   }
-// }
-/* Extra Small Devices, Phones */
-// @media only screen and (min-width : 480px) {
-//   .sidebar-wrapper {
-//     position: absolute;
-//     width: 200px;
-//   }
-//   .sidebar-wrapper-min {
-//     width: 56px;
-//   }
-//   .wrapper {
-//     padding-left: 200px;
-//   }
-//   .wrapper-min {
-//     padding-left: 56px;
-//   }
-//   .page-content-wrapper {
-//     position: relative;
-//     margin-right: 0;
-//   }
-// }
-/* Small Devices, Tablets */
-@media only screen and (min-width : 768px) {
-  .sidebar-avatar-username {
-    float: left;
-    font-size: 1.1em;
-    font-weight: 300;
-    line-height: 1;
-    margin: 1.2em 0.4em;
-    color: #7B7B7B;
-  }
-}
-/* Medium Devices, Desktops */
-@media only screen and (min-width : 992px) {
-  .sidebar-avatar-username {
-    float: left;
-    font-size: 1.1em;
-    font-weight: 300;
-    line-height: 1;
-    margin: 1.1em 0.4em;
-    color: #7B7B7B;
-  }
-}
-/* Large Devices, Wide Screens */
-@media only screen and (min-width : 1200px) {}
-/*==========  Non-Mobile First Method  ==========*/
-/* Large Devices, Wide Screens */
-@media only screen and (max-width : 1200px) {
-  .sidebar-avatar-username {
-    float: left;
-    font-size: 1.1em;
-    font-weight: 300;
-    line-height: 1;
-    margin: 1.2em 0.4em;
-    color: #7B7B7B;
-  }
-}
-/* Medium Devices, Desktops */
-@media only screen and (max-width : 992px) {
-  .sidebar-avatar-username {
-    float: left;
-    font-size: 1.1em;
-    font-weight: 300;
-    line-height: 1;
-    margin: 1em 0.4em;
-    color: #999;
-  }
-}
-/* Small Devices, Tablets */
-// @media only screen and (max-width : 768px) {
-// }
-/* Extra Small Devices, Phones */
-// @media only screen and (max-width : 480px) {
-// }
-/* Custom, iPhone Retina */
-// @media only screen and (max-width : 320px) {
-// }

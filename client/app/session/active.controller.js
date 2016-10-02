@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('UniQA')
-	.controller('SessionActiveCtrl', function($scope, $stateParams, $window, $timeout, $location, $sce, ngToast, socket, Auth, Lesson, Session, Modal) {
+	.controller('SessionActiveCtrl', function($scope, $stateParams, $window, $timeout, $location, $sce, socket, Auth, Lesson, Session, Modal) {
 		// attach lodash to scope
 		$scope._ = _;
 		// attach moment to scope
@@ -17,6 +17,13 @@ angular.module('UniQA')
 		$scope.user = {
 			question: ''
 		};
+
+		$scope.$on('$locationChangeStart', function(event, next) {
+			var answer = confirm("Are you sure you want to leave this session?")
+			if (!answer) {
+				event.preventDefault();
+			}
+		});
 
 		//var _second = 1000;
 		//var _minute = _second * 60;
@@ -54,7 +61,7 @@ angular.module('UniQA')
 		$scope.showQuestionSubmit = false;
 		$scope.fedback = true;
 
-		$scope.session = {};
+		// $scope.session = {};
 
 		// scope load for lesson/tutor
 		$scope.fullScreenToggle = false;
@@ -64,46 +71,46 @@ angular.module('UniQA')
 		$scope.hideQuestionIcon = 'fa-arrow-right';
 		$scope.toggleBtnPosRight = 16;
 		$scope.toggleFullScreenIcon = 'fa-expand';
-		$scope.lesson = {
+		$scope.session = {
 			registered: [],
 			questions: [{
 				'asker': {
-					'name': 'Joshua Bates'
+					'fullName': 'Joshua Bates'
 				},
-				'question': 'Good find, I need help with building this app, so if you have some spare time, and fancy getting involved, please send me an email at joshua.bates16@gmail.com...',
+				'question': 'Good find',
 				'time': '2016-03-20T20:35:00Z',
 				'anon': false
 			}, {
 				'asker': {
-					'name': 'Joshua Bates'
+					'fullName': 'Joshua Bates'
 				},
 				'question': 'It took me like 4 hours to even start understanding sockets',
 				'time': '2016-03-20T20:50:00Z',
 				'anon': false
 			}, {
 				'asker': {
-					'name': 'Joshua Bates'
+					'fullName': 'Joshua Bates'
 				},
 				'question': 'SOCKETS!',
 				'time': '2016-02-20T21:16:35Z',
 				'anon': false
 			}, {
 				'asker': {
-					'name': 'Joshua Bates'
+					'fullName': 'Joshua Bates'
 				},
 				'question': 'And the best thing is, they were built into the framework.',
 				'time': '2016-02-20T21:16:36Z',
 				'anon': false
 			}, {
 				'asker': {
-					'name': 'Joshua Bates'
+					'fullName': 'Joshua Bates'
 				},
 				'question': 'Anyway...',
 				'time': '2016-02-20T21:16:36Z',
 				'anon': false
 			}, {
 				'asker': {
-					'name': '56a7d95746b9e7db57417309'
+					'fullName': '56a7d95746b9e7db57417309'
 				},
 				'question': 'I just needed some content filled in behind this loading blur. ',
 				'time': '2016-02-20T21:16:36Z',
@@ -125,12 +132,16 @@ angular.module('UniQA')
 		};
 
 		// need to set this id by what gets passed through
-		Session.getOne(sessionid).then(function(res) {
-			var lesson = res.lesson;
+		Session.getById(sessionid).then(function(res) {
+			var session = res;
+			var lesson = session.lesson;
+
 			// var modules = res.modules;
 			var questions = res.questions;
 			var authorCollabs = [];
 			var runtime;
+
+			console.info(session);
 
 			authorCollabs.push(lesson.author.name); // push author in first
 			// push in collabs
@@ -141,15 +152,15 @@ angular.module('UniQA')
 			runtime = moment(res.startTime).utc().format('HH:mm') + ' - ' + moment(res.endTime).utc().format('HH:mm');
 
 			// used for user questions
-			$scope.session.startTime = res.startTime;
-			$scope.session.endTime = res.endTime;
+			// $scope.session.startTime = res.startTime;
+			// $scope.session.endTime = res.endTime;
 
 			// check if user has given feedback already
 			$scope.fedback = _.some(res.feedback, function(feedback) {
 				return feedback.user === me._id;
 			});
 
-			// get total users expected to register into lesson
+			// get total users expected to register into session
 			var expected = 0;
 			_.some(res.modules, function(module) {
 				// bad nesting due to dodgy model, needs checking
@@ -158,46 +169,47 @@ angular.module('UniQA')
 
 			// for animated loading
 			$timeout(function() {
-				$scope.lesson._id = lesson._id;
-				$scope.lesson.title = lesson.title;
-				$scope.lesson.desc = lesson.desc;
-				$scope.lesson.url = lesson.url;
-				$scope.lesson.questions = questions;
-				$scope.lesson.runTime = runtime;
-				$scope.lesson.collaborators = authorCollabs;
-				$scope.lesson.altAccess = res.altAccess;
-				$scope.lesson.registered = res.registered;
-				$scope.lesson.expected = expected;
-				$scope.lesson.attachments = lesson.attachments;
+				$scope.session._id = session._id;
+				$scope.session.title = lesson.title;
+				$scope.session.desc = lesson.desc;
+				$scope.session.url = lesson.url;
+				$scope.session.questions = questions;
+				$scope.session.runTime = runtime;
+				$scope.session.collaborators = authorCollabs;
+				$scope.session.altAccess = res.altAccess;
+				$scope.session.registered = res.registered;
+				$scope.session.expected = expected;
+				$scope.session.attachments = session.attachments;
 				$scope.init = true;
 			}, 500);
 		}, function(err) {
 			console.info(err);
 			// session doesn't exist, kick users back
-			if (Auth.isAdmin()) {
-				return $location.url('/session/start?m=notExist');
-			} else {
-				return $location.url('/session/register?m=notExist');
-			}
+			// if (Auth.isAdmin()) {
+			// 	return $location.url('/session/start?m=notExist');
+			// } else {
+			// 	return $location.url('/session/register?m=notExist');
+			// }
 
 		});
 
 		// live socket updates for questions
-		socket.syncUpdates('session', $scope.lesson.questions, function(event, item) {
+		socket.syncUpdates('session', $scope.session.questions, function(event, item) {
+			console.info(item);
 			// checking if the event concerns this
 			if (item._id === sessionid) {
 				// if they don't equal the same, somethings changed
 				// stops feedback from triggering noise
-				if ($scope.lesson.questions.length !== item.questions.length) {
+				if ($scope.session.questions.length !== item.questions.length) {
 					$scope.questionIconNumber = item.questions.length;
-					$scope.lesson.questions = item.questions;
+					$scope.session.questions = item.questions;
 					if ($scope.playSound) {
 						ping.play();
 					}
 				}
 				// if registered values have changed, update scope
-				if ($scope.lesson.registered !== item.registered.length) {
-					$scope.lesson.registered = item.registered;
+				if ($scope.session.registered !== item.registered.length) {
+					$scope.session.registered = item.registered;
 				}
 			}
 
@@ -261,11 +273,11 @@ angular.module('UniQA')
 				}).catch(function(err) {
 					$scope.user.error = true;
 					$scope.sendingMsg = false;
-					ngToast.create({
-						className: 'danger',
-						timeout: 3000,
-						content: 'Warning: ' + err
-					});
+					// ngToast.create({
+					// 	className: 'danger',
+					// 	timeout: 3000,
+					// 	content: 'Warning: ' + err
+					// });
 				});
 			}
 		};
@@ -285,11 +297,11 @@ angular.module('UniQA')
 				}).catch(function(err) {
 					$scope.user.error = true;
 					$scope.sendingMsg = false;
-					ngToast.create({
-						className: 'danger',
-						timeout: 3000,
-						content: 'Warning: ' + err
-					});
+					// ngToast.create({
+					// 	className: 'danger',
+					// 	timeout: 3000,
+					// 	content: 'Warning: ' + err
+					// });
 				});
 			}
 		};
@@ -311,9 +323,9 @@ angular.module('UniQA')
 		$scope.checkLeave = function() {
 			// check times here, if there is still at least 10 minutes of time
 			// left, open up modal asking user for confirmation
-			var timeUntilTenMinsLeft = moment.utc($scope.session.endTime).subtract(10, 'minutes');
-
-			var timeUntilHalfway = moment.utc(moment.utc($scope.session.endTime) - ((moment.utc($scope.session.endTime) - moment.utc($scope.session.startTime)) / 2));
+			// var timeUntilTenMinsLeft = moment.utc($scope.session.endTime).subtract(10, 'minutes');
+			//
+			// var timeUntilHalfway = moment.utc(moment.utc($scope.session.endTime) - ((moment.utc($scope.session.endTime) - moment.utc($scope.session.startTime)) / 2));
 
 			var noFeedbackModal, confirmModal;
 
@@ -353,11 +365,11 @@ angular.module('UniQA')
 			// refreshUserStats();
 			// $scope.refreshUserList();
 			$scope.fedback = true;
-			ngToast.create({
-				className: 'success',
-				timeout: 3000,
-				content: 'Thankyou for giving us feedback!'
-			});
+			// ngToast.create({
+			// 	className: 'success',
+			// 	timeout: 3000,
+			// 	content: 'Thankyou for giving us feedback!'
+			// });
 		});
 
 		// var updateFeedbackModal = Modal.create.feedback(sessionid, function() {
@@ -368,7 +380,7 @@ angular.module('UniQA')
 
 		$scope.showFeedbackModal = function() {
 			// time until feedback can be given, halfway through a session
-			var timeUntil = moment.utc(moment.utc($scope.session.endTime) - ((moment.utc($scope.session.endTime) - moment.utc($scope.session.startTime)) / 2));
+			// var timeUntil = moment.utc(moment.utc($scope.session.endTime) - ((moment.utc($scope.session.endTime) - moment.utc($scope.session.startTime)) / 2));
 
 			// check if we can give feedback yet
 
@@ -377,19 +389,19 @@ angular.module('UniQA')
 					createFeedbackModal();
 				} else {
 					// throw a notification telling user how long until feedback can be given
-					ngToast.create({
-						className: 'success',
-						timeout: 3000,
-						content: 'Feedback already given for session!'
-					});
+					// ngToast.create({
+					// 	className: 'success',
+					// 	timeout: 3000,
+					// 	content: 'Feedback already given for session!'
+					// });
 				}
 			} else {
 				// throw a notification telling user how long until feedback can be given
-				ngToast.create({
-					className: 'danger',
-					timeout: 3000,
-					content: 'Feedback can be given ' + moment.utc(timeUntil).fromNow()
-				});
+				// ngToast.create({
+				// 	className: 'danger',
+				// 	timeout: 3000,
+				// 	content: 'Feedback can be given ' + moment.utc(timeUntil).fromNow()
+				// });
 			}
 
 		};
@@ -398,7 +410,7 @@ angular.module('UniQA')
 
 		$scope.toggleFullScreen = function() {
 			if (!$scope.fullScreenToggle) { // Launch fullscreen for browsers that support it!
-				var element = document.getElementById('lesson-fullscreen');
+				var element = document.getElementById('lesson-container');
 				if (element.requestFullScreen) {
 					element.requestFullScreen();
 				} else if (element.mozRequestFullScreen) {

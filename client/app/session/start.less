@@ -1,0 +1,35 @@
+.session-select-container {
+  /* Please note: All these selectors are only applied to children of elements with the 'selectdemoSelectHeader' class */
+  .session-select-searchbox {
+    border: none;
+    outline: none;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+  }
+  .session-select-header {
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1), 0 0 0 0 rgba(0, 0, 0, 0.14), 0 0 0 0 rgba(0, 0, 0, 0.12);
+    border-bottom: 1px solid #F5F5F5;
+    padding-left: 10.667px;
+    height: 48px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: auto;
+  }
+  md-content._md {
+    max-height: 240px;
+  }
+}
+.runtime-table {
+  tbody {
+    tr {
+      td.runtime-table-entry {
+        &:hover {
+          background-color: lighten(#82AECC, 10%);
+        }
+      }
+    }
+  }
+}

@@ -10,21 +10,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <base href="/">
     <meta name="description" content="">
-    <!-- <meta name="viewport" content="width=device-width"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
     <link rel="apple-touch-icon" sizes="180x180" href="assets/favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" href="assets/favicons/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="assets/favicons/favicon-16x16.png" sizes="16x16">
     <link rel="manifest" href="assets/favicons/manifest.json">
-    <link rel="mask-icon" href="assets/favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="mask-icon" href="assets/favicons/safari-pinned-tab.svg" color="#414C5A">
     <meta name="theme-color" content="#ffffff">
 
-    <link rel="stylesheet" href="bower_components/angular-bootstrap-datetimepicker/src/css/datetimepicker.css"/>
     <!-- build:css(client) app/vendor.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/dropzone/downloads/css/dropzone.css" />
-    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+    <link rel="stylesheet" href="bower_components/dropzone/downloads/css/dropzone.css"/>
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css"/>
+    <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css"/>
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
@@ -39,33 +39,25 @@
     <!--[if lt IE 7]> <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p> <![endif]-->
 
     <!-- Sticky header toolbar -->
-    <div ng-controller="PageHeaderCtrl">
-      <div ng-include="'components/page-header/page-header.html'"></div>
+    <div ng-controller="AppHeaderCtrl" id="app-head">
+      <div ng-include="'components/app-header/app-header.html'"></div>
     </div>
 
-    <div ng-controller="NavbarCtrl" layout-fill layout="row" ng-cloak="" class="main-nav-height" style="height:calc(100% - 50px);min-height:calc(100% - 50px);">
+    <div ng-controller="NavbarCtrl" layout-fill layout="row" ng-cloak="" style="height:calc(100% - 64px);min-height:calc(100% - 64px);">
       <!-- Safety precaution -->
       <div ng-if="!isLoggedIn()" ng-include="'app/account/login/login.html'" ng-controller="LoginCtrl"></div>
 
       <div ng-show="isLoggedIn()" ng-include="'components/navbar/navbar.html'"></div>
-      <div ng-show="isLoggedIn()" flex layout="column" class="content-container">
+      <div ng-show="isLoggedIn()" flex layout="column" class="content-wrapper">
         <!-- Main Content with scrolling content -->
-        <div layout="row">
-          <md-content flex layout-padding="">
+        <div layout="row" style="height:100%;">
+          <md-content flex class="content-bg">
             <div ui-view=""></div>
           </md-content>
         </div>
 
       </div>
     </div>
-
-    <!-- <div ng-controller="NavbarCtrl" ng-class="{'wrapper': isNavCollapsed() === false, 'wrapper-min': isNavCollapsed() === true, 'wrapper-no-side': isNavCollapsed() === null}">
-      <div class="sidebar-container" ng-include="'components/navbar/navbar.html'"></div>
-
-      <div class="page-content-wrapper">
-        <div class="container-fluid no-pad" ui-view=""></div>
-      </div>
-    </div> -->
   </div>
 
   <!-- Add your site or application content here -->
@@ -127,13 +119,11 @@
   <!--[if lt IE 9]> <script src="bower_components/es5-shim/es5-shim.js"></script> <script src="bower_components/json3/lib/json3.min.js"></script> <![endif]-->
   <!-- build:js({client,node_modules}) app/vendor.js -->
   <!-- bower:js -->
-  <script src="bower_components/jquery/dist/jquery.js"></script>
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-animate/angular-animate.js"></script>
   <script src="bower_components/angular-resource/angular-resource.js"></script>
   <script src="bower_components/angular-cookies/angular-cookies.js"></script>
   <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-  <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
   <script src="bower_components/lodash/dist/lodash.compat.js"></script>
   <script src="bower_components/angular-socket-io/socket.js"></script>
   <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
@@ -143,12 +133,11 @@
   <script src="bower_components/angular-aria/angular-aria.js"></script>
   <script src="bower_components/angular-messages/angular-messages.js"></script>
   <script src="bower_components/angular-material/angular-material.js"></script>
+  <script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
+  <script src="bower_components/angular-scroll-glue/src/scrollglue.js"></script>
   <!-- endbower -->
   <script src="socket.io-client/socket.io.js"></script>
   <!-- endbuild -->
-
-  <script src="bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js"></script>
-  <script src="bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.templates.js"></script>
 
   <!-- build:js(.tmp) app/app.js -->
 
@@ -174,26 +163,25 @@
   <script src="app/modules/moduleList.controller.js"></script>
   <script src="app/planner/planner.controller.js"></script>
   <script src="app/qr/qr.controller.js"></script>
+  <script src="app/session/active.controller.js"></script>
   <script src="app/session/register.controller.js"></script>
-  <script src="app/session/session.controller.js"></script>
   <script src="app/session/start.controller.js"></script>
   <script src="app/stats/statistics.controller.js"></script>
+  <script src="components/app-header/app-header.controller.js"></script>
   <script src="components/auth/auth.service.js"></script>
   <script src="components/auth/user.service.js"></script>
   <script src="components/contenteditable/contenteditable.directive.js"></script>
   <script src="components/dropzone/dropzone.directive.js"></script>
   <script src="components/ext-svg/ext-svg.directive.js"></script>
-  <script src="components/footer/footer.controller.js"></script>
   <script src="components/lesson/lesson.service.js"></script>
   <script src="components/loading/loading.directive.js"></script>
   <script src="components/modal/modal.service.js"></script>
   <script src="components/modal/views/lesson/create.controller.js"></script>
   <script src="components/modal/views/module/create.controller.js"></script>
+  <script src="components/modal/views/session/create-runtime.controller.js"></script>
   <script src="components/module/module.service.js"></script>
   <script src="components/mongoose-error/mongoose-error.directive.js"></script>
   <script src="components/navbar/navbar.controller.js"></script>
-  <script src="components/page-header/page-header.controller.js"></script>
-  <script src="components/scroll-bottom/scroll-bottom.directive.js"></script>
   <script src="components/session/session.service.js"></script>
   <script src="components/socket/socket.service.js"></script>
   <script src="components/star-rating/star-rating-click.directive.js"></script>
