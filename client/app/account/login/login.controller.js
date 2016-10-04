@@ -18,7 +18,7 @@ angular.module('UniQA')
 
 		$scope.password = {};
 		$scope.password.inputType = 'password';
-		$scope.password.icon = 'glyphicon glyphicon-eye-close';
+		$scope.password.icon = 'fa fa-eye-slash';
 
 		Thing.getByName('uniEmail').then(function(val) {
 			// only returns one element
@@ -32,10 +32,10 @@ angular.module('UniQA')
 		$scope.togglePassInput = function() {
 			if ($scope.password.inputType === 'password') {
 				$scope.password.inputType = 'text';
-				$scope.password.icon = 'glyphicon glyphicon-eye-open';
+				$scope.password.icon = 'fa fa-eye';
 			} else {
 				$scope.password.inputType = 'password';
-				$scope.password.icon = 'glyphicon glyphicon-eye-close';
+				$scope.password.icon = 'fa fa-eye-slash';
 			}
 		};
 
@@ -70,17 +70,6 @@ angular.module('UniQA')
 
 			last = angular.extend({}, current);
 		}
-
-		$scope.showSimpleToast = function() {
-			var pinTo = $scope.getToastPosition();
-
-			$mdToast.show(
-				$mdToast.simple()
-				.textContent('Simple Toast!')
-				.position(pinTo)
-				.hideDelay(3000)
-			);
-		};
 
 		$scope.login = function(form) {
 			$scope.submitted = true;

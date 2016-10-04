@@ -1,7 +1,17 @@
 'use strict';
 
 angular.module('UniQA')
-	.controller('SessionActiveCtrl', function($scope, $stateParams, $window, $timeout, $location, $sce, socket, Auth, Lesson, Session, Modal) {
+	.controller('SessionActiveCtrl', function($scope, $stateParams, $window, $timeout, $mdToast, $location, $sce, socket, Auth, Lesson, Session, Modal) {
+
+		var last = {
+			bottom: true,
+			top: false,
+			left: true,
+			right: false
+		};
+
+		$scope.toastPosition = angular.extend({}, last);
+
 		// attach lodash to scope
 		$scope._ = _;
 		// attach moment to scope
@@ -17,6 +27,8 @@ angular.module('UniQA')
 		$scope.user = {
 			question: ''
 		};
+
+		$scope.loadedURL = false;
 
 		$scope.$on('$locationChangeStart', function(event, next) {
 			var answer = confirm("Are you sure you want to leave this session?")
@@ -38,11 +50,6 @@ angular.module('UniQA')
 		// url parameter passed through
 		var sessionid = $stateParams.sessionid;
 		var me = Auth.getCurrentUser();
-
-		$scope.trustSrc = function(src) {
-			return $sce.trustAsResourceUrl(src);
-		};
-
 
 		// function onConnect(socket) {
 		// 	socket.on('join', function(room) {
@@ -70,8 +77,11 @@ angular.module('UniQA')
 		$scope.presViewSizeLg = 'col-lg-9';
 		$scope.hideQuestionIcon = 'fa-arrow-right';
 		$scope.toggleBtnPosRight = 16;
-		$scope.toggleFullScreenIcon = 'fa-expand';
 		$scope.session = {
+			qr: {
+				svg: ''
+			},
+			url: 'placeholder',
 			registered: [],
 			questions: [{
 				'asker': {
@@ -131,6 +141,24 @@ angular.module('UniQA')
 			});
 		};
 
+		$scope.urlLoaded = function() {
+			// for animated loading
+			$timeout(function() {
+				$scope.loadedURL = true;
+			}, 500);
+		}
+
+		//
+		//
+		// window.urlLoaded = function() {
+		// 	/* have access to $scope here*/
+		// 	$scope.loadedURL = true;
+		// }
+
+		$scope.toggleSessionQuestions = function() {
+			$scope.session.questionsEnabled = !$scope.session.questionsEnabled;
+		};
+
 		// need to set this id by what gets passed through
 		Session.getById(sessionid).then(function(res) {
 			var session = res;
@@ -169,17 +197,22 @@ angular.module('UniQA')
 
 			// for animated loading
 			$timeout(function() {
-				$scope.session._id = session._id;
-				$scope.session.title = lesson.title;
-				$scope.session.desc = lesson.desc;
-				$scope.session.url = lesson.url;
-				$scope.session.questions = questions;
-				$scope.session.runTime = runtime;
-				$scope.session.collaborators = authorCollabs;
-				$scope.session.altAccess = res.altAccess;
-				$scope.session.registered = res.registered;
-				$scope.session.expected = expected;
-				$scope.session.attachments = session.attachments;
+				$scope.session = {
+					_id: session._id,
+					title: lesson.title,
+					desc: lesson.desc,
+					url: $sce.trustAsResourceUrl(lesson.url),
+					questions: questions,
+					qr: session.qr,
+					runTime: runtime,
+					feedback: session.feedback,
+					collaborators: authorCollabs,
+					questionsEnabled: session.questionsEnabled,
+					altAccess: session.altAccess,
+					registered: session.registered,
+					expected: expected,
+					attachments: session.attachments
+				}
 				$scope.init = true;
 			}, 500);
 		}, function(err) {
@@ -192,6 +225,26 @@ angular.module('UniQA')
 			// }
 
 		});
+
+		$scope.getToastPosition = function() {
+			sanitizePosition();
+			return Object.keys($scope.toastPosition)
+				.filter(function(pos) {
+					return $scope.toastPosition[pos];
+				})
+				.join(' ');
+		};
+
+		function sanitizePosition() {
+			var current = $scope.toastPosition;
+
+			if (current.bottom && last.top) current.top = false;
+			if (current.top && last.bottom) current.bottom = false;
+			if (current.right && last.left) current.left = false;
+			if (current.left && last.right) current.right = false;
+
+			last = angular.extend({}, current);
+		}
 
 		// live socket updates for questions
 		socket.syncUpdates('session', $scope.session.questions, function(event, item) {
@@ -211,8 +264,18 @@ angular.module('UniQA')
 				if ($scope.session.registered !== item.registered.length) {
 					$scope.session.registered = item.registered;
 				}
+				// if feedback has been given, throw toast
+				if ($scope.session.feedback.length !== item.feedback.length) {
+					var pinTo = $scope.getToastPosition();
+					$mdToast.show(
+						$mdToast.simple()
+						.textContent("Feedback has been given")
+						.position(pinTo)
+						.hideDelay(3000)
+						.theme('success-toast')
+					);
+				}
 			}
-
 		});
 
 		$scope.showQrModal = function() {
@@ -220,7 +283,7 @@ angular.module('UniQA')
 			if ($scope.fullScreenToggle) {
 				$scope.toggleFullScreen();
 			}
-			var openModal = Modal.read.qr(sessionid, function() {
+			var openModal = Modal.read.qr($scope.session.qr, function() {
 				// refreshUserStats();
 				$scope.refreshUserList();
 			});
@@ -232,22 +295,11 @@ angular.module('UniQA')
 			$scope.playSound = !$scope.playSound;
 		};
 
-		$scope.toggleQuestions = function() {
+		$scope.toggleQuestionHide = function() {
+			$scope.hideQuestions = !$scope.hideQuestions;
+
 			if ($scope.hideQuestions) {
-				$scope.presViewSizeMd = 'col-md-9';
-				$scope.presViewSizeLg = 'col-lg-9';
-				$scope.hideQuestionIcon = 'fa-arrow-right';
-				$scope.hideQuestions = false;
-				$scope.toggleBtnPosRight = 16;
-
-			} else {
-				$scope.presViewSizeMd = 'col-md-12';
-				$scope.presViewSizeLg = 'col-lg-12';
-				$scope.questionIconNumber = $scope.lesson.questions.length;
-				$scope.hideQuestionIcon = '';
-				$scope.hideQuestions = true;
-				$scope.toggleBtnPosRight = 16;
-
+				$scope.questionIconNumber = $scope.session.questions.length;
 			}
 		};
 
@@ -418,9 +470,6 @@ angular.module('UniQA')
 				} else if (element.webkitRequestFullScreen) {
 					element.webkitRequestFullScreen();
 				}
-				// $scope.lessonHeightMarginTop = '0em;';
-				$scope.lessonHeight = '890';
-				$scope.toggleFullScreenIcon = 'fa-compress';
 				$scope.fullScreenToggle = true;
 			} else { // Cancel fullscreen for browsers that support it!
 				if (document.exitFullscreen) {
@@ -430,9 +479,6 @@ angular.module('UniQA')
 				} else if (document.webkitExitFullscreen) {
 					document.webkitExitFullscreen();
 				}
-				// $scope.lessonHeightMarginTop = '-1.4em;';
-				$scope.lessonHeight = '760';
-				$scope.toggleFullScreenIcon = 'fa-expand';
 				$scope.fullScreenToggle = false;
 			}
 		};

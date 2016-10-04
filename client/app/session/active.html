@@ -1,11 +1,11 @@
 <div ng-include="'app/session/active-student.html'"></div>
 
 <div ng-if="!isStudent()" id="lesson-container" layout="column" flex class="active-session-wrapper">
-  <div ng-if="session.url" class="slides-container">
-    <object id="lesson" type="text/html" data="{{session.url}}"></object>
-    <div class="lesson-buttons-container-top">
+  <md-content class="slides-container" ng-class="{'slides-container-fs': hideQuestions}" id="toast-container">
+    <div ng-if="session.url && session.url !== 'placeholder' && !loadedURL" loading></div>
+    <div ng-if="session.url !== 'placeholder'" class="lesson-buttons-container-top">
       <a ng-click="toggleFullScreen()" class="lesson-action-button fullscreen-toggle">
-        <i class="fa {{toggleFullScreenIcon}}"></i>
+        <i class="fa fa-expand"></i>
       </a>
       <a ng-click="toggleSound()" class="lesson-action-button">
         <i ng-if="playSound" class="fa fa-volume-up"></i>
@@ -13,25 +13,47 @@
       </a>
     </div>
 
-    <div class="lesson-buttons-container-bottom">
-      <a ng-click="showQrModal()" class="lesson-action-button">
+    <div ng-if="session.url !== 'placeholder'" class="lesson-buttons-container-bottom">
+      <a ng-if="hideQuestions" ng-click="toggleQuestionHide()" class="lesson-action-button" style="text-align:right;">
+        <span ng-if="!session.questionsEnabled" class="fa-stack" style="margin-right: -8px; margin-top: -4px;">
+          <i class="fa fa-comment fa-stack-1x"></i>
+          <i class="fa fa-lock fa-stack-1x" style="color: #6B6B6B;font-size:.6em; text-shadow: none;"></i>
+        </span>
+        <i ng-if="session.questionsEnabled" class="fa fa-comment"></i>
+        <span ng-bind="questionIconNumber"></span>
+        <md-tooltip ng-if="!session.questionsEnabled" md-autohide="true" md-direction="top">Questions are currently locked.</md-tooltip>
+      </a>
+      <label ng-if="!session.url" class="lesson-action-label">
         <h4 style="background-color:rgba(255,255,255,0.2);padding:.2em .4em;border-radius:4px;">
           <strong>Alt:</strong>
-          {{session.altAccess}}</h4>
+          <span ng-bind="session.altAccess"></span>
+        </h4>
+      </label>
+      <a ng-if="session.url && session.url !== 'placeholder'" ng-click="showQrModal()" class="lesson-action-button">
+        <h4 style="background-color:rgba(255,255,255,0.2);padding:.2em .4em;border-radius:4px;">
+          <strong>Alt:</strong>
+          <span ng-bind="session.altAccess"></span>
+        </h4>
       </a>
-
-      <!-- <a ng-click="toggleQuestions()" class="lesson-action-button">
-        <i class="fa {{hideQuestionIcon}}">
-          <span ng-if="hideQuestions">
-            <strong>{{questionIconNumber}}</strong>
-          </span>
-        </i>
-      </a> -->
     </div>
-  </div>
-  <div ng-if="!session.url"></div>
+    <iframe ng-if="session.url && session.url !== 'placeholder'" id="lesson" type="text/html" src="{{session.url}}" iframe-onload="urlLoaded()" style="border:none;"></iframe>
 
-  <div ng-class="{ 'hidden': hideQuestions }" class="question-container">
+    <div ng-if="!session.url && session.url !== 'placeholder'" class="no-session-url">
+      <div layout="row">
+        <div class="no-session-url-qr md-whiteframe-4dp md-whiteframe-z2">
+          <ext-svg data-content="session.qr.svg"></ext-svg>
+        </div>
+      </div>
+      <div layout="row" class="no-session-url-live-reg-feed md-whiteframe-4dp md-whiteframe-z2">
+        <div layout="column" flex="100">
+          <h4 class="no-session-url-live-reg-feed-title">Registration Feed</h4>
+          <div>Feed appears here</div>
+        </div>
+      </div>
+    </div>
+  </md-content>
+
+  <div class="question-container" ng-class="{'questions-container-hidden': hideQuestions}">
     <div class="question-head-container">
       <div class="question-head">
         <h3>
@@ -42,18 +64,27 @@
               </md-button>
               <md-menu-content width="3">
                 <md-menu-item>
-                  <md-button ng-click="announceClick()">
+                  <md-button ng-click="toggleQuestionHide()">
                     <div layout="row" flex style="color:#555;">
-                      <i class="fa fa-filter" aria-hidden="true" style="margin-top:8px; margin-right:10px;"></i>
-                      <p flex>Filter</p>
+                      <i class="fa fa-eye-slash questions-menu-action-btn" aria-hidden="true"></i>
+                      <p flex>Hide</p>
                     </div>
                   </md-button>
                 </md-menu-item>
                 <md-menu-item>
                   <md-button ng-click="announceClick()">
                     <div layout="row" flex style="color:#555;">
-                      <i class="fa fa-ban" aria-hidden="true" style="margin-top:8px; margin-right:10px;"></i>
-                      <p flex>Disable</p>
+                      <i class="fa fa-filter questions-menu-action-btn" aria-hidden="true"></i>
+                      <p flex>Filter</p>
+                    </div>
+                  </md-button>
+                </md-menu-item>
+                <md-menu-divider></md-menu-divider>
+                <md-menu-item>
+                  <md-button ng-click="toggleSessionQuestions()">
+                    <div layout="row" flex style="color:#555;">
+                      <i class="fa fa-{{session.questionsEnabled ? 'lock' : 'unlock'}} questions-menu-action-btn" aria-hidden="true"></i>
+                      <p flex>{{session.questionsEnabled ? 'Lock Feed' : 'Unlock Feed'}}</p>
                     </div>
                   </md-button>
                 </md-menu-item>
@@ -67,7 +98,11 @@
       <h5 style="color:#FFA700;">Welcome to&nbsp;<span ng-bind="session.title"></span>
       </h5>
       {{session.lesson}}
-      <ul class="question-feed" scroll-glue>
+      <div ng-if="!session.questionsEnabled" class="question-feed-locked">
+        <h3 style="font-weight:bold;">Questions locked</h3>
+        <i class="fa fa-lock fa-5x"></i>
+      </div>
+      <ul class="question-feed" scroll-glue ng-if="session.questionsEnabled">
         <li ng-repeat="question in session.questions">
           <span ng-if="question.asker.role==='tutor'" class="user-icon">
             <i class="fa fa-graduation-cap" style="padding-top:.65em;"></i>
@@ -79,8 +114,8 @@
             <span ng-if="!question.anon" ng-bind="::question.asker.fullName"></span>
             <span ng-if="!question.anon">:</span>
             <span ng-if="question.anon">anon :</span>
-            <span ng-if="(question.time|date: 'yyyy-MM-dd') == (moment()._d| date: 'yyyy-MM-dd')" tooltip="{{question.time| date : 'HH:mm'}}" tooltip-trigger tooltip-animation="false" tooltip-placement="top" ng-click="something()">{{question.question}}</span>
-            <span ng-if="(question.time|date: 'yyyy-MM-dd') != (moment()._d| date: 'yyyy-MM-dd')" tooltip="{{question.time| date : 'dd/MM/yyyy HH:mm'}}" tooltip-trigger tooltip-animation="false" tooltip-placement="top" ng-click="something()" ng-bind="question.question"></span>
+            <span ng-if="(question.time|date: 'yyyy-MM-dd') == (moment()._d| date: 'yyyy-MM-dd')" ng-click="something()">{{question.question}}</span>
+            <span ng-if="(question.time|date: 'yyyy-MM-dd') != (moment()._d| date: 'yyyy-MM-dd')" ng-click="something()" ng-bind="question.question"></span>
           </a>
           <md-tooltip md-autohide="true" md-direction="left">{{question.time | date : 'dd/MM/yyyy HH:mm'}}</md-tooltip>
         </li>

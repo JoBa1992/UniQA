@@ -11,6 +11,10 @@
   </button>
   <div layout="row" layout-xs="column">
     <md-content flex flex-gt-sm="55" layout-xs="column" layout-padding class="content-container md-whiteframe-4dp, md-whiteframe-z2">
+      <h4>
+        <i class="fa fa-info-circle" style="margin-right:6px;"></i>
+        <strong>Session</strong>
+      </h4>
       <div layout="row">
         <div flex-gt-sm="100" flex="100">
           <md-input-container style="width:90%;">
@@ -50,8 +54,8 @@
       </div>
       <div layout="row">
         <md-input-container class="md-block" flex-gt-sm="100" flex="100" style="margin:0;">
-          Allow Feedback&nbsp;<i class="fa fa-question-circle" aria-hidden="true" style="cursor:pointer;color:#394350;">
-            <md-tooltip md-autohide="true" md-direction="right" class="tooltip-md">Allows students to give feedback in this session.
+          Allow Feedback&nbsp;<i class="fa fa-question-circle" aria-hidden="true" style="cursor:pointer;color:#757575;">
+            <md-tooltip md-autohide="true" md-direction="right" class="tooltip-md">Students can give feedback in this session.
               <strong>Note:
               </strong>Can only be set here.</md-tooltip>
           </i>
@@ -60,8 +64,8 @@
       </div>
       <div layout="row">
         <md-input-container class="md-block" flex-gt-sm="100" flex="100" style="margin:0;">
-          Allow Questions&nbsp;<i class="fa fa-question-circle" aria-hidden="true" style="cursor:pointer;color:#394350;">
-            <md-tooltip md-autohide="true" md-direction="right" class="tooltip-md">Allows students to ask questions throughout session. Can be enabled/disabled throughout session.</md-tooltip>
+          Allow Questions&nbsp;<i class="fa fa-question-circle" aria-hidden="true" style="cursor:pointer;color:#757575;">
+            <md-tooltip md-autohide="true" md-direction="right" class="tooltip-md">Students can ask questions throughout session. Can be enabled/disabled during session.</md-tooltip>
           </i>
           <md-checkbox ng-model="session.startSessionQuestions" aria-label="Allow questions" style="float:right;"></md-checkbox>
         </md-input-container>
@@ -70,8 +74,9 @@
     <md-content flex flex-gt-sm="5" hide-xs hide-sm style="visibility:hidden">
       &nbsp;
     </md-content>
-    <md-content flex flex-gt-sm="40" layout-padding class="content-container md-whiteframe-4dp, md-whiteframe-z2">
+    <md-content flex flex-gt-sm="40" layout-padding class="content-container md-whiteframe-4dp, md-whiteframe-z2 start-session-runningtimes">
       <h4>
+        <i class="fa fa-clock-o" style="margin-right:6px;"></i>
         <strong>Running Times</strong>
       </h4>
       <table id="table" class="table runtime-table">

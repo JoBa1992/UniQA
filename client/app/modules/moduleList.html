@@ -1,8 +1,18 @@
 <div class="top-bg md-accent-bg"></div>
-<div layout="column" flex layout-padding>
+<div layout="column" flex layout-padding ng-cloak>
   <div layout="row" layout-align="space-between center" class="content-holder">
     <div layout="column" layout-align="start start">
       <h2 class="content-page-title">Modules</h2>
+      <h6 class="content-page-sub-title">Total modules: 129</h6>
+    </div>
+    <div class="search" layout-align="align-start-center" layout="row" layout-align="start center" flex="50">
+      <span flex></span>
+      <md-input-container md-no-float class="search-bar md-block md-icon-right" flex-gt-sm="100" flex="100">
+        <md-icon class="search-bar-icon">
+          <i class="fa fa-search"></i>
+        </md-icon>
+        <input placeholder="Search" class="search-input" name="name" ng-model="module.search"/>
+      </md-input-container>
     </div>
   </div>
   <button class="md-fab md-button create-fab create-fab-plus" type="button" ng-click="openCreateModal()" aria-label="Create Session">
@@ -10,14 +20,14 @@
     <div class="md-ripple-container"></div>
   </button>
   <div layout="row">
-    <md-content flex layout-padding class="content-start-session md-whiteframe-4dp, md-whiteframe-z2">
+    <md-content flex layout-padding class="content-start-session md-whiteframe-4dp md-whiteframe-z2">
       <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
         <md-nav-item md-nav-click="goto('userMods')" name="userMods">Your Modules</md-nav-item>
         <md-nav-item md-nav-click="goto('exploreMods')" name="exploreMods">Explore Modules</md-nav-item>
       </md-nav-bar>
       <div ng-if="currentNavItem === 'userMods'">
         <md-content flex flex-gt-sm="100" md-padding>
-          <div class="row module-row" ng-repeat="module in userModules" ng-click="routeToModuleChild(module._id)">
+          <div layout="row" class="module-row" ng-if="userModules.length > 0" ng-repeat="module in userModules" ng-click="routeToModuleChild(module._id)">
             <h4 style="padding:4px;">
               <strong>{{module.code}}</strong>
               <small>{{module.name}}</small>
@@ -28,13 +38,20 @@
                 </small>
               </span>
             </h4>
-
+          </div>
+          <div layout="column" ng-if="userModules.length === 0" style="margin: 3em 0;">
+            <h4 style="padding:4px;text-align:center;color: #CCCCCC;">
+              <i class="fa fa-cubes fa-5x" aria-hidden="true"></i>
+            </h4>
+            <h4 style="padding:4px;text-align:center;color: #CCCCCC;">
+              You're not a tutor for any modules.
+            </h4>
           </div>
         </md-content>
       </div>
       <div ng-if="currentNavItem === 'exploreMods'">
         <md-content flex flex-gt-sm="100" md-padding>
-          <div class="row module-row" ng-repeat="module in explorableModules" ng-click="routeToModuleChild(module._id)">
+          <div layout="row" class="module-row" ng-if="explorableModules.length > 0" ng-repeat="module in explorableModules" ng-click="routeToModuleChild(module._id)">
             <h4 style="padding:4px;">
               <strong>{{module.code}}</strong>
               <small>{{module.name}}</small>
@@ -45,7 +62,14 @@
                 </small>
               </span>
             </h4>
-
+          </div>
+          <div layout="column" ng-if="explorableModules.length === 0" style="margin: 3em 0;">
+            <h4 style="padding:4px;text-align:center;color: #CCCCCC;">
+              <i class="fa fa-cubes fa-5x" aria-hidden="true"></i>
+            </h4>
+            <h4 style="padding:4px;text-align:center;color: #CCCCCC;">
+              No Explorable Modules
+            </h4>
           </div>
         </md-content>
       </div>

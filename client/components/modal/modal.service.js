@@ -54,28 +54,26 @@ angular.module('UniQA')
 				qr: function(cb) {
 					cb = cb || angular.noop;
 					var args = Array.prototype.slice.call(arguments);
-					var session = args.shift();
+					var qr = args.shift();
 
 					return function() {
 						var readModal;
-						Session.getById(session).then(function(res) {
-							$rootScope.session = res;
-							readModal = openModal({
-								modal: {
-									name: 'View QR',
-									fullScreen: true,
-									sizePercent: 30,
-									form: 'components/modal/views/qr/read.html',
-									buttons: [{
-										classes: 'md-primary',
-										text: 'Close',
-										click: function(e) {
-											$mdDialog.hide(e);
-										}
-									}]
-								}
-							}, 'modal-primary', null);
-						});
+						$rootScope.qr = qr.svg;
+						readModal = openModal({
+							modal: {
+								title: 'QR',
+								fullScreen: true,
+								sizePercent: 30,
+								form: 'components/modal/views/qr/read.html',
+								buttons: [{
+									classes: 'md-primary',
+									text: 'Close',
+									click: function(e) {
+										$mdDialog.hide(e);
+									}
+								}]
+							}
+						}, 'modal-primary', null);
 					};
 				},
 				// lesson: function(cb) {

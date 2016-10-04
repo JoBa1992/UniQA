@@ -139,7 +139,7 @@ angular.module('UniQA', [
 					event.preventDefault();
 					// don't want users going to 'homepage' if logged in
 					if (toState.url === '/' || toState.url === '/login' || toState.url === '/register') {
-						return $location.path('/dashboard');
+						// return $location.path('/dashboard');
 					}
 					// if not on active lecture, unsync socket listening for questions
 					if (toState.url !== '/session/active/:sessionid') {

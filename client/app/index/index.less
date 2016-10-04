@@ -11,13 +11,38 @@
   }
   .content-page-title {
     color: white;
-    margin: 10px 8px;
+    font-weight: bold;
+    margin: 10px 8px 5px;
+  }
+  .content-page-sub-title {
+    color: #414C59;
+    margin: 0 8px;
+    font-weight: bold;
   }
   .content-container {
     background: white;
     z-index: 2;
     border-radius: 2px;
   }
+}
+.search-bar {
+  padding-right: 0;
+  .search-bar-icon {
+    position: absolute !important;
+    right: 30px !important;
+    color: #414C59;
+    &:hover {
+      cursor: pointer;
+      color: #202020;
+    }
+  }
+  input:active,
+  input:focus {
+    border-color: #414C59 !important;
+  }
+}
+md-input-container:not(.md-input-invalid).md-input-focused md-icon {
+  color: #414C59;
 }
 .bold {
   font-weight: bold;
