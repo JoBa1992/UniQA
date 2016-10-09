@@ -1,5 +1,74 @@
-<div class="container-fluid">
-  <div class="row">
+<md-tabs md-dynamic-height md-border-bottom style="margin: -24px;" class="modal-tabs">
+  <md-tab label="core">
+    <md-content style="padding: 12px 24px;">
+      <md-input-container class="md-block no-marg-bottom" flex-gt-sm="100" flex-sm="100">
+        <label>Title</label>
+        <input ng-model="form.lesson.title" placeholder="My Lesson">
+      </md-input-container>
+      <div layout="row">
+        <md-input-container class="no-marg" flex-gt-sm="50" flex-sm="50">
+          <label>Type</label>
+          <md-select ng-model="form.lesson.type" placeholder="Lesson Type" style="margin-top:5px;margin-bottom:10px;">
+            <md-option ng-value="type" ng-repeat="type in lessonTypes" ng-bind="type"></md-option>
+          </md-select>
+        </md-input-container>
+        <md-input-container class="no-marg" flex-gt-sm="50" flex-sm="50" ng-if="form.lesson.type == 'URL'">
+          <label>URL</label>
+          <input type="text" class="form-control" placeholder="www.myslideshow.com" ng-model="form.lesson.url" ng-blur="genPreview()" mongoose-error/>
+        </md-input-container>
+      </div>
+
+      <md-input-container class="md-block">
+        <label>Lecture Description</label>
+        <textarea ng-model="form.lesson.desc" style="min-width:100%;max-width:100%;" md-maxlength="960" rows="2" md-select-on-focus></textarea>
+      </md-input-container>
+
+      <md-input-container class="md-block autocomplete" layout="column" style="clear:both;margin-bottom:1.2em;">
+        <label>Collaborators</label>
+        <md-contact-chips ng-model="form.selectedCollaborators" md-contacts="delayedQuerySearch($query)" md-contact-name="fullName" md-contact-image="image" md-contact-email="username" md-require-match="true" md-highlight-flags="i" filter-selected="filterSelected" placeholder="Tutor name"></md-contact-chips>
+      </md-input-container>
+    </md-content>
+  </md-tab>
+  <md-tab label="attachments">
+    <md-content style="padding: 12px 24px;">
+      <form>
+        <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-class="{ 'has-success': form.qActAllowance.$valid && submitted,'has-error': (form.qActAllowance.$invalid && submitted) || (form.qActAllowance < 0) || (form.qActAllowance > 60) }">
+          <h5 style="text-align:right;">
+            <span style="color:#bbb;">max: 10 files</span>
+          </h5>
+          <button action="/api/lessons/" autoprocessdz="false" dz-type="'lesson'" class="dropzone" drop-zone call-back="uploadSuccess(response)" name="lessonFiles" data-max="5" mimetypes="'.ppt, .html, .docx, .pdf, .xlsx, .txt, .zip, .jpg, .png'" id="csv-dropzone" style="width:100%;border:1px dashed #CCC; background-color:#FFF;" multiple>
+            <div class="dz-message" style="font-size:1.4em;color:#343D48;">Drop files here.
+              <br>
+              <span class="note" style="font-size:.6em;">
+                <strong>(Allowed file types: .ppt, .jpg, .png, .html, .docx, .pdf, .xlsx, .txt, .zip)</strong>
+              </span>
+            </div>
+          </button>
+        </div>
+      </form>
+    </md-content>
+  </md-tab>
+</md-tabs>
+
+<!-- <div class="container-fluid">
+  <div layout="column">
+    <md-input-container class="md-block no-marg" flex-gt-sm="100" flex-sm="100">
+      <label>Title</label>
+      <input ng-model="form.lesson.title" placeholder="My Lesson">
+    </md-input-container>
+    <div layout="row">
+      <md-input-container class="no-marg" flex-gt-sm="50" flex-sm="50">
+        <label>Type</label>
+        <md-select ng-model="form.lesson.type" placeholder="Select one" class="md-no-underline" style="margin-top:5px;margin-bottom:10px;">
+          <md-option ng-value="type" ng-repeat="type in lessonTypes" ng-bind="type"></md-option>
+        </md-select>
+      </md-input-container>
+      <md-input-container class="no-marg" flex-gt-sm="50" flex-sm="50" ng-if="form.lesson.type == 'URL'">
+        <label>URL</label>
+        <input type="text" class="form-control" placeholder="www.myslideshow.com" ng-model="form.lesson.url" ng-blur="genPreview()" mongoose-error/>
+      </md-input-container>
+    </div>
+
     <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6" ng-class="{ 'has-success': form.name.$valid && submitted,'has-error': form.name.$invalid && submitted }">
       <label>Title</label>
       <input type="text" name="name" class="form-control" ng-model="form.lesson.title" placeholder="My Lesson" md-autofocus required mongoose-error>
@@ -29,31 +98,10 @@
       <p class="help-block" ng-show="form.desc.$error.required && submitted">Lecture must have a description</p>
       <p class="help-block" name="descVal" ng-show="form.desc.$error.mongoose">{{ errors.desc }}</p>
     </div>
-    <md-content class="md-padding autocomplete" layout="column" style="clear:both;margin-bottom:1.2em;">
+    <md-content class="md-block autocomplete" layout="column" style="clear:both;margin-bottom:1.2em;">
       <label>Collaborators</label>
       <md-contact-chips ng-model="form.selectedCollaborators" md-contacts="delayedQuerySearch($query)" md-contact-name="fullName" md-contact-image="image" md-contact-email="username" md-require-match="true" md-highlight-flags="i" filter-selected="filterSelected" placeholder="Tutor name"></md-contact-chips>
     </md-content>
-    <!-- <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-class="{ 'has-success': form.qActAllowance.$valid && submitted,'has-error': (form.qActAllowance.$invalid && submitted) || (form.qActAllowance < 0) || (form.qActAllowance > 60) }">
-      <label>Collaborators</label>
-      <div class="input-group">
-        <input type="text" class="form-control" placeholder="e.g. Brian Smith" ng-model="form.lesson.collaborator" typeahead="tutor as tutor.name for tutor in possibleCollaborators | filter:{name:$viewValue} | limitTo:10" typeahead-on-select="searchPossibleCollaborators($item)" ng-keyup="searchPossibleCollaborators($event)">
-        <div class="input-group-btn">
-          <button type="button" class="btn btn-default" style="border-color:#cccccc;" ng-click="searchPossibleCollaborators('Submit')">
-            <i class="fa fa-plus"></i>
-          </button>
-        </div>
-      </div>
-      <div style="margin-top:.4em;">
-        <h3 ng-repeat="user in selectedCollaborators" class="label label-warning" style="display:inline-block;font-size:.9em;margin:.2em .4em .2em 0;padding:.6em;">
-          {{user.name}}
-          <a style="color:#343D48;" href="#" ng-click="removeCollaborator(user)">
-            <i class="fa fa-times" style="margin-left:.4em;"></i>
-          </a>
-        </h3>
-      </div>
-      <p class="help-block" ng-show="(form.qActAllowance.$error.minlength || form.qActAllowance.$error.required) && (form.qActAllowance < 0) || (form.qActAllowance > 60) && submitted">Must be between 0 and 60</p>
-      <p class="help-block" ng-show="form.qActAllowance.$error.mongoose">{{ errors.qActAllowance }}</p>
-    </div> -->
     <form>
       <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-class="{ 'has-success': form.qActAllowance.$valid && submitted,'has-error': (form.qActAllowance.$invalid && submitted) || (form.qActAllowance < 0) || (form.qActAllowance > 60) }">
         <label>Attachments
@@ -70,4 +118,4 @@
       </div>
     </form>
   </div>
-</div>
+</div> -->

@@ -83,7 +83,7 @@ angular.module('UniQA')
 		//
 		$scope.sessionsMenu = [{
 			title: 'Start',
-			icon: 'plus',
+			icon: 'share',
 			link: '/session/start',
 			login: true,
 			admin: true,
@@ -91,7 +91,7 @@ angular.module('UniQA')
 			student: false
 		}, {
 			title: 'Continue',
-			icon: 'play',
+			icon: 'retweet',
 			link: '#', // /session/continue
 			action: 'x',
 			login: true,

@@ -2,12 +2,7 @@
 
 angular.module('UniQA')
 	.controller('LessonListCtrl', function($rootScope, $scope, $http, $mdToast, $location, Auth, Lesson, Modal) {
-		// attach lodash to scope
-		$scope._ = _;
-
-		$rootScope.pageHeadTitle = 'Lesson Mgr';
-		$rootScope.showTopNav = true;
-		$rootScope.pageHeadType = 'base';
+		$scope.userLessonsLoaded = false;
 
 		var last = {
 			bottom: true,
@@ -15,6 +10,7 @@ angular.module('UniQA')
 			left: false,
 			right: true
 		};
+
 		var originatorEv;
 
 		$scope.toastPosition = angular.extend({}, last);
@@ -35,37 +31,32 @@ angular.module('UniQA')
 				paginate: $scope.resultsPerPage
 			}).then(function(res) {
 				// reset this once filters are used. Need to look at removing this object altogether
-				if (res.count === 0) {
-					//no results
-					$scope.noQueryResults = true;
-				} else {
-					// set init state of hover event on each lesson
-					for (var lesson in res.lessons) {
-						for (var files in res.lessons[lesson].attachments) {
-							res.lessons[lesson].attachments[files].filename = res.lessons[lesson].attachments[files].loc.split('/').pop();
-						}
+				// set init state of hover event on each lesson
+				for (var lesson in res.lessons) {
+					for (var files in res.lessons[lesson].attachments) {
+						res.lessons[lesson].attachments[files].filename = res.lessons[lesson].attachments[files].loc.split('/').pop();
 					}
-
-					var moduleLessons = {};
-					var lessonsWithoutModules = [];
-
-					// construct results of arrays
-					for (var lesson in res.lessons) {
-						if (res.lessons[lesson].module && res.lessons[lesson].module.name) {
-							if ((moduleLessons[res.lessons[lesson].module.name] === null ||
-									moduleLessons[res.lessons[lesson].module.name] == undefined) ||
-								moduleLessons[res.lessons[lesson].module.name].length < 1) {
-								moduleLessons[res.lessons[lesson].module.name] = [];
-							}
-							moduleLessons[res.lessons[lesson].module.name].push(res.lessons[lesson]);
-						} else {
-							lessonsWithoutModules.push(res.lessons[lesson]);
-						}
-					}
-
-					$scope.moduleLessons = sortLessonLists(moduleLessons);
-					$scope.lessonsWithoutModules = sortLessonLists(lessonsWithoutModules);
 				}
+
+				var moduleLessons = {};
+				var lessonsWithoutModules = [];
+
+				// construct results of arrays
+				for (var lesson in res.lessons) {
+					if (res.lessons[lesson].module && res.lessons[lesson].module.name) {
+						if ((moduleLessons[res.lessons[lesson].module.name] === null ||
+								moduleLessons[res.lessons[lesson].module.name] == undefined) ||
+							moduleLessons[res.lessons[lesson].module.name].length < 1) {
+							moduleLessons[res.lessons[lesson].module.name] = [];
+						}
+						moduleLessons[res.lessons[lesson].module.name].push(res.lessons[lesson]);
+					} else {
+						lessonsWithoutModules.push(res.lessons[lesson]);
+					}
+				}
+				$scope.userLessonsLoaded = true;
+				$scope.moduleLessons = sortLessonLists(moduleLessons);
+				$scope.moduleLessons['General'] = sortLessonLists(lessonsWithoutModules);
 			});
 		};
 		refreshLessons();
@@ -135,7 +126,7 @@ angular.module('UniQA')
 			if (lesson) {
 				Lesson.remove(lesson._id).then(function() {
 					refreshLessons();
-					$scope.showUndoDeleteToast();
+					$scope.showUndoDeleteToast(lesson._id);
 				});
 			}
 		});
@@ -160,20 +151,21 @@ angular.module('UniQA')
 
 			last = angular.extend({}, current);
 		}
-		$scope.showUndoDeleteToast = function() {
+		$scope.showUndoDeleteToast = function(id) {
 			var pinTo = $scope.getToastPosition();
 			var toast = $mdToast.simple()
 				.textContent('Lesson deleted')
 				.action('UNDO')
 				.highlightAction(true)
-				.highlightClass('md-default') // Accent is used by default, this just demonstrates the usage.
+				.highlightClass('md-primary')
 				.hideDelay(5000)
-				// .theme('danger-toast')
 				.position(pinTo);
 
 			$mdToast.show(toast).then(function(response) {
 				if (response == 'ok') {
-					alert('Go Call DB');
+					Lesson.undoDelete(id).then(function() {
+						refreshLessons();
+					});
 				}
 			});
 		}

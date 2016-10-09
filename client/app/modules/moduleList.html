@@ -3,7 +3,7 @@
   <div layout="row" layout-align="space-between center" class="content-holder">
     <div layout="column" layout-align="start start">
       <h2 class="content-page-title">Modules</h2>
-      <h6 class="content-page-sub-title">Total modules: 129</h6>
+      <h6 class="content-page-sub-title">Total modules: *</h6>
     </div>
     <div class="search" layout-align="align-start-center" layout="row" layout-align="start center" flex="50">
       <span flex></span>
@@ -22,11 +22,12 @@
   <div layout="row">
     <md-content flex layout-padding class="content-start-session md-whiteframe-4dp md-whiteframe-z2">
       <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
-        <md-nav-item md-nav-click="goto('userMods')" name="userMods">Your Modules</md-nav-item>
-        <md-nav-item md-nav-click="goto('exploreMods')" name="exploreMods">Explore Modules</md-nav-item>
+        <md-nav-item md-nav-click="goto('userMods')" name="userMods">Your Modules (<span ng-bind="userModules.length"></span>)</md-nav-item>
+        <md-nav-item md-nav-click="goto('exploreMods')" name="exploreMods">Explore Modules (<span ng-bind="explorableModules.length"></span>)</md-nav-item>
       </md-nav-bar>
       <div ng-if="currentNavItem === 'userMods'">
         <md-content flex flex-gt-sm="100" md-padding>
+          <div ng-if="!userModsLoaded" class="loading-resource" loading></div>
           <div layout="row" class="module-row" ng-if="userModules.length > 0" ng-repeat="module in userModules" ng-click="routeToModuleChild(module._id)">
             <h4 style="padding:4px;">
               <strong>{{module.code}}</strong>
@@ -39,7 +40,7 @@
               </span>
             </h4>
           </div>
-          <div layout="column" ng-if="userModules.length === 0" style="margin: 3em 0;">
+          <div layout="column" ng-if="userModsLoaded && userModules.length === 0" style="margin: 3em 0;">
             <h4 style="padding:4px;text-align:center;color: #CCCCCC;">
               <i class="fa fa-cubes fa-5x" aria-hidden="true"></i>
             </h4>
@@ -51,6 +52,7 @@
       </div>
       <div ng-if="currentNavItem === 'exploreMods'">
         <md-content flex flex-gt-sm="100" md-padding>
+          <div ng-if="!explorableModsLoaded" class="loading-resource" loading></div>
           <div layout="row" class="module-row" ng-if="explorableModules.length > 0" ng-repeat="module in explorableModules" ng-click="routeToModuleChild(module._id)">
             <h4 style="padding:4px;">
               <strong>{{module.code}}</strong>
@@ -63,7 +65,7 @@
               </span>
             </h4>
           </div>
-          <div layout="column" ng-if="explorableModules.length === 0" style="margin: 3em 0;">
+          <div layout="column" ng-if="explorableModsLoaded && explorableModules.length === 0" style="margin: 3em 0;">
             <h4 style="padding:4px;text-align:center;color: #CCCCCC;">
               <i class="fa fa-cubes fa-5x" aria-hidden="true"></i>
             </h4>

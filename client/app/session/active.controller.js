@@ -28,6 +28,28 @@ angular.module('UniQA')
 			question: ''
 		};
 
+		$scope.isFullScreen = function() {
+			if (document.fullscreenElement ||
+				document.mozFullScreenElement ||
+				document.webkitFullscreenElement ||
+				document.msFullscreenElement) {
+				return true;
+			}
+			// // A fallback
+			// try {
+			// 	return isFullScreenMicrosoft();
+			// } catch (ex) {}
+			// try {
+			// 	return isFullScreenMozilla();
+			// } catch (ex) {}
+			// try {
+			// 	return isFullScreenWebkit();
+			// } catch (ex) {}
+			//
+			// console.log("This browser is not supported, sorry!");
+			return false;
+		};
+
 		$scope.loadedURL = false;
 
 		$scope.$on('$locationChangeStart', function(event, next) {
@@ -71,12 +93,7 @@ angular.module('UniQA')
 		// $scope.session = {};
 
 		// scope load for lesson/tutor
-		$scope.fullScreenToggle = false;
 		$scope.hideQuestions = false;
-		$scope.presViewSizeMd = 'col-md-9';
-		$scope.presViewSizeLg = 'col-lg-9';
-		$scope.hideQuestionIcon = 'fa-arrow-right';
-		$scope.toggleBtnPosRight = 16;
 		$scope.session = {
 			qr: {
 				svg: ''
@@ -280,7 +297,7 @@ angular.module('UniQA')
 
 		$scope.showQrModal = function() {
 			// disable full screen mode if enabled
-			if ($scope.fullScreenToggle) {
+			if ($scope.isFullScreen()) {
 				$scope.toggleFullScreen();
 			}
 			var openModal = Modal.read.qr($scope.session.qr, function() {
@@ -458,10 +475,8 @@ angular.module('UniQA')
 
 		};
 
-
-
 		$scope.toggleFullScreen = function() {
-			if (!$scope.fullScreenToggle) { // Launch fullscreen for browsers that support it!
+			if (!$scope.isFullScreen()) { // Launch fullscreen for browsers that support it!
 				var element = document.getElementById('lesson-container');
 				if (element.requestFullScreen) {
 					element.requestFullScreen();
@@ -470,7 +485,6 @@ angular.module('UniQA')
 				} else if (element.webkitRequestFullScreen) {
 					element.webkitRequestFullScreen();
 				}
-				$scope.fullScreenToggle = true;
 			} else { // Cancel fullscreen for browsers that support it!
 				if (document.exitFullscreen) {
 					document.exitFullscreen();
@@ -479,7 +493,6 @@ angular.module('UniQA')
 				} else if (document.webkitExitFullscreen) {
 					document.webkitExitFullscreen();
 				}
-				$scope.fullScreenToggle = false;
 			}
 		};
 	});

@@ -1,35 +1,81 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="form-group" ng-class="{ 'has-success': form.code.$valid && submitted,'has-error': form.code.$invalid && submitted }">
-      <label>Module Code</label>
+<md-tabs md-dynamic-height md-border-bottom style="margin: -24px;" class="modal-tabs">
+  <md-tab label="core">
+    <md-content style="padding: 12px 24px;">
+      <md-input-container class="md-block" flex-gt-sm="50" flex-sm="100">
+        <label>Code</label>
+        <input ng-model="form.module.code" placeholder="e.g. 55-5533-00L">
+      </md-input-container>
+      <md-input-container class="md-block" flex-gt-sm="50" flex-sm="100">
+        <label>Name</label>
+        <input ng-model="form.module.name" placeholder="e.g. Application Development">
+      </md-input-container>
+      <md-input-container class="md-block autocomplete" class="" layout="column">
+        <label>Tutors</label>
+        <md-contact-chips ng-model="form.selectedTutors" md-contacts="delayedQuerySearch($query)" md-contact-name="fullName" md-contact-image="image" md-contact-email="username" md-require-match="true" md-highlight-flags="i" filter-selected="filterSelected" placeholder="Tutor name" secondary-placeholder="+Tutor" readonly="true" md-removable="true"></md-contact-chips>
+      </md-input-container>
+    </md-content>
+  </md-tab>
+  <md-tab label="groups">
+    <md-content style="padding: 12px 24px;">
+      <h5 style="text-align:right;">
+        <span style="color:#BBBBBB;">Unsure of the CSV structure?
+          <a href="#">Check the docs</a>
+        </span>
+      </h5>
+      <div id="table" class="table-editable">
+        <table class="table csv-dropzone" drop-zone url="'/api/moduleGroups/users/import'" autoprocessdz="true" no-file-display="true" dz-type="'csvImport'" class="dropzone" call-back="mergeCsvData(response)" name="csvUserData" data-max="5" mimetypes="'.csv, .txt'" id="csv-dropzone" style="overflow:visible;">
+          <thead>
+            <th style="width:18%;">ID</th>
+            <th style="width:38%;">Forename</th>
+            <th style="width:38%;">Surname</th>
+            <th></th>
+          </thead>
+          <tr class="csv-dropzone-row" ng-repeat="user in importUsers track by user.user">
+            <td style="width:18%;" class="csv-dropzone-cell" ng-focus="dissolveIfPlaceholder(user, user.placeholder)" contenteditable="true" ng-class="{'csv-dropzone-placeholder' : user.placeholder}" ng-model="user.user"></td>
+            <td style="width:38%;" class="csv-dropzone-cell" ng-focus="dissolveIfPlaceholder(user, user.placeholder)" contenteditable="true" ng-class="{'csv-dropzone-placeholder' : user.placeholder}" ng-model="user.forename"></td>
+            <td style="width:38%;" class="csv-dropzone-cell" ng-focus="dissolveIfPlaceholder(user, user.placeholder)" contenteditable="true" ng-class="{'csv-dropzone-placeholder' : user.placeholder}" ng-model="user.surname"></td>
+            <td data-title="Remove" style="text-align:right;padding-right:14px;">
+              <i ng-if="!user.placeholder" ng-click="deleteModuleTableRow(user.user)" class="fa fa-times" style="cursor:pointer;"></i>
+            </td>
+            <!-- <td style="text-align:right;padding-right:14px;">
+              <i ng-if="!user.placeholder" class="fa fa-minus table-remove trash" style="font-size:1em;font-weight:bold;" ng-click="deleteModuleTableRow(user.user)"></i>
+            </td> -->
+          </tr>
+        </table>
+        <div flex>
+          <h4 class="pull-right" style="font-family:'Rock Salt';color:#AAA;position:relative;padding-left:2em;" hide-xs hide-sm flex-gt-sm="80">Drop csv files
+            <img src="/assets/images/curved-arrow.png" style="width:40px;position:absolute;top:-1em;left:-.4em;"/>
+          </h4>
+          <md-button md-no-ink class="md-raised md-default" flex-gt-sm="80" ng-click="addRowToModuleTable()">Add User</md-button>
+        </div>
+
+      </div>
+    </md-content>
+  </md-tab>
+</md-tabs>
+<!--
+<div layout="row">
+  <div flex layout="column">
+    <div>
+      <label>Code</label>
       <input type="text" name="code" class="form-control" placeholder="e.g. 55-5533-00L" ng-model="form.module.code" required/>
       <p class="help-block" ng-show="form.code.$error.required && submitted">Module ID is required</p>
       <p class="help-block" ng-show="moduleAlreadyExists && submitted">
         A module with this code already exists
       </p>
     </div>
-    <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,'has-error': form.name.$invalid && submitted }">
-      <label>Module Name</label>
+    <div>
+      <label>Name</label>
       <input type="text" name="name" class="form-control" placeholder="e.g. Application Development" ng-model="form.module.name" required/>
       <p class="help-block" ng-show="form.name.$error.required && submitted">Module Name is required</p>
     </div>
 
     <md-content class="md-padding autocomplete" layout="column" style="clear:both;padding-left:0;padding-right:0;">
-      <label>Module Tutors</label>
+      <label>Tutors</label>
       <md-contact-chips ng-model="form.selectedTutors" md-contacts="delayedQuerySearch($query)" md-contact-name="fullName" md-contact-image="image" md-contact-email="username" md-require-match="true" md-highlight-flags="i" filter-selected="filterSelected" placeholder="Tutor name" secondary-placeholder="+Tutor" readonly="true" md-removable="true"></md-contact-chips>
     </md-content>
   </div>
-
-  <div style="margin:0 0 1em;">
-    <h3 ng-repeat="user in selectedTutors" class="label" ng-class="{'label-primary': user.currentUser, 'label-warning' : !user.currentUser} " style="display:inline-block;font-size:.9em;margin:.2em .4em .2em 0;padding:.6em;">
-      {{user.name}}
-      <a ng-if="user.currentUser" style="color:#343D48;font-size:.8em;line-height:1.2;cursor:default;text-decoration:none;">You</a>
-      <a ng-if="!user.currentUser" style="color:#343D48;" href="#" ng-click="removeTutor(user)">
-        <i class="fa fa-times" style="margin-left:.4em;"></i>
-      </a>
-    </h3>
-  </div>
-</div>
+</div> -->
 <!-- <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,'has-error': form.name.$invalid && submitted }">
   <h5>Students
     <span class="pull-right" style="color:#BBBBBB;">Unsure of the CSV structure?

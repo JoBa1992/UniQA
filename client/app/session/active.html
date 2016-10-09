@@ -3,9 +3,13 @@
 <div ng-if="!isStudent()" id="lesson-container" layout="column" flex class="active-session-wrapper">
   <md-content class="slides-container" ng-class="{'slides-container-fs': hideQuestions}" id="toast-container">
     <div ng-if="session.url && session.url !== 'placeholder' && !loadedURL" loading></div>
+    <div ng-if="isFullScreen()" style="position:absolute;height:auto;">
+      <img class="logo-image" style="width:120px;min-height:1px;padding:.2em .4em;background-color: rgba(255,255,255,0.75);border-bottom-right-radius:4px;border-right:2px solid #414C5A;border-bottom:2px solid #414C5A;" src="assets/images/logo/full-logo-nav.png"/>
+    </div>
     <div ng-if="session.url !== 'placeholder'" class="lesson-buttons-container-top">
       <a ng-click="toggleFullScreen()" class="lesson-action-button fullscreen-toggle">
-        <i class="fa fa-expand"></i>
+        <i ng-if="!isFullScreen()" class="fa fa-expand"></i>
+        <i ng-if="isFullScreen()" class="fa fa-compress"></i>
       </a>
       <a ng-click="toggleSound()" class="lesson-action-button">
         <i ng-if="playSound" class="fa fa-volume-up"></i>
@@ -57,7 +61,7 @@
     <div class="question-head-container">
       <div class="question-head">
         <h3>
-          <a class="questions-menu">
+          <a class="questions-menu" ng-if="!isFullScreen()">
             <md-menu md-position-mode="target-right target">
               <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
                 <i class="fa fa-align-left fa-2x questions-menu-btn" md-menu-origin></i>

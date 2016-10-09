@@ -14,17 +14,18 @@ angular.module('UniQA')
 				noFileDisplay: '=?',
 				url: '=?'
 			},
-			link: function(scope, element /*, attrs*/ ) {
-				// console.info(scope.url);
+			link: function(scope, element, attrs) {
+				// console.info(element);
+				// console.info(attrs);
 				var iconType = '';
-				var Dropzone = Dropzone;
-				// console.log('Creating dropzone');
-				// Autoprocess the form
-				if (scope.autoprocessdz === 'true') {
-					scope.autoProcess = true;
-				} else {
-					scope.autoProcess = false;
-				}
+				var dz = Dropzone;
+
+				// // Autoprocess the form
+				// if (scope.autoprocessdz === 'true') {
+				// 	scope.autoProcess = true;
+				// } else {
+				// 	scope.autoProcess = false;
+				// }
 
 				if (!scope.action) {
 					scope.action = '/';
@@ -32,14 +33,14 @@ angular.module('UniQA')
 
 				// Max file size
 				if (scope.dataMax === null) {
-					scope.dataMax = Dropzone.prototype.defaultOptions.maxFilesize;
+					scope.dataMax = dz.prototype.defaultOptions.maxFilesize;
 				} else {
 					scope.dataMax = parseInt(scope.dataMax);
 				}
 
 				// Message for the uploading
 				if (scope.message === null) {
-					scope.message = Dropzone.prototype.defaultOptions.dictDefaultMessage;
+					scope.message = dz.prototype.defaultOptions.dictDefaultMessage;
 				}
 
 				//sort out which icon should be used in template
@@ -51,13 +52,14 @@ angular.module('UniQA')
 				// and change how the files look
 				var previewTemp = '<div class=\"dz-preview dz-file-preview\" style=\"display:none;\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\" style=\"width:100%;\"></div>\n  </div>\n  <div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div>\n  <div class=\"dz-success-mark\"></div>\n  <div class=\"dz-error-mark\"></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>';
 
-				if (scope.noFileDisplay === 'true') {
+				if (scope.noFileDisplay === true) {
 
 				} else {
 					previewTemp = '<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\" style=\"width:100%;\"><span style=\"width:100%;\" data-dz-name> </span>\n<i style=\"color:#bbb;margin-top:.3em;width:100%;\" class=\"fa " + iconType + " fa-3x\"></i></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div>\n  <div class=\"dz-success-mark\"><span>✔</span></div>\n  <div class=\"dz-error-mark\"><span>✘</span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>';
 				}
 
-				$rootScope.dropzone = element.dropzone({
+				var config = {
+					autoProcessQueue: scope.autoprocessdz,
 					url: scope.url,
 					maxFilesize: scope.dataMax,
 					maxFiles: 10,
@@ -67,7 +69,6 @@ angular.module('UniQA')
 					acceptedFiles: scope.mimetypes,
 					maxThumbnailFilesize: scope.dataMax,
 					dictDefaultMessage: scope.message,
-					autoProcessQueue: scope.autoProcess,
 					previewTemplate: previewTemp,
 					success: function(file, response) {
 						if (scope.callBack !== null) {
@@ -76,6 +77,15 @@ angular.module('UniQA')
 							});
 						}
 					}
+				};
+
+				console.info(config);
+
+				$rootScope.dropzone = new Dropzone(element[0], config);
+
+				// when calling scope is destroyed, remove dropzone from rootScope
+				scope.$on('$destroy', function() {
+					$rootScope.dropzone.destroy();
 				});
 			}
 		};

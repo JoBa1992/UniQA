@@ -25,7 +25,7 @@ angular.module('UniQA')
 			angular.extend(modalScope, scope);
 
 			var modalCtrl = modalScope.modal.controller || undefined;
-			var modalTemplate = modalScope.modal.template || 'components/modal/views/standard.html';
+			var modalTemplate = 'components/modal/views/' + (modalScope.modal.template || 'standard') + '.html';
 			//
 			return $mdDialog.show({
 				templateUrl: modalTemplate,
@@ -606,7 +606,7 @@ angular.module('UniQA')
 							modal: {
 								name: 'createModuleForm',
 								controller: 'ModuleCreateModalCtrl',
-								sizePercent: 70,
+								sizePercent: 80,
 								dismissable: true,
 								fullScreen: true,
 								form: 'components/modal/views/module/create.html',
@@ -718,40 +718,40 @@ angular.module('UniQA')
 							}
 						};
 
-						$rootScope.addRowToModuleTable = function() {
-							$rootScope.importUsers.push({
-								user: '01234567',
-								forename: 'John',
-								surname: 'Smith',
-								placeholder: true
-							});
-						};
-						$rootScope.deleteModuleTableRow = function(uid) {
-							$rootScope.importUsers = $rootScope.importUsers.filter(function(item) {
-								return item.user !== uid;
-							});
-							addPlaceholderInIfEmpty();
-						};
-
-						var addPlaceholderInIfEmpty = function() {
-							if (_.isEmpty($rootScope.importUsers)) {
-								$rootScope.importUsers.push({
-									user: '01234567',
-									forename: 'John',
-									surname: 'Smith',
-									placeholder: true
-								});
-							}
-						};
-
-						$rootScope.dissolveIfPlaceholder = function(user, placeholder) {
-							if (placeholder) {
-								user.user = '';
-								user.forename = '';
-								user.surname = '';
-								user.placeholder = false;
-							}
-						};
+						// $rootScope.addRowToModuleTable = function() {
+						// 	$rootScope.importUsers.push({
+						// 		user: '01234567',
+						// 		forename: 'John',
+						// 		surname: 'Smith',
+						// 		placeholder: true
+						// 	});
+						// };
+						// $rootScope.deleteModuleTableRow = function(uid) {
+						// 	$rootScope.importUsers = $rootScope.importUsers.filter(function(item) {
+						// 		return item.user !== uid;
+						// 	});
+						// 	addPlaceholderInIfEmpty();
+						// };
+						//
+						// var addPlaceholderInIfEmpty = function() {
+						// 	if (_.isEmpty($rootScope.importUsers)) {
+						// 		$rootScope.importUsers.push({
+						// 			user: '01234567',
+						// 			forename: 'John',
+						// 			surname: 'Smith',
+						// 			placeholder: true
+						// 		});
+						// 	}
+						// };
+						//
+						// $rootScope.dissolveIfPlaceholder = function(user, placeholder) {
+						// 	if (placeholder) {
+						// 		user.user = '';
+						// 		user.forename = '';
+						// 		user.surname = '';
+						// 		user.placeholder = false;
+						// 	}
+						// };
 
 						$rootScope.checkForSubmit = function(e) {
 							// checking length to see if id has been sent through
@@ -1612,16 +1612,17 @@ angular.module('UniQA')
 								dismissable: true,
 								sizePercent: 30,
 								title: 'Confirm Delete',
+								template: 'light',
 								form: 'components/modal/views/lesson/delete.html',
 								buttons: [{
-									classes: 'btn-default',
+									classes: 'md-default',
 									text: 'Cancel',
 									click: function(e) {
 										$rootScope.submitted = false;
 										$mdDialog.cancel();
 									}
 								}, {
-									classes: 'btn-danger',
+									classes: 'md-primary',
 									text: 'Delete',
 									click: function(e, form) {
 										$rootScope.submitted = false;
@@ -1629,7 +1630,7 @@ angular.module('UniQA')
 									}
 								}]
 							}
-						}, 'modal-danger', null);
+						});
 
 						deleteModal.then(function() {
 							cb(lesson);

@@ -2,13 +2,10 @@
 
 angular.module('UniQA')
 	.controller('ModuleListCtrl', function($scope, $http, $location, Auth, Module, Modal) {
-		// $rootScope.pageHeadTitle = 'Module Mgr';
-		// $rootScope.showTopNav = true;
-		// $scope.pageHeadType = 'base';
 		$scope.currentNavItem = 'userMods';
 
-		$scope.noUserResults = false;
-		$scope.noExplorableResults = false;
+		$scope.userModsLoaded = false;
+		$scope.explorableModsLoaded = false;
 		$scope.userModules = [];
 		$scope.explorableModules = [];
 
@@ -18,14 +15,12 @@ angular.module('UniQA')
 		Module.getMyAssocModules({
 			user: currentUser()._id
 		}).then(function(res) {
+			$scope.userModsLoaded = true;
 			if (res.modules && res.modules.length > 0) {
-				$scope.noUserResults = false;
 				attachModGroupsStudCount(res.modules);
 				$scope.userModules = res.modules;
-				$scope.userModCount = res.count;
 			} else {
-				$scope.noUserResults = true;
-				console.info('no results for user returned');
+				$scope.userModules = [];
 			}
 		}).catch(function(err) {
 			console.info(err);
@@ -34,13 +29,12 @@ angular.module('UniQA')
 		Module.getExplorableModules({
 			user: currentUser()._id
 		}).then(function(res) {
+			$scope.explorableModsLoaded = true;
 			if (res.modules && res.modules.length > 0) {
-				$scope.noExplorableResults = false;
 				attachModGroupsStudCount(res.modules);
 				$scope.explorableModules = res.modules;
-				$scope.explorModCount = res.count;
 			} else {
-				$scope.noExplorableResults = true;
+				$scope.explorableModules = [];
 			}
 		}).catch(function(err) {
 			console.info(err);

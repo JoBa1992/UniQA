@@ -3,6 +3,8 @@ angular.module('UniQA')
 		var pendingSearch, cancelSearch = angular.noop;
 		var cachedQuery, lastSearch;
 
+		var aiCounter = 0;
+
 		var me = Auth.getCurrentUser();
 		var isTutor = Auth.isTutor;
 
@@ -15,6 +17,14 @@ angular.module('UniQA')
 			possibleTutors: loadTutors(),
 			selectedTutors: []
 		};
+
+		// with placeholder
+		$scope.importUsers = [{
+			user: aiCounter,
+			forename: 'John',
+			surname: 'Smith',
+			placeholder: true
+		}];
 
 		var addUserToTutorListIfTutor = function() {
 			if (isTutor()) {
@@ -89,6 +99,53 @@ angular.module('UniQA')
 
 			return pendingSearch;
 		}
+
+		$scope.addRowToModuleTable = function() {
+			aiCounter++;
+			$scope.importUsers.push({
+				user: aiCounter,
+				forename: 'John',
+				surname: 'Smith',
+				placeholder: true
+			});
+		};
+		$scope.deleteModuleTableRow = function(uid) {
+			$scope.importUsers = $scope.importUsers.filter(function(item) {
+				return item.user !== uid;
+			});
+			addPlaceholderInIfEmpty();
+		};
+
+		var addPlaceholderInIfEmpty = function() {
+			if (_.isEmpty($scope.importUsers)) {
+				$scope.importUsers.push({
+					user: '01234567',
+					forename: 'John',
+					surname: 'Smith',
+					placeholder: true
+				});
+			}
+		};
+
+		$scope.mergeCsvData = function(res) {
+			if ($scope.importUsers[0] && $scope.importUsers[0].placeholder) {
+				$scope.importUsers.shift();
+			}
+			$timeout(function() {
+				$scope.importUsers = _.uniq(_.union($scope.importUsers, res), false, function(item, key, a) {
+					return item.user;
+				});
+			});
+		};
+
+		$scope.dissolveIfPlaceholder = function(user, placeholder) {
+			if (placeholder) {
+				user.user = '';
+				user.forename = '';
+				user.surname = '';
+				user.placeholder = false;
+			}
+		};
 
 		function loadTutors() {
 			Module.getTutors({

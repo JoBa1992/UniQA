@@ -151,7 +151,7 @@ th {
   margin-bottom: 20px;
   thead>tr>th {
     vertical-align: bottom;
-    border-bottom: 2px solid #ddd;
+    border-bottom: 2px solid #82AECC;
   }
   tbody>tr>td,
   tbody>tr>th,
@@ -345,6 +345,36 @@ th {
   color: #D8000C;
   background-color: #FFBABA;
 }
+.no-pad {
+  padding: 0;
+}
+.no-pad-top {
+  padding-top: 0;
+}
+.no-pad-bottom {
+  padding-bottom: 0;
+}
+.no-pad-left {
+  padding-left: 0;
+}
+.no-pad-right {
+  padding-right: 0;
+}
+.no-marg {
+  margin: 0;
+}
+.no-marg-top {
+  margin-top: 0;
+}
+.no-marg-bottom {
+  margin-bottom: 0;
+}
+.no-marg-left {
+  margin-left: 0;
+}
+.no-marg-right {
+  margin-right: 0;
+}
 .label-info i,
 .label-success i,
 .label-warning i,
@@ -358,6 +388,12 @@ th {
   background: #ccc;
   color: #000;
   padding: 0.2em 0;
+}
+.loading-resource {
+  position: relative;
+  height: 200px;
+  margin-top: 100px;
+  text-align: center;
 }
 md-menu-content.md-default-theme md-menu-divider,
 md-menu-content md-menu-divider {
@@ -380,6 +416,7 @@ md-menu-content md-menu-divider {
 @import 'stats/statistics.less';
 @import 'app-header/app-header.less';
 @import 'checkbox/checkbox.less';
+@import 'chips/chips.less';
 @import 'datepicker/datepicker.less';
 @import 'fab/fab.less';
 @import 'loading/loading.less';

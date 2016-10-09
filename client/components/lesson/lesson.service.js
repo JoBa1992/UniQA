@@ -108,5 +108,17 @@ angular.module('UniQA')
 				}.bind(this));
 				return deferred.promise;
 			},
+			undoDelete: function(id, callback) {
+				var cb = callback || angular.noop;
+				var deferred = $q.defer();
+				$http.put('/api/lessons/' + id + '/undoDelete').success(function(data) {
+					deferred.resolve(data);
+					return cb();
+				}).error(function(err) {
+					deferred.reject(err);
+					return cb(err);
+				}.bind(this));
+				return deferred.promise;
+			},
 		};
 	});

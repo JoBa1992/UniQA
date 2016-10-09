@@ -123,6 +123,7 @@ exports.convertCsvToJSON = function(req, res) {
 					}
 					fs.unlink(item.path);
 					if (item.newId === req.files[req.files.length - 1].newId) {
+						result.sort(sortBySurname);
 						return res.status(200).send(result);
 					}
 
@@ -151,12 +152,21 @@ exports.convertCsvToJSON = function(req, res) {
 					// else don't push, doesn't meet restrictions
 				}
 				fs.unlink(req.files[0].path);
+				result.sort(sortBySurname);
 				return res.status(200).send(result);
 			});
 		}
 	} else {
 		return res.status(400).send('Invalid file');
 	}
+};
+
+var sortBySurname = function(a, b) {
+	if (a.surname < b.surname)
+		return -1;
+	if (a.surname > b.surname)
+		return 1;
+	return 0;
 };
 
 
