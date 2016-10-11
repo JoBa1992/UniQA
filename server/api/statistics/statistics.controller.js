@@ -40,8 +40,8 @@ exports.moduleAttendence = function(req, res) {
 					var averageAttendance = 0;
 					averageAttendance = (session.registered.length / totalAttendance) * 100;
 					averageAttendanceOverall += averageAttendance;
-					attendances.push({Attendance: averageAttendance, Session_ID: session._id, Module_Groups: session.groups});
-					console.log(session)
+					attendances.push({Attendance: averageAttendance,
+						Session_Id: session._id, Module_Groups: session.groups});
 				})
 				averageAttendanceOverall = averageAttendanceOverall / sessions.length;
 				var attendanceObj = {
