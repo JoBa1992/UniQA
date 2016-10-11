@@ -72,8 +72,14 @@ Thing.find({}).remove(function() {
 	}, {
 		name: 'uniTimePeriods',
 		content: {
-			'2016-2017': [moment.utc([2016, 09, 26, 23, 59, 59]).toISOString(), moment.utc([2017, 09, 25, 23, 59, 59]).toISOString()],
-			'2015-2016': [moment.utc([2015, 09, 24, 23, 59, 59]).toISOString(), moment.utc([2016, 09, 23, 23, 59, 59]).toISOString()]
+			'2016-2017': {
+				'start': moment('26/09/2016 23:59:59', 'DD/MM/YYYY HH:mm:ss').utc().toISOString(),
+				'end': moment('25/09/2017 23:59:59', 'DD/MM/YYYY HH:mm:ss').utc().toISOString()
+			},
+			'2015-2016': {
+				'start': moment('24/09/2015 23:59:59', 'DD/MM/YYYY HH:mm:ss').utc().toISOString(),
+				'end': moment('23/09/2016 23:59:59', 'DD/MM/YYYY HH:mm:ss').utc().toISOString()
+			}
 		}
 	}, {
 		name: 'userRoles',
@@ -201,6 +207,7 @@ User.find({}).remove(function() {
 		username: 'mafe@shu.ac.uk'
 	}, {
 		_id: '56c86c25099777e930372eb7',
+		fullName: 'Tester',
 		forename: 'Test',
 		surname: 'Student',
 		password: 'password',
@@ -467,7 +474,7 @@ User.find({}).remove(function() {
 						}],
 						deleted: false
 					}, {
-						_id: '56cb91bdc3464f14678934ca',
+						_id: '56cb91bdc3464f14678934cf',
 						code: '6200-02-HL4',
 						name: 'Mobile Application Dev',
 						groups: [{
@@ -571,7 +578,7 @@ User.find({}).remove(function() {
 								}, {
 									user: '56cb76ecd5b3f4b6be5d7def'
 								}],
-								url: 'http://www.mustbebuilt.co.uk/SHU/WAD/wad-wk8-lesson16.html',
+								url: 'http://www.mustbebuilt.co.uk/SHU/WAD/wad2016-1-browsers-servers.html',
 								attachments: [{
 									"loc": "/Applications/XAMPP/xamppfiles/htdocs/Website/UniQA/server/storage/lessons/56cb76ebd5b3f4b6be5d7dd1/Application_Demo_Marking_Scheme(1).pdf",
 									"url": "/api/storage/lessons/56cb76ebd5b3f4b6be5d7dd1/Application_Demo_Marking_Scheme(1).pdf",
@@ -718,44 +725,55 @@ User.find({}).remove(function() {
 												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
 												_id: '56c87667bcd6f3c431cb8681',
 												lesson: '56c868096bd3f7b730a051f4',
-												startTime: moment("27-08-2016 14:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
-												endTime: moment("27-08-2016 15:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
-												modules: [{
-													module: '56cb7c2e7bbe028ebfbe56a2'
+												runTime: [{
+													start: moment("27-08-2016 14:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
+													end: moment("27-08-2016 15:30:00", "DD-MM-YYYY HH:mm:ss").utc()
+												}],
+												groups: [{
+													moduleGroup: '56cb91bdc3464f14678934ca'
 												}, {
-													module: '56cb7c2e7bbe028ebfbe56a3'
+													moduleGroup: '56cb91bdc3464f14678934cb'
 												}]
 											}, {
 												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
 												lesson: '56d1ca2e4f6973280ce025e6',
-												startTime: moment("27-08-2016 16:40:00", "DD-MM-YYYY HH:mm:ss").utc(),
-												endTime: moment("27-08-2016 17:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
-												modules: [{
-													module: '56cb7c2e7bbe028ebfbe56a2'
+												runTime: [{
+													start: moment("27-08-2016 16:40:00", "DD-MM-YYYY HH:mm:ss").utc(),
+													end: moment("27-08-2016 17:30:00", "DD-MM-YYYY HH:mm:ss").utc()
+												}],
+												groups: [{
+													moduleGroup: '56cb91bdc3464f14678934ca'
 												}, {
-													module: '56cb7c2e7bbe028ebfbe56a3'
+													moduleGroup: '56cb91bdc3464f14678934cb'
 												}]
 											}, {
 												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
 												lesson: '56d1ca2e4f6973280ce025e7',
-												startTime: moment("27-08-2016 18:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
-												endTime: moment("27-08-2016 19:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
-												modules: [{
-													module: '56cb7c2e7bbe028ebfbe56a3'
+												runTime: [{
+													start: moment("27-08-2016 18:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
+													end: moment("27-08-2016 19:30:00", "DD-MM-YYYY HH:mm:ss").utc()
+												}],
+												groups: [{
+													moduleGroup: '56cb91bdc3464f14678934cb'
 												}]
 											}, {
 												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
 												lesson: '56d1ca2e4f6973280ce025e8',
-												startTime: moment("27-08-2016 21:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
-												endTime: moment("27-08-2016 22:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
-												modules: [{
-													module: '56cb7c2e7bbe028ebfbe56a2'
+												runTime: [{
+													start: moment("27-08-2016 21:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
+													end: moment("27-08-2016 22:30:00", "DD-MM-YYYY HH:mm:ss").utc()
+												}],
+												groups: [{
+													moduleGroup: '56cb91bdc3464f14678934ca'
 												}]
 											}, {
+												_id: '57efa4100848bcb9859c854c',
 												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
 												lesson: '56c868096bd3f7b730a051f4',
-												startTime: moment("28-08-2016 14:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
-												endTime: moment("28-08-2016 15:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
+												runTime: [{
+													start: moment("28-08-2016 14:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
+													end: moment("28-08-2016 15:30:00", "DD-MM-YYYY HH:mm:ss").utc()
+												}],
 												feedback: [{
 													comment: "A good lesson, was interesting to see how AJAX works",
 													rating: "4",
@@ -770,7 +788,7 @@ User.find({}).remove(function() {
 													user: "56cb76ecd5b3f4b6be5d7deb"
 												}],
 												questions: [{
-													asker: "56a7886405ab050a54d4eaa6",
+													asker: "56c86c25099777e930372eb7",
 													question: "How do I do this?",
 													time: "2016-02-12T13:35:00Z",
 													_id: "56dc84edd4357803006a440d",
@@ -782,50 +800,50 @@ User.find({}).remove(function() {
 													_id: "56dc84edd4357803006a440c",
 													anon: false
 												}, {
-													asker: "56a7afd3259ef46f559880c9",
+													asker: "56c86c25099777e930372eb7",
 													question: "Ridiculously stupidly incredibily long comment to test out how it looks",
 													time: "2016-02-12T13:50:00Z",
 													_id: "56dc84edd4357803006a440b",
 													anon: false
 												}, {
 													question: "Send message",
-													asker: "56a7bf8a800c479155488fcb",
+													asker: "56c86c25099777e930372eb7",
 													time: "2016-03-06T19:30:13Z",
 													_id: "56dc8545d4357803006a4414",
 													anon: null
 												}, {
 													question: "lexiva",
-													asker: "56a7bf8a800c479155488fcb",
+													asker: "56c86c25099777e930372eb7",
 													time: "2016-03-06T19:30:40Z",
 													_id: "56dc8560d4357803006a4415",
 													anon: null
 												}, {
 													question: "Hey you guys",
-													asker: "56a7bf8a800c479155488fcb",
+													asker: "56c86c25099777e930372eb7",
 													time: "2016-03-06T19:35:52Z",
 													_id: "56dc8698d4357803006a4416",
 													anon: null
 												}, {
 													question: "Loving the live action",
-													asker: "56a7bf8a800c479155488fcb",
+													asker: "56c86c25099777e930372eb7",
 													time: "2016-03-06T19:35:59Z",
 													_id: "56dc869fd4357803006a4417",
 													anon: null
 												}, {
 													question: "Anon aswell",
-													asker: "56a7bf8a800c479155488fcb",
+													asker: "56c86c25099777e930372eb7",
 													time: "2016-03-06T19:36:04Z",
 													_id: "56dc86a4d4357803006a4418",
 													anon: true
 												}, {
 													question: "Different",
-													asker: "56cb76ecd5b3f4b6be5d7df0",
+													asker: "56c86c25099777e930372eb7",
 													time: "2016-03-06T19:38:42Z",
 													_id: "56dc8742d4357803006a4419",
 													anon: null
 												}, {
 													question: "Try something else",
-													asker: "56cb76ecd5b3f4b6be5d7df0",
+													asker: "56c86c25099777e930372eb7",
 													time: "2016-03-06T19:40:42Z",
 													_id: "56dc87bad4357803006a441a",
 													anon: true
@@ -865,24 +883,28 @@ User.find({}).remove(function() {
 												}, {
 													user: '56cb76ecd5b3f4b6be5d7ded'
 												}],
-												modules: [{
-													module: '56cb7c2e7bbe028ebfbe56a2'
+												groups: [{
+													moduleGroup: '56cb91bdc3464f14678934ca'
 												}, {
-													module: '56cb7c2e7bbe028ebfbe56a3'
+													moduleGroup: '56cb91bdc3464f14678934cb'
 												}]
 											}, {
 												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
 												lesson: '56c868096bd3f7b730a051f4',
-												startTime: moment.utc([2016, 8, 21, 16, 0, 0]),
-												endTime: moment.utc([2016, 8, 21, 17, 30, 0]),
-												modules: [{
-													module: '56cb7c2e7bbe028ebfbe56a3'
+												runTime: [{
+													start: moment.utc([2016, 8, 21, 16, 0, 0]),
+													end: moment.utc([2016, 8, 21, 17, 30, 0])
+												}],
+												groups: [{
+													moduleGroup: '56cb91bdc3464f14678934ca'
 												}]
 											}, {
 												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
 												lesson: '56c868096bd3f7b730a051f4',
-												startTime: moment.utc([2016, 9, 22, 10, 0, 0]),
-												endTime: moment.utc([2016, 9, 22, 11, 0, 0]),
+												runTime: [{
+													start: moment.utc([2016, 9, 22, 10, 0, 0]),
+													end: moment.utc([2016, 9, 22, 11, 0, 0])
+												}],
 												registered: [{
 													user: '56cb76ecd5b3f4b6be5d7def'
 												}, {
@@ -913,53 +935,47 @@ User.find({}).remove(function() {
 													rating: "5",
 													user: "56cb76ecd5b3f4b6be5d7def"
 												}],
-												modules: [{
-													module: '56cb7c2e7bbe028ebfbe56a2'
+												groups: [{
+													moduleGroup: '56cb91bdc3464f14678934ca'
 												}, {
-													module: '56cb7c2e7bbe028ebfbe56a3'
+													moduleGroup: '56cb91bdc3464f14678934cb'
 												}]
 											}, {
 												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
 												lesson: '56d1ca2e4f6973280ce025eb',
-												startTime: moment.utc([2016, 10, 28, 12, 0, 0]),
-												endTime: moment.utc([2016, 10, 28, 14, 0, 0]),
+												runTime: [{
+													start: moment.utc([2016, 10, 28, 10, 0, 0]),
+													end: moment.utc([2016, 10, 28, 11, 0, 0])
+												}],
 												altAccess: '',
-												modules: [{
-													module: '56cb7c2e7bbe028ebfbe56a2'
+												groups: [{
+													moduleGroup: '56cb91bdc3464f14678934ca'
 												}, {
-													module: '56cb7c2e7bbe028ebfbe56a3'
+													moduleGroup: '56cb91bdc3464f14678934cb'
 												}]
 											}, {
 												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
 												lesson: '56d1ca2e4f6973280ce025e7',
-												startTime: moment.utc([2016, 10, 29, 12, 0, 0]),
-												endTime: moment.utc([2016, 10, 29, 14, 0, 0]),
-												modules: [{
-													module: '56cb7c2e7bbe028ebfbe56a3'
+												groups: [{
+													moduleGroup: '56cb91bdc3464f14678934ca'
 												}]
 											}, {
 												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
 												lesson: '56d1ca2e4f6973280ce025e7',
-												startTime: moment.utc([2016, 10, 29, 14, 30, 0]),
-												endTime: moment.utc([2016, 10, 29, 16, 0, 0]),
-												modules: [{
-													module: '56cb7c2e7bbe028ebfbe56a3'
+												groups: [{
+													moduleGroup: '56cb91bdc3464f14678934ca'
 												}]
 											}, {
 												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
 												lesson: '56d1ca2e4f6973280ce025e7',
-												startTime: moment.utc([2016, 5, 27, 12, 0, 0]),
-												endTime: moment.utc([2016, 5, 27, 14, 0, 0]),
-												modules: [{
-													module: '56cb7c2e7bbe028ebfbe56a3'
+												groups: [{
+													moduleGroup: '56cb91bdc3464f14678934cb'
 												}]
 											}, {
 												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
 												lesson: '56d1ca2e4f6973280ce025e7',
-												startTime: moment.utc([2016, 10, 28, 12, 0, 0]),
-												endTime: moment.utc([2016, 10, 28, 14, 0, 0]),
-												modules: [{
-													module: '56cb7c2e7bbe028ebfbe56a3'
+												groups: [{
+													moduleGroup: '56cb91bdc3464f14678934cb'
 												}]
 											},
 											function(err, sessions) {
