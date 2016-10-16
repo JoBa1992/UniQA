@@ -90,23 +90,12 @@ exports.index = function(req, res) {
 	var paginate = 10;
 	var now = moment.utc().format();
 
-	if (req.query) {
+	if (!_.isEmpty(req.query)) {
 		if (!req.query.author) {
 			getAuthor = {};
 		} else {
 			getAuthor.author = req.query.author
 		}
-		// if set get past, else get future
-		if (req.query.history) {
-			query.startTime = {
-				$lt: now
-			}
-		} else {
-			query.startTime = {
-				$gte: now
-			}
-		}
-		// console.info(query.endTime);
 
 		if (req.query.createdBy) {
 			query.createdBy = req.query.createdBy;
@@ -138,7 +127,7 @@ exports.index = function(req, res) {
 		.where('deleted', false)
 		.sort(order)
 		.skip((page - 1) * paginate)
-		.limit(paginate)
+		.limit(parseInt(paginate))
 		.lean()
 		.exec(function(err, sessions) {
 			if (err) {

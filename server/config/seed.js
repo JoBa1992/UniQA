@@ -474,7 +474,7 @@ User.find({}).remove(function() {
 						}],
 						deleted: false
 					}, {
-						_id: '56cb91bdc3464f14678934ca',
+						_id: '56cb91bdc3464f14678934cf',
 						code: '6200-02-HL4',
 						name: 'Mobile Application Dev',
 						groups: [{
@@ -729,10 +729,10 @@ User.find({}).remove(function() {
 													start: moment("27-08-2016 14:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
 													end: moment("27-08-2016 15:30:00", "DD-MM-YYYY HH:mm:ss").utc()
 												}],
-												modules: [{
-													module: '56cb7c2e7bbe028ebfbe56a2'
+												groups: [{
+													moduleGroup: '56cb91bdc3464f14678934ca'
 												}, {
-													module: '56cb7c2e7bbe028ebfbe56a3'
+													moduleGroup: '56cb91bdc3464f14678934cb'
 												}]
 											}, {
 												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
@@ -741,10 +741,10 @@ User.find({}).remove(function() {
 													start: moment("27-08-2016 16:40:00", "DD-MM-YYYY HH:mm:ss").utc(),
 													end: moment("27-08-2016 17:30:00", "DD-MM-YYYY HH:mm:ss").utc()
 												}],
-												modules: [{
-													module: '56cb7c2e7bbe028ebfbe56a2'
+												groups: [{
+													moduleGroup: '56cb91bdc3464f14678934ca'
 												}, {
-													module: '56cb7c2e7bbe028ebfbe56a3'
+													moduleGroup: '56cb91bdc3464f14678934cb'
 												}]
 											}, {
 												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
@@ -753,8 +753,8 @@ User.find({}).remove(function() {
 													start: moment("27-08-2016 18:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
 													end: moment("27-08-2016 19:30:00", "DD-MM-YYYY HH:mm:ss").utc()
 												}],
-												modules: [{
-													module: '56cb7c2e7bbe028ebfbe56a3'
+												groups: [{
+													moduleGroup: '56cb91bdc3464f14678934cb'
 												}]
 											}, {
 												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
@@ -763,8 +763,8 @@ User.find({}).remove(function() {
 													start: moment("27-08-2016 21:30:00", "DD-MM-YYYY HH:mm:ss").utc(),
 													end: moment("27-08-2016 22:30:00", "DD-MM-YYYY HH:mm:ss").utc()
 												}],
-												modules: [{
-													module: '56cb7c2e7bbe028ebfbe56a2'
+												groups: [{
+													moduleGroup: '56cb91bdc3464f14678934ca'
 												}]
 											}, {
 												_id: '57efa4100848bcb9859c854c',
@@ -883,10 +883,10 @@ User.find({}).remove(function() {
 												}, {
 													user: '56cb76ecd5b3f4b6be5d7ded'
 												}],
-												modules: [{
-													module: '56cb7c2e7bbe028ebfbe56a2'
+												groups: [{
+													moduleGroup: '56cb91bdc3464f14678934ca'
 												}, {
-													module: '56cb7c2e7bbe028ebfbe56a3'
+													moduleGroup: '56cb91bdc3464f14678934cb'
 												}]
 											}, {
 												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
@@ -895,8 +895,8 @@ User.find({}).remove(function() {
 													start: moment.utc([2016, 8, 21, 16, 0, 0]),
 													end: moment.utc([2016, 8, 21, 17, 30, 0])
 												}],
-												modules: [{
-													module: '56cb7c2e7bbe028ebfbe56a3'
+												groups: [{
+													moduleGroup: '56cb91bdc3464f14678934ca'
 												}]
 											}, {
 												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
@@ -935,10 +935,10 @@ User.find({}).remove(function() {
 													rating: "5",
 													user: "56cb76ecd5b3f4b6be5d7def"
 												}],
-												modules: [{
-													module: '56cb7c2e7bbe028ebfbe56a2'
+												groups: [{
+													moduleGroup: '56cb91bdc3464f14678934ca'
 												}, {
-													module: '56cb7c2e7bbe028ebfbe56a3'
+													moduleGroup: '56cb91bdc3464f14678934cb'
 												}]
 											}, {
 												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
@@ -948,34 +948,34 @@ User.find({}).remove(function() {
 													end: moment.utc([2016, 10, 28, 11, 0, 0])
 												}],
 												altAccess: '',
-												modules: [{
-													module: '56cb7c2e7bbe028ebfbe56a2'
+												groups: [{
+													moduleGroup: '56cb91bdc3464f14678934ca'
 												}, {
-													module: '56cb7c2e7bbe028ebfbe56a3'
+													moduleGroup: '56cb91bdc3464f14678934cb'
 												}]
 											}, {
 												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
 												lesson: '56d1ca2e4f6973280ce025e7',
-												modules: [{
-													module: '56cb7c2e7bbe028ebfbe56a3'
+												groups: [{
+													moduleGroup: '56cb91bdc3464f14678934ca'
 												}]
 											}, {
 												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
 												lesson: '56d1ca2e4f6973280ce025e7',
-												modules: [{
-													module: '56cb7c2e7bbe028ebfbe56a3'
+												groups: [{
+													moduleGroup: '56cb91bdc3464f14678934ca'
 												}]
 											}, {
 												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
 												lesson: '56d1ca2e4f6973280ce025e7',
-												modules: [{
-													module: '56cb7c2e7bbe028ebfbe56a3'
+												groups: [{
+													moduleGroup: '56cb91bdc3464f14678934cb'
 												}]
 											}, {
 												createdBy: '56cb76ebd5b3f4b6be5d7dd1',
 												lesson: '56d1ca2e4f6973280ce025e7',
-												modules: [{
-													module: '56cb7c2e7bbe028ebfbe56a3'
+												groups: [{
+													moduleGroup: '56cb91bdc3464f14678934cb'
 												}]
 											},
 											function(err, sessions) {
