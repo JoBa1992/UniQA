@@ -3,10 +3,14 @@ angular.module('UniQA')
 		var pendingSearch, cancelSearch = angular.noop;
 		var cachedQuery, lastSearch;
 
+		// flag to determine whether edit group page is visible
+		$scope.editGroup = false;
+
 		var aiCounter = 0;
 
 		var me = Auth.getCurrentUser();
 		var isTutor = Auth.isTutor;
+
 
 		$scope.form = {
 			module: {

@@ -20,10 +20,17 @@
     <div class="md-ripple-container"></div>
   </button>
   <div layout="row">
-    <md-content flex layout-padding class="content-start-session md-whiteframe-4dp md-whiteframe-z2">
+    <md-content flex layout-padding class="content-container md-whiteframe-4dp md-whiteframe-z2">
       <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
-        <md-nav-item md-nav-click="goto('userMods')" name="userMods">Your Modules (<span ng-bind="userModules.length"></span>)</md-nav-item>
-        <md-nav-item md-nav-click="goto('exploreMods')" name="exploreMods">Explore Modules (<span ng-bind="explorableModules.length"></span>)</md-nav-item>
+        <md-nav-item md-nav-click="goto('userMods')" name="userMods">
+          <span hide-xs>Your Modules</span>
+          <span hide-sm hide-md hide-lg>Your Mods</span>
+          (<span ng-bind="userModules.length"></span>)
+        </md-nav-item>
+        <md-nav-item md-nav-click="goto('exploreMods')" name="exploreMods">
+          <span hide-xs>Explore Modules</span>
+          <span hide-sm hide-md hide-lg>Expl Mods</span>
+          (<span ng-bind="explorableModules.length"></span>)</md-nav-item>
       </md-nav-bar>
       <div ng-if="currentNavItem === 'userMods'">
         <md-content flex flex-gt-sm="100" md-padding>

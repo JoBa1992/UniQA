@@ -20,6 +20,7 @@ module.exports = function(app) {
 	app.use('/api/moduleGroups', require('./api/moduleGroup'));
 	app.use('/api/lessons', require('./api/lesson'));
 	app.use('/api/sessions', require('./api/session'));
+	app.use('/api/issues', require('./api/issue'));
 
 	app.use('/auth', require('./auth'));
 

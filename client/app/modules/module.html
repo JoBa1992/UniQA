@@ -1,5 +1,40 @@
-<!-- <div ng-include="'components/page-header/page-header.html'"></div> -->
-
-<div class="body-min-height">
-  {{module}}
+<div class="top-bg-sm md-accent-bg" layout-padding layout-align="space-between center" layout="row">
+  <div layout="row" layout-align="start center">
+    <div class="breadcrumbs" layout-align="start center" hide-xs hide-sm>
+      <div class="top-bg-sm-title">
+        <ol class="breadcrumb">
+          <li>
+            <a href="/modules">Modules</a>
+          </li>
+          <li class="active" ng-bind="(module.name)"></li>
+        </ol>
+      </div>
+    </div>
+    <div class="breadcrumbs" layout-align="start center" hide-md hide-lg>
+      <div class="top-bg-sm-title">
+        <ol class="breadcrumb">
+          <li>
+            <a href="/modules">
+              <i class="fa fa-chevron-left" style="padding-top: 10px;" aria-hidden="true"></i>
+            </a>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <div class="top-bg-sm-action-buttons" layout="row" layout-align="start center">
+    <md-button ng-click="openDeleteModal(module)" class="md-raised btn-danger" ng-disabled="editState">Delete</md-button>
+    <md-button ng-click="toggleEditState()" class="md-raised" ng-class="{'btn-success' : editState}">{{editState?"Save":"Edit"}}</md-button>
+  </div>
+</div>
+<div class="top-bg-sm-container content-container" layout="column" flex>
+  <div layout="row">
+    <md-content flex layout-padding class="md-whiteframe-4dp, md-whiteframe-z2">
+      <div ng-if="!moduleLoaded" class="loading-resource" loading></div>
+      <h3 ng-bind="module.name"></h3>
+      <md-content layout-xs="column" layout="row" style="margin-bottom:3em;display:block;" ng-cloak>
+        {{module}}
+      </md-content>
+    </md-content>
+  </div>
 </div>

@@ -18,7 +18,7 @@
           <md-button ng-click="$mdOpenMenu()" class="user-button" type="button" aria-label="User" aria-haspopup="true" aria-expanded="false" aria-owns="user_account_menu">
             <div layout="row" layout-align="space-between center" md-menu-align-target>
               <div class="avatar-wrapper">
-                <img class="app-head-avatar" src="/assets/images/placeholders/profile.jpg"/>
+                <img class="app-head-avatar" src="{{currentUser().avatar}}"/>
               </div>
               <span class="app-head-username" hide-xs hide-sm ng-bind="currentUser().forename + '&nbsp;' + currentUser().surname"></span>
               <i class="fa fa-caret-down" aria-hidden="true" style="margin-left:10px;color:#6B6B6B"></i>
@@ -27,7 +27,7 @@
           </md-button>
           <md-menu-content id="user_account_menu" width="3">
             <md-menu-item style="height:50px;">
-              <md-button ng-click="devices.setFilter(field)">
+              <md-button ng-click="devices.setFilter(field)" style="height:100%;">
                 <span class="user-menu-item">
                   <i class="fa fa-user" aria-hidden="true"></i>
                   <span style="color:#212121;">Profile</span>
@@ -35,7 +35,7 @@
               </md-button>
             </md-menu-item>
             <md-menu-item style="height:50px;">
-              <md-button ng-click="devices.setFilter(field)">
+              <md-button ng-click="devices.setFilter(field)" style="height:100%;">
                 <span class="user-menu-item">
                   <i class="fa fa-envelope-o" aria-hidden="true"></i>
                   <span style="color:#212121;">Messages</span>
@@ -46,15 +46,16 @@
         </md-menu>
       </md-menu-bar>
       <div class="toolbar-separator"></div>
-      <button class="md-icon-button md-button quick-panel-btn md-default-theme md-ink-ripple" type="button" aria-label="Notifications">
+      <button class="md-icon-button md-button quick-panel-btn md-default-theme md-ink-ripple" type="button" aria-label="Notifications" style="position:relative;">
         <i class="fa fa-bell-o" aria-hidden="true"></i>
+        <span class="notification-badge">x</span>
         <md-tooltip md-autohide="true" md-direction="bottom">
           Notifications
         </md-tooltip>
         <div class="md-ripple-container"></div>
       </button>
       <div class="toolbar-separator"></div>
-      <button class="md-icon-button md-button quick-panel-btn md-default-theme md-ink-ripple" type="button" aria-label="Report Bugs">
+      <button class="md-icon-button md-button quick-panel-btn md-default-theme md-ink-ripple" type="button" aria-label="Report Bugs" ng-click="openIssueCreateModal()">
         <i class="fa fa-bug" aria-hidden="true"></i>
         <md-tooltip md-autohide="true" md-direction="bottom">
           Report Issue

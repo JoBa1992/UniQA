@@ -1,0 +1,32 @@
+ol.breadcrumb {
+  padding: 8px 15px;
+  margin-bottom: 20px;
+  list-style: none;
+  border-radius: 4px;
+  li {
+    display: inline-block;
+    a {
+      color: white;
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    &:last-child:before {
+      color: #F5F5F5;
+      content: "/\00a0";
+    }
+    &:before {
+      padding: 0 5px;
+      color: #F5F5F5;
+      content: "/\00a0";
+    }
+    &.active {
+      color: #414C5A;
+    }
+    &:first-child:before {
+      content: none;
+      padding: 0;
+    }
+  }
+}

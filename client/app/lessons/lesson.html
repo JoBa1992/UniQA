@@ -1,8 +1,110 @@
-<div class="body-min-height">
-  <h5>
-    {{lesson}}
-  </h5>
+<div class="top-bg-sm md-accent-bg" layout-padding layout-align="space-between center" layout="row">
+  <div layout="row" layout-align="start center">
+    <div class="breadcrumbs" layout-align="start center" hide-xs hide-sm>
+      <div class="top-bg-sm-title">
+        <ol class="breadcrumb">
+          <li>
+            <a href="/lessons">Lessons</a>
+          </li>
+          <li class="active" ng-bind="(lesson.module.name ? lesson.module.name + ' - ' : '') + (lesson.title)"></li>
+        </ol>
+      </div>
+    </div>
+    <div class="breadcrumbs" layout-align="start center" hide-md hide-lg>
+      <div class="top-bg-sm-title">
+        <ol class="breadcrumb">
+          <li>
+            <a href="/lessons">
+              <i class="fa fa-chevron-left" style="padding-top: 10px;" aria-hidden="true"></i>
+            </a>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <div class="top-bg-sm-action-buttons" layout="row" layout-align="start center">
+    <md-button ng-click="openDeleteModal(lesson)" class="md-raised btn-danger" ng-disabled="editState">Delete</md-button>
+    <md-button ng-if="editState && me._id === lesson.author._id" ng-click="openTransferOwnershipModal(lesson)" class="md-raised btn-warn">
+      <span>Transfer</span>
+    </md-button>
+    <md-button ng-click="toggleEditState()" class="md-raised" ng-class="{'btn-success' : editState}">{{editState?"Save":"Edit"}}</md-button>
+  </div>
 </div>
-<!-- FOOTER -->
-<div ng-include="'components/footer/footer.html'"></div>
-<!-- /FOOTER -->
+<div class="top-bg-sm-container content-container lesson-container md-whiteframe-4dp, md-whiteframe-z2" layout="row" flex>
+  <div layout="column" flex="100" layout-padding>
+    <md-content ng-if="!editState" layout="row">
+      <div class="avatar-bar">
+        <div class="avatar-wrapper avatar-right-bar-h">
+          <img class="sm-avatar" src="{{lesson.author.avatar}}"/>
+          <md-tooltip md-autohide="true" md-direction="top">
+            {{lesson.author.forename + ' ' + lesson.author.surname}}
+          </md-tooltip>
+        </div>
+        <div ng-repeat="tutor in lesson.collaborators" class="avatar-wrapper avatar-right-bar-h">
+          <img class="sm-avatar" src="{{tutor.user.avatar}}"/>
+          <md-tooltip md-autohide="true" md-direction="top">
+            {{tutor.user.forename + ' ' + tutor.user.surname}}
+          </md-tooltip>
+        </div>
+        <div class="avatar-wrapper avatar-right-bar-h">
+          <div class="sm-avatar-text">+4</div>
+          <md-tooltip md-autohide="true" md-direction="top">
+            Bill Gates, Martin Cooper, and 2 others
+          </md-tooltip>
+        </div>
+      </div>
+    </md-content>
+    <md-content flex="100" layout-padding style="padding-top:0;">
+      <md-content ng-if="lesson.collaborators.length > 0 && editState" layout="row" flex="100">
+        <md-input-container ng-if="editState" class="md-block autocomplete" layout="row" flex="100">
+          <label>Collaborators</label>
+          <md-contact-chips ng-model="form.selectedCollaborators" flex="100" md-contacts="delayedQuerySearch($query)" md-contact-name="fullName" md-contact-image="image" md-contact-email="username" md-require-match="true" md-highlight-flags="i" filter-selected="filterSelected" placeholder="Tutor name"></md-contact-chips>
+        </md-input-container>
+        <p ng-if="!editState" ng-bind="lesson.desc"></p>
+      </md-content>
+      <div ng-if="!lessonLoaded" class="loading-resource" loading></div>
+      <md-content layout="row" flex-offset="30" flex="40">
+        <md-input-container ng-if="editState" class="md-block no-marg-bottom" flex="100">
+          <label>Title</label>
+          <input ng-model="lesson.title" placeholder="My Lesson">
+        </md-input-container>
+        <h2 ng-if="!editState" class="lesson-title no-marg-top">
+          <span ng-bind="lesson.title"></span>
+        </h2>
+      </md-content>
+      <md-content flex-offset="20" flex="60" layout="row" ng-if="lesson.module && lesson.module.code">
+
+        <div flex="100" ng-if="editState">
+          <md-input-container style="width:100%;">
+            <label>Module</label>
+            <md-select ng-model="form.lesson.module" md-on-close="clearSearchTerm()" data-md-container-class="session-select-container">
+              <md-select-header class="session-select-header">
+                <input ng-model="moduleSearchTerm" type="search" placeholder="Search for a module..." class="session-select-searchbox md-text">
+              </md-select-header>
+              <md-optgroup label="modules">
+                <md-option ng-repeat="module in availableModules | filter: { 'name': moduleSearchTerm }" ng-value="module" style="color:#414C5A;">{{module.name}}</md-option>
+              </md-optgroup>
+            </md-select>
+          </md-input-container>
+        </div>
+
+        <h4 ng-if="!editState" class="lesson-subtitle">
+          <span ng-bind="lesson.module.name"></span>&nbsp;(<span ng-bind="lesson.module.code"></span>)
+        </h4>
+      </md-content>
+
+      <md-content ng-if="lesson.desc" layout="column" flex>
+        <md-input-container ng-if="editState" class="md-block">
+          <label>Lecture Description</label>
+          <textarea ng-model="lesson.desc" style="min-width:100%;max-width:100%;" md-maxlength="960" rows="2" md-select-on-focus></textarea>
+        </md-input-container>
+        <p ng-if="!editState" ng-bind="lesson.desc"></p>
+      </md-content>
+
+      <md-content layout="column" flex>
+        {{lesson}}
+      </md-content>
+
+    </md-content>
+  </div>
+</div>

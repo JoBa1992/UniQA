@@ -37,10 +37,19 @@
   margin-left: 0;
 }
 .lesson-card {
-  background-color: #F5F5F5;
+  // border-radius: 0;
+  box-shadow: inset 3px 0 0 0 #82AECC;
+  background-color: transparent;
+  border-top: 1px solid #DDDDDD;
+  border-right: 1px solid #DDDDDD;
+  border-bottom: 1px solid #DDDDDD;
+  color: #202020;
   margin-bottom: 1em;
   min-width: 280px;
   display: inline-block;
+  .no-desc {
+    color: #202020;
+  }
 }
 @media (max-width: 600px) {
   .lesson-card {

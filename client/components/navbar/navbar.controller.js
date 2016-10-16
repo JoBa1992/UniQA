@@ -92,7 +92,7 @@ angular.module('UniQA')
 		}, {
 			title: 'Continue',
 			icon: 'retweet',
-			link: '#', // /session/continue
+			link: '/session/continue',
 			action: 'x',
 			login: true,
 			admin: true,

@@ -1,6 +1,6 @@
 .app-head {
   background-color: #FFF !important;
-  // border-bottom: 1px solid #AAA;
+  z-index: 10;
   height: 64px;
   min-height: 64px;
   box-shadow: 0 1px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12);
@@ -92,6 +92,19 @@
   border: 0;
   padding: 0.6em 1em;
   margin: 0;
+}
+.notification-badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background-color: #82AECC;
+  width: 12px;
+  height: 12px;
+  line-height: 1.8;
+  font-size: 7px;
+  border-radius: 50%;
+  font-weight: bold;
+  color: white;
 }
 .app-head-footer-toggle-min {
   width: 100%;

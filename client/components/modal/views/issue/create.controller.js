@@ -1,10 +1,7 @@
 angular.module('UniQA')
-	.controller('LessonCreateModalCtrl', function($scope, $window, $q, $timeout, Auth, Thing, Module, Modal) {
+	.controller('IssueCreateModalCtrl', function($scope, $window, $q, $timeout, Auth, Thing, Module, Modal) {
 		var pendingSearch, cancelSearch = angular.noop;
 		var cachedQuery, lastSearch;
-
-		$scope.moduleSearchTerm;
-		$scope.availableModules;
 
 		var me = Auth.getCurrentUser();
 		$scope.form = {
@@ -13,7 +10,7 @@ angular.module('UniQA')
 				author: me._id,
 				type: 'Select Type',
 				url: '',
-				module: '',
+				tempPreview: '',
 				desc: '',
 				collaborator: '',
 				files: []
@@ -23,12 +20,6 @@ angular.module('UniQA')
 		};
 		loadContacts();
 		$scope.lessonTypes = [];
-
-		Module.getMyAssocModules({
-			user: me._id
-		}).then(function(res) {
-			$scope.availableModules = res.modules;
-		});
 
 		// get back types of lessons available
 		Thing.getByName('lessonTypes').then(function(val) {

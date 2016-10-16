@@ -37,6 +37,7 @@ body {
 h1,
 h2,
 h3 {
+  width: 100%;
   margin-top: 20px;
   margin-bottom: 10px;
   font-weight: normal;
@@ -44,6 +45,7 @@ h3 {
 h4,
 h5,
 h6 {
+  width: 100%;
   margin-top: 16px;
   margin-bottom: 8px;
   font-weight: normal;
@@ -276,10 +278,61 @@ th {
   content: " ";
   display: table;
 }
+// TEMP: overrides base angular classes
+.btn-default {
+  color: #222222 !important;
+  background-color: #FFFFFF !important;
+  border-color: darken(#FFFFFF, 4%) !important;
+  font-weight: bold !important;
+  &[disabled] {
+    color: rgba(0,0,0,0.38) !important;
+    cursor: default !important;
+    background-color: rgba(0,0,0,0.12) !important;
+  }
+}
 .btn-primary {
-  color: #82aecc;
-  background-color: #3b4652;
-  border-color: #262d34;
+  color: #FFFFFF !important;
+  background-color: #82AECC !important;
+  border-color: darken(#82AECC, 4%) !important;
+  font-weight: bold !important;
+  &[disabled] {
+    color: rgba(0,0,0,0.38) !important;
+    cursor: default !important;
+    background-color: rgba(0,0,0,0.12) !important;
+  }
+}
+.btn-warn {
+  color: #FFFFFF !important;
+  background-color: #FFA700 !important;
+  border-color: darken(#FFA700, 4%) !important;
+  font-weight: bold !important;
+  &[disabled] {
+    color: rgba(0,0,0,0.38) !important;
+    cursor: default !important;
+    background-color: rgba(0,0,0,0.12) !important;
+  }
+}
+.btn-success {
+  color: #222222 !important;
+  background-color: #7BCC70 !important;
+  border-color: darken(#7BCC70, 4%) !important;
+  font-weight: bold !important;
+  &[disabled] {
+    color: rgba(0,0,0,0.38) !important;
+    cursor: default !important;
+    background-color: rgba(0,0,0,0.12) !important;
+  }
+}
+.btn-danger {
+  color: #FFFFFF !important;
+  background-color: #B22222 !important;
+  border-color: darken(#B22222, 4%) !important;
+  font-weight: bold !important;
+  &[disabled] {
+    color: rgba(0,0,0,0.38) !important;
+    cursor: default !important;
+    background-color: rgba(0,0,0,0.12) !important;
+  }
 }
 .badge {
   display: inline-block;
@@ -395,6 +448,48 @@ th {
   margin-top: 100px;
   text-align: center;
 }
+.avatar-bar {
+  .avatar-wrapper {
+    padding: 0;
+    transform: none;
+    text-align: center;
+    .sm-avatar-text {
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      margin: 4px auto 0;
+      font-size: 18px;
+      font-weight: 600;
+      text-align: center;
+      color: #FFF;
+      background-color: #414C5A;
+      border-radius: 50%;
+    }
+  }
+  .avatar-right-bar-v.avatar-wrapper {
+    display: block;
+    margin: 0 auto;
+  }
+  .avatar-right-bar-h.avatar-wrapper {
+    float: left;
+    display: inline-block;
+    margin: 0 8px 0 0;
+    .sm-avatar-text {}
+  }
+}
+.sm-avatar {
+  width: 40px;
+  min-width: 40px;
+  height: 40px;
+  line-height: 40px;
+  margin: 4px auto 0;
+  border-radius: 50%;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  color: #FFF;
+}
 md-menu-content.md-default-theme md-menu-divider,
 md-menu-content md-menu-divider {
   background-color: #F5F5F5;
@@ -407,14 +502,17 @@ md-menu-content md-menu-divider {
 @import 'admin/users/users.less';
 @import 'dashboard/dashboard.less';
 @import 'index/index.less';
+@import 'lessons/lesson.less';
 @import 'lessons/lessonList.less';
 @import 'moduleGroups/moduleGroup.less';
 @import 'modules/moduleList.less';
 @import 'planner/planner.less';
 @import 'session/active.less';
+@import 'session/continue.less';
 @import 'session/start.less';
 @import 'stats/statistics.less';
 @import 'app-header/app-header.less';
+@import 'breadcrumb/breadcrumb.less';
 @import 'checkbox/checkbox.less';
 @import 'chips/chips.less';
 @import 'datepicker/datepicker.less';

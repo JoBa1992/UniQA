@@ -20,13 +20,37 @@ angular.module('UniQA')
 		$scope.isAdmin = Auth.isAdmin;
 		$scope.isStudent = Auth.isStudent;
 
-		$scope.playSound = true;
 		$scope.sendingMsg = false;
 
 		// question sent from user
 		$scope.user = {
 			question: ''
 		};
+
+		// ping noise on new question
+		// need a new sound here...!
+		var ping = new Audio('assets/fx/drop.mp3');
+
+		// url parameter passed through
+		var sessionid = $stateParams.sessionid;
+		var me = Auth.getCurrentUser();
+
+		$scope.hideQuestions;
+		$scope.playSound;
+
+		if (localStorage.getItem('hideQuestions') === false || localStorage.getItem('hideQuestions') === undefined) {
+			$scope.hideQuestions = false;
+			localStorage.setItem('hideQuestions', $scope.hideQuestions);
+		} else {
+			$scope.hideQuestions = String(localStorage.getItem('hideQuestions')) == "true" ? true : false;
+		}
+
+		if (localStorage.getItem('playSound') === false || localStorage.getItem('playSound') === undefined) {
+			$scope.playSound = false;
+			localStorage.setItem('playSound', $scope.playSound);
+		} else {
+			$scope.playSound = String(localStorage.getItem('playSound')) == "true" ? true : false;
+		}
 
 		$scope.isFullScreen = function() {
 			if (document.fullscreenElement ||
@@ -65,13 +89,6 @@ angular.module('UniQA')
 		//var _day = _hour * 24;
 		//var interval = 100;
 
-		// ping noise on new question
-		// need a new sound here...!
-		var ping = new Audio('assets/fx/drop.mp3');
-
-		// url parameter passed through
-		var sessionid = $stateParams.sessionid;
-		var me = Auth.getCurrentUser();
 
 		// function onConnect(socket) {
 		// 	socket.on('join', function(room) {
@@ -93,7 +110,6 @@ angular.module('UniQA')
 		// $scope.session = {};
 
 		// scope load for lesson/tutor
-		$scope.hideQuestions = false;
 		$scope.session = {
 			qr: {
 				svg: ''
@@ -165,13 +181,6 @@ angular.module('UniQA')
 			}, 500);
 		}
 
-		//
-		//
-		// window.urlLoaded = function() {
-		// 	/* have access to $scope here*/
-		// 	$scope.loadedURL = true;
-		// }
-
 		$scope.toggleSessionQuestions = function() {
 			$scope.session.questionsEnabled = !$scope.session.questionsEnabled;
 		};
@@ -186,8 +195,6 @@ angular.module('UniQA')
 			var authorCollabs = [];
 			var runtime;
 
-			console.info(session);
-
 			authorCollabs.push(lesson.author.name); // push author in first
 			// push in collabs
 			for (var i = 0; i < lesson.collaborators.length; i++) {
@@ -195,10 +202,6 @@ angular.module('UniQA')
 			}
 
 			runtime = moment(res.startTime).utc().format('HH:mm') + ' - ' + moment(res.endTime).utc().format('HH:mm');
-
-			// used for user questions
-			// $scope.session.startTime = res.startTime;
-			// $scope.session.endTime = res.endTime;
 
 			// check if user has given feedback already
 			$scope.fedback = _.some(res.feedback, function(feedback) {
@@ -214,6 +217,7 @@ angular.module('UniQA')
 
 			// for animated loading
 			$timeout(function() {
+				$scope.questionIconNumber = session.questions.length;
 				$scope.session = {
 					_id: session._id,
 					title: lesson.title,
@@ -309,14 +313,20 @@ angular.module('UniQA')
 		};
 
 		$scope.toggleSound = function() {
-			$scope.playSound = !$scope.playSound;
+			if ($scope.playSound !== null) {
+				$scope.playSound = !$scope.playSound;
+				localStorage.setItem('playSound', $scope.playSound);
+			}
 		};
 
 		$scope.toggleQuestionHide = function() {
-			$scope.hideQuestions = !$scope.hideQuestions;
+			if ($scope.hideQuestions !== null) {
+				$scope.hideQuestions = !$scope.hideQuestions;
+				localStorage.setItem('hideQuestions', $scope.hideQuestions);
 
-			if ($scope.hideQuestions) {
-				$scope.questionIconNumber = $scope.session.questions.length;
+				if ($scope.hideQuestions) {
+					$scope.questionIconNumber = $scope.session.questions.length;
+				}
 			}
 		};
 

@@ -14,6 +14,7 @@
             <i class="fa fa-{{item.icon}} sidebar-nav-icon" aria-hidden="true"></i>
           </div>
           <div class="inset" ng-if="!navMinnied">{{item.title}}</div>
+          <md-tooltip ng-if="item.tt" md-autohide="true" md-direction="right">{{item.tt}}</md-tooltip>
           <span ng-if="item.action && !navMinnied" class="badge nav-badge">{{item.action}}</span>
         </md-item-content>
       </a>
@@ -49,6 +50,7 @@
             <i class="fa fa-{{item.icon}} sidebar-nav-icon" aria-hidden="true"></i>
           </div>
           <div class="inset" ng-if="!navMinnied">{{item.title}}</div>
+          <md-tooltip ng-if="item.tt" md-autohide="true" md-direction="right">{{item.tt}}</md-tooltip>
           <span ng-if="item.action && !navMinnied" class="badge nav-badge">{{item.action}}</span>
         </md-item-content>
       </a>

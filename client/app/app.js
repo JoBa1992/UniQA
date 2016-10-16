@@ -21,6 +21,12 @@ angular.module('UniQA', [
 				controller: 'SessionStartCtrl',
 				authenticate: true
 			})
+			.state('continueSession', {
+				url: '/session/continue',
+				templateUrl: 'app/session/continue.html',
+				controller: 'SessionContinueCtrl',
+				authenticate: true
+			})
 			.state('activeSession', {
 				url: '/session/active/:sessionid',
 				templateUrl: 'app/session/active.html',

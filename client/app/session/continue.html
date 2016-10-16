@@ -1,0 +1,35 @@
+<div class="top-bg-sm md-accent-bg" layout-padding layout-align="space-between center" layout="row">
+  <div layout="row" layout-align="start center">
+    <div class="breadcrumbs" layout-align="start center">
+      <div class="top-bg-sm-title">
+        <h3 style="font-weight:bold; margin-top: 10px;">Continue Session</h3>
+      </div>
+    </div>
+  </div>
+  <div class="top-bg-sm-action-buttons" layout="row" layout-align="start center">
+    <!-- <md-button ng-click="openDeleteModal(lesson)" class="md-raised btn-danger" ng-disabled="editState">Delete</md-button>
+    <md-button ng-click="toggleEditState()" class="md-raised" ng-class="{'btn-success' : editState}">{{editState?"Save":"Edit"}}</md-button> -->
+  </div>
+</div>
+<div class="top-bg-sm-container" layout="column" flex>
+  <button class="md-fab md-button create-fab" type="button" ng-click="createSession()" aria-label="Create Session" ng-disabled="isSessionStartDisabled()">
+    <i class="fa fa-chevron-right fa-2x" aria-hidden="true"></i>
+    <div class="md-ripple-container"></div>
+  </button>
+  <div layout="column">
+    <md-content flex="100" layout-xs="column" layout-padding class="content-container md-whiteframe-4dp, md-whiteframe-z2">
+      <h4>
+        <strong>Available Sessions</strong>
+      </h4>
+      <label>awaiting API endpoint</label>
+    </md-content>
+  </div>
+  <div layout="column" style="margin-top:20px;">
+    <md-content flex="100" layout-xs="column" layout-padding class="content-container md-whiteframe-4dp, md-whiteframe-z2">
+      <h4>
+        <strong>Upcoming Sessions</strong>
+      </h4>
+      <label>awaiting API endpoint</label>
+    </md-content>
+  </div>
+</div>

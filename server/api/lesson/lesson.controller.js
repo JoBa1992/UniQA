@@ -122,15 +122,20 @@ exports.index = function(req, res) {
 
 // Get a single lesson
 exports.show = function(req, res) {
-	Lesson.findById(req.params.id).where('deleted', false).exec(function(err, lesson) {
-		if (err) {
-			return handleError(res, err);
-		}
-		if (!lesson) {
-			return res.status(404).send('Not Found');
-		}
-		return res.json(lesson);
-	});
+	Lesson.findById(req.params.id)
+		.populate('author')
+		.populate('collaborators.user')
+		.populate('module')
+		.where('deleted', false)
+		.exec(function(err, lesson) {
+			if (err) {
+				return handleError(res, err);
+			}
+			if (!lesson) {
+				return res.status(404).send('Not Found');
+			}
+			return res.json(lesson);
+		});
 };
 
 exports.attachFiles = function(req, res) {

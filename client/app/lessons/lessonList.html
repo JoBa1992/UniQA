@@ -20,7 +20,7 @@
     <div class="md-ripple-container"></div>
   </button>
   <div layout="row">
-    <md-content flex layout-padding class="content-start-session md-whiteframe-4dp, md-whiteframe-z2">
+    <md-content flex layout-padding class="content-container md-whiteframe-4dp, md-whiteframe-z2">
       <div ng-if="!userLessonsLoaded" class="loading-resource" loading></div>
       <div layout="column" ng-if="userLessonsLoaded && moduleLessons.length === 0" style="margin: 3em 0;">
         <h4 style="padding:4px;text-align:center;color: #CCCCCC;">
@@ -49,7 +49,7 @@
             </md-button>
             <md-menu md-offset="0 -5">
               <md-button aria-label="Show more options" class="md-icon-button lesson-action-button" ng-click="openMoreLessonOptions($mdOpenMenu, $event)">
-                <i md-menu-origin class="fa fa-ellipsis-v" aria-hidden="true" style="font-size:1.5em;color:#757575;"></i>
+                <i md-menu-origin class="fa fa-ellipsis-v" aria-hidden="true" style="font-size:1.5em;color:#82AECC;"></i>
               </md-button>
               <md-menu-content width="3" class="lesson-sub-menu notransition">
                 <md-menu-item>
@@ -75,7 +75,7 @@
           </md-card-title>
           <md-card-content>
             <p ng-if="lesson.desc">{{lesson.desc}}</p>
-            <p ng-if="!lesson.desc" style="color:#757575;">No description</p>
+            <p ng-if="!lesson.desc" class="no-desc">No description</p>
           </md-card-content>
         </md-card>
       </md-content>
