@@ -21,55 +21,8 @@ var Thing = require('../thing/thing.model');
 
 var _ = require('lodash');
 var async = require('async');
-var rmdir = require('rimraf');
-var fs = require('fs');
-var path = require('path');
-var mkdirp = require('mkdirp');
-
-function storeFile(id, name, file, cb) {
-	var apiRoute = path.join('/api/storage/lessons/', String(id), '/', name);
-	var dir = path.join(__dirname, '../../storage/lessons/', String(id), '/');
-	var loc = path.join(__dirname, '../../storage/lessons/', String(id), '/', name);
-	mkdirp(dir, function(err) {
-		// path was created unless there was error
-		fs.writeFileSync(loc, file);
-		cb(apiRoute);
-	});
-}
-
-// moves uploaded files from temporary to associated folder created
-function moveFromTempToAssoc(tempLoc, newLoc, cb) {
-	fs.rename(tempLoc, newLoc, function(err) {
-		cb();
-	});
-}
-
-// gets anything after file extension (.) on file dir
-function getFileType(fileLoc, cb) {
-	// split file on full stop and pop the last entry off of stack
-	var extension = fileLoc.split('.').pop();
-	// default blank file
-	var fileType = 'file';
-
-	if (extension === 'pdf') {
-		fileType = 'file-pdf';
-	} else if (extension === 'zip') {
-		fileType = 'file-archive';
-	} else if (extension === 'html' || extension === 'cpp' || extension === 'cs' || extension === 'php' || extension === 'css' || extension === 'less' || extension === 'scss') {
-		fileType = 'file-code';
-	} else if (extension === 'txt') {
-		fileType = 'file-text';
-	} else if (extension === 'docx' || extension === 'doc') {
-		fileType = 'file-word';
-	} else if (extension === 'ppt' || extension === 'pptx' || extension === 'pps' || extension === 'ppsx') {
-		fileType = 'file-powerpoint';
-	} else if (extension === 'xls' || extension === 'xlsx' || extension === 'xlsm') {
-		fileType = 'file-excel';
-	} else if (extension === 'jpg' || extension === 'jpeg' || extension === 'png' || extension === 'gif' || extension === 'bmp' || extension === 'psd') {
-		fileType = 'file-image';
-	}
-	cb(fileType);
-}
+var Bucket = require('../../aws/s3/bucket')
+var bucket = new Bucket('uniqa/lectures')
 
 // Get list of lessons (or limit by querystring)
 exports.index = function(req, res) {
@@ -133,45 +86,23 @@ exports.show = function(req, res) {
 	});
 };
 
-exports.attachFiles = function(req, res) {
-	var lessonId = req.params.id;
-	var filesInfo = [];
+exports.attachFiles = function (req, res, next) {
+  var lessonId = req.params.id
 
-	var tempLocation = path.join(__dirname, '../../storage/lessons/temp/');
-	var dir = path.join(__dirname, '../../storage/lessons/', String(lessonId), '/');
-	var apiRoute = path.join('/api/storage/lessons/', String(lessonId), '/');
+  bucket.upload(req.files, function (err, uploadedFiles) {
+    if (err) return next(err)
 
-	mkdirp(dir, function(err) {
-
-		async.each(req.files, function iteratee(file, callback) {
-			var collectionFileInfo = {};
-			var tempFileLocation = tempLocation + file.originalname;
-			var newFileDir = dir + file.originalname.replace(/ /g, '_');
-			var newApiRoute = apiRoute + file.originalname.replace(/ /g, '_');
-			collectionFileInfo.loc = newFileDir;
-			collectionFileInfo.url = newApiRoute;
-			// function determines which fa font from passed through file
-			getFileType(collectionFileInfo.loc, function(fileType) {
-				collectionFileInfo.type = fileType;
-				filesInfo.push(collectionFileInfo);
-				moveFromTempToAssoc(tempFileLocation, newFileDir, function() {
-					if (file.fieldname === req.files[req.files.length - 1].fieldname) {
-						Lesson.findById(lessonId, function(err, lesson) {
-							lesson.attachments = filesInfo;
-							lesson.save(function(err) {
-								if (err) {
-									return handleError(res, err);
-								} else {
-									return res.json(lesson);
-								}
-							})
-						});
-					}
-				});
-			});
-		});
-	});
+    Lesson.findById(lessonId, function (err, lesson) {
+      if (err) return next(err)
+      lesson.attachments = uploadedFiles
+      lesson.save(function (err) {
+        if (err) return next(err)
+        res.status(201).json(lesson)
+      })
+    })
+  })
 };
+
 
 // Creates a new lesson in the DB.
 exports.create = function(req, res) {
@@ -290,21 +221,22 @@ exports.destroy = function(req, res) {
 		if (!lesson) {
 			return res.status(404).send('Not Found');
 		}
-		lesson.remove(function(err) {
-			if (err) {
-				return handleError(res, err);
-			}
-			// directory for lesson files storage
-			var dir = path.join(__dirname, '../../storage/lessons/', String(lesson._id), '/');
-			// remove files & folder associated with this lesson
-			rmdir(dir, function(error) {
-				if (error) {
-					return handleError(res, err);
-				} else {
-					return res.status(204).send('No Content');
-				}
-			});
-		});
+
+    async.each(lesson.attachments, (attachment, cb) => {
+      bucket.remove(attachment.key, cb)
+    }, (awsError) => {
+      if (awsError) {
+        // Log something here. Its not a fatal error, as the lesson can still
+        // be deleted, but the files still technically exist.
+      }
+      lesson.remove(function(err) {
+        if (err) {
+          return handleError(res, err);
+        } else {
+          res.status(204)
+        }
+      });
+    })
 	});
 };
 
